@@ -139,14 +139,22 @@ document.querySelectorAll('.tabbar button').forEach(b => b.onclick = () => {
 
 /* ---------- 书架 ---------- */
 function decode(buf) {
-  try { return new TextDecoder('utf-8', {fatal:true}).decode(buf); } catch { return new TextDecoder('gbk').decode(buf); }
+  try { return new TextDecoder('utf-8', {fatal:true}).decode(buf); } catch {}
+  for (const enc of ['gb18030', 'gbk', 'big5', 'utf-16le']) { try { return new TextDecoder(enc).decode(buf); } catch {} }
+  return new TextDecoder().decode(buf);
 }
 $('#bookFile').onchange = async e => {
-  for (const f of e.target.files) {
-    const text = decode(await f.arrayBuffer()).replace(/\r\n?/g, '\n');
-    await put('books', { id: Date.now() + Math.random().toString(36).slice(2), title: f.name.replace(/\.txt$/i, ''), text, added: Date.now() });
+  const files = [...e.target.files]; e.target.value = ''; let ok = 0;
+  for (const f of files) {
+    try {
+      const text = decode(await f.arrayBuffer()).replace(/\r\n?/g, '\n');
+      if (!text.trim()) throw new Error('文件是空的');
+      await put('books', { id: Date.now() + Math.random().toString(36).slice(2), title: f.name.replace(/\.txt$/i, ''), text, added: Date.now() });
+      ok++;
+    } catch (err) { uiAlert(`《${f.name}》导入失败：` + (err && err.message || err)); }
   }
-  e.target.value = ''; renderBooks();
+  if (ok) uiAlert(`已导入 ${ok} 本`);
+  renderBooks();
 };
 async function renderBooks() {
   const books = (await all('books')).sort((a, b) => b.added - a.added), ul = $('#bookList');
@@ -168,7 +176,11 @@ let fontSize = +localStorage.getItem('font') || 20;
 const pHTML = (t, chap) => chap ? `<p class="chap">${esc(t)}</p>` : `<p>${esc(t)}</p>`;
 
 async function openBook(id) {
-  const b = await get('books', id); if (!b) return;
+  try { await openBookInner(id); }
+  catch (e) { show('#home'); uiAlert('打开失败：' + (e && e.message || e)); }
+}
+async function openBookInner(id) {
+  const b = await get('books', id); if (!b) throw new Error('找不到这本书');
   cur.book = b;
   cur.paras = b.text.split('\n').map(s => s.trim()).filter(Boolean);
   $('#bookTitle').textContent = b.title;
@@ -177,33 +189,53 @@ async function openBook(id) {
   await paginate(pr ? pr.pos : [0, 0]);
 }
 // 每页记录起点 [段落号, 字符偏移]，换字号后能回到同一位置
+// 快速分页：先按字宽/行高估算每页能放多少字，再每页用一次 DOM 校验，超出就回退
 async function paginate(pos) {
   document.documentElement.style.setProperty('--font', fontSize + 'px');
-  const m = $('#measure'), P = cur.paras, pages = []; let p = 0, c = 0;
+  const m = $('#measure'), P = cur.paras, pages = [];
   $('#pageTop').innerHTML = '<p style="text-align:center;margin-top:40%">排版中…</p>';
-  const fits = () => m.scrollHeight <= m.clientHeight;
+  await new Promise(r => setTimeout(r));
+  const cs = getComputedStyle(m);
+  m.innerHTML = '<p style="text-indent:0"><span id="mz">国国国国国国国国国国国国国国国国国国国国</span></p>';
+  const charW = $('#mz').getBoundingClientRect().width / 20;
+  const lineH = parseFloat(cs.lineHeight) || fontSize * 1.8;
+  const W = m.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const H = m.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const cols = Math.max(4, Math.floor(W / charW)), rows = Math.max(3, Math.floor(H / lineH));
+  const fits = () => m.scrollHeight <= m.clientHeight + 1;
+  const segHTML = segs => segs.map(([p, a, b]) => {
+    const t = P[p].slice(a, b), chap = a === 0 && CHAP.test(P[p]);
+    return chap ? `<p class="chap">${esc(t)}</p>` : `<p${a > 0 ? ' style="text-indent:0"' : ''}>${esc(t)}</p>`;
+  }).join('');
+  let p = 0, c = 0;
   while (p < P.length) {
-    const start = [p, c]; m.innerHTML = ''; let html = '';
-    while (p < P.length) {
-      const chap = c === 0 && CHAP.test(P[p]), rest = P[p].slice(c);
-      const el = document.createElement('div'); el.innerHTML = pHTML(rest, chap); const node = el.firstChild;
-      if (c > 0) node.style.textIndent = '0';
-      m.appendChild(node);
-      if (fits()) { html += node.outerHTML; p++; c = 0; continue; }
-      // 段落放不下：二分查找能放下的字数
-      let lo = 0, hi = rest.length;
-      while (lo < hi) { const mid = (lo + hi + 1) >> 1; node.textContent = rest.slice(0, mid); fits() ? lo = mid : hi = mid - 1; }
-      if (lo > 0 && !chap) { node.textContent = rest.slice(0, lo); html += node.outerHTML; c += lo; }
-      else if (!html) { html += node.outerHTML; p++; c = 0; } // 防止死循环
-      break;
+    const start = [p, c], segs = []; let left = rows;
+    while (p < P.length && left > 0) {
+      const len = P[p].length - c, chap = c === 0 && CHAP.test(P[p]);
+      const need = chap ? Math.ceil(len * 1.3 / cols) + 2 : Math.ceil((len + (c === 0 ? 2 : 0)) / cols);
+      if (need <= left) { segs.push([p, c, P[p].length]); left -= need; p++; c = 0; continue; }
+      if (chap) break;                                   // 章节标题不拆开
+      const take = left * cols - (c === 0 ? 2 : 0);
+      if (take > 0) { segs.push([p, c, c + take]); c += take; }
+      left = 0;
     }
-    pages.push({ html, start });
-    if (pages.length % 40 === 0) { $('#pageTop').innerHTML = `<p style="text-align:center;margin-top:40%">排版中… ${Math.round(p / P.length * 100)}%</p>`; await new Promise(r => setTimeout(r)); }
+    // DOM 校验：放不下就每次退回一行字
+    m.innerHTML = segHTML(segs);
+    let guard = 0;
+    while (!fits() && segs.length && guard++ < 50) {
+      const last = segs[segs.length - 1], back = Math.min(cols, last[2] - last[1]);
+      last[2] -= back; p = last[0]; c = last[2];
+      if (last[2] <= last[1]) segs.pop();
+      m.innerHTML = segHTML(segs);
+    }
+    if (!segs.length) { segs.push([p, c, P[p].length]); p++; c = 0; } // 防止死循环
+    pages.push({ html: segHTML(segs), start });
+    if (pages.length % 200 === 0) { $('#pageTop').innerHTML = `<p style="text-align:center;margin-top:40%">排版中… ${Math.round(p / P.length * 100)}%</p>`; await new Promise(r => setTimeout(r)); }
   }
   if (!pages.length) pages.push({ html:'<p>（空）</p>', start:[0,0] });
   cur.pages = pages;
-  let i = pages.length - 1; while (i > 0 && cmp(pages[i].start, pos) > 0) i--;
-  cur.idx = i; $('#progress').max = pages.length - 1; render();
+  let k = pages.length - 1; while (k > 0 && cmp(pages[k].start, pos) > 0) k--;
+  cur.idx = k; $('#progress').max = pages.length - 1; render();
 }
 const cmp = (a, b) => a[0] - b[0] || a[1] - b[1];
 const pageHTML = i => cur.pages[i] ? cur.pages[i].html + `<div class="pno">${i + 1} / ${cur.pages.length}</div>` : '';
