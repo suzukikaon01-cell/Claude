@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#3b2f25">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<title>纸页 · 小说阅读器</title>
+</head>
+<body>
+<!-- 锁屏 -->
+<section id="lock" class="screen active">
+  <div class="lock-box">
+    <div class="logo">纸页</div>
+    <p id="lockHint">请输入密码解锁</p>
+    <input id="pwd" type="password" inputmode="numeric" placeholder="密码" autocomplete="current-password">
+    <input id="pwd2" type="password" inputmode="numeric" placeholder="再次输入密码" class="hidden">
+    <button id="pwdBtn" class="btn">解锁</button>
+    <button id="faceBtn" class="btn ghost hidden">🙂 扫脸解锁</button>
+    <p id="lockErr" class="err"></p>
+  </div>
+</section>
+
+<!-- 主界面 -->
+<section id="home" class="screen">
+  <header class="topbar">
+    <h1 id="homeTitle">书架</h1>
+    <button id="settingsBtn" class="icon">⚙</button>
+  </header>
+  <main>
+    <div id="tab-books" class="tab active">
+      <label class="add">＋ 导入小说 (.txt)<input type="file" id="bookFile" accept=".txt,text/plain" multiple hidden></label>
+      <ul id="bookList" class="list"></ul>
+    </div>
+    <div id="tab-photos" class="tab">
+      <label class="add">＋ 添加图片<input type="file" id="photoFile" accept="image/*" multiple hidden></label>
+      <div id="photoGrid" class="grid"></div>
+    </div>
+    <div id="tab-videos" class="tab">
+      <label class="add">＋ 添加视频<input type="file" id="videoFile" accept="video/*" multiple hidden></label>
+      <div id="videoGrid" class="grid"></div>
+    </div>
+  </main>
+  <nav class="tabbar">
+    <button data-tab="books" class="on">📖<span>书架</span></button>
+    <button data-tab="photos">🖼<span>图集</span></button>
+    <button data-tab="videos">🎬<span>视频集</span></button>
+  </nav>
+</section>
+
+<!-- 阅读器 -->
+<section id="reader" class="screen">
+  <div id="book" class="book">
+    <div id="pageUnder" class="page"></div>
+    <div id="pageTop" class="page"></div>
+    <div id="flipper" class="page flipper hidden"><div class="front"></div><div class="back"></div></div>
+  </div>
+  <div id="readerBar" class="reader-bar hidden">
+    <div class="row">
+      <button id="backBtn" class="btn small">‹ 书架</button>
+      <span id="bookTitle"></span>
+    </div>
+    <input id="progress" type="range" min="0" value="0">
+    <div class="row">
+      <button id="fontMinus" class="btn small">A-</button>
+      <span id="pageInfo"></span>
+      <button id="fontPlus" class="btn small">A+</button>
+    </div>
+  </div>
+  <div id="measure" class="page measure"></div>
+</section>
+
+<!-- 媒体查看 -->
+<div id="viewer" class="viewer hidden">
+  <button id="viewerClose" class="icon close">✕</button>
+  <button id="viewerDel" class="icon del">🗑</button>
+  <button id="prevMedia" class="icon nav l">‹</button>
+  <div id="viewerBody"></div>
+  <button id="nextMedia" class="icon nav r">›</button>
+</div>
+
+<!-- 设置 -->
+<div id="settings" class="viewer hidden">
+  <div class="sheet">
+    <h2>安全设置</h2>
+    <button id="changePwd" class="btn">修改密码</button>
+    <button id="toggleFace" class="btn">开启扫脸解锁</button>
+    <button id="lockNow" class="btn ghost">立即锁定</button>
+    <p class="tip">扫脸使用设备自带的 Face ID / 人脸识别（WebAuthn），需 HTTPS 访问。切到后台会自动锁定。</p>
+    <button id="settingsClose" class="btn ghost">关闭</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
