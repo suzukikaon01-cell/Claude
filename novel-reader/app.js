@@ -1,6 +1,11 @@
 'use strict';
-window.addEventListener('error', e => { const s = document.getElementById('importStatus'); if (s) s.textContent = '出错：' + e.message; });
-window.addEventListener('unhandledrejection', e => { const s = document.getElementById('importStatus'); if (s) s.textContent = '出错：' + (e.reason && e.reason.message || e.reason); });
+const errLog = [];
+function showErr(msg) { errLog.push(msg); const s = document.getElementById('importStatus'); if (s) s.textContent = '出错：' + errLog.slice(-3).join(' | '); }
+window.addEventListener('error', e => showErr(`${e.message} (第${e.lineno}行)`));
+window.addEventListener('unhandledrejection', e => showErr(String(e.reason && (e.reason.message + (e.reason.line ? ' (第' + e.reason.line + '行)' : '')) || e.reason)));
+// 全局状态集中声明在最前面，避免初始化顺序问题
+let mediaList = [], viewIdx = 0, urls = [];
+let picking = false;
 const $ = s => document.querySelector(s);
 const enc = new TextEncoder();
 const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
@@ -151,14 +156,13 @@ function decode(buf) {
   for (const enc of ['gb18030', 'gbk', 'big5', 'utf-16le']) { try { return new TextDecoder(enc).decode(buf); } catch {} }
   return new TextDecoder().decode(buf);
 }
-const status = t => { $('#importStatus').textContent = t; };
+const setStatus = t => { $('#importStatus').textContent = t; };
 async function addBook(title, text) {
   text = text.replace(/\r\n?/g, '\n');
   if (!text.trim()) throw new Error('内容是空的');
   await put('books', { id: Date.now() + Math.random().toString(36).slice(2), title, text, added: Date.now() });
 }
 // 选文件期间不要自动锁屏；change/input 两个事件都监听（iOS 上有时只触发其一）
-let picking = false;
 function bindFile(sel, fn) {
   const el = $(sel); let last = 0;
   el.addEventListener('click', () => { picking = true; setTimeout(() => picking = false, 120000); });
@@ -167,18 +171,18 @@ function bindFile(sel, fn) {
 }
 const onBookFiles = async e => {
   const files = [...(e.target.files || [])]; e.target.value = ''; let ok = 0;
-  if (!files.length) return status('没有选中文件');
+  if (!files.length) return setStatus('没有选中文件');
   for (const f of files) {
     try {
-      status(`正在读取《${f.name}》(${(f.size/1024).toFixed(0)}KB)…`);
+      setStatus(`正在读取《${f.name}》(${(f.size/1024).toFixed(0)}KB)…`);
       const buf = await (f.arrayBuffer ? f.arrayBuffer() : new Response(f).arrayBuffer());
-      status('正在识别编码…');
+      setStatus('正在识别编码…');
       const text = decode(buf);
-      status('正在保存…');
+      setStatus('正在保存…');
       await addBook(f.name.replace(/\.(txt|text)$/i, ''), text); ok++;
-    } catch (err) { status(''); uiAlert(`《${f.name}》导入失败：` + (err && (err.name + ' ' + err.message) || err)); }
+    } catch (err) { setStatus(''); uiAlert(`《${f.name}》导入失败：` + (err && (err.name + ' ' + err.message) || err)); }
   }
-  status(ok ? `已导入 ${ok} 本` + (memMode ? '（当前环境无法长期保存，关闭后会丢失）' : '') : '');
+  setStatus(ok ? `已导入 ${ok} 本` + (memMode ? '（当前环境无法长期保存，关闭后会丢失）' : '') : '');
   renderBooks();
 };
 bindFile('#bookFile', onBookFiles);
@@ -189,11 +193,11 @@ $('#pasteCancel').onclick = () => $('#pasteBox').classList.add('hidden');
 $('#pasteOk').onclick = async () => {
   try {
     await addBook($('#pasteTitle').value.trim() || '未命名', $('#pasteText').value);
-    $('#pasteBox').classList.add('hidden'); status('已导入 1 本' + (memMode ? '（当前环境无法长期保存）' : '')); renderBooks();
+    $('#pasteBox').classList.add('hidden'); setStatus('已导入 1 本' + (memMode ? '（当前环境无法长期保存）' : '')); renderBooks();
   } catch (err) { uiAlert('导入失败：' + (err.message || err)); }
 };
 async function renderBooks() {
-  let books; try { books = await all('books'); } catch (e) { status('读取书架失败：' + e.message); return; }
+  let books; try { books = await all('books'); } catch (e) { setStatus('读取书架失败：' + e.message); return; }
   books = books.sort((a, b) => b.added - a.added); const ul = $('#bookList');
   ul.innerHTML = books.length ? '' : '<p style="text-align:center;color:#a99">书架空空，导入一本 txt 小说吧</p>';
   for (const b of books) {
@@ -337,7 +341,6 @@ $('#fontMinus').onclick = () => refont(-2); $('#fontPlus').onclick = () => refon
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); if (cur.book) rt = setTimeout(() => paginate(cur.pages[cur.idx].start), 300); });
 
 /* ---------- 图集 / 视频集 ---------- */
-let mediaList = [], viewIdx = 0, urls = [];
 async function addMedia(e, type) {
   const files = [...e.target.files]; e.target.value = '';
   for (const f of files) await put('media', { id: Date.now() + Math.random().toString(36).slice(2), type, name: f.name, blob: f, added: Date.now() });
