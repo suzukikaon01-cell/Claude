@@ -71,10 +71,21 @@ $('#pwdBtn').onclick = async () => {
 };
 $('#pwd').onkeydown = $('#pwd2').onkeydown = e => { if (e.key === 'Enter') $('#pwdBtn').click(); };
 
-// 扫脸：调用设备平台认证器（iPhone Face ID / 安卓人脸），通过 WebAuthn 完成
-const faceSupported = () => window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable;
+// 扫脸：APP 内用原生 Face ID（Capacitor 插件）；网页版用 WebAuthn 平台认证器
+const isNative = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
+const NativeBio = isNative ? Capacitor.registerPlugin('NativeBiometric') : null;
+async function nativeVerify() {
+  const a = await NativeBio.isAvailable({ useFallback: false });
+  if (!a.isAvailable) throw new Error('设备未开启 Face ID');
+  await NativeBio.verifyIdentity({ reason: '验证身份以进入纸页', title: '纸页', useFallback: false });
+}
 async function enrollFace() {
-  if (!faceSupported() || !(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()))
+  if (isNative) {
+    try { await nativeVerify(); sec.cred = 'native'; saveSec(); uiAlert('扫脸解锁已开启'); settingsUI(); }
+    catch (e) { uiAlert('开启失败：' + (e.message || e)); }
+    return;
+  }
+  if (!window.PublicKeyCredential || !(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().catch(() => false)))
     return uiAlert('此设备/浏览器不支持人脸识别（需 HTTPS 且设备开启 Face ID/人脸解锁）');
   try {
     const c = await navigator.credentials.create({ publicKey: {
@@ -90,7 +101,8 @@ async function enrollFace() {
 async function faceUnlock() {
   if (!sec.cred) return;
   try {
-    await navigator.credentials.get({ publicKey: {
+    if (sec.cred === 'native') { if (!isNative) throw 0; await nativeVerify(); }
+    else await navigator.credentials.get({ publicKey: {
       challenge: crypto.getRandomValues(new Uint8Array(32)),
       allowCredentials: [{ type:'public-key', id: unb64(sec.cred), transports:['internal'] }],
       userVerification: 'required', timeout: 60000 }});
@@ -290,4 +302,4 @@ function refreshAll() { renderBooks(); renderMedia(); }
 
 /* ---------- 启动 ---------- */
 lock();
-if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
+if (!isNative && 'serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});

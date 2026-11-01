@@ -1,0 +1,16 @@
+{
+  "name": "paper-reader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf www && mkdir www && cp index.html style.css app.js icon.svg manifest.json sw.js www/"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
+    "@capgo/capacitor-native-biometric": "^8.9.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.0"
+  }
+}

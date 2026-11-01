@@ -1,0 +1,47 @@
+name: Build unsigned IPA (novel-reader)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'novel-reader/**'
+      - '.github/workflows/novel-reader-ipa.yml'
+
+jobs:
+  ipa:
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: novel-reader
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install & add iOS platform
+        run: |
+          npm install
+          npm run build
+          npx cap add ios
+          npx cap sync ios
+      - name: Face ID permission & app settings
+        run: |
+          PL=ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :NSFaceIDUsageDescription string 使用面容 ID 解锁纸页" $PL
+          /usr/libexec/PlistBuddy -c "Add :NSPhotoLibraryUsageDescription string 从相册导入图片和视频" $PL
+          /usr/libexec/PlistBuddy -c "Add :UIFileSharingEnabled bool true" $PL
+      - name: Build (no signing)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -qry PaperReader-unsigned.ipa Payload
+          ls -lh PaperReader-unsigned.ipa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PaperReader-unsigned-ipa
+          path: novel-reader/PaperReader-unsigned.ipa
