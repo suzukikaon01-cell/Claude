@@ -44,12 +44,12 @@ async function hashPwd(pwd, salt) {
   const key = await crypto.subtle.importKey('raw', enc.encode(pwd), 'PBKDF2', false, ['deriveBits']);
   return b64(await crypto.subtle.deriveBits({name:'PBKDF2', salt, iterations:150000, hash:'SHA-256'}, key, 256));
 }
-let settingUp = !sec.hash, changing = false;
+let settingUp = !sec.hash, changing = false, firstPwd = null;
 function lockUI() {
-  $('#pwd').value = $('#pwd2').value = ''; $('#lockErr').textContent = '';
-  $('#pwd2').classList.toggle('hidden', !settingUp);
+  firstPwd = null; $('#pwd').value = ''; $('#lockErr').textContent = '';
+  $('#pwd').placeholder = '密码';
   $('#lockHint').textContent = settingUp ? (changing ? '设置新密码（至少4位）' : '首次使用，请设置密码（至少4位）') : '请输入密码或扫脸解锁';
-  $('#pwdBtn').textContent = settingUp ? '确定' : '解锁';
+  $('#pwdBtn').textContent = settingUp ? '下一步' : '解锁';
   $('#faceBtn').classList.toggle('hidden', settingUp || !sec.cred);
 }
 function fail(msg) { $('#lockErr').textContent = msg; const b = $('.lock-box'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }
@@ -59,8 +59,13 @@ function lock() { closeOverlays(); settingUp = !sec.hash; changing = false; lock
 $('#pwdBtn').onclick = async () => {
   const p = $('#pwd').value;
   if (settingUp) {
-    if (p.length < 4) return fail('密码至少4位');
-    if (p !== $('#pwd2').value) return fail('两次输入不一致');
+    if (firstPwd === null) {
+      if (p.length < 4) return fail('密码至少4位');
+      firstPwd = p; $('#pwd').value = ''; $('#lockErr').textContent = '';
+      $('#lockHint').textContent = '请再输入一次密码确认'; $('#pwd').placeholder = '再次输入密码';
+      $('#pwdBtn').textContent = '确定'; $('#pwd').focus(); return;
+    }
+    if (p !== firstPwd) { lockUI(); return fail('两次输入不一致，请重新设置'); }
     const salt = crypto.getRandomValues(new Uint8Array(16));
     sec.salt = b64(salt); sec.hash = await hashPwd(p, salt); saveSec();
     settingUp = changing = false; return unlock();
@@ -69,7 +74,7 @@ $('#pwdBtn').onclick = async () => {
   if (await hashPwd(p, unb64(sec.salt)) === sec.hash) { sec.fails = 0; saveSec(); unlock(); }
   else { sec.fails = (sec.fails || 0) + 1; if (sec.fails >= 5) { sec.until = Date.now() + 30000; sec.fails = 0; } saveSec(); fail('密码错误'); }
 };
-$('#pwd').onkeydown = $('#pwd2').onkeydown = e => { if (e.key === 'Enter') $('#pwdBtn').click(); };
+$('#pwd').onkeydown = e => { if (e.key === 'Enter') $('#pwdBtn').click(); };
 
 // 扫脸：APP 内用原生 Face ID（Capacitor 插件）；网页版用 WebAuthn 平台认证器
 const isNative = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
