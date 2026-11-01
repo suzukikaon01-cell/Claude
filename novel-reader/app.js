@@ -6,6 +6,23 @@ const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); $(id).classList.add('active'); };
 
+
+/* ---------- 页内对话框（替代 alert/confirm/prompt，App 内嵌也能用） ---------- */
+function uiDialog(msg, { input = false, cancel = true } = {}) {
+  return new Promise(res => {
+    const d = $('#dialog'); $('#dlgMsg').textContent = msg;
+    const inp = $('#dlgInput'); inp.value = ''; inp.classList.toggle('hidden', !input);
+    $('#dlgCancel').classList.toggle('hidden', !cancel);
+    d.classList.remove('hidden'); if (input) setTimeout(() => inp.focus(), 50);
+    const done = v => { d.classList.add('hidden'); $('#dlgOk').onclick = $('#dlgCancel').onclick = null; res(v); };
+    $('#dlgOk').onclick = () => done(input ? inp.value : true);
+    $('#dlgCancel').onclick = () => done(input ? null : false);
+  });
+}
+const uiAlert = m => uiDialog(m, { cancel: false });
+const uiConfirm = m => uiDialog(m);
+const uiPrompt = m => uiDialog(m, { input: true });
+
 /* ---------- IndexedDB ---------- */
 const dbp = new Promise((ok, no) => {
   const r = indexedDB.open('paper-reader', 1);
@@ -58,7 +75,7 @@ $('#pwd').onkeydown = $('#pwd2').onkeydown = e => { if (e.key === 'Enter') $('#p
 const faceSupported = () => window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable;
 async function enrollFace() {
   if (!faceSupported() || !(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()))
-    return alert('此设备/浏览器不支持人脸识别（需 HTTPS 且设备开启 Face ID/人脸解锁）');
+    return uiAlert('此设备/浏览器不支持人脸识别（需 HTTPS 且设备开启 Face ID/人脸解锁）');
   try {
     const c = await navigator.credentials.create({ publicKey: {
       challenge: crypto.getRandomValues(new Uint8Array(32)),
@@ -67,8 +84,8 @@ async function enrollFace() {
       pubKeyCredParams: [{type:'public-key', alg:-7}, {type:'public-key', alg:-257}],
       authenticatorSelection: { authenticatorAttachment:'platform', userVerification:'required', residentKey:'preferred' },
       timeout: 60000 }});
-    sec.cred = b64(c.rawId); saveSec(); alert('扫脸解锁已开启'); settingsUI();
-  } catch (e) { alert('开启失败：' + e.message); }
+    sec.cred = b64(c.rawId); saveSec(); uiAlert('扫脸解锁已开启'); settingsUI();
+  } catch (e) { uiAlert('开启失败：' + e.message); }
 }
 async function faceUnlock() {
   if (!sec.cred) return;
@@ -90,8 +107,8 @@ $('#settingsClose').onclick = () => $('#settings').classList.add('hidden');
 $('#toggleFace').onclick = () => { if (sec.cred) { delete sec.cred; saveSec(); settingsUI(); } else enrollFace(); };
 $('#lockNow').onclick = lock;
 $('#changePwd').onclick = async () => {
-  const old = prompt('请输入当前密码'); if (old == null) return;
-  if (await hashPwd(old, unb64(sec.salt)) !== sec.hash) return alert('密码错误');
+  const old = await uiPrompt('请输入当前密码'); if (old == null) return;
+  if (await hashPwd(old, unb64(sec.salt)) !== sec.hash) return uiAlert('密码错误');
   closeOverlays(); settingUp = changing = true; lockUI(); show('#lock');
 };
 function closeOverlays() { $('#settings').classList.add('hidden'); closeViewer(); }
@@ -122,7 +139,7 @@ async function renderBooks() {
     const li = document.createElement('li');
     li.innerHTML = `<div class="cover">${esc(b.title[0] || '书')}</div><div class="meta">${esc(b.title)}<br><small>${pr ? '已读 ' + pr.pct + '%' : '未读'} · ${(b.text.length/10000).toFixed(1)}万字</small></div><button class="icon">🗑</button>`;
     li.onclick = () => openBook(b.id);
-    li.querySelector('button').onclick = async ev => { ev.stopPropagation(); if (confirm(`删除《${b.title}》？`)) { await del('books', b.id); localStorage.removeItem('prog_' + b.id); renderBooks(); } };
+    li.querySelector('button').onclick = async ev => { ev.stopPropagation(); if (await uiConfirm(`删除《${b.title}》？`)) { await del('books', b.id); localStorage.removeItem('prog_' + b.id); renderBooks(); } };
     ul.appendChild(li);
   }
 }
@@ -265,7 +282,7 @@ function closeViewer() { $('#viewer').classList.add('hidden'); $('#viewerBody').
 $('#viewerClose').onclick = closeViewer;
 $('#prevMedia').onclick = () => { viewIdx = (viewIdx - 1 + mediaList.length) % mediaList.length; showMedia(); };
 $('#nextMedia').onclick = () => { viewIdx = (viewIdx + 1) % mediaList.length; showMedia(); };
-$('#viewerDel').onclick = async () => { if (!confirm('删除这一项？')) return; await del('media', mediaList[viewIdx].id); closeViewer(); renderMedia(); };
+$('#viewerDel').onclick = async () => { if (!(await uiConfirm('删除这一项？'))) return; await del('media', mediaList[viewIdx].id); closeViewer(); renderMedia(); };
 let sx; $('#viewer').addEventListener('touchstart', e => sx = e.touches[0].clientX);
 $('#viewer').addEventListener('touchend', e => { if (mediaList[viewIdx]?.type !== 'photo') return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) $(dx < 0 ? '#nextMedia' : '#prevMedia').click(); });
 
@@ -273,4 +290,4 @@ function refreshAll() { renderBooks(); renderMedia(); }
 
 /* ---------- 启动 ---------- */
 lock();
-if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
