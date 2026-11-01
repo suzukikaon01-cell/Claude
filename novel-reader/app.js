@@ -90,8 +90,16 @@ $('#pwdBtn').onclick = async () => {
 $('#pwd').onkeydown = e => { if (e.key === 'Enter') $('#pwdBtn').click(); };
 
 // 扫脸：APP 内用原生 Face ID（Capacitor 插件）；网页版用 WebAuthn 平台认证器
-const isNative = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
-const NativeBio = isNative ? Capacitor.registerPlugin('NativeBiometric') : null;
+let isNative = false; try { isNative = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); } catch {}
+// 不打包 @capacitor/core 时，原生桥只提供 Capacitor.Plugins / nativePromise，没有 registerPlugin
+const nativeCall = (method, opts) => {
+  const C = window.Capacitor || {};
+  const p = C.Plugins && C.Plugins.NativeBiometric;
+  if (p && typeof p[method] === 'function') return p[method](opts);
+  if (typeof C.nativePromise === 'function') return C.nativePromise('NativeBiometric', method, opts);
+  return Promise.reject(new Error('Face ID 插件不可用'));
+};
+const NativeBio = isNative ? { isAvailable: o => nativeCall('isAvailable', o), verifyIdentity: o => nativeCall('verifyIdentity', o) } : null;
 async function nativeVerify() {
   const a = await NativeBio.isAvailable({ useFallback: false });
   if (!a.isAvailable) throw new Error('设备未开启 Face ID');
