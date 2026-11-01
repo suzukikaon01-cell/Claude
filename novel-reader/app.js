@@ -1,4 +1,6 @@
 'use strict';
+window.addEventListener('error', e => { const s = document.getElementById('importStatus'); if (s) s.textContent = '出错：' + e.message; });
+window.addEventListener('unhandledrejection', e => { const s = document.getElementById('importStatus'); if (s) s.textContent = '出错：' + (e.reason && e.reason.message || e.reason); });
 const $ = s => document.querySelector(s);
 const enc = new TextEncoder();
 const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
@@ -23,19 +25,25 @@ const uiAlert = m => uiDialog(m, { cancel: false });
 const uiConfirm = m => uiDialog(m);
 const uiPrompt = m => uiDialog(m, { input: true });
 
-/* ---------- IndexedDB ---------- */
+/* ---------- 存储：优先 IndexedDB，不可用时退回内存（本次打开有效） ---------- */
+let memMode = false;
+const mem = { books: new Map(), media: new Map() };
 const dbp = new Promise((ok, no) => {
-  const r = indexedDB.open('paper-reader', 1);
-  r.onupgradeneeded = () => { r.result.createObjectStore('books', {keyPath:'id'}); r.result.createObjectStore('media', {keyPath:'id'}); };
-  r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
-});
-const tx = async (store, mode, fn) => { const db = await dbp; return new Promise((ok, no) => {
+  try {
+    const r = indexedDB.open('paper-reader', 1);
+    r.onupgradeneeded = () => { r.result.createObjectStore('books', {keyPath:'id'}); r.result.createObjectStore('media', {keyPath:'id'}); };
+    r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); r.onblocked = () => no(new Error('数据库被占用'));
+    setTimeout(() => no(new Error('数据库超时')), 4000);
+  } catch (e) { no(e); }
+}).catch(e => { memMode = true; console.warn('IndexedDB 不可用，改用内存', e); return null; });
+const tx = async (store, mode, fn) => { const db = await dbp; if (!db) throw new Error('nodb'); return new Promise((ok, no) => {
   const t = db.transaction(store, mode), req = fn(t.objectStore(store));
-  t.oncomplete = () => ok(req && req.result); t.onerror = () => no(t.error); }); };
-const put = (s, v) => tx(s, 'readwrite', o => o.put(v));
-const del = (s, k) => tx(s, 'readwrite', o => o.delete(k));
-const all = s => tx(s, 'readonly', o => o.getAll());
-const get = (s, k) => tx(s, 'readonly', o => o.get(k));
+  t.oncomplete = () => ok(req && req.result); t.onerror = () => no(t.error); t.onabort = () => no(t.error || new Error('写入被中止（可能空间不足）')); }); };
+const safe = (f, m) => async (...a) => { if (!memMode) { try { return await f(...a); } catch (e) { if (e.message !== 'nodb') throw e; } } return m(...a); };
+const put = safe((s, v) => tx(s, 'readwrite', o => o.put(v)), (s, v) => { mem[s].set(v.id, v); });
+const del = safe((s, k) => tx(s, 'readwrite', o => o.delete(k)), (s, k) => { mem[s].delete(k); });
+const all = safe(s => tx(s, 'readonly', o => o.getAll()), s => [...mem[s].values()]);
+const get = safe((s, k) => tx(s, 'readonly', o => o.get(k)), (s, k) => mem[s].get(k));
 
 /* ---------- 锁屏：密码 + 扫脸 ---------- */
 const sec = JSON.parse(localStorage.getItem('sec') || '{}');
@@ -115,7 +123,7 @@ async function faceUnlock() {
   } catch (e) { $('#lockErr').textContent = '扫脸未通过，可使用密码'; }
 }
 $('#faceBtn').onclick = faceUnlock;
-document.addEventListener('visibilitychange', () => { if (document.hidden && sec.hash && !$('#lock').classList.contains('active')) { saveProgress(); lock(); } });
+document.addEventListener('visibilitychange', () => { if (document.hidden && !picking && sec.hash && !$('#lock').classList.contains('active')) { saveProgress(); lock(); } });
 
 /* ---------- 设置 ---------- */
 function settingsUI() { $('#toggleFace').textContent = sec.cred ? '关闭扫脸解锁' : '开启扫脸解锁'; }
@@ -143,21 +151,50 @@ function decode(buf) {
   for (const enc of ['gb18030', 'gbk', 'big5', 'utf-16le']) { try { return new TextDecoder(enc).decode(buf); } catch {} }
   return new TextDecoder().decode(buf);
 }
-$('#bookFile').onchange = async e => {
-  const files = [...e.target.files]; e.target.value = ''; let ok = 0;
+const status = t => { $('#importStatus').textContent = t; };
+async function addBook(title, text) {
+  text = text.replace(/\r\n?/g, '\n');
+  if (!text.trim()) throw new Error('内容是空的');
+  await put('books', { id: Date.now() + Math.random().toString(36).slice(2), title, text, added: Date.now() });
+}
+// 选文件期间不要自动锁屏；change/input 两个事件都监听（iOS 上有时只触发其一）
+let picking = false;
+function bindFile(sel, fn) {
+  const el = $(sel); let last = 0;
+  el.addEventListener('click', () => { picking = true; setTimeout(() => picking = false, 120000); });
+  const h = e => { picking = false; if (!el.files || !el.files.length) return; const now = Date.now(); if (now - last < 800) return; last = now; fn(e); };
+  el.addEventListener('change', h); el.addEventListener('input', h);
+}
+const onBookFiles = async e => {
+  const files = [...(e.target.files || [])]; e.target.value = ''; let ok = 0;
+  if (!files.length) return status('没有选中文件');
   for (const f of files) {
     try {
-      const text = decode(await f.arrayBuffer()).replace(/\r\n?/g, '\n');
-      if (!text.trim()) throw new Error('文件是空的');
-      await put('books', { id: Date.now() + Math.random().toString(36).slice(2), title: f.name.replace(/\.txt$/i, ''), text, added: Date.now() });
-      ok++;
-    } catch (err) { uiAlert(`《${f.name}》导入失败：` + (err && err.message || err)); }
+      status(`正在读取《${f.name}》(${(f.size/1024).toFixed(0)}KB)…`);
+      const buf = await (f.arrayBuffer ? f.arrayBuffer() : new Response(f).arrayBuffer());
+      status('正在识别编码…');
+      const text = decode(buf);
+      status('正在保存…');
+      await addBook(f.name.replace(/\.(txt|text)$/i, ''), text); ok++;
+    } catch (err) { status(''); uiAlert(`《${f.name}》导入失败：` + (err && (err.name + ' ' + err.message) || err)); }
   }
-  if (ok) uiAlert(`已导入 ${ok} 本`);
+  status(ok ? `已导入 ${ok} 本` + (memMode ? '（当前环境无法长期保存，关闭后会丢失）' : '') : '');
   renderBooks();
 };
+bindFile('#bookFile', onBookFiles);
+$('#pasteBtn').onclick = async () => {
+  const d = $('#pasteBox'); d.classList.remove('hidden'); $('#pasteText').value = ''; $('#pasteTitle').value = '';
+};
+$('#pasteCancel').onclick = () => $('#pasteBox').classList.add('hidden');
+$('#pasteOk').onclick = async () => {
+  try {
+    await addBook($('#pasteTitle').value.trim() || '未命名', $('#pasteText').value);
+    $('#pasteBox').classList.add('hidden'); status('已导入 1 本' + (memMode ? '（当前环境无法长期保存）' : '')); renderBooks();
+  } catch (err) { uiAlert('导入失败：' + (err.message || err)); }
+};
 async function renderBooks() {
-  const books = (await all('books')).sort((a, b) => b.added - a.added), ul = $('#bookList');
+  let books; try { books = await all('books'); } catch (e) { status('读取书架失败：' + e.message); return; }
+  books = books.sort((a, b) => b.added - a.added); const ul = $('#bookList');
   ul.innerHTML = books.length ? '' : '<p style="text-align:center;color:#a99">书架空空，导入一本 txt 小说吧</p>';
   for (const b of books) {
     const pr = JSON.parse(localStorage.getItem('prog_' + b.id) || 'null');
@@ -302,11 +339,12 @@ let rt; window.addEventListener('resize', () => { clearTimeout(rt); if (cur.book
 /* ---------- 图集 / 视频集 ---------- */
 let mediaList = [], viewIdx = 0, urls = [];
 async function addMedia(e, type) {
-  for (const f of e.target.files) await put('media', { id: Date.now() + Math.random().toString(36).slice(2), type, name: f.name, blob: f, added: Date.now() });
-  e.target.value = ''; renderMedia();
+  const files = [...e.target.files]; e.target.value = '';
+  for (const f of files) await put('media', { id: Date.now() + Math.random().toString(36).slice(2), type, name: f.name, blob: f, added: Date.now() });
+  renderMedia();
 }
-$('#photoFile').onchange = e => addMedia(e, 'photo');
-$('#videoFile').onchange = e => addMedia(e, 'video');
+bindFile('#photoFile', e => addMedia(e, 'photo'));
+bindFile('#videoFile', e => addMedia(e, 'video'));
 async function renderMedia() {
   urls.forEach(URL.revokeObjectURL); urls = [];
   const items = (await all('media')).sort((a, b) => a.added - b.added);

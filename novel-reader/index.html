@@ -31,15 +31,17 @@
   </header>
   <main>
     <div id="tab-books" class="tab active">
-      <label class="add">＋ 导入小说 (.txt)<input type="file" id="bookFile" multiple hidden></label>
+      <label class="add">＋ 导入小说 (.txt)<input type="file" id="bookFile" multiple class="file-in"></label>
+      <button id="pasteBtn" class="add" style="width:100%;background:none;font:inherit">＋ 粘贴文本导入</button>
+      <p id="importStatus" style="text-align:center;color:#8b5e3c;min-height:1.2em;margin-bottom:8px"></p>
       <ul id="bookList" class="list"></ul>
     </div>
     <div id="tab-photos" class="tab">
-      <label class="add">＋ 添加图片<input type="file" id="photoFile" accept="image/*" multiple hidden></label>
+      <label class="add">＋ 添加图片<input type="file" id="photoFile" accept="image/*" multiple class="file-in"></label>
       <div id="photoGrid" class="grid"></div>
     </div>
     <div id="tab-videos" class="tab">
-      <label class="add">＋ 添加视频<input type="file" id="videoFile" accept="video/*" multiple hidden></label>
+      <label class="add">＋ 添加视频<input type="file" id="videoFile" accept="video/*" multiple class="file-in"></label>
       <div id="videoGrid" class="grid"></div>
     </div>
   </main>
@@ -93,6 +95,14 @@
   </div>
 </div>
 
+<div id="pasteBox" class="viewer hidden" style="z-index:25">
+  <div class="sheet">
+    <h2>粘贴文本导入</h2>
+    <input id="pasteTitle" placeholder="书名" style="width:100%;padding:10px;font-size:16px;border:1px solid #c9b896;border-radius:8px;margin:8px 0">
+    <textarea id="pasteText" placeholder="把小说内容粘贴到这里" style="width:100%;height:40vh;padding:10px;font-size:16px;border:1px solid #c9b896;border-radius:8px"></textarea>
+    <button id="pasteOk" class="btn">导入</button><button id="pasteCancel" class="btn ghost">取消</button>
+  </div>
+</div>
 <div id="dialog" class="viewer hidden" style="z-index:30">
   <div class="sheet"><p id="dlgMsg" style="margin-bottom:12px"></p>
     <input id="dlgInput" type="password" class="hidden" style="width:100%;padding:10px;font-size:16px;border:1px solid #c9b896;border-radius:8px;margin-bottom:8px">
