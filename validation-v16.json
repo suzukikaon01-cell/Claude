@@ -1,0 +1,104 @@
+{
+  "tests": {
+    "PASS": 969,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 987
+  },
+  "specialized": {
+    "combatAndIntegration": 98,
+    "threeGeometryAndAnimation": 3
+  },
+  "config": "v9.1-455e234c523dacf4",
+  "heroes": 17,
+  "newHeroParameters": 125,
+  "R": {
+    "range": 750,
+    "shape": "TRAPEZOID",
+    "near_width": 375,
+    "far_width": 750,
+    "windup": 0.75,
+    "duration": 1.5,
+    "normal_hit_count": 6,
+    "enhanced_hit_count": 12,
+    "damage_per_hit": [
+      45,
+      65,
+      85
+    ],
+    "damage_per_hit_ap_ratio_pct": 0.2,
+    "enhancement_fragments_interval": 60,
+    "enhancement_charge_persistent": 1,
+    "enhancement_charge_cost_per_cast": 1,
+    "enhancement_global_announcement": 1,
+    "ally_announcement_color": "#75c4ff",
+    "enemy_announcement_color": "#ff727e",
+    "cooldown": [
+      95,
+      80,
+      65
+    ],
+    "backswing": 0.15,
+    "mana_cost": 0,
+    "flight_height": 110,
+    "portal_count": 6,
+    "enhanced_portal_count": 10,
+    "__description": "前摇0.75秒升空并展开空间门；双方从前摇开始看到长度750、近宽375、远宽750的梯形轰炸区。随后1.5秒内6次独立魔法轰炸，每次45/65/85+20%AP；若有强化次数消耗1次改为12次。每60永久碎片获得1次强化审判资格，不消耗碎片。"
+  },
+  "formulas": {
+    "Q": "rankDamage + 0.50 * AP",
+    "W": "rankDamage + 0.06 * AP per 0.25s; radius=hypot(150,11*sqrt(fragments))",
+    "R": "rankDamage+0.20*AP; 6 or 12 hits",
+    "execute": "0.05+floor(fragments/100)*0.01 after 300; HP strictly below"
+  },
+  "permanentMilestones": [
+    60,
+    120,
+    180,
+    240,
+    300
+  ],
+  "stress": {
+    "mode": "Node CPU simulation; no GPU or device FPS guarantee",
+    "heroes": 10,
+    "simulatedSeconds": 28,
+    "ticks": 1200,
+    "p50Ms": 2.4826000000000477,
+    "p95Ms": 4.868200000000343,
+    "p99Ms": 9.667699999999968,
+    "maxMs": 35.037399999999934,
+    "peak": {
+      "areas": 30,
+      "visuals": 30,
+      "projectiles": 10,
+      "events": 2048
+    },
+    "rImpacts": 828,
+    "attackStages": 64,
+    "aliveActors": 10,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 1,
+      "spatialVisited": 205533,
+      "pooledProjectiles": 10,
+      "projectilesCreated": 10,
+      "projectilesReused": 54
+    },
+    "diagnostics": 0
+  },
+  "workbookHash": "0f55f24e0ab4b1c7bef64c47a4f4c123f2c48575a45451e82eae3439e02f4232",
+  "existingWorkbookRowsUnchanged": true,
+  "workbookCopiesMatch": true,
+  "verificationLimits": [
+    "CUA cannot initialize on this host: failed to write kernel assets; Windows os error 3",
+    "No actual browser/touchscreen/GPU/120Hz device acceptance",
+    "Existing game is local human vs AI; no real multiplayer network synchronization claim"
+  ],
+  "rollback": {
+    "commit": "7e22a25dd7b17b7b50be123476d5cfdac0ca35bc",
+    "version": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_29d2f6da4f308191a9b6a6d46f47e8d5"
+  }
+}

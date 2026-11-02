@@ -1,0 +1,8 @@
+'use strict';
+const assert=require('assert'),make=require('./test-harness.cjs');
+function setup(tier=0){let h=make(),hero=h.reset('zero');hero.hp=hero.maxHp=100000;hero.armor=0;let tower=h.a.structure(1,1,0,'tower',tier);tower.x=hero.x+200;tower.y=hero.y;h.a.units.push(tower);return {h,hero,tower}}
+function fire(h,tower,target){tower.pendingAttack=null;tower.attackCd=0;tower.attackRecovery=0;tower.towerLastEngaged=h.a.time;assert(h.a.m.attack(tower,target));h.a.m.tickAttack(tower,1);let shot=h.a.shots.at(-1);assert(shot);return shot}
+for(let tier=0;tier<3;tier++){let {h,hero,tower}=setup(tier);assert.equal(tower.attack,250);let shot=fire(h,tower,hero);assert.equal(shot.speed,800);assert.equal(shot.basic.damage,250)}console.log('PASS all tower tiers have 250 attack and 800 projectile speed');
+{let {h,hero,tower}=setup();for(let i=0;i<14;i++){h.a.clock(i*.1);let shot=fire(h,tower,hero);assert.equal(shot.basic.damage,Math.min(850,250*(1+.5*i)))}console.log('PASS consecutive hero hits increase by 50% base damage to 850 cap')}
+{let {h,hero,tower}=setup();fire(h,tower,hero);h.a.clock(.2);fire(h,tower,hero);hero.x+=2000;h.step(1.2);assert.equal(tower.towerRamp,0);hero.x=tower.x-200;let shot=fire(h,tower,hero);assert.equal(shot.basic.damage,250);console.log('PASS tower resets after one second without engagement')}
+{let {h,tower}=setup();let minion={id:'enemy-minion',type:'minion',team:0,x:tower.x-200,y:tower.y,hp:1000,maxHp:1000,death:0,radius:15,armor:0};let shot=fire(h,tower,minion);assert.equal(shot.basic.damage,125);assert.equal(tower.towerRamp||0,0);console.log('PASS minions take half damage and do not increase tower ramp')}

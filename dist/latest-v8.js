@@ -1,0 +1,25 @@
+// Project balance: newest human instructions override older reference sheets.
+(()=>{'use strict';const C=GAME_CONFIG;
+C.specVersion='NINE-HEROES-V8';C.passiveGold=3;C.minionGoldMultiplier=.7;C.experienceMultiplier=2;
+C.bounty={initial:300,deathMultiplier:.7,minimum:125,killBonus:125,maximum:1300};
+C.heroVisualScale=1.5;C.tankVisualScale=1.75;C.minionVisualScale=1.5;
+C.buff={duration:120,respawn:180,redDamage:12,redLevelDamage:2,redSlow:.15,redBurnDuration:3,blueManaPerSecond:.01,blueCooldownMultiplier:.9};
+const z=C.heroes.zero,cds=[[6,6,5.5,5.5,5],[12,12,12,12,12],[22,20,18,16,14],[80,70,60]];
+z.skills.forEach((s,i)=>s.cd=cds[i]);C.ultimateCooldowns.zero=cds[3];
+z.stats.speed=210;z.stats.range=z.range=375;z.skills[0].projectileSpeed=900;
+Object.assign(z.skills[1],{radius:150,delay:.8,root:1.5,evolvedRoot:1.75,markDuration:2.5});
+Object.assign(z.skills[2],{windup:0,recovery:0});
+Object.assign(C.zeroEvolution,{thresholds:[35,80,135,185],wFieldDuration:1.5,wFieldSlow:.3,rMarkDuration:5,overlimitDuration:5,chainRadius:100,chainTargets:5,chainRatio:.5});
+z.passive.desc='只有Q命中英雄+1层；击杀小兵+1、英雄+5、助攻+3。死亡保留。35/80/135/185层依次进化Q/W/E/R。';
+z.skills[0].desc='锁定英雄、小兵或野怪，弹速900，无法锁定建筑。命中减速；自身W或进化R的标记使Q/R增伤25%。Q进化保留范围溅射。进化R后5秒内下一次Q超限：每跳100范围内最多传导5名其他单位，每名承受原伤害50%，不重复传导。';
+z.skills[1].desc='半径150，0.8秒后生效。命中禁锢1.5秒，进化后1.75秒；成功禁锢后附加2.5秒增伤标记。进化后禁锢预定结束时留下1.5秒、30%减速场。';
+z.skills[2].desc='无前摇后摇。隐身免伤期间只可移动，不能普攻或使用技能；正常结束治疗。进化后结束获得移速。';
+z.skills[3].desc='范围EMP伤害并沉默1.5秒。185层进化：范围内全部敌方单位获得5秒增伤标记，并允许5秒内下一次Q超限传导。';
+const y=C.heroes.yasuo;y.stats.speed=215;y.skills[0].windup=.25;y.skills[0].cd=4;y.skills[0].ignoreHaste=true;y.skills[0].projectileSpeed=600;
+y.skills[2].cd=[1,.8,.5,.25,.1];y.skills[2].ignoreHaste=true;y.skills[2].range=y.stats.range;
+const a=C.heroes.ashe;a.stats.speed=208;a.stats.range=400;a.skills[1].range*=.4;Object.assign(a.skills[0],{windup:0,recovery:0});
+const l=C.heroes.lux;l.stats.range=375;l.skills.forEach(s=>s.range*=.5);l.skills[2].radius*=.25;
+const s=C.heroes.sett;s.stats.range=125;s.skills.forEach((v,i)=>v.cd=(Array.isArray(v.cd)?v.cd:[v.cd]).map(n=>n+[2.5,4,2,5][i]));C.ultimateCooldowns.sett=s.skills[3].cd;Object.assign(s.skills[0],{windup:0,recovery:0});s.skills[1].range*=.5;s.skills[1].nearWidth=44*C.tankVisualScale;
+y.skills[0].desc='前两段为武器突刺，不产生投射物。旋风弹速600、命中宽度增加15%。攻速使前摇0.25→0.1秒、CD4→1.33秒；QE不受技能急速影响。';y.skills[2].desc='施法距离等于普攻距离，落在目标朝来源的一侧；Q剩余冷却≤0.5秒时可直接衔接EQ，连招窗口额外0.1秒。';y.skills[3].desc='双方升至击飞最高点，空中三刀仅作动画；1.3秒后亚索落地结算伤害，目标额外浮空0.03秒。';s.skills[1].desc='长度325的梯形轰拳，近端宽度等于英雄模型、远端宽300；中心真实伤害，两翼物理伤害。只储存最近5秒所受伤害，更早的每笔伤害按每秒33%衰减。';C.aiRanks=[['iron','黑铁'],['bronze','青铜'],['silver','白银'],['gold','黄金'],['platinum','铂金'],['emerald','翡翠'],['diamond','钻石'],['master','大师'],['grandmaster','宗师'],['challenger','最强王者'],['sovereign','至尊王者']];
+window.ChampionStats=Object.fromEntries(Object.entries(C.heroes).map(([id,h])=>[id,h.stats]));window.ChampionAbilities=Object.fromEntries(Object.entries(C.heroes).map(([id,h])=>[id,h.skills]));
+})();

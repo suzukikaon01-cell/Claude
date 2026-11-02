@@ -1,0 +1,15 @@
+// Real production rules and combat resolver; no renderer or DOM is needed.
+const fs=require('fs'),vm=require('vm'),assert=require('assert');let total=0;
+function fixture(hero='zero',items=[]){let time=0,list=[],uid=0,dead=[],shots=[];const ctx={location:{hostname:'test'},sessionStorage:{getItem:()=>null},addEventListener:()=>{},console,Math,Map,Set,Infinity};ctx.window=ctx;vm.createContext(ctx);for(let name of ['config/current','config-v9','new-heroes','genji','heroes-v9','items-v6','items-v12','items-v139','world','zero-growth','rules','combat-core','temporal-state','dio','champion-mechanics']){let p='dist/'+name+'.js';if(fs.existsSync(p))vm.runInContext(fs.readFileSync(p,'utf8'),ctx)}
+ let env={units:()=>list,shots:()=>shots,time:()=>time,state:()=> 'playing',random:()=>0,protected:()=>false,die:(u,s,meta)=>{u.death=10;dead.push(u);m.core.emit("UnitKilled",s,u,{chainSuppressed:!!meta?.noDeathExplosion})},plates:()=>{},float:()=>{},line:()=>{},ring:()=>{},toast:()=>{},warning:()=>{},areaWarning:()=>{},entropy:(u,n)=>u.entropy+=n,teamColor:['blue','red'],movingIntent:()=>true,blocked:()=>false,canTarget:(u,t)=>u.team!==t.team&&t.hp>0,targetFor:(u,r)=>list.find(t=>t.team!==u.team&&Math.hypot(t.x-u.x,t.y-u.y)<=r)};
+ const m=ctx.createChampionMechanics(env),effects=ctx.createItemEffects(env,m);m.itemEffects=effects;
+ function unit(id=hero,equipment=items,team=0){let h=ctx.GAME_CONFIG.heroes[id];assert(h,'Missing hero '+id);let u={...h,hero:id,id:++uid,type:'hero',team,x:0,y:0,level:1,hp:h.stats.hp,maxHp:h.stats.hp,mp:h.stats.mana,maxMana:h.stats.mana,items:[...equipment],skillRanks:[5,5,5,3],cd:[0,0,0,0],death:0,entropy:0,shields:[],attackCd:0,attackRecovery:0,castWindup:0,castRecovery:0,focus:0,guard:0,spin:0,stun:0,root:0,silence:0,untargetable:0,invulnerable:0,invisible:0,skillPoints:0,gold:30000,angle:0};list.push(u);m.recalc(u);effects.sync(u);return u}
+ let u=unit();ctx.GAME_CONFIG.heroes.lux.stats.hp=10000;let target=unit('lux',[],1);target.x=50;target.hp=target.maxHp;target.armor=target.mr=0;
+ function step(duration,dt=1/60){let end=time+duration;while(time<end-1e-9){let delta=Math.min(dt,end-time);time+=delta;effects.tick(delta);m.core.tickStatuses(u);m.core.tickStatuses(target);m.core.flush()}}
+ function hit(owner=u,t=target,extra={}){let e=m.event(owner,'attack'),p={damage:owner.attack,event:e,...extra};m.deal(t,p.damage,owner,'physical',{basic:true,event:e,critical:!!extra.critical,once:true});effects.basicHit(owner,t,p);return p}
+ function ability(owner=u,t=target,amount=10,type='magic',index=0,event=null){let e=event||m.event(owner,index);m.deal(t,amount,owner,type,{event:e,once:true});return e}
+ function frames(duration,dt=1/60){let end=time+duration;while(time<end-1e-9){let delta=Math.min(dt,end-time);time+=delta;m.beginStep();for(let v of list){m.tick(v,delta);m.tickCast(v,delta);m.tickAttack(v,delta)}m.tickAreas();effects.tick(delta);m.tickProjectiles(delta);m.cleanupProjectiles();m.endStep()}}
+ return {ctx,m,effects,u,target,unit,step,frames,hit,ability,dead,get time(){return time},set time(t){time=t},list};
+}
+
+module.exports=fixture;

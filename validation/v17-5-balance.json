@@ -1,0 +1,43 @@
+{
+  "release": "V17.5",
+  "configVersion": "v9.1-affa7b617e347770",
+  "baselineCommit": "90c408b95350a5d19b0fc4bb968733d1911151e6",
+  "workbookSha256": "c455ad61d944560fddfa58dccfec39d1cd288615ea2e4e547e4f352ac96f6787",
+  "workbookChangedRows": 69,
+  "runesChanged": 0,
+  "itemsChanged": 0,
+  "fullRegression": {
+    "PASS": 1322,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 1340,
+    "exitCode": 0
+  },
+  "finalTargeted": {
+    "PASS": 241,
+    "ok": 0,
+    "FAIL": 0,
+    "balanceCases": 53,
+    "includesNewEmptyAreaProjectileCase": true,
+    "exitCode": 0
+  },
+  "uniqueChecksIncludingAdditionalCase": 1341,
+  "visualVerification": [
+    "Local 3D training DIO Q hit enemy: shoulders fixed, complete stand advances",
+    "Browser loaded V17.5 and current HOV P/Q/W/R descriptions"
+  ],
+  "limits": [
+    "No long-duration FPS guarantee on the users iPad",
+    "Not every skill animation was visually inspected on every device"
+  ],
+  "sourcePackageExclusions": [
+    ".git",
+    "node_modules",
+    ".venv",
+    ".env*",
+    ".openai",
+    "dist/client",
+    "*.log",
+    "credential/token files"
+  ]
+}

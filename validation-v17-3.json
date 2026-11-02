@@ -1,0 +1,63 @@
+{
+  "version": "V17.3",
+  "config": "v9.1-dbc747cf49f336ef",
+  "tests": {
+    "total": 1259,
+    "PASS": 1241,
+    "ok": 18,
+    "FAIL": 0,
+    "newDio": 10,
+    "newAi": 8,
+    "newKha": 7,
+    "preservedMinionNavigation": 9
+  },
+  "workbook": {
+    "added": [
+      "KHAZIX.E.slow_pct",
+      "KHAZIX.E.slow_duration"
+    ],
+    "changed": [
+      "KHAZIX.E.__description",
+      "KHAZIX.ENGINE.C.heroes.khazix.skills.2.radius"
+    ],
+    "preservedAllOtherRows": true,
+    "sheets": [
+      "英雄",
+      "符文",
+      "装备"
+    ],
+    "hashes": [
+      {
+        "path": "./config/MOBA_Config_V9_1.xlsx",
+        "sha256": "a9483fa91eec33169ba3e78444f566c527e3255d404f4029bdd6d24f6249005d"
+      },
+      {
+        "path": "C:/Users/HLT/Desktop/MOBA_Config_V9_1.xlsx",
+        "sha256": "a9483fa91eec33169ba3e78444f566c527e3255d404f4029bdd6d24f6249005d"
+      },
+      {
+        "path": "../../outputs/v17-3-dio/MOBA_Config_V17_3.xlsx",
+        "sha256": "a9483fa91eec33169ba3e78444f566c527e3255d404f4029bdd6d24f6249005d"
+      }
+    ]
+  },
+  "baselineReproduction": {
+    "baselineHPBeforeSettlement": 647.76,
+    "after": 362.76,
+    "unearnedLoss": 285,
+    "damageEvents": 0
+  },
+  "browser": {
+    "loaded3DTraining": true,
+    "autoRestoreEnabled": true,
+    "level18": true,
+    "rCastCooldownObserved": true,
+    "fullDamageReplay": false,
+    "touch": false,
+    "foregroundFPS": null
+  },
+  "rollback": {
+    "commit": "41e4ce363bf0e6a6c385a6c1472f3f6b0c5e0ecf",
+    "savedVersion": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_577e2d5ca6c4819199b3a4231a5e130d"
+  }
+}

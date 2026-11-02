@@ -1,0 +1,113 @@
+{
+  "version": "V14.1",
+  "assets": [
+    {
+      "id": "procedural-heroes",
+      "name": "程序化英雄模型与动作",
+      "source": "本项目 src/renderer.js",
+      "author": "项目作者",
+      "license": "项目代码；未确认第三方角色形象权利",
+      "scope": "游戏内原型",
+      "path": "src/renderer.js",
+      "format": "Three.js 程序化网格",
+      "version": "V11.1",
+      "redistributionAllowed": null
+    },
+    {
+      "id": "procedural-map",
+      "name": "程序化地图与地形",
+      "source": "本项目",
+      "author": "项目作者",
+      "license": "项目代码",
+      "scope": "游戏内原型",
+      "path": "dist/terrain.js, dist/world.js",
+      "format": "Canvas 与 Three.js",
+      "version": "V10",
+      "redistributionAllowed": true
+    },
+    {
+      "id": "original-rune-badges",
+      "name": "生成的符文图形",
+      "source": "本项目脚本",
+      "author": "项目作者",
+      "license": "项目代码",
+      "scope": "符文选择界面",
+      "path": "dist/assets/runes/*.svg",
+      "format": "SVG",
+      "version": "V10",
+      "redistributionAllowed": true
+    },
+    {
+      "id": "riot-rune-icons",
+      "name": "旧版 Riot 符文图标",
+      "source": "Riot Data Dragon",
+      "author": "Riot Games",
+      "license": "未确认允许在此游戏中分发",
+      "scope": "旧版符文界面",
+      "path": "dist/assets/runes/*.png",
+      "format": "PNG",
+      "version": "16.21.1",
+      "redistributionAllowed": false
+    },
+    {
+      "id": "audio-beeps",
+      "name": "合成提示音",
+      "source": "本项目 Web Audio 代码",
+      "author": "项目作者",
+      "license": "项目代码",
+      "scope": "游戏提示音",
+      "path": "dist/game.js",
+      "format": "合成音",
+      "version": "V10",
+      "redistributionAllowed": true
+    },
+    {
+      "id": "threejs",
+      "name": "Three.js",
+      "source": "https://github.com/mrdoob/three.js",
+      "author": "Three.js contributors",
+      "license": "MIT",
+      "scope": "3D 渲染依赖",
+      "path": "dist/renderer.js",
+      "format": "JavaScript",
+      "version": "项目锁定版本",
+      "redistributionAllowed": true
+    },
+    {
+      "id": "v11-hero-models",
+      "name": "安娜步枪、D.Va机甲及驾驶员、查莉娅粒子炮原型",
+      "source": "本项目 src/renderer.js",
+      "format": "程序化 Three.js 网格",
+      "version": "V11.1",
+      "license": "本项目占位素材"
+    },
+    {
+      "id": "v14-original-monsters",
+      "name": "22种原创野怪程序模型、独立纹理与动画",
+      "source": "src/monster-models.js + config/v14-monsters.json",
+      "author": "Project procedural art",
+      "license": "Original project-generated geometry and textures",
+      "scope": "Game and model gallery",
+      "path": "src/monster-models.js",
+      "format": "Three.js mesh + DataTexture",
+      "version": "V14.1",
+      "redistributionAllowed": true
+    },
+    {
+      "id": "v139-riot-equipment-icons",
+      "name": "装备与鞋子图标",
+      "source": "Riot Data Dragon16.21.1,14.1.1,5.21.1; Wild Rift originals mirrored by League Wiki; reference-data/item-icons139.json",
+      "author": "Riot Games",
+      "license": "Riot proprietary game assets; original source attribution retained",
+      "scope": "Personal development game prototype",
+      "path": "dist/assets/items",
+      "format": "PNG",
+      "version": "PC26.21",
+      "redistributionAllowed": null
+    }
+  ],
+  "publication": "依用户要求，发布目录重新包含原版符文 PNG；原图来源为 Riot Data Dragon。",
+  "unresolved": [
+    "英雄名称、能力和角色形象仍参考 Riot 游戏；本清单不构成这些知识产权的使用授权。"
+  ]
+}

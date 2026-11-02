@@ -1,0 +1,347 @@
+{
+  "id": "LONGSWORD_HUNTER",
+  "key": "longsword_hunter",
+  "name": "太刀侠",
+  "englishName": "Long Sword Hunter",
+  "title": "气刃猎人",
+  "role": "近战战士 / 刺客",
+  "primaryRole": "FIGHTER",
+  "secondaryRole": "ASSASSIN",
+  "attackType": "MELEE",
+  "color": "#e7b45d",
+  "BASE": {
+    "hp_base": 650,
+    "hp_growth": 105,
+    "ad_base": 64,
+    "ad_growth": 4,
+    "armor_base": 35,
+    "armor_growth": 4.6,
+    "mr_base": 32,
+    "mr_growth": 2,
+    "mana_base": 0,
+    "mana_growth": 0,
+    "ap_base": 0,
+    "move_speed": 218,
+    "as_base": 0.66,
+    "as_ratio": 0.66,
+    "as_growth": 2.8,
+    "attack_range": 175,
+    "hp_regen_base": 7,
+    "hp_regen_growth": 0.7,
+    "mana_regen_base": 0,
+    "mana_regen_growth": 0,
+    "resource_type": "SPIRIT_GAUGE"
+  },
+  "P": {
+    "gauge_max": 100,
+    "gauge_on_champion_hit": 23,
+    "gauge_on_large_monster_hit": 23,
+    "gauge_on_minion_hit": 12,
+    "gauge_on_structure_hit": 6,
+    "spirit_level_max": 3,
+    "white_damage_multiplier": 1.02,
+    "yellow_damage_multiplier": 1.04,
+    "red_damage_multiplier": 1.1,
+    "red_duration": 50,
+    "out_of_combat_delay": 5,
+    "gauge_decay_per_second": 5,
+    "clear_resources_on_death": 1,
+    "input_buffer_window": 0.15,
+    "pending_event_cap": 256,
+    "large_monster_types": [
+      "BLUE_SENTINEL",
+      "RED_BRAMBLEBACK",
+      "GROMP",
+      "GREATER_MURK_WOLF",
+      "CRIMSON_RAPTOR",
+      "ANCIENT_KRUG",
+      "RIFT_SCUTTLER"
+    ],
+    "counter_damage_sources": [
+      "ENEMY_CHAMPION",
+      "ENEMY_TOWER",
+      "EPIC_MONSTER"
+    ],
+    "success_flash_duration": 0.22
+  },
+  "Q": {
+    "cooldown": 0,
+    "mana_cost": 0,
+    "windup": 0,
+    "backswing": 0,
+    "range": 250,
+    "stage_count": 5,
+    "combo_window": 1,
+    "stage_gauge_cost": [
+      10,
+      15,
+      12,
+      13,
+      20
+    ],
+    "stage1_damage": [
+      30,
+      40,
+      50,
+      60,
+      70
+    ],
+    "stage2_damage": [
+      35,
+      45,
+      55,
+      65,
+      75
+    ],
+    "stage3_damage": [
+      40,
+      50,
+      60,
+      70,
+      80
+    ],
+    "stage4_damage": [
+      45,
+      55,
+      65,
+      75,
+      85
+    ],
+    "stage5_damage": [
+      60,
+      75,
+      90,
+      105,
+      120
+    ],
+    "stage_bonus_ad_ratio_pct": [
+      45,
+      50,
+      55,
+      60,
+      75
+    ],
+    "stage_windup": [
+      0.18,
+      0.16,
+      0.2,
+      0.22,
+      0.28
+    ],
+    "stage_recovery": [
+      0.16,
+      0.16,
+      0.18,
+      0.22,
+      0.25
+    ],
+    "stage_range": [
+      190,
+      200,
+      210,
+      230,
+      250
+    ],
+    "stage_width": [
+      70,
+      120,
+      80,
+      150,
+      180
+    ],
+    "stage_angle": [
+      0,
+      140,
+      0,
+      160,
+      360
+    ],
+    "stage_step": [
+      0,
+      0,
+      40,
+      0,
+      50
+    ],
+    "stage5_spirit_level_gain": 1,
+    "special_followup_window": 0.5,
+    "stage_internal_cooldown": 0.5
+  },
+  "W": {
+    "cooldown": [
+      13,
+      12,
+      11,
+      10,
+      9
+    ],
+    "mana_cost": 0,
+    "windup": 0,
+    "backswing": 0,
+    "range": 275,
+    "dash_distance": 225,
+    "thrust_range": 275,
+    "thrust_width": 75,
+    "thrust_damage": [
+      25,
+      40,
+      55,
+      70,
+      85
+    ],
+    "thrust_bonus_ad_ratio_pct": 40,
+    "thrust_hit_time": 0.12,
+    "thrust_duration": 0.3,
+    "slow_pct": 70,
+    "slow_duration": 1.5,
+    "ascent_duration": 0.5,
+    "slow_fall_duration": 0.25,
+    "jump_height": 180,
+    "helm_spirit_level_cost": 1,
+    "helm_descent_duration": 0.15,
+    "helm_radius": 125,
+    "helm_delay_after_landing": 0.25,
+    "helm_tick_count": 10,
+    "helm_tick_duration": 0.5,
+    "helm_tick_base_damage": [
+      20,
+      30,
+      40,
+      50,
+      60
+    ],
+    "helm_tick_bonus_ad_ratio_pct": 25,
+    "fallback_tick_count": 3,
+    "fallback_total_ad_ratio_pct": 175,
+    "fallback_tick_duration": 0.18
+  },
+  "E": {
+    "cooldown": [
+      14,
+      13,
+      12,
+      11,
+      10
+    ],
+    "mana_cost": 0,
+    "windup": 0,
+    "backswing": 0,
+    "range": 225,
+    "clear_gauge_on_cast": 1,
+    "backstep_duration": 0.5,
+    "backstep_distance": 225,
+    "invulnerable_during_backstep": 1,
+    "control_immune_during_backstep": 1,
+    "return_dash_distance": 150,
+    "return_duration": 0.3,
+    "return_hit_time": 0.18,
+    "return_range": 210,
+    "return_width": 125,
+    "return_damage": [
+      60,
+      85,
+      110,
+      135,
+      160
+    ],
+    "return_bonus_ad_ratio_pct": 70,
+    "success_return_gauge": 100,
+    "q5_followup_window": 0.5,
+    "control_immune_during_return": 1
+  },
+  "R": {
+    "cooldown": 0,
+    "mana_cost": 0,
+    "windup": 0,
+    "backswing": 0,
+    "range": 325,
+    "sheathe_windup": 0.25,
+    "max_sheathe_duration": 5,
+    "sheathe_damage_reduction_pct": 25,
+    "small_iai_dash": 25,
+    "small_iai_hit_count": 2,
+    "small_iai_total_ad_ratio_pct": 150,
+    "small_iai_on_hit_pct": 100,
+    "small_iai_gauge_regen_per_second": 10,
+    "small_iai_gauge_regen_duration": 10,
+    "small_iai_duration": 0.3,
+    "small_iai_range": 190,
+    "small_iai_width": 105,
+    "small_iai_cooldown": 5,
+    "perfect_counter_window": 0.2,
+    "spirit_iai_dash": 325,
+    "spirit_iai_dash_speed": 900,
+    "spirit_iai_range": 325,
+    "spirit_iai_width": 150,
+    "spirit_iai_base_damage": [
+      200,
+      300,
+      400
+    ],
+    "spirit_iai_bonus_ad_ratio_pct": 200,
+    "failed_counter_damage_pct": 50,
+    "success_spirit_level_gain": 1,
+    "success_gauge_gain": 20,
+    "success_q5_followup_window": 0.5,
+    "spirit_iai_recovery": 0.5,
+    "spirit_iai_stun_duration": 0.5,
+    "timeout_cooldown": 10,
+    "spirit_iai_cooldown": 10,
+    "success_refresh_cooldown": 0,
+    "success_cooldown": 1,
+    "control_immune_during_spirit_dash": 1,
+    "spirit_dash_damage_reduction_pct": 35
+  },
+  "RELEASE": {
+    "required_spirit_level": 2,
+    "spirit_level_cost": 2,
+    "input_window": 0.5,
+    "slash_count": 4,
+    "slash_duration": 0.48,
+    "slash_range": 210,
+    "slash_width": 130,
+    "backstep_distance": 175,
+    "damage_delay": 0,
+    "damage_tick_count": 10,
+    "damage_tick_duration": 0.5,
+    "tick_base_damage": [
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "tick_bonus_ad_ratio_pct": 30,
+    "target_type": "ENEMY_CHAMPION",
+    "unique_target_damage": 1,
+    "vfx_color": "#ff354f",
+    "damage_during_slashes": 1
+  },
+  "passive": "独立0～100气刃槽与无/白/黄/红开刃等级。普攻命中英雄、大型/史诗野怪或河道蟹+23气刃，小兵/小野怪+12，建筑+6。内槽满不会自动升刃。白/黄/红刃强化直接刀刃物理伤害2%/4%/10%，不强化装备、符文或召唤师独立伤害。红刃持续50秒后降黄刃；脱战5秒后内槽每秒衰减5。死亡清空资源。",
+  "skills": [
+    {
+      "name": "气刃体操",
+      "icon": "斩",
+      "target": "direction",
+      "desc": "每按一次Q挥出一段，Q1→Q5动作不同，各段内置0.5秒冷却。消耗10/15/12/13/20气刃。Q5命中合法目标升刃一次；见切或完美居合成功命中后，Q明显切换为0.5秒气刃派生大回旋，消耗20气刃。空中Q改为兜割。"
+    },
+    {
+      "name": "登龙",
+      "icon": "登",
+      "target": "direction",
+      "desc": "位移225并突刺至275范围；实际命中合法目标，减速70%持续1.5秒并腾空。空中Q消耗一层开刃兜割，落地0.25秒后在0.5秒内10段，每段20/30/40/50/60+25%额外AD。未使用兜割则3段合计175%总AD普通下戳。"
+    },
+    {
+      "name": "见切",
+      "icon": "切",
+      "target": "direction",
+      "desc": "清空内槽，后撤225码持续0.5秒并免伤免控，再返回施法原点。返程整条路径均检测刀刃碰撞，每目标仅伤害一次；实际规避敌方英雄、防御塔或史诗野怪伤害且返程命中合法目标，回满100气刃并闪白光。返程结束后0.5秒内Q切换高亮气刃派生。 后撤全程无敌且霸体，前切全程霸体但可以受到伤害。"
+    },
+    {
+      "name": "居合",
+      "icon": "居",
+      "target": "direction",
+      "desc": "收刀0.25秒后可普攻小居合，或R2向指定方向位移325码并横扫，剑光取施放时刃色。仅在拔刀前0.2秒或拔刀后0.2秒内受到合法伤害才判定完美反击；成功闪白光，R本身进入1秒冷却；失败10秒。仅成功且斩中敌人眩晕0.5秒，合法命中升刃并开放0.5秒高亮Q5派生。仅登龙兜割落地后0.5秒内，R显示释放解放斩，黄刃消耗两层可释放：四刀边挥击边结算伤害；首段实际命中即锁定对应英雄，后续伤害不再检查距离或走位。完整四刀按3/2/3/2分配十段，每段10/20/30/40/50+30%额外AD。 解放斩后退175码，四刀与后续交叉剑光发红光。 二段居合位移至斩击结算前保持霸体并减免35%物理／魔法伤害；真实伤害保留原规则。完整居合伤害200/300/400+200%额外AD，失败半伤。 居合成功不开放解放斩，只保留既定的Q5派生。"
+    }
+  ]
+}

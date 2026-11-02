@@ -1,0 +1,14 @@
+/* One atomic workbook snapshot supplies heroes, items and runes for the whole match. */
+(()=>{'use strict';
+ const copy=v=>JSON.parse(JSON.stringify(v)),freeze=v=>{if(v&&typeof v==='object'){for(let x of Object.values(v))freeze(x);Object.freeze(v)}return v};
+ let snapshot=window.CONFIG_SNAPSHOT;
+ try{let pinned=sessionStorage.getItem('rift-resume-config');if(pinned){sessionStorage.removeItem('rift-resume-config');snapshot=JSON.parse(pinned)}}catch{}
+ if(!snapshot?.version||!snapshot.config)throw Error('V9.1配置不可用：请检查Excel校验报告');
+ window.CONFIG_SNAPSHOT=freeze(snapshot);window.GAME_CONFIG=copy(snapshot.config.C);window.RUNE_DATA_V8=copy(snapshot.config.runes);
+ window.ChampionStats=Object.fromEntries(Object.entries(GAME_CONFIG.heroes).map(([id,h])=>[id,h.stats]));window.ChampionAbilities=Object.fromEntries(Object.entries(GAME_CONFIG.heroes).map(([id,h])=>[id,h.skills]));
+ let state='lobby',pending=null;
+ window.ConfigRuntime={version:snapshot.version,snapshot,params:snapshot.config.params,setState(v){state=v;document.documentElement.dataset.matchConfig=snapshot.version},beforeStart(hero,difficulty){if(pending){sessionStorage.setItem('rift-auto-start',JSON.stringify({hero,difficulty}));location.reload();return false}return true},resume(saved){if(!saved.configVersion){alert('此存档来自旧版数值系统，请开始新对局。');return false}if(saved.configVersion!==snapshot.version){let old=saved.configSnapshot;if(!old||old.version!==saved.configVersion){alert('存档配置快照缺失，未切换到其他版本。');return false}sessionStorage.setItem('rift-resume-config',JSON.stringify(old));sessionStorage.setItem('rift-auto-resume','1');location.reload();return false}return true},pending:()=>pending};
+ const show=text=>{let el=document.getElementById('configStatus');if(el)el.textContent=text};
+ window.addEventListener('DOMContentLoaded',()=>{show('Excel '+snapshot.version.slice(-8));let savedStart=sessionStorage.getItem('rift-auto-start');if(savedStart){sessionStorage.removeItem('rift-auto-start');try{let {hero,difficulty}=JSON.parse(savedStart);if(GAME_CONFIG.heroes[hero])document.querySelector('[data-hero="'+hero+'"]')?.click();if(difficulty)document.getElementById('difficulty').value=difficulty}catch{}document.getElementById('startBtn')?.click()}if(sessionStorage.getItem('rift-auto-resume')){sessionStorage.removeItem('rift-auto-resume');document.getElementById('continueBtn')?.click()}});
+ if(location.hostname==='127.0.0.1'||location.hostname==='localhost')setInterval(async()=>{try{let r=await fetch('/api/config',{cache:'no-store'}),data=await r.json();if(data.error){show('Excel校验失败：继续使用 '+snapshot.version.slice(-8));document.documentElement.dataset.configError=data.error.message;return}delete document.documentElement.dataset.configError;if(data.version!==snapshot.version){pending=data.version;show(state==='lobby'?'Excel已更新，正在载入':'Excel已更新 · 下局生效');if(state==='lobby')location.reload()}else show('Excel '+snapshot.version.slice(-8))}catch{}},2000);
+})();

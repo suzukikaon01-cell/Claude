@@ -1,0 +1,926 @@
+{
+  "world": 7200,
+  "waveInterval": 20,
+  "passiveGold": 5,
+  "startingGold": 500,
+  "tower": {
+    "hp": 2400,
+    "attack": 170,
+    "range": 775,
+    "interval": 1.1,
+    "modelScale": 3,
+    "radius": 90
+  },
+  "nexus": {
+    "hp": 4200,
+    "attack": 100,
+    "range": 290,
+    "interval": 1.4
+  },
+  "minion": {
+    "hp": 380,
+    "attack": 30,
+    "armor": 8,
+    "speed": 115,
+    "gold": 55,
+    "xp": 45
+  },
+  "heroes": {
+    "ashe": {
+      "name": "艾希",
+      "title": "寒冰射手",
+      "role": "远程射手",
+      "color": "#7fd4f4",
+      "stats": {
+        "hp": 610,
+        "hpRegen": 3.5,
+        "mana": 280,
+        "manaRegen": 7,
+        "attack": 59,
+        "ap": 0,
+        "baseAS": 0.658,
+        "asRatio": 0.658,
+        "armor": 26,
+        "mr": 33,
+        "speed": 325,
+        "range": 300,
+        "growth": {
+          "hp": 101,
+          "hpRegen": 0.55,
+          "mana": 35,
+          "manaRegen": 0.65,
+          "attack": 3,
+          "armor": 4.6,
+          "mr": 1.1,
+          "as": 0.03
+        }
+      },
+      "passive": {
+        "id": "frost",
+        "name": "冰霜射击",
+        "slow": [
+          0.2,
+          0.3
+        ],
+        "duration": 2,
+        "strongDuration": 0.5,
+        "frostDamageBase": 1.1,
+        "critDamageScaling": 0.75,
+        "desc": "普攻施加冰霜 2 秒：20%–30% 减速；暴击强化为 40%–60%，随后衰减。对冰霜目标的普攻依暴击率增加物理伤害，不另算常规暴击。"
+      },
+      "skills": [
+        {
+          "name": "射手的专注",
+          "key": "Q",
+          "icon": "❯",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "self",
+          "range": 0,
+          "mana": 30,
+          "cd": 0,
+          "requiredFocus": 4,
+          "duration": 6,
+          "bonusAS": [
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6
+          ],
+          "adRatio": [
+            1.1,
+            1.15,
+            1.2,
+            1.25,
+            1.3
+          ],
+          "arrows": 5,
+          "desc": "消耗 4 层专注；持续 6 秒，额外攻速 20/30/40/50/60%。每次强化普攻的 5 支箭合计 110/115/120/125/130% AD，重置普攻计时。"
+        },
+        {
+          "name": "万箭齐发",
+          "key": "W",
+          "icon": "⋔",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "direction",
+          "range": 1200,
+          "projectileSpeed": 2000,
+          "mana": [
+            75,
+            70,
+            65,
+            60,
+            55
+          ],
+          "cd": [
+            18,
+            14.5,
+            11,
+            7.5,
+            4
+          ],
+          "damage": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ],
+          "bonusAdRatio": 1,
+          "arrows": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "cone": 0.9,
+          "damageType": "physical",
+          "desc": "发射 7/8/9/10/11 支箭：60/95/130/165/200 + 额外 AD 物理伤害。射程 1200，弹速 2000；每个目标仅受伤一次，英雄承受强化冰霜减速。"
+        },
+        {
+          "name": "鹰击长空",
+          "key": "E",
+          "icon": "⌁",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "area",
+          "range": 12000,
+          "projectileSpeed": 1400,
+          "mana": 0,
+          "cd": 5,
+          "maxCharges": 2,
+          "recharge": [
+            90,
+            80,
+            70,
+            60,
+            50
+          ],
+          "visionRadius": 1000,
+          "visionDuration": 5,
+          "desc": "全图侦察，不造成伤害。最多 2 次充能，充能 90/80/70/60/50 秒，使用间隔 5 秒；终点半径 1000 视野持续 5 秒。"
+        },
+        {
+          "name": "魔法水晶箭",
+          "key": "R",
+          "icon": "➶",
+          "maxRank": 3,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "direction",
+          "range": 12000,
+          "projectileSpeed": 1500,
+          "maxSpeed": 2100,
+          "acceleration": 350,
+          "mana": 100,
+          "cd": [
+            100,
+            80,
+            60
+          ],
+          "damage": [
+            200,
+            400,
+            600
+          ],
+          "apRatio": 1.2,
+          "damageType": "magic",
+          "stunMin": 1,
+          "stunMax": 3.5,
+          "stunDistance": 2800,
+          "radius": 250,
+          "desc": "全图冰箭，200/400/600 + 1.2 AP 魔法伤害；首个英雄引爆，按距离眩晕 1–3.5 秒，周围敌人受到同额范围伤害与冰霜减速。"
+        }
+      ],
+      "hp": 610,
+      "hpRegen": 3.5,
+      "mana": 280,
+      "manaRegen": 7,
+      "attack": 59,
+      "ap": 0,
+      "baseAS": 0.658,
+      "asRatio": 0.658,
+      "armor": 26,
+      "mr": 33,
+      "speed": 325,
+      "range": 300,
+      "growth": {
+        "hp": 101,
+        "hpRegen": 0.55,
+        "mana": 35,
+        "manaRegen": 0.65,
+        "attack": 3,
+        "armor": 4.6,
+        "mr": 1.1,
+        "as": 0.03
+      },
+      "attackSpeed": 0.658,
+      "interval": 1.519756838905775,
+      "maxLevel": 18
+    },
+    "garen": {
+      "name": "盖伦",
+      "title": "德玛西亚之力",
+      "role": "近战重装战士",
+      "color": "#dfbf6c",
+      "stats": {
+        "hp": 690,
+        "hpRegen": 8,
+        "mana": 0,
+        "manaRegen": 0,
+        "attack": 69,
+        "ap": 0,
+        "baseAS": 0.625,
+        "asRatio": 0.625,
+        "armor": 38,
+        "mr": 32,
+        "speed": 340,
+        "range": 87.5,
+        "growth": {
+          "hp": 98,
+          "hpRegen": 0.5,
+          "mana": 0,
+          "manaRegen": 0,
+          "attack": 4.5,
+          "armor": 4.2,
+          "mr": 1.55,
+          "as": 0.0365
+        }
+      },
+      "passive": {
+        "id": "perseverance",
+        "name": "坚韧",
+        "regenPct": [
+          0.015,
+          0.101
+        ],
+        "pause": 8,
+        "desc": "脱离敌方英雄、塔或史诗野怪干扰 8 秒后，每 5 秒额外回复 1.5%–10.1% 最大生命。普通小兵普攻不暂停坚韧。"
+      },
+      "skills": [
+        {
+          "name": "致命打击",
+          "key": "Q",
+          "icon": "↗",
+          "maxRank": 5,
+          "windup": 0.15,
+          "recovery": 0.12,
+          "target": "self",
+          "range": 0,
+          "mana": 0,
+          "cd": 8,
+          "speedBonus": 0.35,
+          "speedDuration": [
+            1.4,
+            1.95,
+            2.5,
+            3.05,
+            3.6
+          ],
+          "empowerDuration": 4.5,
+          "bonusRange": 25,
+          "damage": [
+            30,
+            60,
+            90,
+            120,
+            150
+          ],
+          "adRatio": 0.5,
+          "silence": 1.5,
+          "damageType": "physical",
+          "desc": "清除减速，提升 35% 移速 1.4/1.95/2.5/3.05/3.6 秒；强化普攻额外造成 30/60/90/120/150 + 0.5 总 AD，沉默 1.5 秒。重置普攻计时，保留强化攻击 +25 距离。"
+        },
+        {
+          "name": "勇气",
+          "key": "W",
+          "icon": "◇",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "self",
+          "range": 0,
+          "mana": 0,
+          "cd": [
+            22,
+            19.5,
+            17,
+            14.5,
+            12
+          ],
+          "damageReduction": [
+            0.25,
+            0.29,
+            0.33,
+            0.37,
+            0.41
+          ],
+          "duration": 4,
+          "shield": [
+            65,
+            85,
+            105,
+            125,
+            145
+          ],
+          "bonusHpRatio": 0.18,
+          "shieldDuration": 0.75,
+          "tenacity": 0.6,
+          "tenacityDuration": 0.75,
+          "resistPerKill": 0.2,
+          "maxStacks": 150,
+          "fullStackBonus": 0.1,
+          "desc": "击杀有效敌人永久获得 0.2 双抗，最多 150 层；满层额外双抗提高 10%。主动减伤 25/29/33/37/41%，4 秒；前 0.75 秒获得 65/85/105/125/145 + 18% 额外生命护盾及 60% 韧性。"
+        },
+        {
+          "name": "审判",
+          "key": "E",
+          "icon": "✧",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "self",
+          "range": 325,
+          "radius": 325,
+          "mana": 0,
+          "cd": [
+            9,
+            8.25,
+            7.5,
+            6.75,
+            6
+          ],
+          "duration": 3,
+          "baseSpins": 7,
+          "asPerSpin": 0.25,
+          "damage": [
+            4,
+            7,
+            10,
+            13,
+            16
+          ],
+          "adRatio": [
+            0.4,
+            0.43,
+            0.46,
+            0.49,
+            0.52
+          ],
+          "closestBonus": 0.25,
+          "shredHits": 6,
+          "armorShred": 0.25,
+          "shredDuration": 6,
+          "recastAfter": 1,
+          "damageType": "physical",
+          "desc": "3 秒内旋转，半径 325；基础 7 次，每 25% 等级及装备额外攻速增加 1 次。每次 4/7/10/13/16 + 40/43/46/49/52% 总 AD，最近目标额外 25%；命中英雄 6 次减甲 25%，持续 6 秒。1 秒后可再次按 E 结束。"
+        },
+        {
+          "name": "德玛西亚正义",
+          "key": "R",
+          "icon": "⚔",
+          "maxRank": 3,
+          "windup": 0.435,
+          "recovery": 0.25,
+          "target": "unit",
+          "heroOnly": true,
+          "range": 400,
+          "mana": 0,
+          "cd": [
+            120,
+            100,
+            80
+          ],
+          "damage": [
+            125,
+            200,
+            275
+          ],
+          "missingHpRatio": [
+            0.25,
+            0.3,
+            0.35
+          ],
+          "damageType": "true",
+          "desc": "锁定 400 范围内一名敌方英雄，0.435 秒后造成 125/200/275 + 25/30/35% 已损生命的真实伤害，仅结算指定目标。"
+        }
+      ],
+      "hp": 690,
+      "hpRegen": 8,
+      "mana": 0,
+      "manaRegen": 0,
+      "attack": 69,
+      "ap": 0,
+      "baseAS": 0.625,
+      "asRatio": 0.625,
+      "armor": 38,
+      "mr": 32,
+      "speed": 340,
+      "range": 87.5,
+      "growth": {
+        "hp": 98,
+        "hpRegen": 0.5,
+        "mana": 0,
+        "manaRegen": 0,
+        "attack": 4.5,
+        "armor": 4.2,
+        "mr": 1.55,
+        "as": 0.0365
+      },
+      "attackSpeed": 0.625,
+      "interval": 1.6,
+      "maxLevel": 18
+    },
+    "lux": {
+      "name": "拉克丝",
+      "title": "光辉女郎",
+      "role": "远程爆发法师",
+      "color": "#c3a8fa",
+      "stats": {
+        "hp": 580,
+        "hpRegen": 5.5,
+        "mana": 440,
+        "manaRegen": 9,
+        "attack": 54,
+        "ap": 0,
+        "baseAS": 0.669,
+        "asRatio": 0.625,
+        "armor": 21,
+        "mr": 30,
+        "speed": 330,
+        "range": 275,
+        "growth": {
+          "hp": 99,
+          "hpRegen": 0.55,
+          "mana": 23.5,
+          "manaRegen": 0.8,
+          "attack": 3.3,
+          "armor": 5.2,
+          "mr": 1.3,
+          "as": 0.03
+        }
+      },
+      "passive": {
+        "id": "illumination",
+        "name": "光芒四射",
+        "duration": 6,
+        "damage": [
+          30,
+          200
+        ],
+        "apRatio": 0.35,
+        "desc": "伤害技能附加持续 6 秒的光芒标记，普攻或 R 消耗标记造成 30–200 + 0.35 AP 魔法伤害；伤害技能可刷新。"
+      },
+      "skills": [
+        {
+          "name": "光之束缚",
+          "key": "Q",
+          "icon": "✥",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "direction",
+          "range": 1300,
+          "projectileSpeed": 1200,
+          "mana": 50,
+          "cd": 10,
+          "damage": [
+            80,
+            120,
+            160,
+            200,
+            240
+          ],
+          "apRatio": 0.75,
+          "root": 2,
+          "maxHits": 2,
+          "damageType": "magic",
+          "desc": "非锁定光球，射程 1300、弹速 1200；最多禁锢 2 个敌人 2 秒，造成 80/120/160/200/240 + 0.75 AP 魔法伤害。"
+        },
+        {
+          "name": "曲光屏障",
+          "key": "W",
+          "icon": "⬡",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "direction",
+          "range": 1175,
+          "projectileSpeed": 1200,
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "cd": [
+            12,
+            11.5,
+            11,
+            10.5,
+            10
+          ],
+          "shield": [
+            40,
+            55,
+            70,
+            85,
+            100
+          ],
+          "apRatio": 0.4,
+          "shieldDuration": 2.5,
+          "desc": "法杖飞出并返回，途经友军每次获得 40/55/70/85/100 + 0.4 AP 护盾；往返叠加并刷新 2.5 秒持续。自身在投出与返回各获一次。"
+        },
+        {
+          "name": "透光奇点",
+          "key": "E",
+          "icon": "✺",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "area",
+          "range": 1100,
+          "projectileSpeed": 1300,
+          "radius": 310,
+          "mana": [
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "cd": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "damage": [
+            65,
+            115,
+            165,
+            215,
+            265
+          ],
+          "apRatio": 0.8,
+          "slow": [
+            0.25,
+            0.3,
+            0.35,
+            0.4,
+            0.45
+          ],
+          "duration": 5,
+          "linger": 1,
+          "damageType": "magic",
+          "desc": "射程 1100、半径 310，光球到达后减速 25/30/35/40/45%，最长存在 5 秒；再次按 E 提前引爆，65/115/165/215/265 + 0.8 AP 魔法伤害，减速保留 1 秒。"
+        },
+        {
+          "name": "终极闪光",
+          "key": "R",
+          "icon": "☄",
+          "maxRank": 3,
+          "windup": 1,
+          "recovery": 0.35,
+          "target": "direction",
+          "range": 3400,
+          "width": 200,
+          "mana": 100,
+          "cd": [
+            60,
+            50,
+            40
+          ],
+          "damage": [
+            300,
+            400,
+            500
+          ],
+          "apRatio": 1.2,
+          "damageType": "magic",
+          "desc": "固定范围预警 1 秒后激光结算，长 3400、宽 200，造成 300/400/500 + 1.2 AP 魔法伤害，可消耗光芒标记。"
+        }
+      ],
+      "hp": 580,
+      "hpRegen": 5.5,
+      "mana": 440,
+      "manaRegen": 9,
+      "attack": 54,
+      "ap": 0,
+      "baseAS": 0.669,
+      "asRatio": 0.625,
+      "armor": 21,
+      "mr": 30,
+      "speed": 330,
+      "range": 275,
+      "growth": {
+        "hp": 99,
+        "hpRegen": 0.55,
+        "mana": 23.5,
+        "manaRegen": 0.8,
+        "attack": 3.3,
+        "armor": 5.2,
+        "mr": 1.3,
+        "as": 0.03
+      },
+      "attackSpeed": 0.669,
+      "interval": 1.4947683109118086,
+      "maxLevel": 18
+    },
+    "zero": {
+      "name": "零",
+      "title": "数字世界的游离者",
+      "role": "远程成长控制法师",
+      "color": "#67f5d2",
+      "stats": {
+        "hp": 570,
+        "hpRegen": 5.5,
+        "mana": 480,
+        "manaRegen": 8,
+        "attack": 58,
+        "ap": 0,
+        "baseAS": 0.67,
+        "asRatio": 0.67,
+        "armor": 25,
+        "mr": 30,
+        "speed": 335,
+        "range": 262.5,
+        "growth": {
+          "hp": 108,
+          "hpRegen": 0.55,
+          "mana": 55,
+          "manaRegen": 0.8,
+          "attack": 2.5,
+          "armor": 3.8,
+          "mr": 1.6,
+          "as": 0.025
+        }
+      },
+      "passive": {
+        "id": "entropy",
+        "name": "熵增",
+        "skillHit": 1,
+        "minionKill": 1,
+        "heroKill": 5,
+        "assist": 3,
+        "desc": "每次施法对每名敌方英雄最多获得 1 层命中奖励；击杀小兵 +1、击杀英雄 +5、助攻 +3。永久保留，无总上限，技能加成单独封顶。"
+      },
+      "skills": [
+        {
+          "name": "零式",
+          "key": "Q",
+          "icon": "⌘",
+          "maxRank": 5,
+          "windup": 0.2,
+          "recovery": 0.16,
+          "target": "unit",
+          "range": 300,
+          "projectileSpeed": 1300,
+          "mana": 50,
+          "cd": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "damage": [
+            70,
+            105,
+            140,
+            175,
+            210
+          ],
+          "apRatio": 0.55,
+          "stackRatio": 0.4,
+          "stackCap": 120,
+          "slowBase": 0.1,
+          "slowPerStack": 0.0003,
+          "slowCap": 0.25,
+          "slowDuration": 1.5,
+          "comboMultiplier": 1.25,
+          "damageType": "magic",
+          "desc": "锁定英雄或小兵，发射必中追踪代码，普通墙体不阻挡。70/105/140/175/210 + 0.55 AP + min(0.4 熵增,120)；减速 min(25%,10% + 0.03% 熵增) 1.5 秒。命中时仅对自身 W 禁锢目标增伤 25%。"
+        },
+        {
+          "name": "数据乱码",
+          "key": "W",
+          "icon": "▦",
+          "maxRank": 5,
+          "windup": 0,
+          "recovery": 0.16,
+          "target": "area",
+          "range": 350,
+          "radius": 65,
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "cd": [
+            17,
+            16,
+            15,
+            14,
+            13
+          ],
+          "delay": 0.9,
+          "damage": [
+            70,
+            100,
+            130,
+            160,
+            190
+          ],
+          "apRatio": 0.45,
+          "root": 1.5,
+          "damageType": "magic",
+          "desc": "在距离 350 内放置半径 65 故障区，0.9 秒后造成 70/100/130/160/190 + 0.45 AP 魔法伤害，禁锢 1.5 秒并记录零专属的 W 禁锢状态。"
+        },
+        {
+          "name": "数字遁形",
+          "key": "E",
+          "icon": "⌁",
+          "maxRank": 5,
+          "windup": 0.25,
+          "recovery": 0.1,
+          "target": "self",
+          "range": 0,
+          "mana": 80,
+          "cd": [
+            26,
+            24,
+            22,
+            20,
+            18
+          ],
+          "heal": [
+            40,
+            60,
+            80,
+            100,
+            120
+          ],
+          "healApRatio": 0.2,
+          "durationBase": 0.25,
+          "durationPerStack": 0.0005,
+          "durationCap": 0.5,
+          "desc": "启动 0.25 秒，可被控制打断；随后隐身免伤 min(0.5,0.25 + 0.0005 熵增) 秒，结束时回复 40/60/80/100/120 + 0.2 AP。期间可移动，不能普攻或施法；免伤不免控制。"
+        },
+        {
+          "name": "EMP · 电磁脉冲",
+          "key": "R",
+          "icon": "⏣",
+          "maxRank": 3,
+          "windup": 0.65,
+          "recovery": 0.25,
+          "target": "self",
+          "range": 375,
+          "radius": 375,
+          "mana": [
+            100,
+            110,
+            120
+          ],
+          "cd": [
+            140,
+            120,
+            100
+          ],
+          "damage": [
+            90,
+            155,
+            220
+          ],
+          "apRatio": 0.55,
+          "stackRatio": 0.12,
+          "stackCap": 75,
+          "silence": 1.5,
+          "comboMultiplier": 1.25,
+          "heroOnly": true,
+          "damageType": "magic",
+          "desc": "前摇 0.65 秒，半径 375 内敌方英雄承受 90/155/220 + 0.55 AP + min(0.12 熵增,75) 魔法伤害，沉默 1.5 秒；每个目标独立检查自身 W 禁锢，符合时增伤 25%。"
+        }
+      ],
+      "hp": 570,
+      "hpRegen": 5.5,
+      "mana": 480,
+      "manaRegen": 8,
+      "attack": 58,
+      "ap": 0,
+      "baseAS": 0.67,
+      "asRatio": 0.67,
+      "armor": 25,
+      "mr": 30,
+      "speed": 335,
+      "range": 262.5,
+      "growth": {
+        "hp": 108,
+        "hpRegen": 0.55,
+        "mana": 55,
+        "manaRegen": 0.8,
+        "attack": 2.5,
+        "armor": 3.8,
+        "mr": 1.6,
+        "as": 0.025
+      },
+      "attackSpeed": 0.67,
+      "interval": 1.4925373134328357,
+      "maxLevel": 18
+    }
+  },
+  "items": [
+    {
+      "id": "sword",
+      "name": "长剑",
+      "icon": "⚔",
+      "cost": 500,
+      "attack": 12,
+      "desc": "+12 攻击力"
+    },
+    {
+      "id": "boots",
+      "name": "速度之靴",
+      "icon": "»",
+      "cost": 500,
+      "speed": 35,
+      "desc": "+35 移速"
+    },
+    {
+      "id": "tome",
+      "name": "增幅典籍",
+      "icon": "▤",
+      "cost": 500,
+      "ap": 25,
+      "desc": "+25 法术强度"
+    },
+    {
+      "id": "ruby",
+      "name": "红水晶",
+      "icon": "◆",
+      "cost": 500,
+      "hp": 180,
+      "desc": "+180 最大生命"
+    },
+    {
+      "id": "infinity",
+      "name": "无尽之刃",
+      "icon": "⚔",
+      "cost": 3000,
+      "attack": 55,
+      "crit": 0.25,
+      "desc": "+55 攻击力 · 25% 暴击"
+    },
+    {
+      "id": "deathcap",
+      "name": "灭世者的死亡之帽",
+      "icon": "♜",
+      "cost": 3000,
+      "ap": 130,
+      "desc": "+130 法术强度"
+    },
+    {
+      "id": "armor",
+      "name": "兰顿之兆",
+      "icon": "⬟",
+      "cost": 2800,
+      "hp": 400,
+      "armor": 65,
+      "desc": "+400 生命 · +65 护甲"
+    },
+    {
+      "id": "blood",
+      "name": "饮血剑",
+      "icon": "†",
+      "cost": 3000,
+      "attack": 55,
+      "lifesteal": 0.2,
+      "desc": "+55 攻击力 · 20% 生命偷取"
+    },
+    {
+      "id": "nashor",
+      "name": "纳什之牙",
+      "icon": "ϟ",
+      "cost": 2800,
+      "ap": 65,
+      "desc": "+65 法强 · 40% 攻速",
+      "bonusAS": 0.4
+    }
+  ],
+  "heroMovementMultiplier": 0.65,
+  "stationaryAttackMultiplier": 0.8,
+  "baseCritMultiplier": 1.75,
+  "maxAttackSpeed": 2.5,
+  "specVersion": "USER-V3",
+  "mapTextureSize": 3072
+}

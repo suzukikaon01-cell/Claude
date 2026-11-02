@@ -1,0 +1,178 @@
+[
+  {
+    "sheet": "英雄",
+    "id": "ASHE",
+    "g": "BASE",
+    "k": "attack_range",
+    "value": 400,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "GAREN",
+    "g": "BASE",
+    "k": "move_speed",
+    "value": 221,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "GAREN",
+    "g": "BASE",
+    "k": "attack_range",
+    "value": 87.5,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "LUX",
+    "g": "BASE",
+    "k": "move_speed",
+    "value": 214.5,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "LUX",
+    "g": "BASE",
+    "k": "attack_range",
+    "value": 375,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "YASUO",
+    "g": "Q",
+    "k": "legacy_q_width",
+    "value": 40,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "KHAZIX",
+    "g": "E",
+    "k": "range",
+    "value": 600,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "W",
+    "k": "legacy_length",
+    "value": 325,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "W",
+    "k": "legacy_center_width",
+    "value": 90,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "W",
+    "k": "legacy_end_width",
+    "value": 300,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "R",
+    "k": "legacy_flight_speed",
+    "value": 500,
+    "note": "回填V8真实运行值；已在项目单位的移速包含旧移动倍率，避免重复缩放"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "E",
+    "k": "length",
+    "value": 225,
+    "note": "用户最新要求：双向总长225"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SETT",
+    "g": "E",
+    "k": "width",
+    "value": 175,
+    "note": "用户最新要求：上一版350宽度减半"
+  },
+  {
+    "sheet": "英雄",
+    "id": "SYSTEM",
+    "g": "SYSTEM",
+    "k": "level_growth_formula",
+    "value": "PC18_NONLINEAR",
+    "note": "注册逻辑ID；不执行表格中的任意表达式"
+  },
+  {
+    "sheet": "装备",
+    "id": "LIANDRY",
+    "g": "装备",
+    "k": "burn_tick_interval",
+    "value": 1,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "ARCHANGEL",
+    "g": "装备",
+    "k": "evolved_shield_hp_pct",
+    "value": 35,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "DEAD_MANS_PLATE",
+    "g": "装备",
+    "k": "max_momentum",
+    "value": 100,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "DEAD_MANS_PLATE",
+    "g": "装备",
+    "k": "full_momentum_extra_ms",
+    "value": 40,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "DEAD_MANS_PLATE",
+    "g": "装备",
+    "k": "full_momentum_damage",
+    "value": 100,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "DEAD_MANS_PLATE",
+    "g": "装备",
+    "k": "melee_full_momentum_slow",
+    "value": 50,
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "SWORD_OF_THE_OCCULT",
+    "g": "装备",
+    "k": "unique_group",
+    "value": "GLORY",
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  },
+  {
+    "sheet": "装备",
+    "id": "MEJAIS_SOULSTEALER",
+    "g": "装备",
+    "k": "unique_group",
+    "value": "GLORY",
+    "note": "回填V8已实现参数，非官方版本一致性声明"
+  }
+]

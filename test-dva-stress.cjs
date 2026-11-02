@@ -1,0 +1,7 @@
+// CPU simulation only; this does not measure rendered FPS.
+const assert=require('assert'),{performance}=require('perf_hooks'),fs=require('fs'),h=require('./test-harness.cjs')(),m=h.a.m;
+let first=h.reset('dva'),actors=[first],targets=[],times=[],peak=0,released=0;
+for(let i=1;i<10;i++)actors.push(h.a.enemy('dva',3600+(i%5)*450,3600+Math.floor(i/5)*450,0));
+for(let[i,u]of actors.entries()){u.x=3000+(i%5)*450;u.y=3000+Math.floor(i/5)*450;u.stun=0;u.player=true;u.hp=u.maxHp=1000000;u.attack=100;let t=h.a.enemy('lux',u.x+150,u.y);t.hp=t.maxHp=1000000;t.hpRegen=0;targets.push(t)}
+for(let tick=0;tick<600;tick++){if(tick%12===0)for(let[i,u]of actors.entries()){assert(m.attack(u,targets[i]));released++}let at=performance.now();h.a.update(1/60);times.push(performance.now()-at);peak=Math.max(peak,h.a.shots.length)}
+h.step(1);for(let u of h.a.units)assert(Number.isFinite(u.hp)&&Number.isFinite(u.x)&&Number.isFinite(u.y));assert(!h.a.shots.length);assert.equal(m.core.stats().queuedEvents,0);assert.equal(m.core.stats().observerErrors,0);assert(m.core.stats().events<=2048);assert(m.core.pool.free.length<=1024);assert.equal(released,500);times.sort((a,b)=>a-b);let report={mode:'Node CPU simulation, no rendering',actors:10,waves:released,pellets:released*10,simulatedSeconds:10,peakProjectiles:peak,p50Ms:times[300],p95Ms:times[570],maxMs:times.at(-1),engine:m.core.stats()};fs.writeFileSync('../../outputs/dva-overhaul/dva-stress.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));console.log('DVA STRESS PASSED');

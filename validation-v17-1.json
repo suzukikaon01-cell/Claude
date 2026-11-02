@@ -1,0 +1,149 @@
+{
+  "tests": {
+    "PASS": 1125,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 1143
+  },
+  "specialized": {
+    "xuefengCombat": 79,
+    "xuefengActualThreeModel": 5,
+    "consecutiveUltimateCycles": 100
+  },
+  "config": "v9.1-68b202c370a2f0d3",
+  "hero": {
+    "id": "XUEFENG",
+    "count": 18,
+    "name": "雪峰",
+    "primaryRole": "FIGHTER",
+    "secondaryRole": "ASSASSIN",
+    "resource": "HEALTH",
+    "names": [
+      "狗死了是他的命",
+      "星爆气流斩",
+      "一口三根巧乐兹",
+      "你跑不过我你信不信",
+      "利刃巧乐兹"
+    ],
+    "costs": {
+      "Q": 0.04,
+      "W": 0,
+      "EActivation": 0.02,
+      "EPerSecond": 0.01,
+      "R": 0.15
+    },
+    "WCooldown": [
+      32,
+      30,
+      28,
+      26,
+      24
+    ],
+    "base": {
+      "hp_base": 690,
+      "hp_growth": 110,
+      "ad_base": 66,
+      "ad_growth": 4.5,
+      "armor_base": 36,
+      "armor_growth": 4.7,
+      "mr_base": 32,
+      "mr_growth": 2,
+      "as_base": 0.65,
+      "as_ratio": 0.65,
+      "as_growth": 0.025,
+      "hp_regen_base": 8,
+      "hp_regen_growth": 0.8,
+      "mana_base": 0,
+      "mana_growth": 0,
+      "mana_regen_base": 0,
+      "mana_regen_growth": 0,
+      "ap_base": 0,
+      "move_speed": 218,
+      "attack_range": 175,
+      "resource_type": "HEALTH",
+      "uses_mana": 0,
+      "uses_energy": 0,
+      "health_cost_can_kill": 0,
+      "health_cost_ignores_shields": 1,
+      "hero_name": "雪峰"
+    }
+  },
+  "model": {
+    "kind": "Original Three.js articulated Bone/Skeleton rigid mesh rig",
+    "source": "src/xuefeng-model-v17.js",
+    "reference": "dist/assets/heroes/xuefeng-reference.jpg",
+    "weapon": "Hand-bone-bound chocolate/nut icecream greatsword",
+    "threeFoodProps": true,
+    "batching": true,
+    "verified": "CPU actual Three.js geometry and animation transforms; no GPU screenshot"
+  },
+  "workbook": {
+    "addedRows": 124,
+    "preservedAllExistingCells": true,
+    "hashes": [
+      {
+        "file": "C:/Users/HLT/Documents/Codex/2026-10-25/ban/work/rift-arena/config/MOBA_Config_V9_1.xlsx",
+        "sha256": "4d325c39cc44fdaafbdc9640f3d514e17ec8cfecdfc1aeb24430422dabd452e6"
+      },
+      {
+        "file": "C:/Users/HLT/Desktop/MOBA_Config_V9_1.xlsx",
+        "sha256": "4d325c39cc44fdaafbdc9640f3d514e17ec8cfecdfc1aeb24430422dabd452e6"
+      },
+      {
+        "file": "C:\\Users\\HLT\\Documents\\Codex\\2026-10-25\\ban\\outputs\\v17-1-xuefeng/MOBA_Config_V17_1.xlsx",
+        "sha256": "4d325c39cc44fdaafbdc9640f3d514e17ec8cfecdfc1aeb24430422dabd452e6"
+      }
+    ]
+  },
+  "stress": {
+    "measurement": "Node CPU fixed-step simulation; no measured browser FPS or GPU frame timing",
+    "heroes": 12,
+    "activeXuefengHeroes": 10,
+    "stationaryTargets": 2,
+    "scenario": "Training health/cooldown refresh; active actors shielded and CC-immune to exercise full timelines",
+    "simulatedSeconds": 38,
+    "ticks": 1800,
+    "p50Ms": 0.5657999999999674,
+    "p95Ms": 1.330000000000041,
+    "p99Ms": 5.481599999999844,
+    "maxMs": 27.41300000000001,
+    "peak": {
+      "fields": 10,
+      "visuals": 27,
+      "vitals": 60
+    },
+    "counts": {
+      "Q": 180,
+      "R": 240,
+      "costs": 18130,
+      "fields": 60
+    },
+    "aliveActors": 10,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 1,
+      "spatialVisited": 279460,
+      "pooledProjectiles": 0,
+      "projectilesCreated": 0,
+      "projectilesReused": 0
+    },
+    "temporalDiagnostics": 0
+  },
+  "browser": {
+    "verified": false,
+    "averageFps": null,
+    "onePercentLowFps": null,
+    "p95FrameMs": null,
+    "p99FrameMs": null,
+    "gpuFrameMs": null,
+    "touchVerified": false,
+    "reason": "Both cua_repl and node_repl initialization failed to write kernel assets: system cannot find path (os error 3). CPU step measurements are not device FPS."
+  },
+  "rollback": {
+    "commit": "0b6bcea124e5731e70710e78c66f5ad786706302",
+    "savedVersion": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_b60905ebf61c8191828a6f99aac8347b"
+  }
+}
