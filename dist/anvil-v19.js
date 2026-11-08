@@ -109,6 +109,7 @@ window.installAnvil=function(m,env){
  m.registerBehavior(ID,(u,c,skill,e)=>{if(c.i===0)startQ(u,c,e);else if(c.i===1)startW(u,c);else if(c.i===2)startE(u,c,e);else if(c.i===3)startR(u,c,e)},{attackTiming:{windup:.24,recovery:.25}});
 
  m.heroHooks[ID]={
+  isMelee:()=>true,
   tick(u,dt){let s=S(u);tickQ(u);if(u.resourceType==='ENERGY'&&dt>0)gain(u,P.BASE.energy_regen*dt);
    if(s.leap&&now()>=s.leap.end){let l=s.leap;s.leap=null;u.anvilLift=null;landE(u,l);s.lockUntil=now()+P.E.backswing}
    if(s.flight){let f=s.flight;u.untargetable=1;u.invulnerable=Math.max(u.invulnerable||0,.1);if(!f.descending&&now()>=f.start+P.R.flight-P.R.descent)startDescent(u);if(f.descending){u.x=f.x;u.y=f.y}if(f.descending&&now()>=f.land){s.flight=null;landR(u,f);s.lockUntil=now()+P.R.backswing}}
