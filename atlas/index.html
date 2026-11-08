@@ -1,285 +1,608 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>文明沙盘</title>
 <style>
-:root{--bg:#f4efe4;--panel:#fffaf0;--ink:#2b2418;--muted:#7a6d58;--line:#d8ccb4;--acc:#9a3b1e}
-@media (prefers-color-scheme:dark){:root{--bg:#16140f;--panel:#211e17;--ink:#ece3cf;--muted:#a89a80;--line:#3a3428;--acc:#e0855e}}
+:root{--bg:#f4efe4;--panel:#fffaf0;--ink:#2b2418;--muted:#7a6d58;--line:#d8ccb4;--acc:#9a3b1e;--good:#2f7a3a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16140f;--panel:#211e17;--ink:#ece3cf;--muted:#a89a80;--line:#3a3428;--acc:#e0855e;--good:#7fc48a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16140f;--panel:#211e17;--ink:#ece3cf;--muted:#a89a80;--line:#3a3428;--acc:#e0855e;--good:#7fc48a;color-scheme:dark}
+html{height:100%}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Noto Serif SC","Songti SC",serif;display:flex;flex-direction:column;height:100vh}
-header{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-header h1{font-size:18px;margin:0 12px 0 0;color:var(--acc)}
-input,select,button{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:3px 8px}
-button{cursor:pointer}button:hover{border-color:var(--acc)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Noto Serif SC","Songti SC",serif;display:flex;flex-direction:column;height:100%;overflow:hidden}
+header{display:flex;gap:6px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:18px;margin:0 8px 0 0;color:var(--acc)}
+.grp{display:flex;gap:4px;align-items:center;padding-right:8px;border-right:1px solid var(--line)}
+input,select,button,textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:2px 7px}
+button{cursor:pointer}button:hover{border-color:var(--acc)}button.on{background:var(--acc);color:#fff}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
 main{flex:1;display:flex;min-height:0}
-aside{width:300px;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:var(--panel)}
-aside h2{font-size:14px;margin:8px 10px 4px;color:var(--muted)}
-#nations,#chron{overflow:auto;padding:0 10px}
-#nations{max-height:35%}#chron{flex:1}
+aside{width:320px;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:var(--panel)}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;border-radius:0;background:none;padding:6px 0}
+.tabs button.on{background:var(--bg);color:var(--acc);border-bottom:2px solid var(--acc)}
+.pane{flex:1;overflow:auto;padding:6px 10px;display:none}.pane.on{display:block}
 .nat{display:flex;gap:6px;align-items:center;padding:2px 4px;cursor:pointer;border-radius:3px}
 .nat:hover,.nat.sel{background:var(--line)}
 .sw{width:12px;height:12px;border-radius:2px;flex:none}
 .ev{padding:3px 0;border-bottom:1px dashed var(--line);cursor:pointer;font-size:13px}
 .ev b{color:var(--acc);font-weight:normal;margin-right:4px}
-#mapwrap{flex:1;position:relative;min-width:0}
-canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
-#info{position:absolute;right:10px;top:10px;background:var(--panel);border:1px solid var(--line);padding:8px 10px;border-radius:6px;max-width:260px;font-size:13px;display:none}
-footer{display:flex;gap:10px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
-#tl{flex:1}
-#year{min-width:90px;font-weight:bold}
+.muted{color:var(--muted);font-size:12px}
+.row{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:4px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin:6px 0;background:var(--bg)}
+.pl{cursor:pointer;text-decoration:underline dotted}
+#mapwrap{flex:1;position:relative;min-width:0;cursor:grab}
+#mapwrap.paint{cursor:crosshair}
+canvas{width:100%;height:100%;display:block}
+#info{position:absolute;right:10px;top:10px;background:var(--panel);border:1px solid var(--line);padding:8px 10px;border-radius:6px;width:270px;max-height:calc(100% - 20px);overflow:auto;font-size:13px;display:none}
+#info .x,#modal .x{float:right;cursor:pointer;color:var(--muted)}
+#editbar{position:absolute;left:10px;top:10px;background:var(--panel);border:1px solid var(--line);padding:6px 8px;border-radius:6px;display:none;font-size:13px}
+#toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--acc);padding:4px 12px;border-radius:14px;display:none}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:9}
+#modal>div{background:var(--panel);border-radius:8px;padding:14px 18px;max-width:min(900px,94vw);max-height:86vh;overflow:auto}
+.tree ul{list-style:none;padding-left:18px;margin:0;border-left:1px solid var(--line)}
+.tree>ul{border:0;padding:0}
+.tree li{margin:3px 0}
+.tree .r{display:inline-block;border:1px solid var(--acc);border-radius:4px;padding:0 6px;cursor:pointer}
+.tree .r.ph{border-style:dashed;border-color:var(--muted);color:var(--muted)}
+.tree .r i{font-style:normal;background:var(--acc);color:#fff;border-radius:8px;padding:0 5px;margin-right:4px;font-size:11px}
+footer{display:flex;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line)}
+#tl{flex:1;min-width:60px}
+#year{min-width:96px;font-weight:bold}
 #prog{color:var(--muted)}
-@media (max-width:760px){main{flex-direction:column-reverse}aside{width:100%;height:40%}}
+@media (max-width:800px){main{flex-direction:column-reverse}aside{width:100%;height:45%}header .grp{border:0}}
+#cmd{width:100%;min-height:70px;resize:vertical}
+.hint{font-size:12px;color:var(--muted);line-height:1.6}
 </style>
-</head>
-<body>
 <header>
  <h1>文明沙盘</h1>
- 种子 <input id="seed" size="8" value="2024">
- 年数 <select id="years"><option>500</option><option selected>1000</option><option>2000</option></select>
- 国数 <input id="ncivs" type="number" value="14" min="2" max="40" style="width:56px">
- <button id="gen">生成世界</button>
- 图层 <select id="layer">
+ <span class="grp">地图种子<input id="seed" size="6" value="2024">文明种子<input id="cseed" size="6" value="1"></span>
+ <span class="grp">年数<select id="years"><option>500</option><option selected>1000</option><option>2000</option></select>
+ 民族<input id="ncivs" type="number" value="14" min="2" max="40" style="width:50px">
+ 板块<input id="nplates" type="number" value="14" min="4" max="30" style="width:50px"></span>
+ <button id="gen" class="pri">生成世界</button>
+ <button id="edit">✎ 编辑地形</button>
+ <span class="grp">图层<select id="layer">
   <option value="pol">政区</option><option value="eth">民族</option><option value="rel">信仰</option><option value="bio">生态</option>
-  <option value="ele">高程</option><option value="tmp">气温</option><option value="rain">降水</option>
- </select>
- <label><input type="checkbox" id="labels" checked>国名</label>
+  <option value="plate">板块</option><option value="ele">高程</option><option value="tmp">气温</option><option value="rain">降水</option></select>
+ <select id="proj"><option value="globe">地球仪</option><option value="flat">平面</option></select>
+ <label><input type="checkbox" id="labels" checked>国名</label></span>
+ <button id="save">存档码</button><button id="load">读档</button>
+ <button id="png">导出图片</button><button id="md">导出编年史</button>
+ 
  <span id="prog"></span>
 </header>
 <main>
  <aside>
-  <h2>国家（当年）</h2><div id="nations"></div>
-  <h2>编年史 <select id="filter"><option value="">全部</option></select></h2><div id="chron"></div>
+  <div class="tabs"><button data-t="nations" class="on">国家</button><button data-t="chron">编年史</button><button data-t="people">人物</button><button data-t="outline">大纲</button><button data-t="play">降临</button></div>
+  <div class="pane on" id="p-nations"></div>
+  <div class="pane" id="p-chron"><div class="row">筛选 <select id="filter"><option value="">全部</option></select></div><div id="chron"></div></div>
+  <div class="pane" id="p-people"></div>
+  <div class="pane" id="p-outline">
+   <div class="muted">一条条写下「哪一年、哪国、发生什么」，点「照大纲推演」：没有自然发生的情节会在那一年硬改过来。</div>
+   <div class="card">
+    <div class="row">年份<input id="o-y" type="number" value="300" step="5" style="width:70px">国家<select id="o-n"></select></div>
+    <div class="row">事件<select id="o-t"><option value="protect">得天庇佑（保护）</option><option value="collapse">灭亡</option><option value="war">向…宣战</option><option value="peace">与…议和</option><option value="ally">与…结盟</option><option value="split">分裂</option><option value="disaster">天灾</option><option value="kill">君主驾崩</option></select></div>
+    <div class="row">目标<select id="o-g"></select><button id="o-add">添加</button></div>
+   </div>
+   <div id="o-list"></div>
+   <button id="o-run" class="pri">照大纲推演</button>
+  </div>
+  <div class="pane" id="p-play"></div>
  </aside>
- <div id="mapwrap"><canvas id="cv"></canvas><div id="info"></div></div>
+ <div id="mapwrap"><canvas id="cv"></canvas>
+  <div id="editbar">画笔 <select id="brush"><option value="1">陆地</option><option value="2">海洋</option><option value="3">山脉</option><option value="4">丘陵</option><option value="0">擦除</option></select>
+   大小 <input id="bsize" type="range" min="1" max="12" value="4" style="width:80px">
+   <button id="sk-apply" class="pri">按草图重建</button> <button id="sk-clear">清空草图</button>
+   <div class="muted">在地图上拖动涂画；地球仪模式下按住 Shift 拖动可旋转。</div></div>
+  <div id="info"></div><div id="toast"></div>
+ </div>
 </main>
 <footer>
  <button id="play">▶ 播放</button><span id="year"></span><input type="range" id="tl" min="0" max="0" value="0">
- <button id="pro" title="保护选中国家，并从当前年份重新推演">保护并重演</button>
- <button id="war" title="让选中国家向最强邻国宣战并重演">宣战并重演</button>
+ <span class="muted" id="mods"></span>
 </footer>
+<div id="modal"><div><span class="x" onclick="closeModal()">✕</span><div id="mbody"></div></div></div>
 <script>
 "use strict";
-// ---------- 随机数与噪声 ----------
+// ================= 基础 =================
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function hashStr(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
-const W=240,H=120,N=W*H,STEP=5;
-let R;
-function makeNoise(rnd){const p=new Float32Array(4096).map(()=>rnd());
- return(x,y,per)=>{ // 周期性值噪声，x 方向按 per 环绕
-  const xi=Math.floor(x),yi=Math.floor(y),fx=x-xi,fy=y-yi,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
-  const g=(i,j)=>p[(((i%per)+per)%per*131+j*977)&4095];
-  const a=g(xi,yi),b=g(xi+1,yi),c=g(xi,yi+1),d=g(xi+1,yi+1);
-  return a+(b-a)*sx+(c-a)*sy+(a-b-c+d)*sx*sy}}
-function fbm(n,x,y,oct,base){let s=0,amp=1,tot=0,per=base;for(let o=0;o<oct;o++){s+=amp*n(x*per/W,y*per/W,per);tot+=amp;amp*=.5;per*=2}return s/tot}
-// ---------- 名字 ----------
-const SY={
- 中原:"安平宁康乾坤华夏汉唐宋明晋魏燕赵齐楚秦韩吴越蜀梁陈隋周商".split(""),
- 北境:"阿兰拔都哈喀图克鲁蒙兀赤察罕斡尔巴特勒铁木朵".split(""),
- 西域:"萨珊波斯伊兰塔吉德拉米亚帕提阿卡迪苏玛".split(""),
- 帝国:"罗马维特斯卢奥古斯克劳底亚瓦伦提努塞尔".split("")};
+const W=240,H=120,N=W*H,STEP=5,PI=Math.PI;
+const $=id=>document.getElementById(id);
+const pick=(r,a)=>a[r()*a.length|0];
+// 球面坐标
+const P=new Float32Array(N*3),LAT=new Float32Array(N),LON=new Float32Array(N);
+for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,la=(.5-(y+.5)/H)*PI,lo=(x+.5)/W*2*PI;LAT[i]=la;LON[i]=lo;P[i*3]=Math.cos(la)*Math.cos(lo);P[i*3+1]=Math.cos(la)*Math.sin(lo);P[i*3+2]=Math.sin(la)}
+const NB=[];for(let i=0;i<N;i++){const x=i%W,y=i/W|0,r=[];
+ for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const yy=y+dy;if(yy<0||yy>=H){r.push((y)*W+(x+W/2)%W);continue}r.push(yy*W+((x+dx+W)%W))}
+ if(y>0&&y<H-1&&Math.abs(LAT[i])>1.2){r.push(y*W+(x+2)%W,y*W+(x-2+W)%W)} // 高纬地块横向更近
+ NB[i]=r}
+const nb=i=>NB[i];
+const dot=(i,j)=>P[i*3]*P[j*3]+P[i*3+1]*P[j*3+1]+P[i*3+2]*P[j*3+2];
+const cdist=(i,j)=>Math.acos(Math.max(-1,Math.min(1,dot(i,j))))*H/PI; // 以“格”为单位的大圆距离
+// 3D 值噪声
+function h3(i,j,k,s){let h=Math.imul(i,374761393)^Math.imul(j,668265263)^Math.imul(k,1440662683)^s;h=Math.imul(h^h>>>13,1274126177);h^=h>>>16;return(h>>>0)/4294967296}
+function noise3(x,y,z,s){const xi=Math.floor(x),yi=Math.floor(y),zi=Math.floor(z);let fx=x-xi,fy=y-yi,fz=z-zi;fx=fx*fx*(3-2*fx);fy=fy*fy*(3-2*fy);fz=fz*fz*(3-2*fz);
+ const L=(a,b,t)=>a+(b-a)*t,c=(a,b,d)=>h3(xi+a,yi+b,zi+d,s);
+ return L(L(L(c(0,0,0),c(1,0,0),fx),L(c(0,1,0),c(1,1,0),fx),fy),L(L(c(0,0,1),c(1,0,1),fx),L(c(0,1,1),c(1,1,1),fx),fy),fz)}
+function fbm3(i,s,oct,f){let t=0,a=1,n=0;for(let o=0;o<oct;o++){t+=a*noise3(P[i*3]*f+7,P[i*3+1]*f+7,P[i*3+2]*f+7,s+o*101);n+=a;a*=.5;f*=2}return t/n}
+// ================= 名字 =================
+const SY={中原:"安平宁康乾坤华夏汉唐宋明晋魏燕赵齐楚秦韩吴越蜀梁陈隋周商".split(""),北境:"阿兰拔都哈喀图克鲁蒙兀赤察罕斡尔巴特勒铁木朵".split(""),
+ 西域:"萨珊波斯伊兰塔吉德拉米亚帕提阿卡迪苏玛".split(""),江南:"苏杭湖越吴会稽钱塘临安姑江陵扬润".split(""),帝国:"罗马维特斯卢奥古斯克劳底亚瓦伦提努塞尔".split("")};
 const STYLES=Object.keys(SY);
-function nameOf(rnd,style,len){const s=SY[style];let r="";for(let i=0;i<len;i++)r+=s[rnd()*s.length|0];return r}
-const SURN="李王张刘陈杨赵黄周吴徐孙胡朱高林何郭马罗梁宋郑谢韩唐冯".split(""),GIV="德仁文武昭宣明成景康和平安泰元光英睿弘靖".split("");
+const nameOf=(r,st,len)=>{let s="";for(let i=0;i<len;i++)s+=pick(r,SY[st]);return s};
+const SURN="李王张刘陈杨赵黄周吴徐孙胡朱高林何郭马罗梁宋郑谢韩唐冯萧裴崔卢".split(""),GIV="德仁文武昭宣明成景康和平安泰元光英睿弘靖玄承嗣恭敬懿".split("");
+const ZI2="之卿甫叔伯仲远达臣如度谋".split("");
 const TITLE=["王国","帝国","汗国","公国","侯国","共和国","王朝","联邦"];
-// ---------- 地图 ----------
-let world;
-function genWorld(seed){
- const rnd=mulberry(hashStr(seed)),nz=makeNoise(rnd),nz2=makeNoise(rnd),nz3=makeNoise(rnd);
- const ele=new Float32Array(N),tmp=new Float32Array(N),rain=new Float32Array(N),bio=new Uint8Array(N),hab=new Float32Array(N);
- for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,lat=Math.abs(y-H/2)/(H/2);
-  let e=fbm(nz,x,y,6,3)*1.15+ (fbm(nz2,x,y,3,2)-.5)*.6 -lat*lat*.25; // 大陆+极地收缩
-  const ridge=1-Math.abs(fbm(nz3,x,y,4,4)*2-1); e+=Math.max(0,e-.52)*ridge*.9;
-  ele[i]=e}
- // 海平面取 60% 分位
- const sorted=Array.from(ele).sort((a,b)=>a-b),sea=sorted[N*.6|0],top=sorted[N-1];
- for(let i=0;i<N;i++)ele[i]=ele[i]<sea?(ele[i]-sea)/(sea-sorted[0]):(ele[i]-sea)/(top-sea);
- // 降水：自西向东/东向西（按纬度风带）的水汽输送
- for(let y=0;y<H;y++){const lat=Math.abs(y-H/2)/(H/2),dir=(lat<.33||lat>.66)?-1:1;
-  const base=lat<.12?1.2:lat<.33?.6:lat<.6?1:.6;let moist=1;
+const OFFICE=["丞相","太尉","御史大夫","尚书令","中书令","太傅","司徒","大司马"];
+const TERR=["","陆地","海洋","山脉","丘陵"];
+// ================= 世界生成：板块 + 气候 =================
+let world,sketch=new Uint8Array(N);
+function genWorld(seed,nplates){
+ const rnd=mulberry(hashStr(seed)),s0=hashStr(seed+"n")|0;
+ const K=nplates,cen=[],vel=[],cont=[];
+ for(let k=0;k<K;k++){const z=rnd()*2-1,t=rnd()*2*PI,r=Math.sqrt(1-z*z);const c=[r*Math.cos(t),r*Math.sin(t),z];cen.push(c);
+  const ax=[rnd()-.5,rnd()-.5,rnd()-.5],v=[c[1]*ax[2]-c[2]*ax[1],c[2]*ax[0]-c[0]*ax[2],c[0]*ax[1]-c[1]*ax[0]],m=Math.hypot(...v)||1,sp=.3+rnd()*1.2;
+  vel.push(v.map(q=>q/m*sp));cont.push(rnd()<.42)}
+ const plate=new Uint8Array(N),base=new Float32Array(N),ele=new Float32Array(N);
+ for(let i=0;i<N;i++){const wx=P[i*3]+(fbm3(i,s0+1,3,2)-.5)*.6,wy=P[i*3+1]+(fbm3(i,s0+2,3,2)-.5)*.6,wz=P[i*3+2]+(fbm3(i,s0+3,3,2)-.5)*.6;
+  let b=0,bd=-9;for(let k=0;k<K;k++){const d=wx*cen[k][0]+wy*cen[k][1]+wz*cen[k][2];if(d>bd){bd=d;b=k}}plate[i]=b;base[i]=cont[b]?.35:-.45}
+ // 板块边界：汇聚造山、俯冲成海沟、离散成洋中脊/裂谷
+ let bnd=new Float32Array(N);
+ for(let i=0;i<N;i++)for(const j of nb(i)){const a=plate[i],b=plate[j];if(a===b)continue;
+  const d=[P[j*3]-P[i*3],P[j*3+1]-P[i*3+1],P[j*3+2]-P[i*3+2]],m=Math.hypot(...d)||1;
+  const conv=((vel[a][0]-vel[b][0])*d[0]+(vel[a][1]-vel[b][1])*d[1]+(vel[a][2]-vel[b][2])*d[2])/m;
+  let e;if(conv>0)e=cont[a]&&cont[b]?conv*1.3:cont[a]?conv*.9:cont[b]?-conv*.5:conv*.45;else e=cont[a]?conv*.35:-conv*.25;
+  bnd[i]+=e/2}
+ for(let it=0;it<5;it++){const nb2=new Float32Array(N);for(let i=0;i<N;i++){let s=0;for(const j of nb(i))s+=bnd[j];nb2[i]=bnd[i]*.55+s/nb(i).length*.45}bnd=nb2}
+ for(let it=0;it<4;it++){const b2=base.slice();for(let i=0;i<N;i++){let s=0;for(const j of nb(i))s+=base[j];b2[i]=base[i]*.4+s/nb(i).length*.6}base.set(b2)}
+ for(let i=0;i<N;i++){const ridge=1-Math.abs(fbm3(i,s0+9,4,4)*2-1);
+  ele[i]=base[i]+bnd[i]*1.6*(.6+ridge*.6)+(fbm3(i,s0+5,6,2.2)-.5)*.75-Math.max(0,Math.abs(LAT[i])-1.25)*.4}
+ const so=Float32Array.from(ele).sort(),sea=so[N*.62|0],lo=so[0],hi=so[N-1];
+ for(let i=0;i<N;i++)ele[i]=ele[i]<sea?(ele[i]-sea)/(sea-lo):(ele[i]-sea)/(hi-sea);
+ // 草图覆盖
+ for(let i=0;i<N;i++){const s=sketch[i];if(!s)continue;const n=fbm3(i,s0+7,3,6);
+  if(s===1)ele[i]=Math.max(ele[i],.04+n*.18);else if(s===2)ele[i]=Math.min(ele[i],-.25-n*.3);else if(s===3)ele[i]=Math.max(ele[i],.6+n*.35);else if(s===4)ele[i]=Math.max(ele[i],.3+n*.2)}
+ // 气温、降水（三圈环流风带输送水汽，迎风坡多雨、背风雨影）
+ const tmp=new Float32Array(N),rain=new Float32Array(N),bio=new Uint8Array(N),hab=new Float32Array(N);
+ for(let y=0;y<H;y++){const lat=Math.abs((.5-(y+.5)/H)*2),dir=(lat<.33||lat>.66)?-1:1,bs=lat<.12?1.2:lat<.33?.6:lat<.66?1:.55;let mo=1;
   for(let k=0;k<W*2;k++){const x=((dir>0?k:-k)%W+W)%W,i=y*W+x;
-   if(ele[i]<0)moist=Math.min(1,moist+.08);else{const loss=.006+Math.max(0,ele[i])*.06;moist=Math.max(0,moist-loss)}
-   if(k>=W)rain[i]=Math.min(1,moist*base*(.7+.6*fbm(nz2,x+50,y,3,6)))}
+   if(ele[i]<0)mo=Math.min(1,mo+.08);else mo=Math.max(0,mo-.006-Math.max(0,ele[i])*.06);
+   if(k>=W)rain[i]=Math.min(1,mo*bs*(.7+.6*fbm3(i,s0+11,3,5)))}
   for(let x=0;x<W;x++){const i=y*W+x;tmp[i]=1-lat*1.15-Math.max(0,ele[i])*.55}}
  for(let i=0;i<N;i++){const e=ele[i],t=tmp[i],r=rain[i];let b;
-  if(e<0)b=e<-.35?0:1; else if(t<.05)b=2; else if(e>.65)b=3; else if(t<.25)b=r>.3?4:5;
-  else if(r<.15)b=6; else if(r<.35)b=7; else if(t>.7&&r>.6)b=9; else b=8;
-  bio[i]=b; hab[i]=[0,0,0,.05,.25,.15,.05,.7,1,.55][b]}
- // 河流：从高处下降最陡，累积流量
+  if(e<0)b=e<-.35?0:1;else if(t<.05)b=2;else if(e>.65)b=3;else if(t<.25)b=r>.3?4:5;else if(r<.15)b=6;else if(r<.35)b=7;else if(t>.7&&r>.6)b=9;else b=8;
+  if(e<0&&t<-.05)b=2;bio[i]=b;hab[i]=[0,0,0,.05,.25,.15,.05,.7,1,.55][b]}
  const flow=new Float32Array(N),ord=[...Array(N).keys()].filter(i=>ele[i]>0).sort((a,b)=>ele[b]-ele[a]);
- const down=new Int32Array(N).fill(-1);
- for(const i of ord){flow[i]+=rain[i];let best=-1,be=ele[i];for(const j of nb(i))if(ele[j]<be){be=ele[j];best=j}down[i]=best;if(best>=0)flow[best]+=flow[i]}
- const river=new Uint8Array(N);for(let i=0;i<N;i++)if(ele[i]>0&&flow[i]>18){river[i]=1;hab[i]=Math.min(1.3,hab[i]+.4)}
- for(let i=0;i<N;i++)if(ele[i]>0)for(const j of nb(i))if(ele[j]<0){hab[i]+=.15;break}
- // 物产
- const res=new Uint8Array(N);for(let i=0;i<N;i++)if(ele[i]>0){const q=rnd();if(q<.02)res[i]=1;else if(q<.035&&ele[i]>.35)res[i]=2;else if(q<.05&&bio[i]==7)res[i]=3}
- return{ele,tmp,rain,bio,hab,river,flow,res,seed}}
-const nbCache=[];
-function nb(i){if(nbCache[i])return nbCache[i];const x=i%W,y=i/W|0,r=[];
- for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const yy=y+dy;if(yy<0||yy>=H)continue;r.push(yy*W+((x+dx+W)%W))}return nbCache[i]=r}
-// ---------- 历史推演 ----------
-let hist; // {snaps:[{own,eth,rel}], nations:[], events:[], years}
-function simulate(seed,years,ncivs,mods){
- const rnd=mulberry(hashStr(seed+"civ")),w=world;
- const own=new Int16Array(N).fill(-1),eth=new Int16Array(N).fill(-1),rel=new Int8Array(N).fill(-1);
- const nations=[],ethnics=[],religions=[],events=[],snaps=[];
- const log=(y,type,text,nat,cell)=>events.push({y,type,text,nat,cell});
+ for(const i of ord){flow[i]+=rain[i];let best=-1,be=ele[i];for(const j of nb(i))if(ele[j]<be){be=ele[j];best=j}if(best>=0)flow[best]+=flow[i]}
+ const river=new Uint8Array(N);for(let i=0;i<N;i++)if(ele[i]>0&&flow[i]>16&&bio[i]!==2){river[i]=1;hab[i]=Math.min(1.3,hab[i]+.4)}
+ for(let i=0;i<N;i++)if(ele[i]>0&&nb(i).some(j=>ele[j]<0))hab[i]+=.15;
+ return{ele,tmp,rain,bio,hab,river,plate,seed}}
+// ================= 历史推演 =================
+let S,mods=[],playing=false;
+function Sim(seed,ncivs,mods){
+ const rnd=mulberry(hashStr(seed+"#civ")),w=world;
+ const own=new Int16Array(N).fill(-1),eth=new Int8Array(N).fill(-1),rel=new Int8Array(N).fill(-1);
+ const S={t:0,dts:[],playPid:null,playDead:false,own,eth,rel,nations:[],ethnics:[],religions:[],events:[],snaps:[],people:[],wars:new Map(),allies:new Set(),contact:new Map(),mods};
+ const {nations,people,wars,allies}=S;
+ mods.forEach(m=>delete m.res);
+ const key=(a,b)=>a<b?a+"-"+b:b+"-"+a;
+ const log=(y,type,text,nat,cell,pp)=>S.events.push({y,t:S.t,type,text,nat,cell,pp});
  const land=[];for(let i=0;i<N;i++)if(w.hab[i]>.5)land.push(i);
- function newRuler(n,y,founder){const r={name:(founder?n.surname:n.surname)+GIV[rnd()*GIV.length|0]+GIV[rnd()*GIV.length|0],from:y};n.rulers.push(r);return r}
+ // ---- 人物 ----
+ const person=o=>{o.id=people.length;o.bio=[];o.zi="字"+pick(rnd,GIV)+pick(rnd,ZI2);people.push(o);return o};
+ const gname=sur=>sur+pick(rnd,GIV)+(rnd()<.6?pick(rnd,GIV):"");
+ const bio=(id,y,t)=>{if(id!=null&&id>=0)people[id].bio.push([y,t])};
+ const pn=id=>id!=null&&id>=0?people[id].name:"";
+ function crown(n,y,o={}){const ord=n.rulers.filter(id=>people[id].dyn===n.dynasty).length+1;
+  const p=person({name:o.name||gname(n.surname),role:"君主",nat:n.id,born:y-(o.age??(8+rnd()*30|0)),from:y,to:null,father:o.father??null,dyn:n.dynasty,ord,origin:n.cityName,player:!!o.player});
+  bio(p.id,y,`${o.how||"继位"}，为${n.name}第${n.dynasty}朝第${ord}位君主。`);n.rulers.push(p.id);n.ruler=p.id;
+  if(y-p.born<15&&n.mins.length){const m=n.mins[0];bio(m,y,`幼主${p.name}即位，受遗诏辅政。`);log(y,"辅政",`${n.name}幼主${p.name}即位，${OFFICENAME(m)}${pn(m)}辅政。`,n.id,n.cap,[p.id,m])}
+  return p}
+ const OFFICENAME=id=>people[id].title||"";
+ function appointMin(n,y){const p=person({name:gname(pick(rnd,SURN)),role:"名臣",title:pick(rnd,OFFICE),nat:n.id,born:y-(25+rnd()*20|0),from:y,to:null,dyn:n.dynasty,origin:nameOf(rnd,n.style,2)});
+  bio(p.id,y,`拜${p.title}，入${n.name}朝。`);n.mins.push(p.id);return p.id}
+ function general(n,y){if(n.gen>=0&&people[n.gen].to===null)return n.gen;
+  const p=person({name:gname(rnd<.5?n.surname:pick(rnd,SURN)),role:"将领",title:pick(rnd,["大将军","骠骑将军","车骑将军","征西将军","镇北将军"]),nat:n.id,born:y-(22+rnd()*20|0),from:y,to:null,dyn:n.dynasty,origin:nameOf(rnd,n.style,2)});
+  bio(p.id,y,`受命为${p.title}。`);n.gen=p.id;return p.id}
  function newNation(cell,y,parent,ethId){
-  const style=ethId>=0?ethnics[ethId].style:STYLES[rnd()*STYLES.length|0];
+  const style=ethId>=0&&S.ethnics[ethId]?S.ethnics[ethId].style:pick(rnd,STYLES);
   const id=nations.length,hue=(id*137.5+rnd()*30)%360;
-  const n={id,name:nameOf(rnd,style,1+(rnd()<.5?1:0))+TITLE[rnd()*TITLE.length|0],style,color:`hsl(${hue|0},${50+rnd()*25|0}%,${45+rnd()*15|0}%)`,
-   cap:cell,born:y,died:null,alive:true,aggr:.3+rnd()*.7,cells:0,surname:SURN[rnd()*SURN.length|0],rulers:[],dynasty:1,parent,cityName:nameOf(rnd,style,2)+"城",protected:false,forceWar:null};
-  newRuler(n,y,true);nations.push(n);own[cell]=id;return n}
- // 民族
- for(let k=0;k<ncivs;k++){const c=land[rnd()*land.length|0];const st=STYLES[k%STYLES.length];
-  ethnics.push({id:k,name:nameOf(rnd,st,2)+"人",style:st,hue:(k*67)%360});eth[c]=k;
-  const n=newNation(c,0,null,k);log(0,"立国",`${ethnics[k].name}于${n.cityName}立国，号「${n.name}」，${n.rulers[0].name}为始君。`,n.id,c)}
- // 民族初步扩散
+  const n={id,name:nameOf(rnd,style,1+(rnd()<.5?1:0))+pick(rnd,TITLE),style,color:`hsl(${hue|0},${50+rnd()*25|0}%,${45+rnd()*15|0}%)`,
+   cap:cell,born:y,died:null,alive:true,aggr:.3+rnd()*.7,dev:0,policy:"均衡",cells:1,surname:pick(rnd,SURN),rulers:[],ruler:-1,mins:[],gen:-1,dynasty:1,parent,
+   cityName:nameOf(rnd,style,2)+"城",protected:false,forceWar:false,player:false,stab:0};
+  nations.push(n);own[cell]=id;appointMin(n,y);crown(n,y,{how:"开国称君",age:25+rnd()*20|0});return n}
+ function rulerDies(n,y,cause){const r=people[n.ruler];if(!r)return;r.to=y;r.died=y;r.death=cause;bio(r.id,y,`${cause}，在位${y-r.from}年，享年${y-r.born}岁。`);
+  const mins=n.mins.filter(id=>people[id].to===null&&id!==S.playPid);
+  if(!n.protected&&!n.player&&mins.length&&rnd()<.07){usurp(n,people[mins[0]],y,`${r.name}${cause}，`);return}
+  const q=rnd();let p;
+  if(q<.72)p=crown(n,y,{father:r.id,how:`父${r.name}${cause}，以子继位`});
+  else if(q<.88&&r.father!=null)p=crown(n,y,{father:r.father,how:`兄${r.name}${cause}，以弟继位`});
+  else{const ph=person({name:gname(n.surname),role:"宗室",nat:n.id,born:r.born-(rnd()*6|0),from:null,to:null,father:r.father,dyn:n.dynasty,phantom:true});bio(ph.id,y,"宗室，未曾即位。");
+   p=crown(n,y,{father:ph.id,how:`${r.name}${cause}无嗣，以宗室入继`})}
+  if(r.id===S.playPid){S.playPid=p.id;p.player=true;bio(p.id,y,"承袭天命，由你继续执掌。");log(y,"降临",`天命转至${n.name}新君${p.name}。`,n.id,n.cap,[p.id])}
+  log(y,"继位",`${n.name}${r.name}${cause}，${p.name}继位。`,n.id,n.cap,[r.id,p.id])}
+ function destroy(n,y,by,how){if(!n.alive)return;n.alive=false;n.died=y;for(let i=0;i<N;i++)if(own[i]===n.id)own[i]=by?by.id:-1;
+  const r=people[n.ruler];if(r&&r.to===null){r.to=y;r.died=y;r.death="亡国";bio(r.id,y,`国亡${by?"于"+by.name:""}，不知所终。`)}
+  n.mins.forEach(id=>{if(people[id].to===null){people[id].to=y;bio(id,y,`${n.name}亡，${rnd()<.5?"殉国":"归隐"}。`)}});
+  log(y,"灭亡",`${n.name}${how||"亡"}${by?"于"+by.name:""}，享国${y-n.born}年。`,n.id,n.cap);
+  for(const k of[...wars.keys()])if(k.split("-").includes(String(n.id)))wars.delete(k);
+  const me=people[S.playPid];if(me&&me.nat===n.id&&me.to===null){me.to=y;me.died=y;bio(me.id,y,"国亡，流落四方，事迹湮没。");S.playDead=true}}
+ function usurp(n,u,y,pre){const r=people[n.ruler];if(r&&r.to===null){r.to=y;r.died=y;r.death="被废";bio(r.id,y,`为${u.name}所废。`)}
+  const old=n.surname;n.surname=u.name[0];n.dynasty++;n.mins=n.mins.filter(i=>i!==u.id);if(n.gen===u.id)n.gen=-1;
+  u.role="君主";u.nat=n.id;u.from=y;u.to=null;u.dyn=n.dynasty;u.ord=1;u.father=null;n.rulers.push(u.id);n.ruler=u.id;
+  bio(u.id,y,`以${u.title||"臣"}篡${old}氏之位，开${n.name}第${n.dynasty}朝。`);
+  log(y,"改朝",`${pre||""}${n.name}${u.title||""}${u.name}篡位，${old}氏王朝终结，开第${n.dynasty}朝。`,n.id,n.cap,[u.id])}
+ function startWar(a,b,y){const k=key(a.id,b.id);if(wars.has(k)||!a.alive||!b.alive)return false;
+  if(allies.has(k)){allies.delete(k);log(y,"背盟",`${a.name}背弃与${b.name}的盟约。`,a.id,a.cap)}
+  const ga=general(a,y),gb=general(b,y);wars.set(k,{start:y,a:a.id,b:b.id,ca:a.cells,cb:b.cells,ga,gb});
+  bio(ga,y,`率${a.name}军伐${b.name}。`);bio(gb,y,`率军御${a.name}之师。`);
+  if(rnd()<.3){bio(a.ruler,y,`御驾亲征${b.name}。`);wars.get(k).royal=a.ruler}
+  log(y,"战争",`${a.name}向${b.name}宣战，${people[ga].title}${pn(ga)}领兵。`,a.id,b.cap,[ga,gb]);return true}
+ function endWar(a,b,y,quiet){const k=key(a.id,b.id),r=wars.get(k);if(!r)return false;wars.delete(k);
+  const A=nations[r.a],B=nations[r.b],da=A.cells-r.ca,db=B.cells-r.cb;const win=da>db+3?A:db>da+3?B:null;
+  const med=(win?(win===A?B:A):A).mins.find(id=>people[id].to===null);
+  for(const[g,n]of[[r.ga,A],[r.gb,B]])if(people[g]&&people[g].to===null)bio(g,y,win?(n===win?`与${(n===A?B:A).name}之战获胜，拓地而还。`:`与${(n===A?B:A).name}之战失利。`):`与${(n===A?B:A).name}相持无功。`);
+  if(med!==undefined)bio(med,y,`主持与${(med&&people[med].nat===A.id?B:A).name}议和。`);
+  if(!quiet)log(y,"议和",`${A.name}与${B.name}议和${med!==undefined?"，"+OFFICENAME(med)+pn(med)+"主持":""}，${win?win.name+"得利":"互有胜负"}。`,A.id,A.cap,[med]);return true}
+ function split(n,y,force){let far=-1,fd=0;for(let i=0;i<N;i++)if(own[i]===n.id&&w.hab[i]>.5){const d=cdist(i,n.cap);if(d>fd){fd=d;far=i}}
+  if(far<0||fd<4)return false;const nn=newNation(far,y,n.id,eth[far]);
+  const q=[far],lim=n.cells*(.2+rnd()*.25);let c=0;while(q.length&&c<lim){const i=q.shift();for(const j of nb(i))if(own[j]===n.id&&j!==n.cap){own[j]=nn.id;q.push(j);c++}}
+  nn.cells=c;startWar(n,nn,y);if(!force||force===true)log(y,"分裂",`${n.name}${nn.cityName}一带起兵自立，建「${nn.name}」，${pn(nn.ruler)}为君。`,nn.id,far,[nn.ruler]);return nn}
+ function disaster(n,y,cell){const t=rnd()<.5?"瘟疫":"饥荒";log(y,"天灾",`${n.name}${t}流行，民多死亡。`,n.id,cell??n.cap);n.aggr*=.85;n.dev=Math.max(-.3,n.dev-.1);
+  let k=0;for(let i=0;i<N&&k<30;i++)if(own[i]===n.id&&rnd()<.15&&i!==n.cap){own[i]=-1;k++}}
+ function doAct(a,p,y){const n=nations[p.nat],t=a.target!=null?nations[a.target]:null,ruler=n.ruler===p.id,nm=t?t.name:"";
+  const royal=["war","peace","ally","policy","dev","mil","stab","bad","capital"];
+  if(!n.alive)return"国已不存";
+  if(!ruler&&royal.includes(a.a)){if(rnd()<.45){log(y,"进谏",`${p.name}进言，${pn(n.ruler)}不纳。`,n.id,n.cap,[p.id]);bio(p.id,y,"进言不纳。");return"君主不纳"}
+   log(y,"进谏",`${p.name}进言，${pn(n.ruler)}纳之。`,n.id,n.cap,[p.id]);bio(p.id,y,"进言见纳。")}
+  const need=()=>t&&t.alive&&t!==n;
+  switch(a.a){
+   case"war":if(!need())return"找不到可攻之国";if(!startWar(n,t,y)&&!wars.has(key(n.id,t.id)))return"未能开战";if(!ruler){const r=wars.get(key(n.id,t.id));if(r&&rnd()<.6){n.gen=p.id;bio(p.id,y,`挂帅伐${nm}。`)}}return"对"+nm+"开战";
+   case"peace":if(!t)return"不知与谁议和";if(!wars.has(key(n.id,t.id)))return"与"+nm+"本无战事";if(rnd()<.25+(t.cells<n.cells?.4:0)){endWar(n,t,y);return"与"+nm+"议和成"}log(y,"议和",`${n.name}遣使求和，${nm}拒之。`,n.id,n.cap);return nm+"拒和";
+   case"ally":if(!need())return"不知与谁结盟";if(wars.has(key(n.id,t.id)))return"正与"+nm+"交战";if(rnd()<.6){allies.add(key(n.id,t.id));log(y,"结盟",`${n.name}与${nm}结盟。`,n.id,n.cap);return"与"+nm+"结盟"}log(y,"外交",`${n.name}求盟于${nm}，不许。`,n.id,n.cap);return nm+"不许结盟";
+   case"policy":n.policy=a.p;log(y,"国策",`${n.name}定国策为「${a.p}」。`,n.id,n.cap);return"国策："+a.p;
+   case"dev":n.dev=Math.min(1,n.dev+.08);n.stab=Math.max(n.stab,1);return"民生渐兴";
+   case"mil":n.aggr=Math.min(1.6,n.aggr+.12);return"军势渐强";
+   case"stab":n.stab=Math.max(n.stab,4);return"朝局安定";
+   case"bad":n.dev-=.1;n.stab=0;if(rnd()<.4)disaster(n,y);return"民怨渐起";
+   case"capital":{let best=-1,bh=-1;for(let i=0;i<N;i++)if(own[i]===n.id&&i!==n.cap&&w.hab[i]+rnd()*.3>bh){bh=w.hab[i];best=i}if(best<0)return"无地可迁";n.cap=best;n.cityName=nameOf(rnd,n.style,2)+"城";log(y,"迁都",`${n.name}迁都${n.cityName}。`,n.id,best);return"迁都"+n.cityName}
+   case"kill":{if(!need())return"不知刺杀何人";const v=people[t.ruler];if(rnd()<.35){rulerDies(t,y,"遇刺身亡");bio(p.id,y,`遣刺客杀${t.name}君${v.name}。`);return"刺杀成功"}log(y,"行刺",`有刺客行刺${t.name}君${v.name}，未遂。`,t.id,t.cap);if(rnd()<.5)startWar(t,n,y);return"刺杀失败"}
+   case"usurp":if(ruler)return"你已是君主";if(rnd()<.4+(p.role==="将领"?.15:0)){usurp(n,p,y);return"篡位成功"}p.to=y;p.died=y;bio(p.id,y,"谋逆事泄，伏诛。");log(y,"谋逆",`${n.name}${p.title||""}${p.name}谋逆事泄，伏诛。`,n.id,n.cap,[p.id]);S.playDead=true;return"事败伏诛";
+   case"rebel":{if(ruler)return"你已是君主";const nn=split(n,y,"me");if(!nn)return"无地可据";const r0=people[nn.ruler];r0.to=y;r0.phantom=true;nn.rulers=nn.rulers.filter(i=>i!==r0.id);
+    n.mins=n.mins.filter(i=>i!==p.id);if(n.gen===p.id)n.gen=-1;p.role="君主";p.nat=nn.id;p.from=y;p.to=null;p.dyn=1;p.ord=1;p.father=null;nn.rulers.push(p.id);nn.ruler=p.id;nn.surname=p.name[0];
+    bio(p.id,y,`据${nn.cityName}自立，建「${nn.name}」。`);log(y,"分裂",`${n.name}${p.title||""}${p.name}据${nn.cityName}自立，建「${nn.name}」。`,nn.id,nn.cap,[p.id]);return"自立为"+nn.name+"之君"}
+   case"defect":if(!need())return"不知投奔何国";if(ruler)return"君主不能投奔他国";n.mins=n.mins.filter(i=>i!==p.id);if(n.gen===p.id)n.gen=-1;p.nat=t.id;p.role="名臣";p.title=pick(rnd,OFFICE);t.mins.push(p.id);
+    bio(p.id,y,`弃${n.name}，投奔${nm}，拜${p.title}。`);log(y,"投奔",`${n.name}${p.name}投奔${nm}。`,t.id,t.cap,[p.id]);return"投奔"+nm;
+  }return"无事"}
+ function applyMod(m,y){
+  if(m.type==="found"){if(w.ele[m.cell]>0){const nn=newNation(m.cell,y,null,eth[m.cell]);for(const j of nb(m.cell))if(w.ele[j]>0)own[j]=nn.id;log(y,"立国",`于${nn.cityName}立「${nn.name}」。`,nn.id,m.cell);m.res="已执行"}else m.res="未生效：海上不能立国";return}
+  if(m.type==="cmd"&&people[S.playPid])m.nat=people[S.playPid].nat;
+  const n=nations[m.nat],t=m.target!=null?nations[m.target]:null;
+  if(!n||!n.alive){m.res="未生效：该国此时不存在";return}
+  let ok=true;
+  switch(m.type){
+   case"protect":n.protected=true;break;
+   case"war":ok=t&&t.alive?startWar(n,t,y)||wars.has(key(n.id,t.id)):(n.forceWar=true,true);break;
+   case"peace":ok=t?endWar(n,t,y):false;break;
+   case"ally":if(t&&t.alive){endWar(n,t,y,true);allies.add(key(n.id,t.id));log(y,"结盟",`${n.name}与${t.name}结盟。`,n.id,n.cap)}else ok=false;break;
+   case"collapse":n.protected=false;destroy(n,y,null,"土崩瓦解");break;
+   case"split":ok=split(n,y,true);break;
+   case"disaster":disaster(n,y);break;
+   case"kill":rulerDies(n,y,"暴卒");break;
+   case"capital":if(own[m.cell]===n.id&&m.cell!==n.cap){n.cap=m.cell;n.cityName=nameOf(rnd,n.style,2)+"城";log(y,"迁都",`${n.name}迁都${n.cityName}。`,n.id,m.cell)}else ok=false;break;
+   case"policy":n.policy=m.p;log(y,"国策",`${n.name}定国策为「${m.p}」。`,n.id,n.cap);break;
+   case"edict":if(m.e==="dev")n.dev+=.15;if(m.e==="mil")n.aggr=Math.min(1.5,n.aggr+.2);if(m.e==="stab")n.stab=4;if(m.e==="bad"){disaster(n,y)}
+    if(m.txt)log(y,"诏令",`${n.name}${m.txt}`,n.id,n.cap,[n.ruler]);break;
+   case"avatar":{const p=people[m.pid];if(!p||p.to!==null||p.phantom){ok=false;break}if(m.name)p.name=m.name;
+    S.playPid=p.id;p.player=true;if(p.role==="先知")p.to=null;bio(p.id,y,"天命降临，此后由你执掌其身。");log(y,"降临",`天命降于${n.name}${p.title||p.role}${p.name}。`,n.id,n.cap,[p.id]);break}
+   case"cmd":{const p=people[S.playPid];if(!p||p.to!==null){ok=false;break}const out=[];
+    log(y,"决策",`${p.name}${n.ruler===p.id?"诏曰":"议曰"}：「${m.text}」`,n.id,n.cap,[p.id]);
+    for(const a of m.acts)out.push(doAct(a,p,y));m.res=out.join("；");return}
+  }
+  m.res=ok?"已执行":"未生效";}
+ // 初始民族与国家
+ for(let k=0;k<ncivs;k++){const c=pick(rnd,land),st=STYLES[k%STYLES.length];S.ethnics.push({id:k,name:nameOf(rnd,st,2)+"人",style:st,hue:(k*67)%360});eth[c]=k;
+  const n=newNation(c,0,null,k);log(0,"立国",`${S.ethnics[k].name}于${n.cityName}立国，号「${n.name}」，${pn(n.ruler)}为始君。`,n.id,c,[n.ruler])}
  for(let it=0;it<40;it++)for(let i=0;i<N;i++)if(eth[i]>=0)for(const j of nb(i))if(eth[j]<0&&w.ele[j]>0&&rnd()<w.hab[j]*.5)eth[j]=eth[i];
- const wars=new Map(); const key=(a,b)=>a<b?a+"-"+b:b+"-"+a;
- const strength=new Float32Array(1000);
- for(let y=0;y<=years;y+=STEP){
-  // 应用干预
-  for(const m of mods)if(m.y===y&&nations[m.nat]){if(m.type==="protect")nations[m.nat].protected=true;if(m.type==="war")nations[m.nat].forceWar=true}
-  // 统计
+ const strength=[];
+ S.step=function(dt=1800){
+  const t=S.t,y=Math.floor(t/360),f=dt/1800,me=people[S.playPid],pn0=me&&me.to===null?me.nat:-1;S.dts.push(dt);
+  nations.forEach(n=>n.player=n.id===pn0);const rules=id=>me&&me.to===null&&nations[id].ruler===me.id;
+  for(const m of mods)if(m.t===t)applyMod(m,y);
   const cnt=new Int32Array(nations.length),hs=new Float32Array(nations.length);
   for(let i=0;i<N;i++)if(own[i]>=0){cnt[own[i]]++;hs[own[i]]+=w.hab[i]}
-  nations.forEach(n=>{n.cells=cnt[n.id];strength[n.id]=hs[n.id]*(0.6+n.aggr*.4)*(n.protected?3:1)});
-  // 扩张 + 战争
-  const contact=new Set();
+  nations.forEach(n=>{n.cells=cnt[n.id];strength[n.id]=hs[n.id]*(.6+n.aggr*.4)*(1+n.dev)*(n.protected?3:1)});
   const order=[];for(let i=0;i<N;i++)if(own[i]>=0)order.push(i);
   for(let k=order.length-1;k>0;k--){const j=rnd()*(k+1)|0;[order[k],order[j]]=[order[j],order[k]]}
-  for(const i of order){const a=own[i];if(a<0)continue;const na=nations[a];
+  const contact=new Set();
+  for(const i of order){const a=own[i];if(a<0)continue;const na=nations[a],ex=(na.policy==="扩张"?1.7:na.policy==="守成"?.6:1)*f;
    for(const j of nb(i)){if(w.ele[j]<0)continue;const b=own[j];
-    if(b<0){ // 空地拓殖：远离首都越难
-     const dx=Math.min(Math.abs(j%W-na.cap%W),W-Math.abs(j%W-na.cap%W)),dy=Math.abs((j/W|0)-(na.cap/W|0)),d=Math.hypot(dx,dy);
-     const p=w.hab[j]*.18*(1/(1+d/(18+na.cells**.5)))*(w.ele[j]>.6?.3:1);
-     if(rnd()<p){own[j]=a;if(eth[j]<0)eth[j]=eth[i]}}
-    else if(b!==a){contact.add(key(a,b));const wk=wars.get(key(a,b));
-     if(wk){const sa=strength[a],sb=strength[b];const p=.05*sa/(sa+sb+1)*(nations[b].protected?.2:1)*(w.ele[j]>.5?.5:1);if(rnd()<p)own[j]=a}}}}
-  // 宣战与议和
+    if(b<0){const d=cdist(j,na.cap);if(rnd()<w.hab[j]*.18*ex/(1+d/(18+na.cells**.5))*(w.ele[j]>.6?.3:1)){own[j]=a;if(eth[j]<0)eth[j]=eth[i]}}
+    else if(b!==a){contact.add(key(a,b));if(wars.has(key(a,b))){const sa=strength[a]*(na.policy==="扩张"?1.3:1),nbB=nations[b],sb=strength[b]*(nbB.policy==="守成"?1.8:1);
+     if(rnd()<.05*f*sa/(sa+sb+1)*(nbB.protected?.2:1)*(w.ele[j]>.5?.5:1))own[j]=a}}}}
+  S.contact=new Map();
   for(const k of contact){const[a,b]=k.split("-").map(Number),na=nations[a],nb2=nations[b];
-   if(!wars.has(k)){const pa=.012*(na.aggr+nb2.aggr)+(na.forceWar||nb2.forceWar?.5:0);
-    if(rnd()<pa){wars.set(k,y);const[at,df]=strength[a]>strength[b]?[na,nb2]:[nb2,na];log(y,"战争",`${at.name}向${df.name}宣战。`,at.id,df.cap);na.forceWar=nb2.forceWar=null}}
-   else if(y-wars.get(k)>15&&rnd()<.15){wars.delete(k);log(y,"议和",`${na.name}与${nb2.name}议和。`,a,na.cap)}}
-  // 首都失守/亡国
-  nations.forEach(n=>{if(!n.alive)return;
-   if(own[n.cap]!==n.id){let best=-1,bh=-1;for(let i=0;i<N;i++)if(own[i]===n.id&&w.hab[i]>bh){bh=w.hab[i];best=i}
-    if(best<0||cntOf(n.id)<3){n.alive=false;n.died=y;for(let i=0;i<N;i++)if(own[i]===n.id)own[i]=own[n.cap]>=0?own[n.cap]:-1;
-     const by=own[n.cap]>=0?nations[own[n.cap]]:null;log(y,"灭亡",`${n.name}亡${by?"于"+by.name:""}，享国${y-n.born}年。`,n.id,n.cap);
-     for(const k of[...wars.keys()])if(k.split("-").includes(String(n.id)))wars.delete(k)}
-    else{n.cap=best;n.cityName=nameOf(rnd,n.style,2)+"城";log(y,"迁都",`${n.name}都城失陷，迁都${n.cityName}。`,n.id,best)}}});
-  function cntOf(id){let c=0;for(let i=0;i<N;i++)if(own[i]===id)c++;return c}
-  // 君主更替与改朝
-  nations.forEach(n=>{if(!n.alive)return;const r=n.rulers[n.rulers.length-1];
-   if(y-r.from>15&&rnd()<.12){
-    if(rnd()<.04&&!n.protected){const old=n.surname;n.surname=SURN[rnd()*SURN.length|0];n.dynasty++;const nr=newRuler(n,y);nr.usurp=true;
-     log(y,"改朝",`${n.name}权臣${nr.name}篡位，${old}氏王朝终结，开第${n.dynasty}朝。`,n.id,n.cap)}
-    else{const nr=newRuler(n,y);log(y,"继位",`${n.name}${r.name}崩，${nr.name}继位。`,n.id,n.cap)}}});
-  // 分裂：大国远方州郡独立
-  nations.forEach(n=>{if(!n.alive||n.protected||n.cells<180)return;
-   if(rnd()<.015*(n.cells/300)){let far=-1,fd=0;for(let i=0;i<N;i++)if(own[i]===n.id){const dx=Math.min(Math.abs(i%W-n.cap%W),W-Math.abs(i%W-n.cap%W)),d=dx*dx+((i/W|0)-(n.cap/W|0))**2;if(d>fd&&w.hab[i]>.5){fd=d;far=i}}
-    if(far<0)return;const nn=newNation(far,y,n.id,eth[far]);
-    // BFS 划走一片
-    const q=[far],lim=n.cells*(.2+rnd()*.25);let c=0;while(q.length&&c<lim){const i=q.shift();for(const j of nb(i))if(own[j]===n.id&&j!==n.cap){own[j]=nn.id;q.push(j);c++}}
-    wars.set(key(n.id,nn.id),y);log(y,"分裂",`${n.name}${nn.cityName}一带起兵自立，建「${nn.name}」。`,nn.id,far)}});
-  // 新兴国：无主宜居地
-  if(rnd()<.12){const c=land[rnd()*land.length|0];if(own[c]<0){const n=newNation(c,y,null,eth[c]);log(y,"立国",`${eth[c]>=0?ethnics[eth[c]].name:"部族"}于${n.cityName}立「${n.name}」。`,n.id,c)}}
-  // 天灾
-  if(rnd()<.06){const c=order[rnd()*order.length|0];if(c!==undefined&&own[c]>=0){const n=nations[own[c]];const t=rnd()<.5?"瘟疫":"饥荒";
-   log(y,"天灾",`${n.name}${t}流行，民多死亡。`,n.id,c);n.aggr*=.8;let k=0;for(let i=0;i<N&&k<30;i++)if(own[i]===n.id&&rnd()<.15&&i!==n.cap){own[i]=-1;k++}}}
-  // 民族同化：国土内主体民族缓慢同化
-  for(let s=0;s<800;s++){const i=rnd()*N|0;if(own[i]>=0){const ce=eth[nations[own[i]].cap];if(ce>=0&&rnd()<.3)eth[i]=ce}}
-  // 宗教：在大国首都诞生，沿国土与邻接传播
-  if(y>100&&religions.length<6&&rnd()<.03){const alive=nations.filter(n=>n.alive).sort((a,b)=>b.cells-a.cells);const n=alive[rnd()*Math.min(3,alive.length)|0];
-   if(n){const r={id:religions.length,name:nameOf(rnd,n.style,1)+["教","道","宗","法"][rnd()*4|0],hue:(religions.length*97+40)%360};religions.push(r);rel[n.cap]=r.id;log(y,"宗教",`${n.cityName}有先知倡「${r.name}」，信众渐众。`,n.id,n.cap)}}
-  for(let s=0;s<3000;s++){const i=rnd()*N|0;if(rel[i]>=0)for(const j of nb(i))if(w.ele[j]>0&&rnd()<(own[j]===own[i]?.5:.1))rel[j]=rel[i]}
-  snaps.push({y,own:own.slice(),eth:eth.slice(),rel:rel.slice(),caps:nations.map(n=>n.alive?n.cap:-1)});
-  if(nations.length>990)break;
- }
- nations.forEach(n=>{n.cells=0});
- return{snaps,nations,ethnics,religions,events,years}}
-// ---------- 渲染 ----------
-const cv=document.getElementById("cv"),ctx=cv.getContext("2d");
+   (S.contact.get(a)||S.contact.set(a,new Set()).get(a)).add(b);(S.contact.get(b)||S.contact.set(b,new Set()).get(b)).add(a);
+   if(!wars.has(k)){if(allies.has(k)||rules(a)||rules(b)&&!na.forceWar&&rnd()<.6)continue;
+    const pd=(na.policy==="守成"?.3:1)*(nb2.policy==="守成"?.6:1);
+    if(rnd()<.012*(na.aggr+nb2.aggr)*pd*f+(na.forceWar||nb2.forceWar?.5:0)){const[at,df]=strength[a]>strength[b]?[na,nb2]:[nb2,na];if(!rules(at.id)){startWar(at,df,y);na.forceWar=nb2.forceWar=false}}}
+   else if(y-wars.get(k).start>15&&!(rules(a)||rules(b))&&rnd()<.15*f)endWar(na,nb2,y)}
+  for(const n of nations){if(!n.alive||own[n.cap]===n.id)continue;let best=-1,bh=-1,c=0;for(let i=0;i<N;i++)if(own[i]===n.id){c++;if(w.hab[i]>bh){bh=w.hab[i];best=i}}
+   const by=own[n.cap]>=0?nations[own[n.cap]]:null;
+   if(by){const r=wars.get(key(n.id,by.id));if(r)bio(r.a===by.id?r.ga:r.gb,y,`攻陷${n.name}都城${n.cityName}。`)}
+   if(best<0||c<3)destroy(n,y,by);else{const old=n.cityName;n.cap=best;n.cityName=nameOf(rnd,n.style,2)+"城";log(y,"迁都",`${n.name}都城${old}失陷${by?"于"+by.name:""}，迁都${n.cityName}。`,n.id,best)}}
+  for(const n of nations){if(!n.alive)continue;const r=people[n.ruler],age=y-r.born,atWar=[...wars.values()].some(v=>v.a===n.id||v.b===n.id),pm=r.id===S.playPid?.5:1;
+   if(rnd()<(.015+Math.max(0,age-40)*.007)*STEP*f*pm)rulerDies(n,y,atWar&&rnd()<.25?"亲征战殁":age>62?"寿终":"病逝");
+   n.mins=n.mins.filter(id=>{const p=people[id];if(p.to!==null)return false;if(rnd()<(.01+Math.max(0,y-p.born-50)*.01)*STEP*f*(id===S.playPid?.5:1)){p.to=y;p.died=y;bio(id,y,rnd()<.7?`卒于任上，年${y-p.born}。`:"告老还乡。");if(id===S.playPid)S.playDead=true;return false}return true});
+   if(n.mins.length<2&&rnd()<.4*f)appointMin(n,y);
+   if(n.gen>=0){const g=people[n.gen],gm=g.id===S.playPid?.4:1;if(g.to===null&&(atWar&&rnd()<.06*f*gm||rnd()<(Math.max(0,y-g.born-55)*.02)*STEP*f*gm)){g.to=y;g.died=y;bio(g.id,y,atWar?"战死沙场。":"病卒。");if(g.id===S.playPid)S.playDead=true}}
+   if(n.stab>0)n.stab-=f}
+  if(me&&me.to===null&&!me.role.includes("君主")&&!nations[me.nat].mins.includes(me.id)&&nations[me.nat].gen!==me.id&&rnd()<.004*STEP*f*Math.max(1,y-me.born-50)){me.to=y;me.died=y;bio(me.id,y,"寿终。");S.playDead=true}
+  for(const n of nations)if(n.alive&&!n.protected&&!rules(n.id)&&n.stab<=0&&n.cells>180&&rnd()<.015*f*(n.cells/300))split(n,y);
+  if(rnd()<.12*f){const c=pick(rnd,land);if(own[c]<0){const n=newNation(c,y,null,eth[c]);log(y,"立国",`${eth[c]>=0?S.ethnics[eth[c]].name:"部族"}于${n.cityName}立「${n.name}」。`,n.id,c,[n.ruler])}}
+  if(rnd()<.06*f&&order.length){const c=order[rnd()*order.length|0];if(own[c]>=0){const n=nations[own[c]];if(n.stab<=0&&rnd()>n.dev)disaster(n,y,c)}}
+  const ka=Math.floor(800*f+rnd());for(let s=0;s<ka;s++){const i=rnd()*N|0;if(own[i]>=0){const ce=eth[nations[own[i]].cap];if(ce>=0&&rnd()<.3)eth[i]=ce}}
+  if(y>100&&S.religions.length<6&&rnd()<.03*f){const al=nations.filter(n=>n.alive).sort((a,b)=>b.cells-a.cells),n=al[rnd()*Math.min(3,al.length)|0];
+   if(n){const r={id:S.religions.length,name:nameOf(rnd,n.style,1)+pick(rnd,["教","道","宗","法"]),hue:(S.religions.length*97+40)%360};S.religions.push(r);rel[n.cap]=r.id;
+    const pr=person({name:gname(pick(rnd,SURN)),role:"先知",nat:n.id,born:y-30,from:y,to:y+30,origin:n.cityName});bio(pr.id,y,`于${n.cityName}倡「${r.name}」。`);
+    log(y,"宗教",`${n.cityName}有先知${pr.name}倡「${r.name}」，信众渐众。`,n.id,n.cap,[pr.id])}}
+  const kr=Math.floor(3000*f+rnd());for(let s=0;s<kr;s++){const i=rnd()*N|0;if(rel[i]>=0)for(const j of nb(i))if(w.ele[j]>0&&rnd()<(own[j]===own[i]?.5:.1))rel[j]=rel[i]}
+  S.snaps.push({t:t+dt,y:Math.floor((t+dt)/360),own:own.slice(),eth:eth.slice(),rel:rel.slice(),caps:nations.map(n=>n.alive?n.cap:-1),ruler:nations.map(n=>n.ruler)});
+  S.t+=dt};
+ S.key=key;
+ return S}
+// ================= 渲染 =================
+const cv=$("cv"),ctx=cv.getContext("2d");
 const BIO=[[30,60,110],[60,110,160],[235,240,245],[130,115,100],[70,105,75],[150,155,120],[220,195,140],[180,190,110],[90,140,70],[40,110,50]];
-let cur=0,selected=null,mods=[];
-function hsl2rgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[255*f(0),255*f(8),255*f(4)]}
-const colorCache={};function natRGB(n){if(!colorCache[n.id]){const m=n.color.match(/[\d.]+/g).map(Number);colorCache[n.id]=hsl2rgb(...m)}return colorCache[n.id]}
-const off=document.createElement("canvas");off.width=W;off.height=H;const octx=off.getContext("2d"),img=octx.createImageData(W,H);
-function draw(){
- if(!world)return;const s=hist?hist.snaps[cur]:null,layer=document.getElementById("layer").value,w=world,d=img.data;
+let cur=0,selected=null,view={},rotLon=PI*.5,rotLat=.35,panX=0,editMode=false;
+const hsl2rgb=(h,s,l)=>{s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[255*f(0),255*f(8),255*f(4)]};
+const colorCache={};const natRGB=n=>colorCache[n.id]||(colorCache[n.id]=hsl2rgb(...n.color.match(/[\d.]+/g).map(Number)));
+const tex=new Uint8ClampedArray(N*4);
+function buildTex(){const s=S&&S.snaps[cur],layer=$("layer").value,w=world;
  for(let i=0;i<N;i++){let c;const e=w.ele[i];
   if(layer==="ele")c=e<0?[20,50+80*(1+e),120+100*(1+e)]:[90+165*e,150+60*e-100*e*e,70+150*e*e];
   else if(layer==="tmp")c=[255*Math.max(0,w.tmp[i]),80,255*(1-Math.max(0,w.tmp[i]))];
   else if(layer==="rain")c=e<0?[200,210,220]:[240-200*w.rain[i],230-80*w.rain[i],180+60*w.rain[i]];
-  else{c=BIO[w.bio[i]].slice();if(e>0){const sh=(e-w.ele[(i+W-1)%N])*400;c=c.map(v=>v+sh)}if(w.river[i]&&e>0)c=[70,120,180];
-   if(s&&e>0&&layer!=="bio"){let o,rgb=null;
-    if(layer==="pol"){o=s.own[i];if(o>=0)rgb=natRGB(hist.nations[o])}
-    else if(layer==="eth"){o=s.eth[i];if(o>=0)rgb=hsl2rgb(hist.ethnics[o].hue,55,55)}
-    else if(layer==="rel"){o=s.rel[i];if(o>=0)rgb=hsl2rgb(hist.religions[o].hue,60,50)}
-    if(rgb){const border=layer==="pol"&&nb(i).some(j=>s.own[j]!==o&&w.ele[j]>0);const a=border?.85:.55;c=c.map((v,k)=>v*(1-a)+rgb[k]*a*(border?.6:1))
-     if(selected!==null&&layer==="pol"&&o===selected&&border)c=[255,255,255]}}}
-  const k=i*4;d[k]=c[0];d[k+1]=c[1];d[k+2]=c[2];d[k+3]=255}
- octx.putImageData(img,0,0);
- const r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;
- const sc=Math.min(cv.width/W,cv.height/H),ox=(cv.width-W*sc)/2,oy=(cv.height-H*sc)/2;view={sc,ox,oy,dpr};
- ctx.imageSmoothingEnabled=false;ctx.fillStyle=getComputedStyle(document.body).backgroundColor;ctx.fillRect(0,0,cv.width,cv.height);
- ctx.drawImage(off,ox,oy,W*sc,H*sc);
- if(s&&layer==="pol"){
-  // 首都 & 国名
-  const sum={};for(let i=0;i<N;i++){const o=s.own[i];if(o<0)continue;const x=i%W,y=i/W|0;const q=sum[o]||(sum[o]={n:0,sx:0,sy:0,cx:0,cy:0});q.n++;q.sx+=Math.cos(x/W*2*Math.PI);q.sy+=Math.sin(x/W*2*Math.PI);q.cy+=y}
-  ctx.textAlign="center";ctx.textBaseline="middle";
-  for(const o in sum){const q=sum[o],n=hist.nations[o],cap=s.caps[o];
-   if(cap>=0){ctx.fillStyle="#222";ctx.beginPath();ctx.arc(ox+(cap%W+.5)*sc,oy+((cap/W|0)+.5)*sc,Math.max(2,sc*.6),0,7);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=dpr;ctx.stroke()}
-   if(!document.getElementById("labels").checked||q.n<25)continue;
-   let ang=Math.atan2(q.sy,q.sx);if(ang<0)ang+=2*Math.PI;const x=ang/(2*Math.PI)*W,y=q.cy/q.n;
-   const fs=Math.min(28,Math.max(10,Math.sqrt(q.n)*sc*.35))*1;ctx.font=`bold ${fs}px serif`;
-   ctx.lineWidth=3*dpr;ctx.strokeStyle="rgba(255,250,240,.85)";ctx.strokeText(n.name,ox+x*sc,oy+y*sc);ctx.fillStyle="#2b2418";ctx.fillText(n.name,ox+x*sc,oy+y*sc)}}
-}
-let view;
-// ---------- UI ----------
-const $=id=>document.getElementById(id);
-function yearOf(k){return hist.snaps[k].y}
+  else if(layer==="plate"){c=hsl2rgb(w.plate[i]*47%360,45,e<0?35:60);if(nb(i).some(j=>w.plate[j]!==w.plate[i]))c=[240,60,40]}
+  else{c=BIO[w.bio[i]].slice();if(e>0){const sh=(e-w.ele[nb(i)[1]])*300;c=c.map(v=>v+sh)}if(w.river[i]&&e>0)c=[70,120,180];
+   if(s&&e>0&&layer!=="bio"){let o=-1,rgb=null;
+    if(layer==="pol"){o=s.own[i];if(o>=0)rgb=natRGB(S.nations[o])}
+    else if(layer==="eth"){o=s.eth[i];if(o>=0)rgb=hsl2rgb(S.ethnics[o].hue,55,55)}
+    else if(layer==="rel"){o=s.rel[i];if(o>=0)rgb=hsl2rgb(S.religions[o].hue,60,50)}
+    if(rgb){const arr=layer==="pol"?s.own:layer==="eth"?s.eth:s.rel,border=nb(i).some(j=>arr[j]!==o&&w.ele[j]>0),a=border?.85:.55;
+     c=c.map((v,k)=>v*(1-a)+rgb[k]*a*(border?.6:1));if(selected!==null&&layer==="pol"&&o===selected&&border)c=[255,255,255]}}}
+  if(editMode&&sketch[i])c=c.map((v,k)=>v*.5+[0,[120,200,90],[60,120,220],[170,110,60],[200,170,90]][sketch[i]][k]*.5);
+  tex.set([c[0],c[1],c[2],255],i*4)}}
+const off=document.createElement("canvas");off.width=W;off.height=H;const octx=off.getContext("2d");
+let gimg=null;
+function project(i){ // 返回屏幕坐标或 null
+ if(view.globe){const la=LAT[i],dl=LON[i]-rotLon,X=Math.cos(la)*Math.sin(dl),Y=Math.sin(la),Z=Math.cos(la)*Math.cos(dl);
+  const y=Y*Math.cos(rotLat)-Z*Math.sin(rotLat),z=Y*Math.sin(rotLat)+Z*Math.cos(rotLat);if(z<.05)return null;return[view.cx+X*view.R,view.cy-y*view.R]}
+ const x=((i%W+panX)%W+W)%W;return[view.ox+(x+.5)*view.sc,view.oy+((i/W|0)+.5)*view.sc]}
+function unproject(px,py){
+ if(view.globe){const u=(px-view.cx)/view.R,v=-(py-view.cy)/view.R;if(u*u+v*v>1)return-1;const z=Math.sqrt(1-u*u-v*v);
+  const Y=v*Math.cos(rotLat)+z*Math.sin(rotLat),Z=-v*Math.sin(rotLat)+z*Math.cos(rotLat),lat=Math.asin(Y),lon=Math.atan2(u,Z)+rotLon;
+  const x=Math.floor(((lon/(2*PI))%1+1)%1*W),y=Math.min(H-1,Math.floor((.5-lat/PI)*H));return y*W+x}
+ const x=Math.floor((px-view.ox)/view.sc),y=Math.floor((py-view.oy)/view.sc);if(y<0||y>=H||px<view.ox||px>view.ox+W*view.sc)return-1;return y*W+((x-panX)%W+W)%W}
+function draw(rebuild=true){
+ if(!world)return;if(rebuild)buildTex();
+ const r=cv.getBoundingClientRect(),dpr=devicePixelRatio||1;if(cv.width!==(r.width*dpr|0)){cv.width=r.width*dpr;cv.height=r.height*dpr}
+ ctx.fillStyle=getComputedStyle(document.body).backgroundColor;ctx.fillRect(0,0,cv.width,cv.height);
+ view={dpr,globe:$("proj").value==="globe"};
+ if(view.globe){const R=Math.min(cv.width,cv.height)*.46;Object.assign(view,{R,cx:cv.width/2,cy:cv.height/2});
+  const G=Math.min(520,Math.round(R*2/dpr*1.1));if(!gimg||gimg.width!==G)gimg=new ImageData(G,G);const d=gimg.data,cl=Math.cos(rotLat),sl=Math.sin(rotLat);
+  for(let py=0;py<G;py++)for(let px=0;px<G;px++){const u=(px+.5)/G*2-1,v=1-(py+.5)/G*2,q=(py*G+px)*4;if(u*u+v*v>1){d[q+3]=0;continue}
+   const z=Math.sqrt(1-u*u-v*v),Y=v*cl+z*sl,Z=-v*sl+z*cl,lat=Math.asin(Y),lon=Math.atan2(u,Z)+rotLon;
+   const x=Math.floor(((lon/(2*PI))%1+1)%1*W),y=Math.min(H-1,Math.floor((.5-lat/PI)*H)),k=(y*W+x)*4,sh=.55+.45*z;
+   d[q]=tex[k]*sh;d[q+1]=tex[k+1]*sh;d[q+2]=tex[k+2]*sh;d[q+3]=255}
+  off.width=G;off.height=G;octx.putImageData(gimg,0,0);ctx.imageSmoothingEnabled=true;ctx.drawImage(off,view.cx-R,view.cy-R,2*R,2*R);
+  const gr=ctx.createRadialGradient(view.cx,view.cy,R*.95,view.cx,view.cy,R*1.06);gr.addColorStop(0,"rgba(120,170,255,.35)");gr.addColorStop(1,"rgba(120,170,255,0)");ctx.fillStyle=gr;ctx.beginPath();ctx.arc(view.cx,view.cy,R*1.06,0,7);ctx.fill()}
+ else{const sc=Math.min(cv.width/W,cv.height/H);Object.assign(view,{sc,ox:(cv.width-W*sc)/2,oy:(cv.height-H*sc)/2});
+  off.width=W;off.height=H;octx.putImageData(new ImageData(tex,W,H),0,0);ctx.imageSmoothingEnabled=false;
+  const sx=((panX%W)+W)%W;ctx.drawImage(off,0,0,W-sx,H,view.ox+sx*sc,view.oy,(W-sx)*sc,H*sc);if(sx>0)ctx.drawImage(off,W-sx,0,sx,H,view.ox,view.oy,sx*sc,H*sc)}
+ const s=S&&S.snaps[cur];
+ if(s&&$("layer").value==="pol"){ctx.textAlign="center";ctx.textBaseline="middle";
+  const sum={};for(let i=0;i<N;i++){const o=s.own[i];if(o<0)continue;const q=sum[o]||(sum[o]={n:0,x:0,y:0,z:0});q.n++;q.x+=P[i*3];q.y+=P[i*3+1];q.z+=P[i*3+2]}
+  for(const o in sum){const q=sum[o],n=S.nations[o],cap=s.caps[o];
+   if(cap>=0){const p=project(cap);if(p){ctx.fillStyle=n.player?"#ffd23c":"#222";ctx.beginPath();ctx.arc(p[0],p[1],(n.player?4:2.5)*dpr,0,7);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=dpr;ctx.stroke()}}
+   if(!$("labels").checked||q.n<25)continue;
+   const m=Math.hypot(q.x,q.y,q.z),la=Math.asin(q.z/m),lo=Math.atan2(q.y,q.x);let x=Math.floor(((lo/(2*PI))%1+1)%1*W),y=Math.floor((.5-la/PI)*H);
+   let best=y*W+x;if(s.own[best]!=o){let bd=1e9;for(let i=0;i<N;i+=1)if(s.own[i]==o){const d=(i%W-x)**2+((i/W|0)-y)**2;if(d<bd){bd=d;best=i}}}
+   const p=project(best);if(!p)continue;const fs=Math.min(26,Math.max(10,Math.sqrt(q.n)*.9))*dpr*(view.globe?1:Math.min(1.4,view.sc/4/dpr+.4));
+   ctx.font=`bold ${fs}px serif`;const label=(n.player?"★":"")+n.name;
+   ctx.lineWidth=3*dpr;ctx.strokeStyle="rgba(255,250,240,.85)";ctx.strokeText(label,p[0],p[1]-fs*.7);ctx.fillStyle="#2b2418";ctx.fillText(label,p[0],p[1]-fs*.7)}}}
+// ================= 交互 =================
+const toast=t=>{const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",2200)};
+function closeModal(){$("modal").style.display="none"}
+function modal(html){$("mbody").innerHTML=html;$("modal").style.display="flex"}
+const yearNow=()=>S?S.snaps[cur].y:0,tNow=()=>S?S.snaps[cur].t:0;
+const fmt=t=>`${Math.floor(t/360)}年${Math.floor(t%360/30)+1}月${t%30+1}日`,fmtE=e=>e.t%1800?fmt(e.t):e.y+"年";
+const plink=id=>{const p=S.people[id];return p?`<span class="pl" data-p="${id}">${p.name}</span>`:""};
+document.body.addEventListener("click",e=>{const p=e.target.closest("[data-p]");if(p){showPerson(+p.dataset.p)}
+ const t=e.target.closest(".tabs button");if(t){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b===t));document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="p-"+t.dataset.t));updateSide()}});
 function updateSide(){
- if(!hist)return;const s=hist.snaps[cur],y=s.y;$("year").textContent=`公元 ${y} 年`;
+ if(!S||!S.snaps.length)return;const s=S.snaps[cur],y=s.y;$("year").textContent=s.t%1800?fmt(s.t):`公元 ${y} 年`;
+ $("mods").textContent=mods.length?`已干预 ${mods.length} 处`:"";
  const cnt={};for(let i=0;i<N;i++)if(s.own[i]>=0)cnt[s.own[i]]=(cnt[s.own[i]]||0)+1;
  const list=Object.keys(cnt).map(Number).sort((a,b)=>cnt[b]-cnt[a]);
- $("nations").innerHTML=list.map(id=>{const n=hist.nations[id],r=[...n.rulers].reverse().find(r=>r.from<=y);
-  return`<div class="nat${selected===id?" sel":""}" data-id="${id}"><span class="sw" style="background:${n.color}"></span>${n.name}<small style="margin-left:auto;color:var(--muted)">${cnt[id]}州 · ${r?r.name:""}</small></div>`}).join("");
- const f=$("filter").value;
- const evs=hist.events.filter(e=>e.y<=y&&(!f||e.nat==+f)).slice(-200).reverse();
- $("chron").innerHTML=evs.map(e=>`<div class="ev" data-y="${e.y}" data-c="${e.cell}"><b>${e.y}年·${e.type}</b>${e.text}</div>`).join("");
-}
-function setCur(k){cur=k;$("tl").value=k;draw();updateSide()}
-$("nations").onclick=e=>{const d=e.target.closest(".nat");if(!d)return;selected=+d.dataset.id===selected?null:+d.dataset.id;showNation(selected);draw();updateSide()};
-$("chron").onclick=e=>{const d=e.target.closest(".ev");if(!d)return;const y=+d.dataset.y;setCur(hist.snaps.findIndex(s=>s.y>=y))};
+ const tab=document.querySelector(".tabs .on").dataset.t;
+ if(tab==="nations")$("p-nations").innerHTML=`<div class="muted">${list.length} 国并立 · 点击查看</div>`+list.map(id=>{const n=S.nations[id];
+  return`<div class="nat${selected===id?" sel":""}" data-id="${id}"><span class="sw" style="background:${n.color}"></span>${n.player?"★":""}${n.name}<small style="margin-left:auto" class="muted">${cnt[id]}州 · ${S.people[s.ruler[id]].name}</small></div>`}).join("");
+ if(tab==="chron"){const f=$("filter").value;$("chron").innerHTML=S.events.filter(e=>e.t<=s.t&&(!f||e.nat==+f)).slice(-250).reverse().map(e=>`<div class="ev" data-t="${e.t}" data-c="${e.cell}"><b>${fmtE(e)}·${e.type}</b>${e.text}</div>`).join("")}
+ if(tab==="people")renderPeople(y);
+ if(tab==="outline")renderOutline();
+ if(tab==="play")renderPlay();
+ if(selected!==null&&$("info").style.display==="block"&&$("info").dataset.nat==selected)showNation(selected)}
+$("p-nations").onclick=e=>{const d=e.target.closest(".nat");if(!d)return;selected=+d.dataset.id;showNation(selected);focusCell(S.nations[selected].cap);draw();updateSide()};
+$("chron").onclick=e=>{const d=e.target.closest(".ev");if(!d||e.target.closest("[data-p]"))return;setCur(S.snaps.findIndex(s=>s.t>=+d.dataset.t));focusCell(+d.dataset.c)};
 $("filter").onchange=updateSide;
-function showNation(id){const box=$("info");if(id===null){box.style.display="none";return}const n=hist.nations[id];
- box.style.display="block";box.innerHTML=`<b style="color:${n.color}">${n.name}</b><br>立国：${n.born}年${n.died!==null?`　亡于：${n.died}年`:""}<br>${n.parent!==null?`分自：${hist.nations[n.parent].name}<br>`:""}历${n.dynasty}朝，君主：<br><small>${n.rulers.slice(-12).map(r=>`${r.from}年 ${r.name}${r.usurp?"（篡）":""}`).join("<br>")}</small>${n.protected?"<br>🛡 受保护":""}`}
-cv.onclick=e=>{if(!hist)return;const r=cv.getBoundingClientRect(),px=(e.clientX-r.left)*view.dpr,py=(e.clientY-r.top)*view.dpr;
- const x=Math.floor((px-view.ox)/view.sc),y=Math.floor((py-view.oy)/view.sc);if(x<0||y<0||x>=W||y>=H)return;const i=y*W+x,o=hist.snaps[cur].own[i];
- selected=o>=0?o:null;if(selected===null){const b=["深海","浅海","冰原","高山","针叶林","苔原","荒漠","草原","温带林","雨林"][world.bio[i]];const box=$("info");box.style.display="block";
-  box.innerHTML=`无主之地 · ${b}<br>海拔 ${(world.ele[i]*5000|0)} 米${world.river[i]?" · 河流":""}`}else showNation(selected);draw();updateSide()};
+function focusCell(c){if(c==null||c<0)return;if(view.globe){rotLon=LON[c];rotLat=LAT[c]*.8}else panX=Math.round(W/2-(c%W));draw(false)}
+function setCur(k){cur=Math.max(0,k);$("tl").value=cur;draw();updateSide()}
+function showNation(id){const box=$("info");if(id===null){box.style.display="none";return}const n=S.nations[id],y=yearNow(),s=S.snaps[cur];
+ const alive=s.caps[id]>=0;box.dataset.nat=id;box.style.display="block";
+ const mins=S.people.filter(p=>p.nat===id&&p.role==="名臣"&&p.from<=y&&(p.to===null||p.to>=y)),gens=S.people.filter(p=>p.nat===id&&p.role==="将领"&&p.from<=y&&(p.to===null||p.to>=y));
+ box.innerHTML=`<span class="x" onclick="this.parentNode.style.display='none'">✕</span><b style="color:${n.color};font-size:16px">${n.player?"★":""}${n.name}</b><br>
+ 立国 ${n.born} 年${n.died!==null?` · 亡于 ${n.died} 年`:""}${n.parent!==null?` · 分自${S.nations[n.parent].name}`:""}<br>
+ ${alive?`当今君主：${plink(s.ruler[id])}<br>`:"<i>此时尚未立国或已亡</i><br>"}
+ ${mins.length?"名臣："+mins.map(p=>p.title+plink(p.id)).join("、")+"<br>":""}${gens.length?"将领："+gens.map(p=>plink(p.id)).join("、")+"<br>":""}
+ <div class="row"><button onclick="showTree(${id})">世系图</button><button onclick="filterChron(${id})">本国编年</button></div>
+ ${alive&&!playing?`<div class="muted">干预历史（从 ${y} 年起重演）：</div><div class="row">
+ <button onclick="intervene('protect')">保护</button><button onclick="intervene('war')">宣战</button><button onclick="intervene('split')">分裂</button>
+ <button onclick="intervene('disaster')">降天灾</button><button onclick="intervene('kill')">君主驾崩</button><button onclick="intervene('collapse')">灭国</button></div>
+ <div class="row"><button class="pri" onclick="descendPerson(${s.ruler[id]})">⚡ 降临为此国君主</button></div>`:""}`}
+function filterChron(id){$("filter").value=id;document.querySelector('.tabs [data-t=chron]').click()}
+function showPerson(id){const p=S.people[id],n=S.nations[p.nat];
+ const kids=S.people.filter(q=>q.father===id);const fa=p.father!=null?S.people[p.father]:null;
+ modal(`<h3 style="margin:0">${p.player?"★ ":""}${p.name} <small class="muted">${p.zi}</small></h3>
+ <div>${n?`<span style="color:${n.color}">${n.name}</span> · `:""}${p.title||p.role}${p.ord?` · 第${p.dyn}朝第${p.ord}位君主`:""}</div>
+ <div class="muted">籍贯 ${p.origin||"不详"} · 生于 ${p.born} 年${p.died!=null?` · 卒于 ${p.died} 年`:p.to!==null?` · ${p.to} 年后事迹不详`:""}${p.from!=null&&p.role.includes("君主")?` · 在位 ${p.from}–${p.to??"今"}`:""}</div>
+ ${fa?`<div>父：${plink(fa.id)}</div>`:""}${kids.length?`<div>子：${kids.map(k=>plink(k.id)).join("、")}</div>`:""}
+ <h4>生平</h4><ul>${p.bio.map(([y,t])=>`<li><b>${y}年</b> ${t}</li>`).join("")}</ul>
+ <div class="row">${p.role.includes("君主")?`<button onclick="showTree(${p.nat},${p.dyn})">查看世系图</button>`:""}
+ ${!playing&&!p.phantom&&p.born<=yearNow()&&(p.from??p.born)<=yearNow()&&(p.to===null||p.to>yearNow())?`<button class="pri" onclick="closeModal();descendPerson(${id})">⚡ 于${yearNow()}年降临此人</button>`:""}</div>`)}
+function showTree(nid,dyn){const n=S.nations[nid],ps=S.people.filter(p=>p.nat===nid&&(p.role.includes("君主")||p.phantom));
+ const dyns=[...new Set(ps.map(p=>p.dyn))];let html=`<h3 style="margin-top:0">${n.name} 世系图</h3><div class="muted">数字为本朝第几位君主；虚框为未即位的宗室。点击人名看生平。</div>`;
+ for(const d of dyns){const mem=ps.filter(p=>p.dyn===d),ids=new Set(mem.map(p=>p.id));
+  const kids=id=>mem.filter(p=>p.father===id);
+  const node=p=>`<li><span class="r${p.phantom?" ph":""}" data-p="${p.id}">${p.ord?`<i>${p.ord}</i>`:""}${p.name}${p.from!=null&&!p.phantom?` <small>${p.from}–${p.to??"今"}</small>`:""}</span>${kids(p.id).length?`<ul>${kids(p.id).map(node).join("")}</ul>`:""}</li>`;
+  const roots=mem.filter(p=>p.father==null||!ids.has(p.father));
+  html+=`<h4 ${dyn===d?'style="color:var(--acc)"':""}>第${d}朝 · ${mem.find(p=>p.ord)?.name[0]||""}氏</h4><div class="tree"><ul>${roots.map(node).join("")}</ul></div>`}
+ modal(html)}
+function renderPeople(y){const id=selected;let ps=S.people.filter(p=>p.from!=null&&p.from<=y&&(p.to===null||p.to>=y)&&!p.phantom);
+ if(id!==null)ps=S.people.filter(p=>p.nat===id&&!p.phantom&&(p.from??0)<=y);
+ const g={};for(const p of ps.slice(-400))(g[p.role]=g[p.role]||[]).push(p);
+ $("p-people").innerHTML=`<div class="muted">${id!==null?S.nations[id].name+"历代人物":"当年在世人物（选中一国可看该国历代）"}</div>`+
+  Object.entries(g).map(([r,l])=>`<h4 style="margin:6px 0 2px">${r}（${l.length}）</h4>`+l.slice(-80).reverse().map(p=>`<div class="ev" data-p="${p.id}">${p.player?"★":""}${p.name} <span class="muted">${p.title||""} ${S.nations[p.nat]?.name||""} ${p.from??p.born}–${p.to??""}</span></div>`).join("")).join("")}
+// ---- 干预 ----
+function intervene(type){const y=yearNow(),n=S.nations[selected];if(!n||n.born>=y&&y>0)return toast("该国此时尚不存在");
+ mods.push({type,nat:selected,t:tNow()});run(true)}
+// ---- 大纲 ----
+function natOptions(sel,blank){return(blank?'<option value="">（无）</option>':"")+S.nations.map(n=>`<option value="${n.id}"${n.id==sel?" selected":""}>${n.name}（${n.born}–${n.died??""}）</option>`).join("")}
+function renderOutline(){if($("o-n").dataset.v!=S.nations.length){$("o-n").innerHTML=natOptions(selected);$("o-g").innerHTML=natOptions(null,1);$("o-n").dataset.v=S.nations.length}
+ const T=[...$("o-t").options].reduce((a,o)=>(a[o.value]=o.textContent,a),{});
+ $("o-list").innerHTML=mods.map((m,i)=>m.o?`<div class="card"><b>${m.t/360}年</b> ${S.nations[m.nat]?.name||"?"} ${T[m.type].replace("…",m.target!=null?S.nations[m.target]?.name:"邻国")}
+  <span style="color:${m.res==="已执行"?"var(--good)":"var(--acc)"}">${m.res?"· "+m.res:"· 待推演"}</span> <button onclick="mods.splice(${i},1);renderOutline()">删</button></div>`:"").join("")||'<div class="muted">尚无大纲条目</div>'}
+$("o-add").onclick=()=>{const y=Math.round(+$("o-y").value/STEP)*STEP,g=$("o-g").value;mods.push({type:$("o-t").value,nat:+$("o-n").value,t:y*360,target:g===""?null:+g,o:1});renderOutline()};
+$("o-run").onclick=()=>{if(playing)return toast("降临中不能照大纲重演，请先退位");run(true)};
+// ---- 降临 ----
+function replay(dts,until){S=Sim($("cseed").value,+$("ncivs").value,mods);let i=0;while(S.t<until){S.step(dts[i]??1800);i++}}
+function descendPerson(pid){const p=S.people[pid];
+ modal(`<h3 style="margin-top:0">降临 · ${p.name}</h3><div>${S.nations[p.nat]?.name||""} ${p.title||p.role} · ${yearNow()} 年，${yearNow()-p.born} 岁</div>
+ <div class="row">以何名降临：<input id="dname" value="${p.name}" size="8"></div>
+ <div class="hint">降临后，${yearNow()} 年以后的历史作废，从此由你的决策推动。君主可以直接下诏；臣子、将领、先知的建议要看君主纳不纳，也可以谋反、自立或投奔他国。</div>
+ <div class="row"><button class="pri" id="dgo">降临</button><button onclick="closeModal()">取消</button></div>`);
+ $("dgo").onclick=()=>{const nm=$("dname").value.trim(),T0=tNow(),dts=S.dts.slice();closeModal();
+  mods=mods.filter(m=>m.t<=T0);replay(dts,T0);const q=S.people[pid];if(!q||q.to!==null)return toast("此人此时已不在世");
+  mods.push({type:"avatar",pid,name:nm&&nm!==q.name?nm:null,t:S.t,nat:q.nat});playing=true;S.step(1);afterStep();
+  document.querySelector('.tabs [data-t=play]').click();toast(`你已降临为${S.people[pid].name}`)}}
+let pendingCap=false,curEdict=null;
+function afterStep(){$("tl").max=S.snaps.length-1;for(const k in colorCache)delete colorCache[k];setCur(S.snaps.length-1);refreshFilter();autosave()}
+const EDICTS=[
+ ["大河决堤，沿岸州县告急。",[["发帑赈灾","发帑赈灾，修堤安民"],["置之不理","坐视不理，加税修宫"]]],
+ ["边将请增兵戍边。",[["准奏扩军","扩军练兵"],["罢兵屯田","休养生息，劝农桑"]]],
+ ["朝中党争日烈。",[["整肃朝纲","整肃朝纲，肃贪"],["听之任之","享乐，不问政事"]]],
+ ["西方商旅请开互市。",[["开市通商","开互市通商"],["闭关自守","守成，闭关"]]]];
+const RULES=[
+ [/宣战|攻打|讨伐|进攻|出兵|征讨|北伐|南征|西征|东征|伐/,"war",1],[/议和|停战|求和|罢兵|讲和/,"peace",1],[/结盟|联合|和亲|盟约|结好|联姻/,"ally",1],
+ [/投奔|投靠|归顺|叛逃|出奔/,"defect",1],[/刺杀|行刺|暗杀/,"kill",1],[/篡位|谋反|夺位|逼宫|政变|弑君/,"usurp"],[/自立|割据|独立|称王|称帝/,"rebel"],
+ [/迁都/,"capital"],[/扩张|开疆|拓土|开拓/,"policy:扩张"],[/守成|休养生息|固守|防御|保境|闭关/,"policy:守成"],[/均衡|中庸/,"policy:均衡"],
+ [/享乐|修宫|求仙|丹药|选秀|加税|苛政|不问政事|荒淫/,"bad"],
+ [/赈灾|水利|修堤|减税|轻徭|劝农|农桑|通商|互市|兴学|修路|发展|屯田|安民|科举/,"dev"],[/扩军|练兵|征兵|整军|募兵|兵器|骑兵|水师/,"mil"],
+ [/整肃|肃贪|变法|改革|安抚|大赦|削藩|朝纲|立法/,"stab"]];
+function parseCmd(text){const me=S.people[S.playPid],my=S.nations[me.nat],alive=S.nations.filter(n=>n.alive&&n.id!==my.id),acts=[],unknown=[];
+ const nbs=[...(S.contact.get(my.id)||[])].map(i=>S.nations[i]).filter(n=>n.alive);
+ const findNat=c=>{for(const n of alive)if(c.includes(n.name))return n;
+  for(const n of alive){const core=n.name.replace(/(王国|帝国|汗国|公国|侯国|共和国|王朝|联邦)$/,"");if(core.length>=2&&c.includes(core))return n;if(core.length===1&&new RegExp(core+"[国军人朝]").test(c))return n}
+  if(/最强|大国/.test(c))return[...nbs].sort((a,b)=>b.cells-a.cells)[0];if(/最弱|小国/.test(c))return[...nbs].sort((a,b)=>a.cells-b.cells)[0];
+  return null};
+ for(const c of text.split(/[，。；;,.!！？?\n、]+/).map(x=>x.trim()).filter(Boolean)){const r=RULES.find(r=>r[0].test(c));if(!r){unknown.push(c);continue}
+  const [a,p]=r[1].split(":"),o={a};if(p)o.p=p;
+  if(r[2]){let t=findNat(c);if(!t&&a==="war"){const enemies=nbs.filter(n=>!S.allies.has(S.key(my.id,n.id)));t=enemies.sort((x,y)=>x.cells-y.cells)[0]}
+   if(!t&&a==="peace"){const w=[...S.wars.values()].find(v=>v.a===my.id||v.b===my.id);if(w)t=S.nations[w.a===my.id?w.b:w.a]}
+   if(!t&&a==="defect")t=[...nbs].sort((x,y)=>y.cells-x.cells)[0];o.target=t?t.id:null}
+  acts.push(o)}
+ return{acts,unknown}}
+function renderPlay(){const el=$("p-play");
+ if(!playing||S.playPid==null){el.innerHTML=`<div class="card"><b>降临</b><br>拖动时间轴到任意一年，然后：<br>· 在国家详情里点「⚡ 降临为此国君主」；<br>· 或在「人物」里点开任何一个人（名臣、将领、先知……），点「⚡ 降临此人」。<br><br>降临后用文字写下你的决策，选一日、一月、一年或五年，世界会照你的决策往下演化。</div>`;return}
+ const me=S.people[S.playPid],n=S.nations[me.nat],t=S.t,ruler=n.ruler===me.id;
+ if(S.playDead||me.to!==null){el.innerHTML=`<div class="card"><b>${me.name}的一生结束了（${me.died??me.to}年）。</b><br>${me.bio.slice(-3).map(b=>b[0]+"年 "+b[1]).join("<br>")}</div><div class="row"><button data-p="${me.id}">看生平</button><button class="pri" onclick="exitPlay()">让历史继续推演</button></div>`;return}
+ const nbs=[...(S.contact.get(n.id)||[])].filter(i=>S.nations[i].alive);
+ if(ruler&&!curEdict&&Math.random()<.3)curEdict=EDICTS[Math.random()*EDICTS.length|0];
+ el.innerHTML=`<div class="card"><b>★ ${plink(me.id)}</b> <span class="muted">${me.zi}</span><br><span style="color:${n.color}">${n.name}</span> ${ruler?"君主":me.title||me.role} · ${t/360-me.born|0} 岁<br>
+ <b>${fmt(t)}</b> · 都城 ${n.cityName} · 疆域 ${n.cells} 州<br><span class="muted">国策 ${n.policy} · 军势 ${n.aggr*100|0} · 民生 ${(1+n.dev)*100|0}${n.stab>0?" · 朝局安定":""}${ruler?"":" · 当今君主 "+S.people[n.ruler].name}</span></div>
+ ${curEdict?`<div class="card">📜 奏折：${curEdict[0]}<div class="row">${curEdict[1].map((c,i)=>`<button onclick="$('cmd').value='${c[1]}'">${c[0]}</button>`).join("")}</div></div>`:""}
+ <textarea id="cmd" placeholder="写下你的决策，可写多句。例：${ruler?"对"+(nbs[0]!=null?S.nations[nbs[0]].name:"邻国")+"宣战，扩军练兵，兴修水利。":"进言劝农桑；或：起兵谋反 / 据城自立 / 投奔"+(nbs[0]!=null?S.nations[nbs[0]].name:"邻国")}"></textarea>
+ <div class="row">然后过 <select id="dt"><option value="1">一日</option><option value="30">一月</option><option value="360" selected>一年</option><option value="1800">五年</option></select><button class="pri" id="go">执行</button></div>
+ <div class="hint">认得的说法：宣战/讨伐/议和/结盟/和亲 + 国名；迁都；扩张、守成；赈灾、水利、减税、通商、兴学；扩军、练兵；整肃朝纲、变法；刺杀 + 国名；${ruler?"":"谋反、篡位、自立、投奔 + 国名；"}享乐、求仙（会出乱子）。不认得的句子只记入史册。${ruler?"":"你不是君主，国事要君主纳谏才算数。"}</div>
+ <div id="pres" class="hint"></div>
+ <h4 style="margin:6px 0">邻国</h4>${nbs.map(i=>{const tn=S.nations[i],k=S.key(n.id,i),war=S.wars.has(k),al=S.allies.has(k);
+  return`<div class="nat"><span class="sw" style="background:${tn.color}"></span>${tn.name}<small class="muted">${tn.cells}州${war?" ⚔交战":al?" 🤝盟友":""}</small></div>`}).join("")||'<div class="muted">尚无接壤之国</div>'}
+ <div class="row" style="margin-top:6px"><button onclick="exitPlay()">离开此身，让历史继续</button></div>
+ <h4 style="margin:6px 0">近事</h4>${S.events.filter(e=>e.t>=t-1800&&(e.nat===n.id||e.text.includes(n.name)||e.pp&&e.pp.includes(me.id))).reverse().slice(0,14).map(e=>`<div class="ev"><b>${fmtE(e)}</b> ${e.text}</div>`).join("")}`;
+ $("go").onclick=()=>{const txt=$("cmd").value.trim(),dt=+$("dt").value;let msg="";
+  if(txt){const {acts,unknown}=parseCmd(txt);const m={type:"cmd",text:txt,acts,t:S.t,nat:n.id};mods.push(m);curEdict=null;
+   S.step(dt);msg=(m.res||"")+(unknown.length?`；史官记下：「${unknown.join("，")}」`:"")}else S.step(dt);
+  afterStep();if(msg){$("pres").textContent="结果："+msg;toast(msg.slice(0,40))}}}
+function exitPlay(){playing=false;const end=+$("years").value*360;while(S.t<end)S.step();afterStep();updateSide()}
+// ---- 推演 ----
+function refreshFilter(){$("filter").innerHTML='<option value="">全部</option>'+S.nations.map(n=>`<option value="${n.id}">${n.name}</option>`).join("")}
+function run(keepCur){$("prog").textContent="推演中…";playing=false;setTimeout(()=>{const t=performance.now();
+ replay([],+$("years").value*360+1);
+ for(const k in colorCache)delete colorCache[k];$("tl").max=S.snaps.length-1;refreshFilter();
+ $("prog").textContent=`${S.nations.length} 国 · ${S.people.length} 人 · ${S.events.length} 事 · ${((performance.now()-t)/1000).toFixed(1)}s`;
+ setCur(keepCur?Math.min(cur,S.snaps.length-1):S.snaps.length-1);autosave()},20)}
+function newWorld(){world=genWorld($("seed").value,+$("nplates").value);draw()}
+$("gen").onclick=()=>{mods=[];playing=false;selected=null;cur=0;$("info").style.display="none";newWorld();run()};
+// ---- 地图操作 ----
+let drag=null;
+$("mapwrap").addEventListener("pointerdown",e=>{const r=cv.getBoundingClientRect(),px=(e.clientX-r.left)*view.dpr,py=(e.clientY-r.top)*view.dpr;
+ drag={x:e.clientX,y:e.clientY,moved:false,paint:editMode&&!e.shiftKey};if(drag.paint)paint(px,py);$("mapwrap").setPointerCapture(e.pointerId)});
+$("mapwrap").addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>3)drag.moved=true;
+ if(drag.paint){const r=cv.getBoundingClientRect();paint((e.clientX-r.left)*view.dpr,(e.clientY-r.top)*view.dpr);return}
+ if(view.globe){rotLon-=dx/(view.R/view.dpr);rotLat=Math.max(-1.4,Math.min(1.4,rotLat+dy/(view.R/view.dpr)))}else panX+=dx/(view.sc/view.dpr);
+ drag.x=e.clientX;drag.y=e.clientY;draw(false)});
+$("mapwrap").addEventListener("pointerup",e=>{const d=drag;drag=null;if(!d||d.paint){if(d&&d.paint)draw();return}if(d.moved)return;
+ const r=cv.getBoundingClientRect(),c=unproject((e.clientX-r.left)*view.dpr,(e.clientY-r.top)*view.dpr);if(c<0||!S)return;
+ const o=S.snaps[cur].own[c];selected=o>=0?o:null;
+ if(selected===null){const b=["深海","浅海","冰原","高山","针叶林","苔原","荒漠","草原","温带林","雨林"][world.bio[c]];const box=$("info");box.style.display="block";box.dataset.nat="";
+  box.innerHTML=`<span class="x" onclick="this.parentNode.style.display='none'">✕</span>无主之地 · ${b}<br>海拔 ${(world.ele[c]*5000|0)} 米 · 板块 #${world.plate[c]}${world.river[c]?" · 河流":""}<br>纬度 ${(LAT[c]*180/PI).toFixed(0)}°
+  ${world.ele[c]>0&&!playing?`<div class="row"><button onclick="mods.push({type:'found',cell:${c},t:tNow()});run(true)">在此立国（从此年重演）</button></div>`:""}`}
+ else showNation(selected);draw();updateSide()});
+$("mapwrap").addEventListener("wheel",e=>{e.preventDefault()},{passive:false});
+function paint(px,py){const c=unproject(px,py);if(c<0)return;const r=+$("bsize").value,b=+$("brush").value;
+ for(let i=0;i<N;i++)if(cdist(i,c)<=r)sketch[i]=b;draw()}
+$("edit").onclick=()=>{editMode=!editMode;$("edit").classList.toggle("on",editMode);$("editbar").style.display=editMode?"block":"none";$("mapwrap").classList.toggle("paint",editMode);if(editMode)$("layer").value="bio";draw()};
+$("sk-apply").onclick=()=>{newWorld();mods=mods.filter(m=>m.type!=="found");run(true)};
+$("sk-clear").onclick=()=>{sketch.fill(0);draw()};
 $("tl").oninput=e=>setCur(+e.target.value);
-$("layer").onchange=draw;$("labels").onchange=draw;addEventListener("resize",draw);
+$("layer").onchange=()=>draw();$("labels").onchange=()=>draw(false);$("proj").onchange=()=>draw(false);addEventListener("resize",()=>draw(false));
 let timer=null;
 $("play").onclick=()=>{if(timer){clearInterval(timer);timer=null;$("play").textContent="▶ 播放";return}
- if(cur>=hist.snaps.length-1)cur=0;$("play").textContent="⏸ 暂停";timer=setInterval(()=>{if(cur>=hist.snaps.length-1){$("play").click();return}setCur(cur+1)},120)};
-function run(){
- $("prog").textContent="推演中…";setTimeout(()=>{
-  const t=performance.now();hist=simulate($("seed").value,+$("years").value,+$("ncivs").value,mods);
-  for(const k in colorCache)delete colorCache[k];
-  $("tl").max=hist.snaps.length-1;$("filter").innerHTML='<option value="">全部</option>'+hist.nations.map(n=>`<option value="${n.id}">${n.name}</option>`).join("");
-  $("prog").textContent=`${hist.nations.length} 国 · ${hist.events.length} 事 · ${((performance.now()-t)/1000).toFixed(1)}s`;
-  setCur(Math.min(cur,hist.snaps.length-1)||hist.snaps.length-1)},20)}
-$("gen").onclick=()=>{mods=[];selected=null;cur=0;$("info").style.display="none";world=genWorld($("seed").value);draw();run()};
-function intervene(type){if(selected===null)return alert("先在地图或列表中选中一个国家");const y=yearOf(cur);
- if(hist.nations[selected].born>y)return;mods.push({type,nat:selected,y});run()}
-$("pro").onclick=()=>intervene("protect");$("war").onclick=()=>intervene("war");
-$("gen").click();
+ if(cur>=S.snaps.length-1)cur=0;$("play").textContent="⏸ 暂停";timer=setInterval(()=>{if(cur>=S.snaps.length-1){$("play").click();return}setCur(cur+1)},140)};
+// ================= 存档 / 导出 =================
+function rle(a){let o=[],p=a[0],c=0;for(const v of a){if(v===p&&c<99999)c++;else{o.push(p+"x"+c);p=v;c=1}}o.push(p+"x"+c);return o.join(",")}
+function unrle(s,Arr){const out=[];for(const t of s.split(",")){const[v,c]=t.split("x").map(Number);for(let i=0;i<c;i++)out.push(v)}return Arr?Arr.from(out):out}
+function state(){return{v:3,seed:$("seed").value,cseed:$("cseed").value,years:+$("years").value,ncivs:+$("ncivs").value,nplates:+$("nplates").value,mods,
+ sketch:sketch.some(v=>v)?rle(sketch):"",dts:rle(S.dts),playing,t:tNow(),sel:selected}}
+function restore(st){$("seed").value=st.seed;$("cseed").value=st.cseed||"1";$("years").value=st.years;$("ncivs").value=st.ncivs;$("nplates").value=st.nplates||14;
+ mods=(st.mods||[]).map(m=>(m.t==null&&(m.t=m.y*360),m));sketch=st.sketch?unrle(st.sketch,Uint8Array):new Uint8Array(N);playing=!!st.playing;newWorld();
+ $("prog").textContent="推演中…";setTimeout(()=>{const dts=st.dts?unrle(st.dts):[];S=Sim($("cseed").value,+$("ncivs").value,mods);
+  if(dts.length)for(const d of dts)S.step(d);else while(S.t<=st.years*360)S.step();
+  $("tl").max=S.snaps.length-1;refreshFilter();$("prog").textContent=`${S.nations.length} 国 · ${S.people.length} 人 · ${S.events.length} 事`;
+  selected=st.sel??null;const k=S.snaps.findIndex(s=>s.t>=(st.t??0));setCur(k<0?S.snaps.length-1:k);if(selected!==null&&S.nations[selected])showNation(selected);
+  if(playing)document.querySelector('.tabs [data-t=play]').click()},20)}
+function autosave(){try{localStorage.setItem("civ-sandbox",JSON.stringify(state()))}catch(e){}}
+const b64e=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s))),b64d=s=>new TextDecoder().decode(Uint8Array.from(atob(s.trim()),c=>c.charCodeAt(0)));
+function copyBox(title,text,note){modal(`<h3 style="margin-top:0">${title}</h3><div class="hint">${note||""}</div><textarea id="cbox" style="width:min(640px,80vw);height:240px" readonly></textarea><div class="row"><button class="pri" id="cbtn">复制</button></div>`);
+ $("cbox").value=text;$("cbtn").onclick=()=>{$("cbox").select();(navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).then(()=>toast("已复制"),()=>toast("请按 Ctrl+C 复制已选中的文字"))}}
+$("save").onclick=()=>{let code="";try{code=b64e(JSON.stringify(state()))}catch(e){}copyBox("存档码",code,"复制这段存档码保存起来或发给别人；在「读档」里粘贴即可还原到同一年、同一个世界（含你的草图、干预、大纲与降临决策）。世界也会自动保存在本浏览器。")};
+$("load").onclick=()=>{modal(`<h3 style="margin-top:0">读档</h3><div class="hint">粘贴存档码，或选择一个存档 .json 文件。</div><textarea id="lbox" style="width:min(640px,80vw);height:160px"></textarea>
+ <div class="row"><input type="file" id="file" accept=".json,.txt"><button class="pri" id="lbtn">读取</button></div>`);
+ $("file").onchange=async e=>{const f=e.target.files[0];if(f)$("lbox").value=await f.text()};
+ $("lbtn").onclick=()=>{const v=$("lbox").value.trim();try{restore(JSON.parse(v.startsWith("{")?v:b64d(v)));closeModal()}catch(err){toast("存档码无法识别，请检查是否复制完整")}}};
+$("png").onclick=()=>{const url=cv.toDataURL("image/png");modal(`<h3 style="margin-top:0">地图图片 · ${yearNow()}年</h3><div class="hint">右键（手机上长按）图片即可保存。</div><img src="${url}" style="max-width:min(860px,88vw);border:1px solid var(--line)">`)};
+$("md").onclick=()=>{const t0=tNow();let t=`# 编年史（地图种子 ${$("seed").value}，至 ${fmt(t0)}）\n`;let last=-1;
+ for(const e of S.events){if(e.t>t0)break;if(e.y!==last){t+=`\n## ${e.y} 年\n\n`;last=e.y}t+=`- 【${e.type}】${e.text}\n`}
+ copyBox("编年史（Markdown）",t,"复制后可粘贴到任何笔记或文档里。")};
+// ================= 启动 =================
+(function boot(){let st=null;try{st=JSON.parse(localStorage.getItem("civ-sandbox")||"null")}catch(e){}
+ try{if(st&&st.seed&&st.v===3){restore(st);return}}catch(e){}$("gen").click()})();
 </script>
-</body>
-</html>
