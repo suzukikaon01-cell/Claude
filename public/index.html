@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自动记账</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f766e">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>自动记账</h1>
+  <input type="month" id="month">
+</header>
+<main>
+  <section class="cards">
+    <div class="card"><span>本月收入</span><b id="income">-</b><small id="school"></small></div>
+    <div class="card"><span>本月流出</span><b id="outflow">-</b><small id="outDetail"></small></div>
+    <div class="card hero"><span>盈余</span><b id="surplus">-</b><small id="rate"></small></div>
+  </section>
+
+  <section>
+    <h2>支出分类</h2>
+    <div id="cats" class="bars"></div>
+    <h2>支付渠道</h2>
+    <div id="srcs" class="bars"></div>
+  </section>
+
+  <section class="actions">
+    <button id="syncSchool">同步教务系统收入</button>
+    <label class="btn">导入教务 CSV<input type="file" id="csv" accept=".csv" hidden></label>
+  </section>
+
+  <section>
+    <h2>手动记一笔</h2>
+    <form id="add">
+      <select name="type"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">转账转出</option></select>
+      <input name="amount" type="number" min="1" step="1" placeholder="金额 ¥" required>
+      <input name="merchant" placeholder="商户/说明">
+      <input name="category" placeholder="分类（可选）">
+      <button>添加</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>明细</h2>
+    <ul id="list"></ul>
+  </section>
+  <p id="msg"></p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

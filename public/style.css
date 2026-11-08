@@ -1,0 +1,21 @@
+:root{--bg:#f6f7f9;--fg:#111827;--card:#fff;--muted:#6b7280;--accent:#0f766e;--neg:#dc2626;--pos:#16a34a;--line:#e5e7eb}
+@media (prefers-color-scheme:dark){:root{--bg:#0b0f14;--fg:#e5e7eb;--card:#151b23;--muted:#9ca3af;--line:#263040}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","PingFang SC",sans-serif;background:var(--bg);color:var(--fg)}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--accent);color:#fff}
+h1{font-size:18px;margin:0}h2{font-size:14px;color:var(--muted);margin:20px 0 8px}
+main{max-width:640px;margin:auto;padding:0 16px 40px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.card{background:var(--card);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px;border:1px solid var(--line)}
+.card span,.card small{color:var(--muted);font-size:12px}.card b{font-size:22px;font-variant-numeric:tabular-nums}
+.hero{grid-column:1/-1}.hero b{font-size:30px}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.bars div{display:grid;grid-template-columns:80px 1fr 80px;gap:8px;align-items:center;font-size:13px;margin:4px 0}
+.bars i{display:block;height:8px;border-radius:4px;background:var(--accent)}.bars em{font-style:normal;text-align:right}
+.actions{display:flex;gap:10px;margin-top:20px}
+button,.btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:14px;cursor:pointer}
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px}form button{grid-column:1/-1}
+input,select{padding:9px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:14px;min-width:0}
+header input{background:#fff2;color:#fff;border-color:#fff5}
+ul{list-style:none;padding:0;margin:0}li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+li small{color:var(--muted);display:block}li button{background:none;color:var(--muted);padding:0 4px}
+#msg{color:var(--muted);font-size:13px}
