@@ -29,3 +29,9 @@
 .reserve-btn{background:#2e4650!important;color:#f0d9a2!important}
 @media(max-width:850px){#reservePanel{left:150px;top:62px;width:150px;padding:7px}#reservePanel .reserve-head .item-icon{width:30px;height:30px}}
 @media(max-width:650px){#reservePanel{left:110px;top:62px;width:140px}}
+
+/* V19 小地图上移（目标文字已移除）；小地图下方按钮移除，预约装备面板放在小地图正下方 */
+#minimapPanel{top:12px!important}#v8Tools,#runeTools{display:none!important}
+#reservePanel{left:18px;top:222px;width:176px}
+@media(max-width:850px){#minimapPanel{top:8px!important}#reservePanel{left:10px;top:168px;width:132px;padding:6px}#reservePanel .reserve-buy{font-size:10px;padding:6px 4px}}
+@media(max-height:600px) and (min-width:651px){#minimapPanel{top:8px!important}#reservePanel{left:12px;top:136px;width:150px}}
