@@ -42,7 +42,7 @@ $('#add').addEventListener('submit', async (e) => {
   try { await api('/api/transactions', { method: 'POST', body: JSON.stringify(body) }); e.target.reset(); load(); } catch (err) { msg(err.message); }
 });
 $('#syncSchool').addEventListener('click', async () => {
-  try { const r = await api('/api/school/sync?month=' + $('#month').value, { method: 'POST' }); msg(`已同步 ${r.count} 条教务收入`); load(); } catch (err) { msg('同步失败：' + err.message); }
+  try { const r = await api('/api/school/sync?month=' + $('#month').value, { method: 'POST' }); msg(`已同步 ${r.count} 天教务收入` + (r.total != null ? `：结算 ${yen(r.total)}（授课应得 ${yen(r.gross)}）${r.provisional ? ' · 本月未结束，为暂定值' : ''}` : '')); load(); } catch (err) { msg('同步失败：' + err.message); }
 });
 $('#csv').addEventListener('change', async (e) => {
   const f = e.target.files[0]; if (!f) return;

@@ -38,3 +38,13 @@ test('教务 CSV', () => {
   const r = parseCsv('日期,金额,说明\n2026-11-05,"45,000",11月课时费\n');
   assert.equal(r.length, 1); assert.equal(r[0].amount, 45000);
 });
+
+test('知日塾收入报表转换', () => {
+  const { toItems } = require('../lib/zhirizhu');
+  const items = toItems({ days: [
+    { day: '2026-11-03', total_yen: 6356, one_to_one_yen: 6000, one_to_one_minutes: 120, interview_yen: 0, interview_minutes: 0, commute_yen: 356, commute_trips: 1 },
+    { day: '2026-11-04', total_yen: 0 },
+  ] });
+  assert.equal(items.length, 1); assert.equal(items[0].amount, 6356);
+  assert.ok(items[0].date.startsWith('2026-11-03')); assert.match(items[0].title, /1v1 2h · 通勤×1/);
+});

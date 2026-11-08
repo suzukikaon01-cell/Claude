@@ -5,6 +5,7 @@ const path = require('path');
 const { parseNotification } = require('./lib/parser');
 const { Store, summarize } = require('./lib/store');
 const { fetchSchoolIncome, parseCsv } = require('./lib/school');
+const { fetchZhirizhuIncome } = require('./lib/zhirizhu');
 
 const PORT = Number(process.env.PORT || 3000);
 const TOKEN = process.env.INGEST_TOKEN || ''; // 手机推送通知时使用的密钥
@@ -59,9 +60,16 @@ const server = http.createServer(async (req, res) => {
     }
     if (p === '/api/school/sync' && req.method === 'POST') {
       const month = url.searchParams.get('month') || curMonth();
-      const items = (await fetchSchoolIncome(month)).filter((i) => i.date.startsWith(month));
+      // 默认对接知日塾教务系统；配置了 SCHOOL_API_URL 时使用通用 JSON 接口
+      if (process.env.SCHOOL_API_URL) {
+        const items = (await fetchSchoolIncome(month)).filter((i) => i.date.startsWith(month));
+        store.replaceSchoolIncome(month, items);
+        return send(res, 200, { month, count: items.length });
+      }
+      const z = await fetchZhirizhuIncome(month);
+      const items = z.items.filter((i) => i.date.startsWith(month));
       store.replaceSchoolIncome(month, items);
-      return send(res, 200, { month, count: items.length });
+      return send(res, 200, { month, count: items.length, total: z.total, gross: z.gross, provisional: z.provisional });
     }
     if (p === '/api/school/csv' && req.method === 'POST') {
       const items = parseCsv(await readBody(req));

@@ -40,16 +40,20 @@ INGEST_TOKEN=换成你的密钥 npm start
 
 也可直接发送纯文本：`curl -X POST -H "x-token: 密钥" --data "ローソンで¥450を支払いました" http://<服务器>/api/ingest`
 
-## 联动教务系统收入
+## 联动教务系统收入（知日塾）
 
-各学校教务系统接口不同，提供两种方式：
+默认对接你自己的 **知日塾教务系统**（`app.lesson-desk.workers.dev`），直接复用其“收入”页的同一套算法：普通 1v1 3000/h、1v1 面试 3000/h、模拟面试 750/30 分钟、通勤 356/次，按周/月课时上限结转后的**当月结算金额**，每个结算日记一条收入。
 
-1. **API 同步**：设置环境变量后点「同步教务系统收入」
-   ```bash
-   SCHOOL_API_URL="https://教务系统/api/salary?month={month}" SCHOOL_API_TOKEN=xxx npm start
-   ```
-   返回 `[{date, amount, title}]` 或 `{items:[...]}`；字段名不同时用 `SCHOOL_FIELD_DATE` / `SCHOOL_FIELD_AMOUNT` / `SCHOOL_FIELD_TITLE` 映射。同步会覆盖该月旧的教务记录，可重复执行。
-2. **CSV 导入**：从教务系统导出课时费/工资统计，列为 `日期,金额,说明`，在页面上点「导入教务 CSV」。
+```bash
+ZHIRIZHU_PASSWORD=教师登录密码 INGEST_TOKEN=你的密钥 npm start
+```
+
+- 点页面上「同步教务系统收入」即可；重复同步会覆盖该月旧数据，不会重复记账。当月未结束时显示为暂定值，并同时显示授课应得（结转前）金额。
+- 记账后台用 `/api/login`（remember，会话 400 天）登录，只调用只读接口 `GET /api/income/month`，**不修改教务系统任何数据**。会话失效时自动重新登录。
+- 不想保存密码：可在浏览器登录教务系统后，把 `sidx` cookie 值设为 `ZHIRIZHU_SESSION`。
+- 测试环境：`ZHIRIZHU_URL=https://app-staging.lesson-desk.workers.dev`。
+
+其他教务系统可用通用方式：设置 `SCHOOL_API_URL`（可含 `{month}`）与 `SCHOOL_API_TOKEN`，返回 `[{date, amount, title}]`；或导出 CSV（`日期,金额,说明`）在页面上「导入教务 CSV」。
 
 ## API
 
