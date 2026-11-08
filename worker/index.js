@@ -42,13 +42,37 @@ async function replaceSchool(db, month, items) {
   ]);
 }
 
-async function api(req, env, url, db) {
+const SHORTCUTS = ['wallet', 'screenshot'];
+
+async function api(req, env, url, db, storage) {
   const p = url.pathname;
+  const sc = p.match(/^\/shortcuts\/(\w+)\.shortcut$/);
+  if (sc && req.method === 'GET' && SHORTCUTS.includes(sc[1])) {
+    const b64 = await storage.get('shortcut:' + sc[1]);
+    if (!b64) return json({ error: '快捷指令尚未签名上传' }, 404);
+    const names = { wallet: 'ApplePay自动记账', screenshot: '截图记账' };
+    return new Response(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)), { headers: {
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(names[sc[1]])}.shortcut` } });
+  }
+  if (p === '/api/shortcuts/status') {
+    const st = {}; for (const n of SHORTCUTS) st[n] = !!(await storage.get('shortcut:' + n));
+    return json(st);
+  }
   if (!env.INGEST_TOKEN || (req.headers.get('x-token') !== env.INGEST_TOKEN && url.searchParams.get('token') !== env.INGEST_TOKEN)) return json({ error: 'token 无效' }, 401);
+  const up = p.match(/^\/api\/shortcuts\/(\w+)$/);
+  if (up && req.method === 'PUT' && SHORTCUTS.includes(up[1])) {
+    const buf = new Uint8Array(await req.arrayBuffer());
+    if (buf.length < 100 || buf.length > 1e6 || String.fromCharCode(...buf.slice(0, 4)) !== 'AEA1') return json({ error: '不是已签名的快捷指令' }, 400);
+    let bin = ''; for (const b of buf) bin += String.fromCharCode(b);
+    await storage.put('shortcut:' + up[1], btoa(bin));
+    return json({ ok: true, bytes: buf.length });
+  }
   if (p === '/api/ingest' && req.method === 'POST') {
     const raw = await req.text();
     let n; try { n = JSON.parse(raw); } catch { n = { text: raw }; }
-    const tx = parseNotification(n);
+    let tx = parseNotification(n);
+    if (!tx && n.raw) tx = parseNotification({ app: n.app, text: `${n.raw}` });
     if (tx && url.searchParams.get('dry')) return json({ tx, dry: true });
     return tx ? json(await add(db, tx)) : json({ error: '未识别到金额', text: n.text }, 422);
   }
@@ -104,7 +128,7 @@ export class Ledger extends DurableObject {
   }
   async fetch(req) {
     const url = new URL(req.url);
-    try { return await api(req, this.env, url, this.db); } catch (e) { return json({ error: e.message }, 500); }
+    try { return await api(req, this.env, url, this.db, this.ctx.storage); } catch (e) { return json({ error: e.message }, 500); }
   }
   async syncSchool() {
     const month = curMonth();
@@ -118,7 +142,7 @@ const stub = (env) => env.LEDGER.get(env.LEDGER.idFromName('main'));
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
-    if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(req);
+    if (!url.pathname.startsWith('/api/') && !url.pathname.startsWith('/shortcuts/')) return env.ASSETS.fetch(req);
     return stub(env).fetch(req);
   },
   // 每天自动同步当月教务收入（东京 6:00）

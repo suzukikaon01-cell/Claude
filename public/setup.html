@@ -21,6 +21,17 @@ code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px;word-
 <main>
   <p id="warn" class="bad"></p>
 
+  <div class="step" id="oneTap" hidden>
+    <h3>一键安装<span class="tag">推荐</span></h3>
+    <p style="font-size:13px;color:var(--muted);margin:0">点按钮会先复制地址，再打开安装。安装时 iPhone 会问“粘贴记账地址”，长按粘贴即可。</p>
+    <button class="big" data-install="wallet">安装「Apple Pay 自动记账」</button>
+    <button class="big" data-install="screenshot">安装「截图记账」</button>
+    <ol>
+      <li>安装后：快捷指令 →「自动化」→「＋」→「電子ウォレット」→ 全选卡片 →「すぐに実行」→ 下一步 → 在「マイショートカット」里选「<b>ApplePay自动记账</b>」</li>
+      <li>截图记账：设置 → 辅助功能 → 触控 → 轻点背面 → 轻点两下 → 选「<b>截图记账</b>」</li>
+    </ol>
+  </div>
+
   <div class="step">
     <h3>① Apple Pay（Suica・信用卡）全自动<span class="tag">约 1 分钟</span></h3>
     <button class="big" data-copy="wallet">复制「自动记账地址」</button>
@@ -76,6 +87,14 @@ async function copy(text, btn) {
   catch { const t = document.createElement('textarea'); t.value = text; document.body.append(t); t.select(); document.execCommand('copy'); t.remove(); }
   const old = btn.textContent; btn.textContent = '✓ 已复制'; setTimeout(() => (btn.textContent = old), 1500);
 }
+fetch('/api/shortcuts/status').then((r) => r.json()).then((st) => {
+  if (st.wallet || st.screenshot) document.getElementById('oneTap').hidden = false;
+  document.querySelectorAll('[data-install]').forEach((b) => {
+    const n = b.dataset.install;
+    if (!st[n]) { b.disabled = true; b.textContent += '（尚未签名）'; return; }
+    b.addEventListener('click', async () => { await copy(vals[n === 'wallet' ? 'wallet' : 'shot'], b); location.href = `/shortcuts/${n}.shortcut`; });
+  });
+}).catch(() => {});
 document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(vals[b.dataset.copy], b)));
 document.getElementById('test').addEventListener('click', async () => {
   const out = document.getElementById('testOut');
