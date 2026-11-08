@@ -1,0 +1,14 @@
+// V19 AI 防御塔：不送塔、不卡塔边；残血目标在塔边（AI 一侧）时击杀，躲在塔后时不硬越。
+const make=require('./test-harness.cjs'),assert=require('assert');let count=0;
+const test=(name,f)=>{f();console.log('PASS V19AI '+name);count++};
+function legal(h,p,r=30){if(!h.a.blocked(p.x,p.y,r))return p;for(let d=20;d<900;d+=20)for(let k=0;k<24;k++){let q={x:p.x+Math.cos(k*Math.PI/12)*d,y:p.y+Math.sin(k*Math.PI/12)*d};if(!h.a.blocked(q.x,q.y,r))return q}return p}
+function scene(mode,heroHp,frac){let h=make();h.a.reset('ashe',true,mode);let p=h.a.p,m=h.a.m,tw=h.a.units.filter(u=>u.type==='tower'&&u.team===p.team&&u.hp>0).sort((a,b)=>a.tier-b.tier)[0];let bot=h.a.units.find(u=>u.type==='hero'&&u.team!==p.team);for(let u of h.a.units)if(u.type==='hero'&&u!==p&&u!==bot){u.x=100;u.y=100;u.stun=999}
+ let b=h.C.map.bases[p.team],dx=b.x-tw.x,dy=b.y-tw.y,d=Math.hypot(dx,dy),q=legal(h,{x:tw.x+dx/d*tw.range*frac,y:tw.y+dy/d*tw.range*frac});p.x=q.x;p.y=q.y;p.stun=999;if(heroHp)p.hp=heroHp;p.hpRegen=0;
+ let bp=legal(h,{x:tw.x-dx/d*(tw.range+600),y:tw.y-dy/d*(tw.range+600)});bot.x=bp.x;bot.y=bp.y;bot.level=Math.max(bot.level,9);m.recalc(bot);bot.hp=bot.maxHp;return{h,p,tw,bot}}
+function play(s,secs=8){let inside=0,trace=[];for(let i=0;i<secs*30;i++){for(let u of s.h.a.units)if(u.type==='minion')u.hp=0;s.h.step(1/30);if(Math.hypot(s.bot.x-s.tw.x,s.bot.y-s.tw.y)<s.tw.range)inside++;trace.push({x:s.bot.x,y:s.bot.y})}return{inside,trace}}
+for(let mode of ['ARAM',undefined]){let name=mode||'SR';
+ test(name+': full-HP hero under tower -> bot never enters range and holds a stable safe spot',()=>{let s=scene(mode,0,.3),r=play(s);assert.equal(r.inside,0);let a=r.trace.at(-30),b=r.trace.at(-1);assert(Math.hypot(a.x-b.x,a.y-b.y)<20,'stable, not jittering');assert(!(s.bot.death>0))});
+ test(name+': low-HP hero at the near edge -> bot secures the kill and survives healthy',()=>{let s=scene(mode,60,-.85);play(s);assert(s.p.death>0,'target killed');assert(s.bot.hp>s.bot.maxHp*.5)});
+ test(name+': low-HP hero hiding behind tower -> bot does not dive through the tower',()=>{let s=scene(mode,60,.85),r=play(s);assert.equal(r.inside,0);assert(!(s.bot.death>0))});}
+test('bot already standing under enemy tower without minion cover walks out',()=>{let s=scene('ARAM',0,.3);let q=legal(s.h,{x:s.tw.x+(s.tw.x-s.p.x)*.3,y:s.tw.y+(s.tw.y-s.p.y)*.3});s.bot.x=q.x;s.bot.y=q.y;let r=play(s,4);let end=r.trace.at(-1);assert(Math.hypot(end.x-s.tw.x,end.y-s.tw.y)>s.tw.range,'left tower range')});
+console.log('V19 AI tests passed: '+count);

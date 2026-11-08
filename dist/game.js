@@ -281,6 +281,20 @@ function botSkill(u,t,dt){if(u.hero==='anvil'&&mechanics.anvil){let r=mechanics.
  if(u.hero==='khazix')for(let j of [0,2,3,1])if(mechanics.evolveKhazix?.(u,j))break;
  u.skillTimer=used?.25+rand()*.35:.12;return used}
 
+// V19 AI 防御塔判断：只有能击杀目标且扛得住塔伤时才越塔；否则不进塔、不追塔下的敌人，停在塔射程外的安全点。
+function botTowerAt(u,p,margin=0){return units.find(v=>v.type==='tower'&&v.team!==u.team&&alive(v)&&dist(v,p)<v.range+(p.radius||0)+margin)}
+function botTowerSupported(u,tw){return units.some(v=>v.type==='minion'&&v.team===u.team&&alive(v)&&dist(v,tw)<tw.range-20)&&tw.aggro!==u}
+function botBurst(u,t){let total=0;for(let i=0;i<4;i++){if(!u.skillRanks?.[i]||mechanics.abilityCooldownRemaining(u,i)>0)continue;try{let v=mechanics.raw(u,i,t);if(Number.isFinite(v)&&v>0)total+=v}catch{}}let as=mechanics.effectiveAS?.(u)||u.attackSpeed||.7;return total+u.attack*as*2.5}
+function botCanDive(u,t,tw){if(!tw||!alive(t)||t.type!=='hero')return false;if(u.aiDive?.id===t.id)return true;let allies=units.filter(v=>v.type==='hero'&&v.team===u.team&&alive(v)&&dist(v,t)<900&&v.hp>v.maxHp*.4),dmg=allies.reduce((n,v)=>n+botBurst(v,t)*(v===u?1:.6),0)*.7,hpT=t.hp+(t.shield||0);
+ // 在塔下停留时间 = 进入射程后走到攻击距离 + 约1.5秒击杀 + 走出射程；按塔的递增伤害（每发+50%，单发上限850）估算承受的总伤害。
+ let speed=Math.max(150,(u.speed||300)*(C.heroMovementMultiplier||1)),travel=botPathInside(u,t,tw,attackRange(u)*.8),stay=2*travel/speed+1.5,shots=1+Math.ceil(stay/(tw.interval||1.1));
+ let armor=Math.max(0,(u.armor||0)*(1-(tw.armorPenPct||0))),mult=100/(100+armor),base=tw.attack||C.tower.attack,cap=850,towerHit=0;for(let k=0;k<shots;k++)towerHit+=Math.min(cap,base*(1+.5*k))*mult;if(allies.length>=2)towerHit/=1.6;
+ let ok=dmg>=hpT*1.1&&u.hp-towerHit>u.maxHp*.25;if(ok)u.aiDive={id:t.id,until:time+stay+1};return ok}
+// 从 u 沿直线走到目标攻击距离处，这段路有多长落在塔的射程内。
+function botPathInside(u,t,tw,stop){let d=dist(u,t),end=Math.max(0,d-stop),n=Math.max(4,Math.ceil(end/40)),inside=0,step=end/n;for(let k=1;k<=n;k++){let x=u.x+(t.x-u.x)/(d||1)*k*step,y=u.y+(t.y-u.y)/(d||1)*k*step;if(Math.hypot(x-tw.x,y-tw.y)<tw.range)inside+=step}return inside}
+function botSafeSpot(u,tw){let b=base[u.team],dx=b.x-tw.x,dy=b.y-tw.y,d=Math.hypot(dx,dy)||1,r=tw.range+(u.radius||22)+140,p={x:tw.x+dx/d*r,y:tw.y+dy/d*r};if(blocked(p.x,p.y,u.radius||22))p=C.map.nearestLegal?.(p,u.radius||22,900)||(GameModes.isARAM()?{x:tw.x+dx/d*r,y:tw.y+dy/d*r}:p);return p}
+function botPickTarget(u){let range=Math.max(480,u.range+50),cand=units.filter(v=>v.team!==u.team&&canBeTarget(u,v)&&['hero','minion','monster'].includes(v.type)&&dist(u,v)<range+(v.radius||0));let ok=v=>{let tw=botTowerAt(u,v,40);if(!tw)return true;if(v.type==='hero')return botCanDive(u,v,tw);return botTowerSupported(u,tw)};let heroes=cand.filter(v=>v.type==='hero'&&ok(v)).sort((a,b)=>dist(u,a)-dist(u,b));if(heroes[0])return heroes[0];let kill=units.filter(v=>v.type==='hero'&&v.team!==u.team&&canBeTarget(u,v)&&dist(u,v)<1600&&botTowerAt(u,v,40)&&botCanDive(u,v,botTowerAt(u,v,40))).sort((a,b)=>a.hp-b.hp)[0];if(kill)return kill;let rest=cand.filter(v=>v.type!=='hero'&&ok(v)).sort((a,b)=>dist(u,a)-dist(u,b));if(rest[0])return rest[0];let s=enemyStructures(u)[0];if(s&&dist(u,s)<500&&(s.type!=='tower'||botTowerSupported(u,s)))return s;return null}
+
 function updateHero(u,dt){
  summoners.tick(u,dt);mechanics.tick(u,dt);runeEffects?.update?.(u,dt);u.suppressGoldFloat=true;u.gold+=(GameModes.isARAM()?(time>=C.aram.passive_gold_start?C.aram.passive_gold_per_second:0):C.passiveGold)*dt;u.suppressGoldFloat=false;
  if(u.death>0){u.death-=dt;if(u.death<=0){u.death=0;u.x=base[u.team].x+(u.team?-430:430);u.y=base[u.team].y+(u.team?430:-430);mechanics.clearTransient(u);if(GameModes.isARAM())modeRuntime.respawn(u);u.hp=u.maxHp;u.mp=u.maxMana;if(u.resourceType==='ENERGY')u.energy=u.maxEnergy;u.attackers={};u._life=(u._life||0)+1;mechanics.core.emit('UnitRespawned',u,u)}return}
@@ -296,8 +310,13 @@ function updateHero(u,dt){
   if(attackHeld){u.target=targetFor(u,attackRange(u),attackMode);let t=u.target;if(t){if(dist(u,t)>attackRange(u)+(t.radius||0))move(u,t,dt);else attack(u,t)}}
  }
  else{if(trainingActive()&&!training.ai)return;if(u.stun>0)return;if(u.hero==='dio'&&mechanics.temporal.active(u)&&mechanics.temporal.active(u).end-time<.25)cast(u,3,u);if(botTactics(u,dt))return;let ownBase=base[u.team],retreat=u.retreat;if(GameModes.isARAM()){u.retreat=false;if(u.hp/u.maxHp<.5){let r=modeRuntime.relics().filter(r=>r.readyAt<=time&&dist(u,r)<2500&&dist(r,ownBase)<C.world/2).sort((a,b)=>dist(u,a)-dist(u,b))[0];if(r&&dist(u,r)>45){move(u,r,dt);return}}}else{if(u.hp<u.maxHp*.26)u.retreat=true;if(u.hp>u.maxHp*.9)u.retreat=false;if(u.retreat){move(u,ownBase,dt,1.1);return}}if((!GameModes.isARAM()||modeRuntime.canShop(u))&&dist(u,ownBase)<280&&u.gold>500&&u.items.length<6){let item=C.items.find(v=>v.id===((u.hero==='lux'||u.hero==='zero')?'tome':u.items.length===1?'boots':'sword'));u.gold-=item.cost;u.items.push(item.id);recalc(u)}
- let t=nearestEnemy(u,Math.max(480,u.range+50),true)||nearestEnemy(u,Math.max(430,u.range+30));if(!t){let structure=enemyStructures(u)[0];if(structure&&dist(u,structure)<500)t=structure}if(t){botSkill(u,t,dt);let danger=units.find(v=>v.type==='tower'&&v.team!==u.team&&alive(v)&&dist(v,u)<v.range+30);let support=danger&&units.some(v=>v.type==='minion'&&v.team===u.team&&alive(v)&&dist(v,danger)<danger.range);if(danger&&!support&&u.hp<u.maxHp*.8){let dx=u.x-danger.x,dy=u.y-danger.y,d=Math.hypot(dx,dy)||1,stage={x:danger.x+dx/d*(danger.range+90),y:danger.y+dy/d*(danger.range+90)};move(u,stage,dt);return}if(dist(u,t)>attackRange(u)+(t.radius||15))move(u,t,dt);else{attack(u,t);if(!mechanics.isMelee(u)&&dist(u,t)<120&&t.type==='hero')move(u,{x:u.x+(u.x-t.x),y:u.y+(u.y-t.y)},dt,.65)}
-}else followLane(u,dt)}
+ let t=botPickTarget(u);let tw=botTowerAt(u,u,10),dive=u.aiDive&&units.find(v=>v.id===u.aiDive.id);
+ // 正在越塔：目标死亡/离开、自己血量过低时放弃。
+ if(dive&&(!alive(dive)||u.hp<u.maxHp*.3||time>u.aiDive.until)){u.aiDive=null;dive=null}
+ // 身处敌方塔下且不在越塔：没有小兵吸引火力、或者塔正在打自己，立刻退到安全点。
+ if(tw&&!dive&&(!botTowerSupported(u,tw)||tw.aggro===u)){u.target=null;let spot=botSafeSpot(u,tw);if(t&&t.type==='hero'&&dist(u,t)<=attackRange(u)+(t.radius||15)&&!botTowerAt(u,t,40))attack(u,t);move(u,spot,dt,1.05);return}
+ if(t){botSkill(u,t,dt);if(dist(u,t)>attackRange(u)+(t.radius||15)){let nextTw=botTowerAt(u,{x:u.x+(t.x-u.x)*.35,y:u.y+(t.y-u.y)*.35},20)||botTowerAt(u,t,40);if(nextTw&&!dive&&!botTowerSupported(u,nextTw)&&!(t.type==='hero'&&botCanDive(u,t,nextTw))){let spot=botSafeSpot(u,nextTw);if(dist(u,spot)>60)move(u,spot,dt);return}move(u,t,dt)}else{attack(u,t);if(!mechanics.isMelee(u)&&dist(u,t)<120&&t.type==='hero')move(u,{x:u.x+(u.x-t.x),y:u.y+(u.y-t.y)},dt,.65)}
+}else{let ahead=botTowerAt(u,u,260);if(ahead&&!botTowerSupported(u,ahead)){let spot=botSafeSpot(u,ahead);if(dist(u,spot)>60)move(u,spot,dt);return}followLane(u,dt)}}
 }
 function update(dt){simulationClock.advance(dt,(step,at)=>{time=at;updateStep(step)})}
 function updateStep(dt){checkShopUndo();let logicStarted=performance.now();tickTraining();mechanics.temporal?.tick(dt);visionCache.clear();visionSources.clear();spawnWave();mechanics.beginStep();tickDelayed(dt);
