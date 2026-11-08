@@ -22,3 +22,4 @@ li small{color:var(--muted);display:block}li button{background:none;color:var(--
 textarea{width:100%;margin:10px 0 8px;padding:9px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-size:14px}
 .hint{color:var(--muted);font-size:12px;margin:0 0 8px}.actions select{flex:1}
 .import li{font-size:13px;padding:6px 0}
+.hdr{color:#fff;font-size:13px;margin-right:8px}

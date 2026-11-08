@@ -49,6 +49,7 @@ async function api(req, env, url, db) {
     const raw = await req.text();
     let n; try { n = JSON.parse(raw); } catch { n = { text: raw }; }
     const tx = parseNotification(n);
+    if (tx && url.searchParams.get('dry')) return json({ tx, dry: true });
     return tx ? json(await add(db, tx)) : json({ error: '未识别到金额', text: n.text }, 422);
   }
   if ((p === '/api/import' || p === '/api/screenshot') && req.method === 'POST') {
@@ -60,6 +61,7 @@ async function api(req, env, url, db) {
     for (const m of months) existing.push(...(await db.prepare('SELECT * FROM transactions WHERE date LIKE ?').bind(m + '%').all()).results);
     const { add, skipped } = planImport(existing, rows);
     const items = add.map((r) => ({ id: crypto.randomUUID(), ...r }));
+    if (url.searchParams.get('dry')) return json({ added: items.length, skipped, items, dry: true }, rows.length ? 200 : 422);
     if (items.length) await db.batch(items.map((t) => insert(db, t)));
     return json({ added: items.length, skipped, items, ...(rows.length ? {} : { error: '没有识别到交易' }) }, rows.length ? 200 : 422);
   }

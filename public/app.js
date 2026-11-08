@@ -8,6 +8,7 @@ const yen = (n) => '¥' + Math.round(n).toLocaleString('ja-JP');
 const TYPE = { expense: '支出', income: '收入', transfer: '转出', internal: '内部' };
 $('#month').value = new Date().toISOString().slice(0, 7);
 const msg = (t) => { $('#msg').textContent = t; };
+if (token) $('#setupLink').href = 'setup.html?token=' + token;
 
 function bars(el, obj) {
   const e = Object.entries(obj).sort((a, b) => b[1] - a[1]);
