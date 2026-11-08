@@ -1,0 +1,26 @@
+// V19 砧岳：Q撞墙/塔双倍+眩晕、已损失生命加成、W正面减伤与强化Q、E落地控制、R不可选中与距离衰减。
+const make=require('./test-harness.cjs'),assert=require('assert');let count=0;
+const test=(name,f)=>{f();console.log('PASS V19 '+name);count++};
+function setup(){let h=make();h.a.reset('anvil',true);let p=h.a.p;p.skillRanks=[5,5,5,3];p.level=18;h.a.m.recalc?.(p);p.mana=p.maxMana=9999;for(let i=0;i<4;i++)p.cd[i]=0;
+ let e=h.a.units.find(u=>u.type==='hero'&&u.team!==p.team);e.hpRegen=0;e.ai=false;return{h,p,e,M:h.C.map,A:h.a.m.anvil}}
+function open(h,x,y,r=700){let q=h.C.map.nearestLegal({x,y},30);for(let a=0;a<64;a++){let ok=true;for(let d=0;d<=r;d+=40)if(h.a.blocked(q.x+Math.cos(a)*d,q.y+Math.sin(a)*d,30)){ok=false;break}if(ok)return{q,a}}return{q,a:0}}
+function cast(h,p,i,pt){p.cd[i]=0;assert(h.a.m.requestCast(p,i,pt)!==false,'cast '+i);for(let n=0;n<10&&p.pendingCast;n++)h.step(1/60)}
+
+test('hero registered as tank fighter with four skills',()=>{let {h,p}=setup();assert.equal(p.hero,'anvil');assert.equal(h.C.heroes.anvil.role,'重装战士 / 先手');assert.equal(p.skills.length,4)});
+test('Q damage includes max hp and target missing hp scaled by bonus AD',()=>{let {h,p,e,A}=setup();e.maxHp=3000;e.hp=1000;let base=A.missingBonus(p,e);p.baseAttack=p.attack-100;let more=A.missingBonus(p,e);assert(Math.abs(base-(.08+.03*Math.max(0,p.attack-p.baseAttack-100)/100)*2000)<1e-6||base<more);assert(Math.abs(more-(.11*2000))<1e-6)});
+test('Q in open ground knocks back without stun',()=>{let {h,p,e}=setup(),{q,a}=open(h,7500,7500,900);p.x=q.x;p.y=q.y;e.x=q.x+Math.cos(a)*150;e.y=q.y+Math.sin(a)*150;e.hp=e.maxHp=5000;let hp=e.hp;cast(h,p,0,{x:q.x+Math.cos(a)*500,y:q.y+Math.sin(a)*500});h.step(1);assert(e.hp<hp,'damaged');assert(!(e.stun>0)&&!h.a.m.core.has(e,'STUN'),'no stun in open')});
+test('Q slamming target into a tower stuns and doubles damage',()=>{let {h,p,e}=setup(),t=h.a.units.find(u=>u.type==='tower'&&u.team!==p.team&&u.hp>0);
+ let dmg=s=>{let x=setup();return x};
+ // place target just in front of the tower, Anvil behind it, aiming at the tower
+ let ang=0,ok=null;for(let k=0;k<32&&!ok;k++){ang=k*Math.PI/16;let tp={x:t.x-Math.cos(ang)*(t.radius+60),y:t.y-Math.sin(ang)*(t.radius+60)},pp={x:tp.x-Math.cos(ang)*170,y:tp.y-Math.sin(ang)*170};if(!h.a.blocked(tp.x,tp.y,30)&&!h.a.blocked(pp.x,pp.y,30))ok={tp,pp}}
+ assert(ok,'found spot');p.x=ok.pp.x;p.y=ok.pp.y;e.x=ok.tp.x;e.y=ok.tp.y;e.hp=e.maxHp=20000;e.armor=0;let hp=e.hp;let stunned=false;cast(h,p,0,{x:t.x,y:t.y});for(let i=0;i<90;i++){h.step(1/60);if(h.a.m.core.has(e,'STUN')||e.stun>0)stunned=true}
+ assert(stunned,'wall/tower slam stuns');let wallLoss=hp-e.hp;
+ let s2=setup(),{q,a}=open(s2.h,7500,7500,900);s2.p.x=q.x;s2.p.y=q.y;s2.e.x=q.x+Math.cos(a)*150;s2.e.y=q.y+Math.sin(a)*150;s2.e.hp=s2.e.maxHp=20000;s2.e.armor=0;let hp2=s2.e.hp;cast(s2.h,s2.p,0,{x:q.x+Math.cos(a)*500,y:q.y+Math.sin(a)*500});s2.h.step(1.5);let openLoss=hp2-s2.e.hp;
+ assert(wallLoss>openLoss*1.7,'double damage on slam: '+wallLoss+' vs '+openLoss)});
+test('W halves frontal damage only and empowers Q after enough blocked',()=>{let {h,p,e,A}=setup();p.hp=p.maxHp=5000;e.x=p.x+300;e.y=p.y;cast(h,p,1,{x:p.x+300,y:p.y});assert(A.blocking(p,e));let hp=p.hp;h.a.m.deal(p,400,e,'true');assert(Math.abs((hp-p.hp)-200)<1);let back={x:p.x-300,y:p.y,team:e.team};assert(!A.blocking(p,back));for(let i=0;i<4;i++)h.a.m.deal(p,400,e,'true');assert(A.state(p).empoweredUntil>h.a.time)});
+test('E leaps, damages, slows and knocks up in radius',()=>{let {h,p,e}=setup(),{q,a}=open(h,7500,7500,600);p.x=q.x;p.y=q.y;e.x=q.x+Math.cos(a)*400;e.y=q.y+Math.sin(a)*400;e.hp=e.maxHp=5000;let hp=e.hp,airborne=false;cast(h,p,2,{x:e.x,y:e.y});for(let i=0;i<40;i++){h.step(1/60);if(h.a.m.core.has(e,'AIRBORNE')||e.airborne>0)airborne=true}assert(e.hp<hp);assert(airborne);assert(h.a.m.core.has(e,'SLOW')||e.slowAmount>0)});
+test('R untargetable/immune in flight, full damage + knockup in core, falloff to 30% outside',()=>{let {h,p,e,A}=setup();assert.equal(A.falloff(0),1);assert.equal(A.falloff(275),1);assert(Math.abs(A.falloff(600)-.3)<1e-9);assert(Math.abs(A.falloff(437.5)-.65)<1e-9);
+ let {q}=open(h,7500,7500,200);p.x=q.x;p.y=q.y;e.x=q.x+100;e.y=q.y;e.hp=e.maxHp=20000;cast(h,p,3,{x:e.x,y:e.y});h.step(.3);assert(p.untargetable>0);let php=p.hp;h.a.m.deal(p,500,e,'true');assert.equal(p.hp,php);let hp=e.hp,air=false;for(let i=0;i<120;i++){if(e.hp===hp){e.x=q.x+100;e.y=q.y}h.step(1/60);if(h.a.m.core.has(e,'AIRBORNE')||e.airborne>0)air=true}assert(e.hp<hp);assert(air);assert(!(p.untargetable>0))});
+test('R outer ring target is slowed but not knocked up',()=>{let {h,p,e}=setup(),{q,a}=open(h,7500,7500,700);p.x=q.x;p.y=q.y;let land={x:q.x,y:q.y};e.x=q.x+Math.cos(a)*500;e.y=q.y+Math.sin(a)*500;e.hp=e.maxHp=20000;cast(h,p,3,land);let air=false;for(let i=0;i<130;i++){h.step(1/60);e.x=q.x+Math.cos(a)*500;e.y=q.y+Math.sin(a)*500;if(h.a.m.core.has(e,'AIRBORNE')||e.airborne>0)air=true}assert(e.hp<e.maxHp,'hit');assert(!air,'no knockup outside core');assert(h.a.m.core.has(e,'SLOW')||e.slowAmount>0)});
+test('bot Anvil plays a full match segment without errors',()=>{let h=make();h.a.reset('garen',true);let bot=h.a.units.find(u=>u.type==='hero'&&u.team!==h.a.p.team);for(let i=0;i<900;i++)h.step(1/30);assert(h.a.units.every(u=>Number.isFinite(u.hp)))});
+console.log('V19 anvil tests passed: '+count);

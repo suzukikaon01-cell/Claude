@@ -65,3 +65,4 @@ require('./test-structures-v17-4.cjs');
 require('./test-balance-v17-5.cjs');
 require('./test-v9.cjs');
 require('./test-v18.cjs');
+require('./test-v19-anvil.cjs');
