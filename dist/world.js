@@ -8,22 +8,27 @@
  const river=[[230,310],[460,530],[700,770],[940,1000],[1200,1200],[1460,1400],[1700,1630],[1940,1870],[2170,2090]],paths=[top,mid,bottom].map(p=>p.map(point)),walls=[];
  function wallLine(points,width=48,kind='jungle'){for(let i=1;i<points.length;i++){let a=point(points[i-1]),b=point(points[i]);walls.push({x:(a.x+b.x)/2,y:(a.y+b.y)/2,w:Math.hypot(b.x-a.x,b.y-a.y)+12*s,h:width*s,angle:Math.atan2(b.y-a.y,b.x-a.x),kind})}}
  const mirror=points=>points.map(([x,y])=>[2400-x,2400-y]);
- const ridges=[
-  [[355,715],[410,790],[410,1010],[470,1070]],[[480,785],[610,800],[675,890],[675,1000]],
-  [[460,1180],[485,1270],[640,1290],[730,1210]],[[360,1450],[440,1510],[545,1490],[590,1410]],
-  [[800,1135],[890,1130],[965,1035]],[[740,660],[860,590],[1020,590],[1090,690]],
-  [[1070,810],[1100,920],[1020,1000]],[[830,1750],[920,1690],[1060,1720],[1110,1820]],
-  [[980,1950],[1130,1990],[1260,1920],[1280,1810]],[[1370,1940],[1490,1930],[1560,1830]],
-  [[1270,1580],[1340,1630],[1480,1600]],[[1580,2050],[1690,2050],[1770,1990]],
-  [[380,1870],[480,1800],[565,1780]],[[690,1970],[725,2060],[845,2110]]
+ // V20 原创野区：大块凸多边形墙体 + 清晰通道。只设计蓝方上半野区（A 区），其余三个野区由对称生成：
+ //  沿中路轴镜像 (x,y)→(2400-y,2400-x) 得到蓝方下半野区，再中心对称 (x,y)→(2400-x,2400-y) 得到红方两片野区。
+ const reflectMid=([x,y])=>[2400-y,2400-x];
+ const blocksA=[
+  [[300,600],[350,555],[410,600],[415,940],[365,995],[300,975]],          // 边路侧上墙
+  [[300,1135],[355,1090],[415,1130],[420,1470],[370,1530],[300,1515]],    // 边路侧下墙
+  [[545,1040],[700,1000],[800,1095],[790,1285],[660,1350],[535,1255]],    // 中央岩块
+  [[865,1115],[930,1090],[990,1150],[985,1200],[950,1225],[875,1205]],    // 中路/河道拐角
+  [[565,1500],[655,1455],[735,1470],[750,1495],[690,1550],[575,1555]],    // 中路侧下块
+  [[440,1640],[520,1610],[560,1650],[540,1700],[470,1720],[430,1690]]     // 基地出口
  ];
- for(let ridge of ridges){wallLine(ridge);wallLine(mirror(ridge))}
- for(let ridge of [[[300,1770],[310,1650],[390,1570]],[[820,2040],[900,2100],[1020,2100]]]){wallLine(ridge,56,'base');wallLine(mirror(ridge),56,'base')}
+ function block(poly,kind='jungle'){let pts=poly.map(point),xs=pts.map(p=>p.x),ys=pts.map(p=>p.y),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);walls.push({x:(x0+x1)/2,y:(y0+y1)/2,w:x1-x0,h:y1-y0,angle:0,kind,poly:pts})}
+ for(let poly of blocksA){let b=poly.map(reflectMid).reverse();for(let q of [poly,b]){block(q);block(mirror(q))}}
  const pits=[{...point([735,850]),r:132*s,opening:.15,name:'上河道空坑'},{...point([1665,1550]),r:132*s,opening:Math.PI+.15,name:'下河道空坑'}];
  for(let p of pits){let pts=[];for(let j=0;j<=12;j++){let a=p.opening+.72+j*(Math.PI*2-1.44)/12;pts.push([(p.x+Math.cos(a)*p.r)/s,(p.y+Math.sin(a)*p.r)/s])}wallLine(pts,38,'pit')}
- const bushes=[[280,650,55,160],[280,1040,55,155],[280,1470,55,160],[600,300,170,55],[1060,280,150,55],[1520,280,155,55],[440,1120,100,60],[720,1340,130,65],[1000,1510,110,65],[1190,1810,110,65],[1650,1930,100,65],[920,850,95,65],[1030,1140,70,90],[570,590,65,100]];
- const brush=bushes.concat(bushes.map(([x,y,w,h])=>[2400-x,2400-y,w,h])),clearings=[[500,930],[570,1170],[500,1390],[970,1840],[1170,1880],[1500,2000],[900,700]];
- const trails=[[[300,1680],[500,1390],[570,1170],[500,930],[530,660],[390,400]],[[500,1390],[740,1340],[960,1160]],[[740,1340],[860,1550]],[[600,1940],[780,1830],[970,1840],[1170,1880],[1500,2000],[1870,2100]],[[1170,1880],[1200,1690],[1380,1500]],[[1500,2000],[1590,1780],[1700,1630]]];
+ const laneBush=[[280,650,55,160],[280,1040,55,155],[280,1470,55,160]],jungleBushA=[[470,560,80,60],[478,1235,60,120],[840,1340,95,60],[880,985,90,60],[640,1430,90,50]];
+ const bushes=[...laneBush,...jungleBushA].flatMap(([x,y,w,h])=>{let [rx,ry]=reflectMid([x,y]);return[[x,y,w,h],[rx,ry,h,w]]});
+ const campsA=[[470,740],[478,930],[478,1390]],clearings=campsA.flatMap(c=>[c,reflectMid(c)]);
+ const trailA=[[[478,560],[478,930],[478,1390],[440,1580]],[[478,1100],[700,1395],[850,1310],[1010,1260]],[[478,700],[620,900]]];
+ const trails=trailA.flatMap(t=>[t,t.map(reflectMid)]);
+ const brush=bushes.concat(bushes.map(([x,y,w,h])=>[2400-x,2400-y,w,h]));
  C.map={name:'裂境峡谷 · 端游布局',bases:bases.map(point),paths,river:river.map(point),riverWidth:150*s,walls,pits,camps:[],clearings:clearings.concat(mirror(clearings)).map(point),trails:trails.concat(trails.map(mirror)).map(p=>p.map(point)),bushes:brush.map(([x,y,w,h],id)=>({id,...point([x,y]),w:w*s,h:h*s}))};
  C.map.wallContains=(w,x,y,r=0)=>{let dx=x-w.x,dy=y-w.y,c=Math.cos(w.angle||0),sn=Math.sin(w.angle||0);return Math.abs(dx*c+dy*sn)<w.w/2+r&&Math.abs(-dx*sn+dy*c)<w.h/2+r};
  // Spatial bins accelerate terrain checks without changing collision geometry.
