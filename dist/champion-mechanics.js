@@ -33,8 +33,8 @@ window.createChampionMechanics=function(env){
   if(!alive(target)||env.protected(target))return false;
   // V18 渊核庇护：持有者受到的伤害 -12%，对防御塔/水晶枢纽/水晶的伤害 +25%。
   if(target.type==='hero'&&target.colossusBuffUntil>now())amount*=.88;
-  // V19 小兵特性：受到来自防御塔/水晶的伤害降低50%（取代原来塔普攻里单独的减半，不叠加）。
-  if(target.type==='minion'&&['tower','nexus'].includes(source?.type))amount*=C.minionTowerDamageTaken??.5;if(source?.colossusBuffUntil>now()&&['tower','inhibitor','nexus'].includes(target.type))amount*=1.25;if(!api.temporal.validateDamage(target,amount,source,type,meta,'input'))return false;
+  // V19 小兵特性：只受到来自防御塔/水晶伤害的30%（取代原来塔普攻里单独的减半，不叠加）。
+  if(target.type==='minion'&&['tower','nexus'].includes(source?.type))amount*=C.minionTowerDamageTaken??.3;if(source?.colossusBuffUntil>now()&&['tower','inhibitor','nexus'].includes(target.type))amount*=1.25;if(!api.temporal.validateDamage(target,amount,source,type,meta,'input'))return false;
   if(target.tentacle){if(!meta.basic||typeof meta.event?.index==='number'||meta.sourceType==='ABILITY'||source?.type!=='hero'||source.team===target.team)return false;if(meta.event&&!core.claim(meta.event,target,'tentacle-basic'))return false;target.hp=Math.max(0,target.hp-1);core.emit('DamageApplied',source,target,{amount:1,damageType:'physical',castId:meta.event?.castId,basic:true,empowered:!!meta.empowered});env.float(target,'1','#ff6572');if(target.hp<=0)env.die(target,source,meta);return true}
   meta.sourceType??=meta.runeProc?'RUNE_PROC':meta.itemEffect?'ITEM_PROC':meta.reflected?'REFLECTED_PROJECTILE':meta.basic?'BASIC_ATTACK':meta.delayed?'DAMAGE_OVER_TIME':'ABILITY';if(api.genji?.blockMelee(target,source,meta))return false;
   if(api.itemEffects?.blockAbility?.(source,target,meta))return false;
