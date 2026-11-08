@@ -43,7 +43,7 @@
   let poly=[[-20,-20],...corner.reverse().map(clip)];block(poly,'boundary');block(mirror(poly),'boundary')}
  const pits=[{...point([735,850]),r:132*s,opening:.15,name:'上河道空坑'},{...point([1665,1550]),r:132*s,opening:Math.PI+.15,name:'下河道空坑'}];
  for(let p of pits){let pts=[];for(let j=0;j<=12;j++){let a=p.opening+.72+j*(Math.PI*2-1.44)/12;pts.push([(p.x+Math.cos(a)*p.r)/s,(p.y+Math.sin(a)*p.r)/s])}wallLine(pts,38,'pit')}
- const laneBush=[[226,650,46,160],[222,1040,46,155],[226,1470,46,160]],jungleBushA=[[470,560,80,60],[478,1235,60,120],[840,1340,95,60],[880,985,90,60],[640,1430,90,50]];
+ const laneBush=[650,1040,1470].map(y=>[laneX(y)-LW/2-2,y,52,165]),jungleBushA=[[470,560,80,60],[478,1235,60,120],[840,1340,95,60],[880,985,90,60],[640,1430,90,50]];
  const bushes=[...laneBush,...jungleBushA].flatMap(([x,y,w,h])=>{let [rx,ry]=reflectMid([x,y]);return[[x,y,w,h],[rx,ry,h,w]]});
  const campsA=[[470,740],[478,930],[478,1390]],clearings=campsA.flatMap(c=>[c,reflectMid(c)]);
  const trailA=[[[478,560],[478,930],[478,1390],[440,1580]],[[478,1100],[700,1395],[850,1310],[1010,1260]],[[478,700],[620,900]]];
