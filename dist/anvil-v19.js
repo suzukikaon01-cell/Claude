@@ -19,7 +19,7 @@ const P={
  Q:{charge_max:1,min_charge_ratio:.45,min_damage_ratio:.6,min_knockback:150,charge_self_slow:.3,splash_radius:250,damage:lv(80,240),ad_ratio:0,bonus_ad_ratio:1,maxhp_ratio:.09,missing_hp_base_pct:.08,missing_hp_pct_per_100_bonus_ad:.03,missing_hp_monster_cap:300,dash_range:425,dash_duration:.3,knockback:300,knockback_duration:.25,knockback_lock:.25,wall_stun:1.25,wall_damage_multiplier:2,hit_radius:55,cooldown:lv(9,5),energy_cost:lv(50,30),
     empowered_damage_multiplier:1.25,empowered_range:425,empowered_knockback:360,empowered_window:6},
  W:{duration:1.5,interrupt_grace:.12,empower_base:100,empower_per_enemy_level:12,reduction:.5,arc_degrees:120,self_slow:.4,cooldown:lv(14,10),energy_cost:lv(60,40)},
- E:{backswing:.25,hero_pull:50,range:450,leap_duration:.4/.75,radius:475,impact_radius:160,impact_damage_ratio:.6,cone_degrees:90,pull_to:110,pull_duration:.2,damage:lv(90,250),ad_ratio:.4,maxhp_ratio:.05,slow:.3,slow_duration:1.5,knockup:.4,cooldown:lv(12,8),energy_cost:lv(60,40)},
+ E:{empower_heroes:3,backswing:.25,hero_pull:50,range:450,leap_duration:.4/.75,radius:475,impact_radius:160,impact_damage_ratio:.6,cone_degrees:90,pull_to:110,pull_duration:.2,damage:lv(90,250),ad_ratio:.4,maxhp_ratio:.05,slow:.3,slow_duration:1.5,knockup:.4,cooldown:lv(12,8),energy_cost:lv(60,40)},
  R:{range:0,flight:2.5,descent:.75,backswing:.35,move_speed_bonus:1,radius:600,core_radius:275,damage:[300,450,600],bonus_ad_ratio:1.2,maxhp_ratio:.2,min_falloff:.3,knockup:.5,core_slow:.4,outer_slow:.3,slow_duration:2,cooldown:[110,90,70],energy_cost:100}
 };
 const skill=(o)=>({maxRank:5,windup:0,recovery:.1,damageType:'physical',heroOnly:false,...o});
@@ -33,7 +33,7 @@ C.heroes[ID]={name:'砧岳',title:'崩山拳',role:'重装战士 / 先手',resou
   skill({key:'W',name:'镇岳格挡',icon:'挡',target:'direction',range:0,cd:P.W.cooldown,mana:0,damage:0,
    desc:'朝指定方向格挡1.5秒（施放其他技能会结束格挡；可打断普攻后摇、E跳跃和技能后摇，Q冲刺中和R升空时不可施放），期间移速-40%，移动不会改变朝向。来自正面120°的伤害降低50%。格挡期间正面受到的伤害（按护甲/减伤前的数值计算）累计达到「100 + 敌方英雄平均等级×12」（1级112，18级316）时，立刻获得强化Q（持续6秒，Q冷却直接刷新，仍需消耗能量）。W 期间按减伤前数值抵挡掉的伤害，全部加到下一次强化Q的伤害上。会被控制技能打断；打断时那一下的伤害若已使累计达到所需数值，仍会获得强化Q。施放Q会提前结束格挡。'}),
   skill({key:'E',name:'裂地坠击',icon:'砸',target:'area',range:450,radius:320,cd:P.E.cooldown,mana:0,damage:P.E.damage,
-   desc:'跃向目标点并锤击地面（跳跃途中施放任何技能会取消E，取消后不造成任何效果），对落地前方90°扇形、475码内的敌人造成90/130/170/210/250+40%AD+5%自身最大生命物理伤害，减速30%持续1.5秒，敌方英雄被拉近50码、小兵和野怪被拉到砧岳身前，并击飞0.4秒；落地后砧岳有0.25秒后摇；落地点160码圆形范围内（扇形以外）的敌人受到60%伤害。'}),
+   desc:'跃向目标点并锤击地面（跳跃途中施放任何技能会取消E，取消后不造成任何效果），对落地前方90°扇形、475码内的敌人造成90/130/170/210/250+40%AD+5%自身最大生命物理伤害（扇形命中3名或以上敌方英雄时获得强化Q），减速30%持续1.5秒，敌方英雄被拉近50码、小兵和野怪被拉到砧岳身前，并击飞0.4秒；落地后砧岳有0.25秒后摇；落地点160码圆形范围内（扇形以外）的敌人受到60%伤害。'}),
   skill({key:'R',name:'天陨',icon:'陨',target:'self',range:0,radius:600,maxRank:3,heroOnly:false,cd:P.R.cooldown,mana:0,damage:P.R.damage,
    desc:'升空最多2.5秒，期间不可选中、免疫伤害与控制，移动速度提高100%，可用摇杆或方向键控制落点；飞行中按普攻可立即开始坠落。坠落阶段0.75秒，位置锁定，落点对敌我双方都可见：600码内敌人受到300/450/600+120%额外AD+20%自身最大生命物理伤害并减速。中心275码内100%伤害、击飞0.5秒、减速40%；275码外伤害随距离线性递减至最低30%，不击飞，仅减速30%，减速持续2秒。落地后0.35秒后摇，并获得强化Q（Q冷却直接刷新）。'})
  ],params:P};
@@ -88,9 +88,10 @@ window.installAnvil=function(m,env){
   let ang=dist(u,to)>5?Math.atan2(to.y-u.y,to.x-u.x):(u.angle||0);core.startDisplacement(u,to,{type:'LEAP',duration:P.E.leap_duration,source:u,abilityId:2});S(u).leap={start:now(),end:now()+P.E.leap_duration,event:e,angle:ang};u.anvilLift={start:now(),end:now()+P.E.leap_duration,height:120}}
  function inCone(u,t,angle,radius,deg){let d=dist(u,t);if(d>radius+(t.radius||0))return false;if(d<(t.radius||25)+30)return true;let a=Math.atan2(t.y-u.y,t.x-u.x)-angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=deg*Math.PI/360+Math.asin(Math.min(1,(t.radius||0)/Math.max(d,1)))}
  function landE(u,l){let damage=at(P.E.damage,u,2)+P.E.ad_ratio*u.attack+P.E.maxhp_ratio*u.maxHp,angle=l.angle,front={x:u.x+Math.cos(angle)*P.E.pull_to,y:u.y+Math.sin(angle)*P.E.pull_to};u.angle=angle;
-  for(let t of m.nearby(u,P.E.radius+80,v=>foe(u,v))){if(!inCone(u,t,angle,P.E.radius,P.E.cone_degrees))continue;if(!hit(u,t,damage,l.event,{once:true,abilityId:2}))continue;if(!alive(t))continue;m.slow(t,P.E.slow,P.E.slow_duration,u,null,'anvil-e:'+u.id);
+  let heroesHit=0;for(let t of m.nearby(u,P.E.radius+80,v=>foe(u,v))){if(!inCone(u,t,angle,P.E.radius,P.E.cone_degrees))continue;if(!hit(u,t,damage,l.event,{once:true,abilityId:2}))continue;if(champ(t))heroesHit++;if(!alive(t))continue;m.slow(t,P.E.slow,P.E.slow_duration,u,null,'anvil-e:'+u.id);
    let to=front;if(t.type==='hero'){let d=dist(t,u),k=Math.min(P.E.hero_pull,Math.max(0,d-(u.radius||22)-(t.radius||22)-10));to={x:t.x+(u.x-t.x)/(d||1)*k,y:t.y+(u.y-t.y)/(d||1)*k}}if(dist(t,to)>8)core.startDisplacement(t,to,{type:'PULL',duration:P.E.pull_duration,source:u,abilityId:2});S(u).pending.push({kind:'knockup',at:now()+P.E.pull_duration,target:t,life:t._life||0})}
   for(let t of m.nearby(u,P.E.impact_radius+80,v=>foe(u,v))){if(inCone(u,t,angle,P.E.radius,P.E.cone_degrees)||dist(u,t)>P.E.impact_radius+(t.radius||0))continue;hit(u,t,damage*P.E.impact_damage_ratio,l.event,{once:true,abilityId:2,hitIndex:'impact'})}
+  if(heroesHit>=P.E.empower_heroes)empowerQ(u);
   fx(u,'cone',u,{angle,radius:P.E.radius,deg:P.E.cone_degrees,life:.5});fx(u,'quake',u,{radius:P.E.impact_radius,life:.4})}
 
  // ---- R：升空 → 坠落 ----
