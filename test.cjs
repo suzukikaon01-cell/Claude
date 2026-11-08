@@ -70,3 +70,4 @@ require('./test-v19-reserve.cjs');
 require('./test-v21-walls.cjs');
 require('./test-v19-portal.cjs');
 require('./test-v19-balance.cjs');
+require('./test-v19-dva.cjs');
