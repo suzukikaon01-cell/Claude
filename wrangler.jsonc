@@ -1,0 +1,17 @@
+{
+  "name": "ledger",
+  "main": "worker/index.js",
+  "account_id": "5a59e0822d908200b930413694a7561b",
+  "compatibility_date": "2026-10-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": { "directory": "public", "binding": "ASSETS" },
+  // 直连知日塾教务 Worker（同账号的 "app"），无需走公网
+  "services": [{ "binding": "EDU", "service": "app" }],
+  "vars": { "ZHIRIZHU_URL": "https://app.lesson-desk.workers.dev" },
+  "durable_objects": { "bindings": [{ "name": "LEDGER", "class_name": "Ledger" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Ledger"] }],
+  "triggers": { "crons": ["0 21 * * *"] }
+  // 密钥（不入库）：wrangler secret put INGEST_TOKEN / ZHIRIZHU_PASSWORD
+}

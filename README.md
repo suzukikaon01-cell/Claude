@@ -71,3 +71,12 @@ ZHIRIZHU_PASSWORD=教师登录密码 INGEST_TOKEN=你的密钥 npm start
 ```bash
 npm test
 ```
+
+## 部署（Cloudflare Workers）
+
+正式站：https://ledger.lesson-desk.workers.dev （与知日塾同一 Cloudflare 账号，独立 Worker `ledger`，不影响教务 Worker `app`）
+
+- 存储：Durable Object（SQLite），免费套餐可用
+- 教务收入：通过 service binding 直连 `app` Worker；每天东京 6:00 自动同步当月收入
+- 密钥：`npx wrangler secret put INGEST_TOKEN`、`npx wrangler secret put ZHIRIZHU_PASSWORD`
+- 部署：`npx wrangler deploy`
