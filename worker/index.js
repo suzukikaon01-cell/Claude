@@ -3,6 +3,7 @@ import { parseNotification } from '../lib/parser.js';
 import { summarize } from '../lib/store.js';
 import { parseCsv } from '../lib/school.js';
 import { fetchZhirizhuIncome } from '../lib/zhirizhu.js';
+import { parseAny, planImport } from '../lib/history.js';
 import { DurableObject } from 'cloudflare:workers';
 
 // 把 DO 的 ctx.storage.sql 包装成与 D1 相同的 prepare().bind().first()/all()/run() 接口
@@ -49,6 +50,18 @@ async function api(req, env, url, db) {
     let n; try { n = JSON.parse(raw); } catch { n = { text: raw }; }
     const tx = parseNotification(n);
     return tx ? json(await add(db, tx)) : json({ error: '未识别到金额', text: n.text }, 422);
+  }
+  if ((p === '/api/import' || p === '/api/screenshot') && req.method === 'POST') {
+    const raw = await req.text();
+    let b; try { b = JSON.parse(raw); } catch { b = { text: raw }; }
+    const rows = parseAny(String(b.text || ''), { app: b.app || url.searchParams.get('app') || '', source: b.source });
+    const months = [...new Set(rows.map((r) => r.date.slice(0, 7)))];
+    const existing = [];
+    for (const m of months) existing.push(...(await db.prepare('SELECT * FROM transactions WHERE date LIKE ?').bind(m + '%').all()).results);
+    const { add, skipped } = planImport(existing, rows);
+    const items = add.map((r) => ({ id: crypto.randomUUID(), ...r }));
+    if (items.length) await db.batch(items.map((t) => insert(db, t)));
+    return json({ added: items.length, skipped, items, ...(rows.length ? {} : { error: '没有识别到交易' }) }, rows.length ? 200 : 422);
   }
   if (p === '/api/transactions' && req.method === 'POST') {
     const b = await req.json(), amount = Number(b.amount);

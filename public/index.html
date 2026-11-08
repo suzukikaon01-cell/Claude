@@ -33,6 +33,18 @@
   </section>
 
   <section>
+    <h2>导入截图 / 账单（倒查本月记录）</h2>
+    <p class="hint">支持：信用卡/交通卡/PayPay 的明细截图、收据或支付完成页截图、卡公司下载的明细 CSV。已记录过的会自动跳过。</p>
+    <div class="actions">
+      <label class="btn">选择截图或 CSV<input type="file" id="importFile" accept="image/*,.csv,.txt" multiple hidden></label>
+      <select id="importApp"><option value="">自动判断渠道</option><option>信用卡</option><option>Suica</option><option>PayPay</option></select>
+    </div>
+    <textarea id="importText" rows="4" placeholder="也可以直接粘贴明细文字"></textarea>
+    <button id="importBtn">识别并导入粘贴的文字</button>
+    <ul id="importResult" class="import"></ul>
+  </section>
+
+  <section>
     <h2>手动记一笔</h2>
     <form id="add">
       <select name="type"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">转账转出</option></select>
@@ -49,6 +61,7 @@
   </section>
   <p id="msg"></p>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

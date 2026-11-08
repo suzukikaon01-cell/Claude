@@ -19,3 +19,6 @@ header input{background:#fff2;color:#fff;border-color:#fff5}
 ul{list-style:none;padding:0;margin:0}li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
 li small{color:var(--muted);display:block}li button{background:none;color:var(--muted);padding:0 4px}
 #msg{color:var(--muted);font-size:13px}
+textarea{width:100%;margin:10px 0 8px;padding:9px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-size:14px}
+.hint{color:var(--muted);font-size:12px;margin:0 0 8px}.actions select{flex:1}
+.import li{font-size:13px;padding:6px 0}

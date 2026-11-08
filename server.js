@@ -6,6 +6,7 @@ const { parseNotification } = require('./lib/parser');
 const { Store, summarize } = require('./lib/store');
 const { fetchSchoolIncome, parseCsv } = require('./lib/school');
 const { fetchZhirizhuIncome } = require('./lib/zhirizhu');
+const { parseAny, planImport } = require('./lib/history');
 
 const PORT = Number(process.env.PORT || 3000);
 const TOKEN = process.env.INGEST_TOKEN || ''; // 手机推送通知时使用的密钥
@@ -39,6 +40,16 @@ const server = http.createServer(async (req, res) => {
       const tx = parseNotification(n);
       if (!tx) return send(res, 422, { error: '未识别到金额', text: n.text });
       return send(res, 200, store.add(tx));
+    }
+    // 截图 OCR 文本 / 账单 CSV 批量导入（快捷指令截屏、倒查本月记录）
+    if ((p === '/api/import' || p === '/api/screenshot') && req.method === 'POST') {
+      const raw = await readBody(req);
+      let b; try { b = JSON.parse(raw); } catch { b = { text: raw }; }
+      const rows = parseAny(String(b.text || ''), { app: b.app || url.searchParams.get('app') || '', source: b.source });
+      const months = [...new Set(rows.map((r) => r.date.slice(0, 7)))];
+      const { add, skipped } = planImport(months.flatMap((m) => store.month(m)), rows);
+      const added = add.map((r) => store.add(r).tx);
+      return send(res, rows.length ? 200 : 422, { added: added.length, skipped, items: added, ...(rows.length ? {} : { error: '没有识别到交易' }) });
     }
     if (p === '/api/transactions' && req.method === 'POST') {
       const b = JSON.parse(await readBody(req));
