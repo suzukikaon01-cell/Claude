@@ -66,3 +66,4 @@ require('./test-balance-v17-5.cjs');
 require('./test-v9.cjs');
 require('./test-v18.cjs');
 require('./test-v19-anvil.cjs');
+require('./test-v19-reserve.cjs');

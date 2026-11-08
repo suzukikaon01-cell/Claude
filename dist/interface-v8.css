@@ -7,3 +7,25 @@
 .rune-row button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;text-align:center;padding:10px 6px;touch-action:pan-y}.rune-row button img{width:52px;height:52px;object-fit:contain;pointer-events:none;filter:saturate(.75);opacity:.75}.rune-row button.active img{filter:drop-shadow(0 0 5px #d9bf7a);opacity:1}.rune-row button span{font-size:11px;line-height:1.4}.rune-row:first-child button img{width:64px;height:64px}#runeShards button img{width:30px;height:30px}#runeDescription{position:fixed;z-index:2100;width:min(410px,calc(100vw - 32px));left:50%;top:50%;transform:translate(-50%,-50%);background:#071724f5;border:1px solid #bd9b62;border-radius:12px;padding:22px;box-shadow:0 12px 70px #000b;pointer-events:none}#runeDescription b{color:#e1c78b;font-size:19px}#runeDescription p{font-size:14px;line-height:1.9;color:#d5e5e6;margin-bottom:0}@media(max-width:650px){.rune-row button img,.rune-row:first-child button img{width:46px;height:46px}.rune-row button span{font-size:10px}.rune-row{gap:5px}}
 
 #itemActives{position:absolute;right:16px;top:112px;z-index:24;display:flex;gap:8px;max-width:360px;flex-wrap:wrap;pointer-events:auto}#itemActives button{min-width:66px;min-height:60px;touch-action:none}@media(max-width:900px){#itemActives{right:10px;top:90px;max-width:220px;gap:5px}#itemActives button{min-width:58px;min-height:54px}}
+
+/* V19 砧岳：强化Q雷电图标、蓄力中 */
+.skill.anvil-empowered{border-color:#bfe6ff!important;background:radial-gradient(at 35% 25%,#3c78b8,#0b1a3a 70%)!important;box-shadow:0 0 0 4px #0b2747,0 0 22px #7fc8ff,0 0 44px #4aa3ff88!important;animation:anvil-thunder .9s steps(2,end) infinite}
+.skill.anvil-empowered b{color:#f2fbff!important;text-shadow:0 0 6px #9fd8ff,0 0 14px #4aa3ff}
+.skill.anvil-empowered::before,.skill.anvil-empowered::after{content:'';position:absolute;inset:-4px;pointer-events:none;background:linear-gradient(115deg,transparent 42%,#e9f7ff 44%,transparent 46%,transparent 58%,#bfe6ff 60%,transparent 62%);opacity:.85;animation:anvil-bolt .6s linear infinite;z-index:1}
+.skill.anvil-empowered::after{transform:scaleX(-1);animation-delay:.3s}
+@keyframes anvil-thunder{50%{filter:brightness(1.35)}}
+@keyframes anvil-bolt{0%{opacity:0}20%{opacity:.95}40%{opacity:.1}60%{opacity:.8}100%{opacity:0}}
+.skill.anvil-charging{border-color:#ffd27a!important;box-shadow:0 0 0 4px #3a2a10,0 0 18px #ffb347!important}
+@media(prefers-reduced-motion:reduce){.skill.anvil-empowered,.skill.anvil-empowered::before,.skill.anvil-empowered::after{animation:none}}
+
+/* V19 装备预约面板（左侧） */
+#reservePanel{position:absolute;left:204px;top:96px;width:176px;z-index:14;padding:10px;background:#0c1d27ee;border:1px solid #b99a5f88;border-radius:9px;box-shadow:0 6px 20px #0007;color:#dfe9e4;pointer-events:auto;display:flex;flex-direction:column;gap:8px}
+#reservePanel .reserve-head{display:flex;align-items:center;gap:8px;min-width:0}#reservePanel .reserve-head .item-icon{width:38px;height:38px;flex:none}
+#reservePanel .reserve-head div{min-width:0;flex:1}#reservePanel small{display:block;font-size:9px;color:#9fb5bd;letter-spacing:1px}#reservePanel b{display:block;font-size:12px;color:#f0d9a2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#reservePanel i{display:block;height:4px;margin-top:4px;background:linear-gradient(90deg,#e0b768 var(--p),#ffffff1a var(--p));border-radius:2px}
+#reservePanel .reserve-x{padding:2px 7px;font-size:15px;line-height:1;background:transparent;border-color:#ffffff22}
+#reservePanel .reserve-buy{width:100%;padding:8px 6px;font-size:11px;background:linear-gradient(110deg,#c6a25b,#e6cb91);color:#18212b;border:0;font-weight:700}#reservePanel .reserve-buy:disabled{background:#26363f;color:#93a6ae;opacity:1}
+#reservePanel .reserve-parts{display:flex;flex-wrap:wrap;gap:5px}#reservePanel .reserve-parts button{padding:2px;display:flex;flex-direction:column;align-items:center;gap:1px;background:#132833;border-color:#4f6c72}#reservePanel .reserve-parts .item-icon{width:28px;height:28px}#reservePanel .reserve-parts small{font-size:8px;color:#e8cf95;letter-spacing:0}#reservePanel .reserve-parts .poor{opacity:.45}
+.reserve-btn{background:#2e4650!important;color:#f0d9a2!important}
+@media(max-width:850px){#reservePanel{left:150px;top:62px;width:150px;padding:7px}#reservePanel .reserve-head .item-icon{width:30px;height:30px}}
+@media(max-width:650px){#reservePanel{left:110px;top:62px;width:140px}}
