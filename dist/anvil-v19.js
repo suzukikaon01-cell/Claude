@@ -18,9 +18,9 @@ const P={
  P:{energy_on_attack:20,energy_attack_window:4,energy_on_block:50,energy_on_empowered_slam:60,shield_base:30,shield_per_level:9,shield_maxhp_pct:.03,shield_duration:2.5},
  Q:{charge_max:1,min_charge_ratio:.45,min_damage_ratio:.6,min_knockback:150,charge_self_slow:.3,splash_radius:250,damage:lv(80,200),ad_ratio:.4,maxhp_ratio:.04,missing_hp_base_pct:.08,missing_hp_pct_per_100_bonus_ad:.03,missing_hp_monster_cap:300,dash_range:425,dash_duration:.3,knockback:300,knockback_duration:.25,wall_stun:.75,wall_damage_multiplier:2,hit_radius:55,cooldown:lv(9,5),energy_cost:lv(50,30),
     empowered_damage_multiplier:1.3,empowered_range:425,empowered_knockback:360,empowered_window:6},
- W:{duration:1.25,reduction:.5,arc_degrees:120,self_slow:.4,empower_threshold:lv(120,280),empower_threshold_maxhp_pct:.05,cooldown:lv(14,10),energy_cost:lv(60,40)},
+ W:{duration:1.5,interrupt_grace:.12,empower_incoming_damage:150,reduction:.5,arc_degrees:120,self_slow:.4,cooldown:lv(14,10),energy_cost:lv(60,40)},
  E:{range:450,leap_duration:.4,radius:320,cone_degrees:110,pull_to:110,pull_duration:.2,damage:lv(90,250),ad_ratio:.4,maxhp_ratio:.05,slow:.3,slow_duration:1.5,knockup:.4,cooldown:lv(12,8),energy_cost:lv(60,40)},
- R:{range:0,flight:2,move_speed_bonus:1,radius:600,core_radius:275,damage:[300,450,600],bonus_ad_ratio:.6,maxhp_ratio:.1,min_falloff:.3,knockup:.5,core_slow:.4,outer_slow:.3,slow_duration:2,cooldown:[110,90,70],energy_cost:100}
+ R:{range:0,flight:2.5,move_speed_bonus:1,radius:600,core_radius:275,damage:[300,450,600],bonus_ad_ratio:.6,maxhp_ratio:.1,min_falloff:.3,knockup:.5,core_slow:.4,outer_slow:.3,slow_duration:2,cooldown:[110,90,70],energy_cost:100}
 };
 const skill=(o)=>({maxRank:5,windup:0,recovery:.1,damageType:'physical',heroOnly:false,...o});
 C.heroes[ID]={name:'砧岳',title:'崩山拳',role:'重装战士 / 先手',resource:'energy',color:'#c7873f',
@@ -29,13 +29,13 @@ C.heroes[ID]={name:'砧岳',title:'崩山拳',role:'重装战士 / 先手',resou
  passive:{name:'余震',desc:'能量英雄（上限200，每秒回复10）。技能命中敌方英雄时获得30+9×等级+3%最大生命护盾，持续2.5秒，每次施法最多触发一次。技能命中敌人后4秒内，普攻命中回复20能量；W格挡伤害达到阈值时回复50能量；强化Q把敌人锤到墙体/防御塔上眩晕时回复60能量。能量消耗：Q 50/45/40/35/30，W 60/55/50/45/40，E 60/55/50/45/40，R 固定100。',params:P.P},
  skills:[
   skill({key:'Q',name:'崩山冲拳',icon:'拳',target:'direction',range:425,width:110,cd:P.Q.cooldown,mana:0,damage:P.Q.damage,
-   desc:'按住蓄力（最长1秒），松手朝指定方向突进：蓄力越久，突进距离（190→425码）、伤害（60%→100%）和击退距离（150→300码）越高。撞到的第一个敌人受到80/110/140/170/200+40%AD+4%自身最大生命物理伤害，外加目标已损失生命8%（每100额外AD +3%）的伤害（对野怪最多300），并被击退。被击退途中撞上墙体或防御塔：眩晕0.75秒，并再受一次同等伤害（共双倍）。强化Q：自动满蓄力、伤害×1.3、击退360码，命中后对目标周围250码内的敌人同样造成伤害并一起击退。'}),
+   desc:'按住蓄力（最长1秒），松手朝指定方向突进（可穿墙：越过墙体厚度2/3即可穿过）：蓄力越久，突进距离（190→425码）、伤害（60%→100%）和击退距离（150→300码）越高。撞到的第一个敌人受到80/110/140/170/200+40%AD+4%自身最大生命物理伤害，外加目标已损失生命8%（每100额外AD +3%）的伤害（对野怪最多300），并被击退。被击退途中撞上墙体或防御塔：眩晕0.75秒，并再受一次同等伤害（共双倍）。强化Q：自动满蓄力、伤害×1.3、击退360码，命中后对目标周围250码内的敌人同样造成伤害并一起击退。'}),
   skill({key:'W',name:'镇岳格挡',icon:'挡',target:'direction',range:0,cd:P.W.cooldown,mana:0,damage:0,
-   desc:'朝指定方向格挡1.25秒，期间移速-40%。来自正面120°的伤害降低50%。被格挡的伤害累计达到120/160/200/240/280+5%最大生命时，6秒内下一次Q被强化。格挡期间移动不会改变朝向；施放Q会提前结束格挡。'}),
+   desc:'朝指定方向格挡1.5秒，期间移速-40%，移动不会改变朝向。来自正面120°的伤害降低50%。格挡期间正面受到的伤害累计达到150点时，立刻获得强化Q（Q冷却直接刷新，仍需消耗能量）。会被控制技能打断；打断时那一下的伤害若已使累计达到150点，仍会获得强化Q。施放Q会提前结束格挡。'}),
   skill({key:'E',name:'裂地坠击',icon:'砸',target:'area',range:450,radius:320,cd:P.E.cooldown,mana:0,damage:P.E.damage,
    desc:'跃向目标点并锤击地面，对落地前方110°扇形、320码内的敌人造成90/130/170/210/250+40%AD+5%自身最大生命物理伤害，减速30%持续1.5秒，将其拉向砧岳身前并击飞0.4秒。'}),
   skill({key:'R',name:'天陨',icon:'陨',target:'self',range:0,radius:600,maxRank:3,heroOnly:false,cd:P.R.cooldown,mana:0,damage:P.R.damage,
-   desc:'升空2秒，期间不可选中、免疫伤害与控制，移动速度提高100%，可用摇杆或方向键控制落点；随后在当前位置坠落：600码内敌人受到300/450/600+60%额外AD+10%自身最大生命物理伤害并减速。中心275码内100%伤害、击飞0.5秒、减速40%；275码外伤害随距离线性递减至最低30%，不击飞，仅减速30%，减速持续2秒。落地后获得强化Q。'})
+   desc:'升空2.5秒，期间不可选中、免疫伤害与控制，移动速度提高100%，可用摇杆或方向键控制落点；随后在当前位置坠落：600码内敌人受到300/450/600+60%额外AD+10%自身最大生命物理伤害并减速。中心275码内100%伤害、击飞0.5秒、减速40%；275码外伤害随距离线性递减至最低30%，不击飞，仅减速30%，减速持续2秒。落地后获得强化Q（Q冷却直接刷新）。'})
  ],params:P};
 C.heroParams??={};C.heroParams[ID]=P;
 if(C.ultimateCooldowns)C.ultimateCooldowns[ID]=P.R.cooldown;
@@ -64,10 +64,10 @@ window.installAnvil=function(m,env){
   let lerp=(a,b)=>a+(b-a)*k,range=(emp?P.Q.empowered_range:P.Q.dash_range)*lerp(P.Q.min_charge_ratio,1),to={x:u.x+Math.cos(c.angle)*range,y:u.y+Math.sin(c.angle)*range},dur=P.Q.dash_duration*range/P.Q.dash_range;
   let damage=(at(P.Q.damage,u,0)+P.Q.ad_ratio*u.attack+P.Q.maxhp_ratio*u.maxHp)*lerp(P.Q.min_damage_ratio,1)*(emp?P.Q.empowered_damage_multiplier:1);
   s.dash={angle:c.angle,event:e,damage,knockback:emp?P.Q.empowered_knockback:lerp(P.Q.min_knockback,P.Q.knockback),until:now()+dur,empowered:emp,charge:k};
-  core.startDisplacement(u,to,{type:'DASH',duration:dur,source:u,abilityId:0});fx(u,'qtrail',u,{angle:c.angle,length:range,empowered:emp,life:.4})}
+  core.startDisplacement(u,to,{type:'LEAP',duration:dur,source:u,abilityId:0});fx(u,'qtrail',u,{angle:c.angle,length:range,empowered:emp,life:.4})}
  function tickQ(u){let s=S(u),d=s.dash;if(!d)return;if(now()>d.until||!u.displacement){s.dash=null;return}
   let t=m.nearest(u,P.Q.hit_radius+60,v=>foe(u,v)&&dist(u,v)<=P.Q.hit_radius+(v.radius||25));if(!t)return;
-  s.dash=null;u.displacement=null;knock(u,t,d)}
+  s.dash=null;u.displacement=null;if(env.blocked(u.x,u.y,u.radius||22)){let q=C.map.nearestLegal?.(u,u.radius||22);if(q){u.x=q.x;u.y=q.y}}knock(u,t,d)}
  function missingBonus(u,t){let pct=P.Q.missing_hp_base_pct+P.Q.missing_hp_pct_per_100_bonus_ad*bonusAD(u)/100,v=pct*Math.max(0,t.maxHp-t.hp);return t.type==='monster'?Math.min(P.Q.missing_hp_monster_cap,v):v}
  function knock(u,t,d,splash=true){let e=d.event;if(splash&&d.empowered){for(let v of m.nearby(t,P.Q.splash_radius+60,v=>foe(u,v)&&v!==t))if(dist(v,t)<=P.Q.splash_radius+(v.radius||0))knock(u,v,d,false);env.ring(t.x,t.y,P.Q.splash_radius,'#9fd8ff',.4);fx(u,'thunder',t,{radius:P.Q.splash_radius,life:.5})}d={...d,damage:d.damage+missingBonus(u,t)*(d.empowered?P.Q.empowered_damage_multiplier:1)};if(!hit(u,t,d.damage,e,{once:true,hitIndex:0,abilityId:0}))return;if(!alive(t))return;
   let desired={x:t.x+Math.cos(d.angle)*d.knockback,y:t.y+Math.sin(d.angle)*d.knockback},end=core.safePoint(t,desired,t.radius||22),wall=dist(end,desired)>24;
@@ -75,8 +75,9 @@ window.installAnvil=function(m,env){
   S(u).pending.push({kind:'impact',empowered:!!d.empowered,at:now()+P.Q.knockback_duration*Math.max(.15,dist(t,end)/Math.max(1,d.knockback)),target:t,life:t._life||0,wall,damage:d.damage*(P.Q.wall_damage_multiplier-1),event:e})}
 
  // ---- W：方向格挡 ----
- function startW(u,c){let s=S(u);s.block={angle:c.angle,until:now()+P.W.duration};s.blocked=0;m.slow(u,P.W.self_slow,P.W.duration,u,null,'anvil-w-slow:'+u.id);fx(u,'block',u,{angle:c.angle,life:P.W.duration})}
- function blocking(t,source){let b=S(t).block;if(!b||now()>b.until||!source)return false;let a=Math.atan2(source.y-t.y,source.x-t.x)-b.angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=P.W.arc_degrees*Math.PI/360}
+ function startW(u,c){let s=S(u);s.block={angle:c.angle,until:now()+P.W.duration};s.blocked=0;s.blockedIncoming=0;m.slow(u,P.W.self_slow,P.W.duration,u,null,'anvil-w-slow:'+u.id);fx(u,'block',u,{angle:c.angle,life:P.W.duration})}
+ function empowerQ(u){let s=S(u);s.empoweredUntil=now()+P.Q.empowered_window;u.cd[0]=0;if(u.player)env.toast?.('崩山冲拳已强化');env.ring(u.x,u.y,70,'#9fd8ff',.4)}
+ function blocking(t,source){let b=S(t).block;if(!b||b.broken||now()>b.until||!source)return false;let a=Math.atan2(source.y-t.y,source.x-t.x)-b.angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=P.W.arc_degrees*Math.PI/360}
 
  // ---- E：跃击 ----
  function startE(u,c,e){let to={x:c.p.x,y:c.p.y};if(dist(u,to)>P.E.range){let a=Math.atan2(to.y-u.y,to.x-u.x);to={x:u.x+Math.cos(a)*P.E.range,y:u.y+Math.sin(a)*P.E.range}}
@@ -91,7 +92,7 @@ window.installAnvil=function(m,env){
  function startR(u,c,e){let s=S(u);cancelCharge(u);s.flight={start:now(),land:now()+P.R.flight,event:e};u.untargetable=1;u.invulnerable=P.R.flight+.1;core.apply(u,'CC_IMMUNITY',P.R.flight+.05,u,{uniqueKey:'anvil-r-immune:'+u.id,abilityId:3});
   u.anvilLift={start:now(),end:now()+P.R.flight,height:900,hold:true};s.block=null;s.dash=null;u.displacement=null;u.recall=0;m.recalc(u)}
  function falloff(d){if(d<=P.R.core_radius)return 1;return Math.max(P.R.min_falloff,1-(1-P.R.min_falloff)*(d-P.R.core_radius)/(P.R.radius-P.R.core_radius))}
- function landR(u,f){let p={x:u.x,y:u.y};u.untargetable=0;u.invulnerable=0;u.anvilLift=null;m.recalc(u);S(u).empoweredUntil=now()+P.Q.empowered_window;
+ function landR(u,f){let p={x:u.x,y:u.y};u.untargetable=0;u.invulnerable=0;u.anvilLift=null;m.recalc(u);empowerQ(u);
   let base=at(P.R.damage,u,3)+P.R.bonus_ad_ratio*bonusAD(u)+P.R.maxhp_ratio*u.maxHp;
   for(let t of m.nearby(p,P.R.radius+80,v=>foe(u,v))){let d=Math.max(0,dist(p,t)-(t.radius||0));if(d>P.R.radius)continue;let ratio=falloff(d),core_=d<=P.R.core_radius;
    if(!hit(u,t,base*ratio,f.event,{once:true,abilityId:3}))continue;if(!alive(t))continue;
@@ -104,18 +105,19 @@ window.installAnvil=function(m,env){
   tick(u,dt){let s=S(u);tickQ(u);if(u.resourceType==='ENERGY'&&dt>0)gain(u,P.BASE.energy_regen*dt);
    if(s.leap&&now()>=s.leap.end){let l=s.leap;s.leap=null;u.anvilLift=null;landE(u,l)}
    if(s.flight){u.untargetable=1;u.invulnerable=Math.max(u.invulnerable||0,.1);if(now()>=s.flight.land){let f=s.flight;s.flight=null;landR(u,f)}}
-   if(s.block&&now()>s.block.until)s.block=null;if(s.block)u.angle=s.block.angle;if(s.charging&&(!alive(u)||u.skillRanks[0]<1))cancelCharge(u);
+   if(s.block&&(s.block.broken?now()>s.block.graceUntil:now()>s.block.until))s.block=null;if(s.block&&!s.block.broken)u.angle=s.block.angle;if(s.charging&&(!alive(u)||u.skillRanks[0]<1))cancelCharge(u);
    s.pending=s.pending.filter(q=>{if(now()<q.at)return true;let t=q.target;if(!alive(t)||(t._life||0)!==q.life)return false;if(q.kind==='knockup'){m.control(t,'AIRBORNE',P.E.knockup,u,{abilityId:2});return false}
     if(q.wall){hit(u,t,q.damage,q.event,{abilityId:0,wallSlam:true});if(alive(t))m.control(t,'STUN',P.Q.wall_stun,u,{abilityId:0});if(q.empowered)gain(u,P.P.energy_on_empowered_slam);env.ring(t.x,t.y,90,'#ffcf7a',.35);fx(u,'slam',t)}return false});
    s.visuals=s.visuals.filter(v=>v.until>now())},
   canMove(u){let s=S(u);return !(s.leap||s.dash)},
   derive(u){u.resourceType='ENERGY';u.maxEnergy=P.BASE.max_energy;u.energy=Math.min(u.maxEnergy,Math.max(0,u.energy??u.maxEnergy));if(S(u).flight)u.speed*=1+P.R.move_speed_bonus},
   attackHit(u,t){if(S(u).energyWindow>now()&&t&&t.team!==u.team)gain(u,P.P.energy_on_attack)},
-  reduceDamage(t,value,source){if(!blocking(t,source))return value;let s=S(t),absorbed=value*P.W.reduction;s.blocked+=absorbed;s.blockFlash=now();
-   let need=at(P.W.empower_threshold,t,1)+P.W.empower_threshold_maxhp_pct*t.maxHp;if(s.blocked>=need&&s.empoweredUntil<=now()){s.empoweredUntil=now()+P.Q.empowered_window;gain(t,P.P.energy_on_block);if(t.player)env.toast?.('崩山冲拳已强化');env.ring(t.x,t.y,70,'#ffd27a',.4)}
-   return value-absorbed},
+  reduceDamage(t,value,source){let s=S(t),b=s.block;if(!b||!source)return value;let front=(()=>{let a=Math.atan2(source.y-t.y,source.x-t.x)-b.angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=P.W.arc_degrees*Math.PI/360})();if(!front)return value;
+   let live=!b.broken&&now()<=b.until,grace=b.broken&&now()<=b.graceUntil;if(!live&&!grace)return value;
+   s.blockedIncoming=(s.blockedIncoming||0)+value;if(s.blockedIncoming>=P.W.empower_incoming_damage&&!b.empowered){b.empowered=true;empowerQ(t);gain(t,P.P.energy_on_block)}
+   if(!live)return value;let absorbed=value*P.W.reduction;s.blocked+=absorbed;s.blockFlash=now();return value-absorbed},
   validate(u,i){let s=S(u);if(s.flight||s.leap)return false;return true},
-  interrupt(u){let s=S(u);s.dash=null;s.block=null;cancelCharge(u)},
+  interrupt(u,reason){let s=S(u);s.dash=null;if(s.block&&!s.block.broken&&now()<=s.block.until){s.block.broken=true;s.block.graceUntil=now()+P.W.interrupt_grace;core.remove(u,x=>x.uniqueKey==='anvil-w-slow:'+u.id,'anvil-w-broken')}cancelCharge(u)},
   reset(u){u.anvilState=null;u.anvilLift=null;u.untargetable=0}
  };
 
@@ -124,7 +126,7 @@ window.installAnvil=function(m,env){
   ctx.save();ctx.translate(u.x,u.y);ctx.rotate(angle);ctx.fillStyle='#e0a05218';ctx.strokeStyle='#e0a05266';ctx.lineWidth=2;ctx.setLineDash([10,8]);ctx.strokeRect(0,-55,max,110);ctx.setLineDash([]);
   ctx.fillStyle=emp?'#7fc8ff40':'#ffb34740';ctx.fillRect(0,-55,r,110);ctx.strokeStyle=emp?'#bfe6ff':'#ffd27a';ctx.lineWidth=3;ctx.strokeRect(0,-55,r,110);if(emp){ctx.beginPath();ctx.arc(r,0,P.Q.splash_radius,0,Math.PI*2);ctx.strokeStyle='#9fd8ff88';ctx.setLineDash([6,6]);ctx.stroke();ctx.setLineDash([])}ctx.restore()}
  function draw(ctx){for(let u of units())if(u.hero===ID&&alive(u)){let s=S(u),t=now();
-   if(s.block){let a=s.block.angle,flash=s.blockFlash&&t-s.blockFlash<.15,need=at(P.W.empower_threshold,u,1)+P.W.empower_threshold_maxhp_pct*u.maxHp,prog=Math.min(1,s.blocked/need);
+   if(s.block&&!s.block.broken){let a=s.block.angle,flash=s.blockFlash&&t-s.blockFlash<.15,prog=Math.min(1,(s.blockedIncoming||0)/P.W.empower_incoming_damage);
     ctx.save();let g=ctx.createRadialGradient(u.x,u.y,30,u.x,u.y,230);g.addColorStop(0,flash?'#ffe9b0aa':'#ffd27a66');g.addColorStop(1,'#ffd27a00');sector(ctx,u.x,u.y,a,230,P.W.arc_degrees,g,null);
     sector(ctx,u.x,u.y,a,230,P.W.arc_degrees,null,'#ffd27a88',2);ctx.beginPath();ctx.arc(u.x,u.y,95,a-P.W.arc_degrees*Math.PI/360,a+P.W.arc_degrees*Math.PI/360);ctx.strokeStyle=flash?'#fff6d8':'#ffd27a';ctx.lineWidth=14;ctx.lineCap='round';ctx.stroke();
     ctx.beginPath();ctx.arc(u.x,u.y,118,a-P.W.arc_degrees*Math.PI/360,a-P.W.arc_degrees*Math.PI/360+prog*P.W.arc_degrees*Math.PI/180);ctx.strokeStyle=prog>=1?'#9fd8ff':'#ffb347';ctx.lineWidth=5;ctx.stroke();ctx.restore()}
