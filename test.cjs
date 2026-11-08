@@ -68,3 +68,4 @@ require('./test-v18.cjs');
 require('./test-v19-anvil.cjs');
 require('./test-v19-reserve.cjs');
 require('./test-v21-walls.cjs');
+require('./test-v19-portal.cjs');
