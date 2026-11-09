@@ -283,8 +283,10 @@ function botSkill(u,t,dt){if(u.hero==='anvil'&&mechanics.anvil){let r=mechanics.
  u.skillTimer=used?.25+rand()*.35:.12;return used}
 
 // V19 AI 防御塔判断：只有能击杀目标且扛得住塔伤时才越塔；否则不进塔、不追塔下的敌人，停在塔射程外的安全点。
+// 真正的兵线小兵：排除俄洛伊触手、灵魂、分身、召唤物等同样标成 minion 类型的单位。
+function isLaneMinion(v){return v.type==='minion'&&!v.tentacle&&!v.spiritOwner&&!v.summoned&&!v.clone&&!v.owner}
 function botTowerAt(u,p,margin=0){return units.find(v=>v.type==='tower'&&v.team!==u.team&&alive(v)&&dist(v,p)<v.range+(p.radius||0)+margin)}
-function botTowerSupported(u,tw){return units.some(v=>v.type==='minion'&&v.team===u.team&&alive(v)&&dist(v,tw)<tw.range-20)&&tw.aggro!==u}
+function botTowerSupported(u,tw){return units.some(v=>isLaneMinion(v)&&v.team===u.team&&alive(v)&&dist(v,tw)<tw.range-20)&&tw.aggro!==u}
 function botBurst(u,t){let total=0;for(let i=0;i<4;i++){if(!u.skillRanks?.[i]||mechanics.abilityCooldownRemaining(u,i)>0)continue;try{let v=mechanics.raw(u,i,t);if(Number.isFinite(v)&&v>0)total+=v}catch{}}let as=mechanics.effectiveAS?.(u)||u.attackSpeed||.7;return total+u.attack*as*2.5}
 function botCanDive(u,t,tw){if(!tw||!alive(t)||t.type!=='hero')return false;if(u.aiDive?.id===t.id)return true;let allies=units.filter(v=>v.type==='hero'&&v.team===u.team&&alive(v)&&dist(v,t)<900&&v.hp>v.maxHp*.4),dmg=allies.reduce((n,v)=>n+botBurst(v,t)*(v===u?1:.6),0)*.7,hpT=t.hp+(t.shield||0);
  // 在塔下停留时间 = 进入射程后走到攻击距离 + 约1.5秒击杀 + 走出射程；按塔的递增伤害（每发+50%，单发上限850）估算承受的总伤害。
@@ -299,7 +301,7 @@ function botSafeSpot(u,tw){let b=base[u.team],dx=b.x-tw.x,dy=b.y-tw.y,d=Math.hyp
  let mates=units.filter(v=>v.type==='hero'&&v.team===u.team&&!v.player&&alive(v)).sort((a,b)=>a.id-b.id),n=Math.max(1,mates.length),slot=Math.max(0,mates.indexOf(u));
  let laneHalf=GameModes.isARAM()?Math.max(60,C.aram.bridge_width/2-r-200):260,spacing=Math.min(220,2*laneHalf/Math.max(1,n-1)),lateral=n>1?(slot-(n-1)/2)*spacing:0;
  let ranged=!mechanics.isMelee(u),depth=tw.range+r+(ranged?260:120)+(slot%2)*90;
- let wave=units.filter(v=>v.type==='minion'&&v.team===u.team&&alive(v)&&dist(v,tw)>tw.range+60&&dist(v,tw)<tw.range+1400).sort((a,b)=>dist(a,tw)-dist(b,tw))[0];
+ let wave=units.filter(v=>isLaneMinion(v)&&v.team===u.team&&alive(v)&&dist(v,tw)>tw.range+60&&dist(v,tw)<tw.range+1400).sort((a,b)=>dist(a,tw)-dist(b,tw))[0];
  let along=wave?Math.max(depth,(wave.x-tw.x)*ux+(wave.y-tw.y)*uy):depth,anchor={x:tw.x+ux*along+px*lateral,y:tw.y+uy*along+py*lateral};
  let idle=u.aiIdle;if(!idle||idle.tower!==tw.id||time>=idle.until||Math.hypot(u.x-idle.x,u.y-idle.y)<30||Math.hypot(idle.ax-anchor.x,idle.ay-anchor.y)>250){let side=(rand()*2-1)*Math.min(150,spacing*.5+50),fwd=(rand()*2-1)*90;idle=u.aiIdle={tower:tw.id,ax:anchor.x,ay:anchor.y,x:anchor.x+px*side+ux*fwd,y:anchor.y+py*side+uy*fwd,until:time+1.5+rand()*1.5}}
  let p={x:idle.x,y:idle.y},minAlong=tw.range+r+60,cur=(p.x-tw.x)*ux+(p.y-tw.y)*uy,off=(p.x-tw.x)*px+(p.y-tw.y)*py;if(Math.hypot(cur,off)<minAlong){let need=Math.sqrt(Math.max(0,minAlong*minAlong-off*off));p={x:tw.x+ux*need+px*off,y:tw.y+uy*need+py*off}}
@@ -316,7 +318,7 @@ function botLanePlan(u){let lane=clamp(u.lane??0,0,paths.length-1),path=paths[la
  let mine=v=>alive(v)&&v.team===u.team&&(GameModes.isARAM()||v.lane===lane);
  // 大乱斗：血量不满且附近有可用的回血遗迹时先去吃遗迹。
  if(GameModes.isARAM()&&u.hp<u.maxHp*.75){let r=modeRuntime.relics?.().filter(r=>r.readyAt<=time&&dist(u,r)<2200).sort((a,b)=>dist(u,a)-dist(u,b))[0];if(r)return{x:r.x,y:r.y,reason:'relic'}}
- let wave=units.filter(v=>v.type==='minion'&&mine(v)).sort((a,b)=>fwd(b)-fwd(a))[0],own=units.filter(v=>v.type==='tower'&&mine(v)).sort((a,b)=>fwd(b)-fwd(a))[0];
+ let wave=units.filter(v=>isLaneMinion(v)&&mine(v)).sort((a,b)=>fwd(b)-fwd(a))[0],own=units.filter(v=>v.type==='tower'&&mine(v)).sort((a,b)=>fwd(b)-fwd(a))[0];
  let target,reason;if(wave){target=laneProgress(lane,wave)-dir*.008;reason='escort'}else if(own){target=laneProgress(lane,own)+dir*.05;reason='regroup'}else{target=u.team===0?.15:.85;reason='regroup'}
  target=clamp(target,0,1);let point=()=>pointAt(path,target);let p=point();
  for(let k=0;k<60;k++){let tw=units.find(v=>v.type==='tower'&&v.team!==u.team&&alive(v)&&dist(v,p)<v.range+(u.radius||22)+120);if(!tw||botTowerSupported(u,tw))break;target=clamp(target-dir*.01,0,1);p=point();reason+='-safe'}
