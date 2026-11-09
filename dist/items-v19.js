@@ -19,7 +19,7 @@ window.createItemEffects=function(env,m){
  function gargoyleHealPct(u){let p=P('GARGOYLE_MASK'),r=u.maxHp>0?u.hp/u.maxHp:1;if(r>=p.heal_start_ratio)return 0;let k=Math.min(1,(p.heal_start_ratio-r)/(p.heal_start_ratio-p.heal_full_ratio));return p.heal_min_pct+(p.heal_max_pct-p.heal_min_pct)*k}
  function healAmount(u,amount,source,meta){let v=base.healAmount?base.healAmount(u,amount,source,meta)??amount:amount;if(!(v>0))return v;let mul=1;if(own(u,'CHOCO_ICE'))mul+=P('CHOCO_ICE').heal_bonus_pct;if(own(u,'GARGOYLE_MASK'))mul+=gargoyleHealPct(u);return v*mul}
  function lethal(u,source,meta={}){if(base.lethal?.(u,source,meta))return true;if(u.type!=='hero'||!own(u,'GARGOYLE_MASK')||(u.gargoyleReadyAt||0)>now())return false;let p=P('GARGOYLE_MASK');u.gargoyleReadyAt=now()+p.cooldown;u.hp=1;let total=(u.maxHp-1)*p.revive_missing_pct;u.gargoyleRegen={until:now()+p.revive_duration,rate:total/p.revive_duration};env.itemFeedback?.('GARGOYLE_MASK',u);return true}
- function onTakedown(u,t,a={}){base.onTakedown?.(u,t,a);if(t?.type!=='hero'||a.kind!=='kill'||!own(u,'VOID_SPEAR')||!u.cd)return;u.cd[3]=Math.max(0,(u.cd[3]||0)*(1-P('VOID_SPEAR').kill_ult_cd_pct))}
+ function onTakedown(u,t,a={}){base.onTakedown?.(u,t,a);if(t?.type!=='hero'||!['kill','assist'].includes(a.kind)||!own(u,'VOID_SPEAR')||!u.cd)return;u.cd[3]=Math.max(0,(u.cd[3]||0)*(1-P('VOID_SPEAR').kill_ult_cd_pct))}
  return {...base,basicHit,deriveStats,tick,afterDamage,healAmount,onTakedown,lethal};
 };
 })();
