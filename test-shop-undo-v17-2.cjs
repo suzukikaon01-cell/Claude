@@ -6,7 +6,7 @@ test('recipeundo restoresconsumedcomponents and permanentitemstate',()=>{let f=f
 test('skillstart permanentlyinvalidates evenifinterrupted',()=>{let f=fixture();f.a.buy('sword');f.ready(f.u,0);assert(f.a.cast(f.u,0,{x:f.u.x+100,y:f.u.y}));f.m.interrupt(f.u);assert(!f.a.undoPurchase())});
 for(let side of['outgoing','incoming','shield'])test(side+' damageinvalidates',()=>{let f=fixture(),t=f.a.enemy('garen',f.u.x+10,f.u.y);f.a.buy('sword');if(side==='shield')f.m.shield(f.u,100,5,f.u);f.m.deal(side==='outgoing'?t:f.u,50,side==='outgoing'?f.u:t,'true');assert(!f.a.undoPurchase())});
 test('leavingthenreturningbuyzone cannotrestoreundo',()=>{let f=fixture();f.a.buy('sword');let x=f.u.x;f.u.x+=1000;f.step(.02);f.u.x=x;assert(!f.a.undoPurchase())});
-test('sellingowneditem invalidatesundo andusesnormalrefund',()=>{let f=fixture();f.a.buy('sword');let g=f.u.gold;assert(f.a.sell(0));assert(f.a.confirmSell());assert.equal(f.u.items.length,0);near(f.u.gold,g+Math.floor(f.C.items.find(x=>x.id==='sword').cost*.7));assert(!f.a.undoPurchase())});
+test('sellingowneditem invalidatesundo andusesnormalrefund',()=>{let f=fixture();f.a.buy('sword');let g=f.u.gold;assert(f.a.sell(0));assert(f.a.confirmSell(0));assert.equal(f.u.items.length,0);near(f.u.gold,g+Math.floor(f.C.items.find(x=>x.id==='sword').cost*.7));assert(!f.a.undoPurchase())});
 test('failedpurchase keepspriorundo',()=>{let f=fixture();f.a.buy('sword');f.u.gold=0;assert(!f.a.buy('deathcap'));assert(f.a.undoPurchase())});
 test('newmatchdoesnotinheritundo',()=>{let f=fixture();f.a.buy('sword');f.reset('lux');assert(!f.a.undoPurchase())});
 console.log('SHOP V17.2: '+n+' tests passed');
