@@ -1,0 +1,21 @@
+/* V19 原创装备效果：山岳巨颚（生命转普攻伤害 + 扇形溅射）、熔铸心甲（额外生命转攻击力 + 低血量增伤）。
+ * 数据（价格、属性、合成）在 balance-v19.js 注入 GAME_CONFIG.items。 */
+(()=>{'use strict';
+const create=window.createItemEffects;if(!create)return;
+window.createItemEffects=function(env,m){
+ const base=create(env,m),C=GAME_CONFIG,now=env.time,units=env.units,live=u=>u&&u.hp>0&&!(u.death>0),own=(u,id)=>(u.items||[]).some(v=>(typeof v==='string'?v:v.id)===id),P=id=>C.itemParams[id];
+ const foe=(u,t)=>live(t)&&t.team!==u.team&&['hero','minion','monster'].includes(t.type)&&!(t.untargetable>0);
+ function basicHit(u,t,a={}){base.basicHit(u,t,a);if(!own(u,'GIANT_MAW')||!live(t)||a.itemEffect)return;let p=P('GIANT_MAW'),ranged=!m.isMelee(u),dmg=u.maxHp*p.hit_maxhp_pct*(ranged?p.ranged_ratio:1),meta={itemEffect:true,itemId:'GIANT_MAW',event:a.event};
+  m.deal(t,dmg,u,'physical',{...meta,hitIndex:'maw-main'});
+  let ang=Math.atan2(t.y-u.y,t.x-u.x),half=p.cleave_degrees*Math.PI/360;
+  for(let v of m.nearby(t,p.cleave_range+80,v=>foe(u,v)&&v!==t)){let dx=v.x-t.x,dy=v.y-t.y,d=Math.hypot(dx,dy);if(d>p.cleave_range+(v.radius||0))continue;let da=Math.atan2(dy,dx)-ang;da=Math.atan2(Math.sin(da),Math.cos(da));if(d>(v.radius||20)&&Math.abs(da)>half)continue;m.deal(v,dmg,u,'physical',{...meta,hitIndex:'maw-cleave:'+v.id})}
+  u.giantMawVisual={x:t.x,y:t.y,angle:ang,until:now()+.25}}
+ function lowHpPct(u,ratio){let p=P('FORGED_HEART'),r=ratio??(u.maxHp>0?u.hp/u.maxHp:1);return r>=p.low_hp_threshold?0:p.low_hp_max_ad_pct*Math.min(1,(p.low_hp_threshold-r)/p.low_hp_threshold)}
+ function deriveStats(u,s,ratio){base.deriveStats?.(u,s,ratio);if(!own(u,'FORGED_HEART'))return;let p=P('FORGED_HEART'),bonusHp=Math.max(0,s.bonusHp??(s.hp-(u.stats?.hp||0)-(u.stats?.growth?.hp||0)*Math.max(0,(u.level||1)-1))),add=bonusHp*p.bonus_hp_to_ad_pct;u.attack+=add;let low=lowHpPct(u,ratio);u.forgedHeartLowPct=low;if(low>0)u.attack*=1+low}
+ function tick(dt){base.tick?.(dt);for(let u of units()){if(u.type!=='hero'||!live(u)||!own(u,'FORGED_HEART'))continue;let step=Math.round(lowHpPct(u)*200);if(step!==u.forgedHeartStep){u.forgedHeartStep=step;m.recalc(u)}}}
+ return {...base,basicHit,deriveStats,tick};
+};
+})();
+// 推荐出装：肉装战士用新装备替换一件纯生命装。
+(()=>{const I=window.ItemSystem;if(!I?.recommended)return;const rec=I.recommended,swap={garen:['warmog','GIANT_MAW'],sett:['warmog','FORGED_HEART'],darius:['warmog','GIANT_MAW']};
+I.recommended=hero=>{let l=[...(rec(hero)||[])],s=swap[hero];if(s&&I.get(s[1])){let i=l.indexOf(s[0]);if(i>=0)l[i]=s[1]}return l}})();

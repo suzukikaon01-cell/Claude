@@ -72,3 +72,4 @@ require('./test-v19-portal.cjs');
 require('./test-v19-balance.cjs');
 require('./test-v19-dva.cjs');
 require('./test-v19-ai.cjs');
+require('./test-v19-items.cjs');
