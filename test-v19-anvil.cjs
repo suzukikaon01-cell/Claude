@@ -59,6 +59,12 @@ test('any skill cast during W ends the block; Q during E leap cancels the leap',
 
 test('W empower threshold = 100 + 12 x average enemy hero level (pre-mitigation)',()=>{let {h,p,e,A}=setup();let foes=h.a.units.filter(u=>u.type==='hero'&&u.team!==p.team);for(let f of foes)f.level=1;assert(Math.abs(A.blockNeed(p)-112)<1e-9);for(let f of foes)f.level=18;assert(Math.abs(A.blockNeed(p)-316)<1e-9);
  h.a.m.recalc(p);p.hp=p.maxHp=50000;e.x=p.x+300;e.y=p.y;cast(h,p,1,{x:p.x+300,y:p.y});h.a.m.deal(p,300,e,'true');assert(!(A.state(p).empoweredUntil>h.a.time),'300 < 316');h.a.m.deal(p,20,e,'true');assert(A.state(p).empoweredUntil>h.a.time,'320 >= 316')});
+test('CC interrupts Q charge, Q dash, W block and E leap (no damage)',()=>{
+ let stun=(h,p,e)=>h.a.m.control(p,'stun',.5,e);
+ {let {h,p,A,e}=setup();A.beginCharge(p);h.step(.3);stun(h,p,e);assert(!A.state(p).charging,'charge')}
+ {let {h,p,A,e}=setup(),{q,a}=open(h,7500,7500,700);p.x=q.x;p.y=q.y;e.x=q.x+Math.cos(a)*400;e.y=q.y+Math.sin(a)*400;e.speed=0;let hp=e.hp;cast(h,p,0,{x:e.x,y:e.y});h.step(.05);assert(A.state(p).dash,'dashing');stun(h,p,e);assert(!A.state(p).dash);h.step(.6);assert.equal(e.hp,hp,'dash cancelled')}
+ {let {h,p,A,e}=setup();cast(h,p,1,{x:p.x+300,y:p.y});h.step(.1);assert(A.state(p).block);stun(h,p,e);assert(A.state(p).block.broken,'block broken')}
+ {let {h,p,A,e}=setup(),{q,a}=open(h,7500,7500,700);p.x=q.x;p.y=q.y;e.x=q.x+Math.cos(a)*500;e.y=q.y+Math.sin(a)*500;e.speed=0;let hp=e.hp;cast(h,p,2,{x:q.x+Math.cos(a)*450,y:q.y+Math.sin(a)*450});h.step(.15);assert(A.state(p).leap);stun(h,p,e);assert(!A.state(p).leap,'leap cancelled');h.step(1);assert.equal(e.hp,hp,'cancelled E deals nothing')}});
 console.log('V19 anvil tests passed: '+count);
 {const make=require('./test-harness.cjs'),assert=require('assert');let h=make();h.a.reset('anvil',true);let P=h.C.heroParams.anvil;assert.deepEqual(P.Q.damage,[80,100,120,140,160]);assert.equal(P.Q.bonus_ad_ratio,.8);assert.equal(P.Q.maxhp_ratio,.08);assert.deepEqual(P.E.damage,[50,80,110,140,170]);assert.equal(P.E.bonus_ad_ratio,.5);assert.deepEqual(P.Q.empowered_damage,[80,100,120,140,160]);assert.equal(P.Q.empowered_bonus_ad_ratio,.8);assert.equal(P.Q.empowered_maxhp_ratio,.08);assert.equal(P.E.maxhp_ratio,0);assert.deepEqual(P.R.damage,[250,350,450]);assert.equal(P.R.bonus_ad_ratio,.5);assert.equal(P.R.maxhp_ratio,.1);
  // empowered Q full charge on a dummy: 160 + 0.8*bonusAD + 8% maxHP (+ missing HP bonus 0 at full HP)

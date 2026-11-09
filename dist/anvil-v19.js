@@ -130,7 +130,7 @@ window.installAnvil=function(m,env){
   validate(u,i){let s=S(u);if(s.flight)return false;
    if(i===1){if(s.dash)return false;cancelLeap(u);s.lockUntil=0;u.pendingAttack=null;u.attackRecovery=0;return true}
    if(s.leap){cancelLeap(u);return true}if(s.lockUntil>now())return false;return true},
-  interrupt(u,reason){let s=S(u);s.dash=null;if(s.block&&!s.block.broken&&now()<=s.block.until){s.block.broken=true;s.block.graceUntil=now()+P.W.interrupt_grace;core.remove(u,x=>x.uniqueKey==='anvil-w-slow:'+u.id,'anvil-w-broken')}cancelCharge(u)},
+  interrupt(u,reason){let s=S(u);if(s.dash){s.dash=null;u.displacement=null}if(s.leap&&!s.flight)cancelLeap(u);if(s.block&&!s.block.broken&&now()<=s.block.until){s.block.broken=true;s.block.graceUntil=now()+P.W.interrupt_grace;core.remove(u,x=>x.uniqueKey==='anvil-w-slow:'+u.id,'anvil-w-broken')}cancelCharge(u)},
   reset(u){u.anvilState=null;u.anvilLift=null;u.untargetable=0}
  };
 
