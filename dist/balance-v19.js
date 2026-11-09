@@ -7,13 +7,13 @@
  */
 (()=>{'use strict';const C=window.GAME_CONFIG;if(!C)return;
  C.towerArmorPenPct=.3;
- // V19 平衡：迪奥——被动改名「不老不死」冷却180秒；Q 每拳10/15/20/25/30+12%额外AD，回复0.5%已损失生命；飞刀取消同目标递减；R倍率改按额外AD；R结算击杀不再刷新E。
+ // V19 平衡：迪奥——被动改名「不老不死」冷却180秒；Q 每拳15/20/25/30/35+15%额外AD，回复1%已损失生命；飞刀取消同目标递减；R倍率改按额外AD；R结算击杀不再刷新E。
  {let H=C.heroes.dio;for(let p of new Set([C.heroParams?.dio,H?.params]))if(p){// 仅覆盖仍为旧默认值的项，Excel 中手动改过的值优先。
    const ch=(o,k,old,v)=>{if(o&&JSON.stringify(o[k])===JSON.stringify(old)){if(v===undefined)delete o[k];else o[k]=v}};
-   ch(p.P,'cooldown',150,180);ch(p.Q,'total_ad_ratio_pct',.18,undefined);ch(p.Q,'bonus_ad_ratio_pct',0,.12);ch(p.Q,'damage_per_punch',[15,20,25,30,35],[10,15,20,25,30]);ch(p.Q,'missing_hp_heal_pct',.01,.005);ch(p.W,'damage_decay_per_hit_pct',.1,0);ch(p.R,'damage_settlement_uses_total_ad',1,0);ch(p.R,'refresh_e_on_settlement_champion_kill',1,0);ch(p.W,'marked_kill_refresh_e',1,0);
+   ch(p.P,'cooldown',150,180);ch(p.Q,'total_ad_ratio_pct',.18,undefined);ch(p.Q,'bonus_ad_ratio_pct',0,.15);ch(p.W,'damage_decay_per_hit_pct',.1,0);ch(p.R,'damage_settlement_uses_total_ad',1,0);ch(p.R,'refresh_e_on_settlement_champion_kill',1,0);ch(p.W,'marked_kill_refresh_e',1,0);
    p.P.__description='不老不死：致命伤使迪奥原地倒地2.5秒，期间无法行动、不可选中并免伤；随后恢复40%最大生命和全部能量。冷却180秒；特殊倒地不算死亡。本体普攻造成125%总AD物理伤害，攻速固定0.7。'}
   if(H){H.passive.name='不老不死';H.passive.desc=H.params?.P?.__description||C.heroParams.dio.P.__description;let[q,w,e,r]=H.skills;
-   q.desc=q.desc.replace('每拳15/20/25/30/35+18%总AD','每拳10/15/20/25/30+12%额外AD').replace('1%当前已损失生命','0.5%当前已损失生命');
+   q.desc=q.desc.replace('每拳15/20/25/30/35+18%总AD','每拳15/20/25/30/35+15%额外AD');
    w.desc=w.desc.replace(/同目标前1～6把全额，之后每把递减10个百分点，最低50%。/,'多把飞刀命中同一目标均为全额伤害。').replace(/飞刀或R结算击杀带有自己印记的敌方英雄刷新E。?/,'').replace(/无印记目标的飞刀击杀不刷新。?/,'');
    r.desc=r.desc.replace('每点迪奥当前总AD增加0.1个百分点，400AD为140%','每点迪奥额外AD增加0.1个百分点，400额外AD为140%').replace('结算击杀敌方英雄刷新E。','')}}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
