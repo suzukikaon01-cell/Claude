@@ -7,6 +7,10 @@
  */
 (()=>{'use strict';const C=window.GAME_CONFIG;if(!C)return;
  C.towerArmorPenPct=.3;
+ // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
+ {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
+  r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
+ {let s=C.heroes.garen?.stats;if(s){Object.assign(s,{hp:720,attack:70,armor:42,mr:36,hpRegen:9});Object.assign(s.growth,{hp:122,attack:4.8,armor:5,mr:2.1,hpRegen:.8})}}
  // V19 原创装备（效果见 items-v19.js）：
  //  山岳巨颚：普攻附带1.5%最大生命物理伤害，并溅射目标身后扇形范围；熔铸心甲：额外生命的2.5%转为攻击力，低于50%生命时按已损失生命再获得最多10%攻击力。
  const newItems=[

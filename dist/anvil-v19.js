@@ -16,11 +16,11 @@ const lv=(a,b,n=5)=>Array.from({length:n},(_,i)=>+(a+(b-a)*i/(n-1)).toFixed(3));
 const P={
  BASE:{resource_type:'ENERGY',max_energy:200,energy_regen:10,hp_base:690,hp_growth:118,mana_base:0,mana_growth:0,ad_base:64,ad_growth:3.8,armor_base:40,armor_growth:4.8,mr_base:34,mr_growth:2.1,as_base:.65,as_ratio:.65,as_growth:.02,move_speed:218,attack_range:150,is_ranged:0,hero_name:'砧岳'},
  P:{energy_on_attack:20,energy_attack_window:4,energy_on_block:50,energy_on_empowered_slam:60,shield_base:30,shield_per_level:9,shield_maxhp_pct:.03,shield_duration:2.5},
- Q:{charge_max:1,min_charge_ratio:.45,min_damage_ratio:.6,min_knockback:150,charge_self_slow:.3,splash_radius:250,damage:lv(80,240),ad_ratio:0,bonus_ad_ratio:1,maxhp_ratio:.09,missing_hp_base_pct:.08,missing_hp_pct_per_100_bonus_ad:.03,missing_hp_monster_cap:300,dash_range:425,dash_duration:.3,knockback:300,knockback_duration:.25,knockback_lock:.25,wall_stun:1.25,wall_damage_multiplier:2,hit_radius:55,cooldown:lv(9,5),energy_cost:lv(50,30),
+ Q:{charge_max:1,min_charge_ratio:.45,min_damage_ratio:.6,min_knockback:150,charge_self_slow:.3,splash_radius:250,damage:[80,100,120,140,160],ad_ratio:0,bonus_ad_ratio:.8,maxhp_ratio:.08,missing_hp_base_pct:.08,missing_hp_pct_per_100_bonus_ad:.03,missing_hp_monster_cap:300,dash_range:425,dash_duration:.3,knockback:300,knockback_duration:.25,knockback_lock:.25,wall_stun:1.25,wall_damage_multiplier:2,hit_radius:55,cooldown:lv(9,5),energy_cost:lv(50,30),
     empowered_damage:[80,100,120,140,160],empowered_bonus_ad_ratio:.8,empowered_maxhp_ratio:.08,empowered_range:425,empowered_knockback:360,empowered_window:6},
  W:{duration:1.5,interrupt_grace:.12,empower_base:100,empower_per_enemy_level:12,reduction:.5,arc_degrees:120,self_slow:.4,cooldown:lv(14,10),energy_cost:lv(60,40)},
- E:{empower_heroes:3,backswing:.25,hero_pull:50,range:450,leap_duration:.4/.75,radius:475,impact_radius:160,impact_damage_ratio:.6,maxhp_ratio:0,cone_degrees:90,pull_to:110,pull_duration:.2,damage:lv(90,250),ad_ratio:.4,slow:.3,slow_duration:1.5,knockup:.4,cooldown:lv(12,8),energy_cost:lv(60,40)},
- R:{range:0,flight:2.5,descent:.75,backswing:.35,move_speed_bonus:1,radius:600,core_radius:275,damage:[300,450,600],bonus_ad_ratio:.6,maxhp_ratio:.15,min_falloff:.3,knockup:.5,core_slow:.4,outer_slow:.3,slow_duration:2,cooldown:[110,90,70],energy_cost:100}
+ E:{empower_heroes:3,backswing:.25,hero_pull:50,range:450,leap_duration:.4/.75,radius:475,impact_radius:160,impact_damage_ratio:.6,maxhp_ratio:0,cone_degrees:90,pull_to:110,pull_duration:.2,damage:[50,80,110,140,170],ad_ratio:0,bonus_ad_ratio:.5,slow:.3,slow_duration:1.5,knockup:.4,cooldown:lv(12,8),energy_cost:lv(60,40)},
+ R:{range:0,flight:2.5,descent:.75,backswing:.35,move_speed_bonus:1,radius:600,core_radius:275,damage:[250,350,450],bonus_ad_ratio:.5,maxhp_ratio:.1,min_falloff:.3,knockup:.5,core_slow:.4,outer_slow:.3,slow_duration:2,cooldown:[110,90,70],energy_cost:100}
 };
 const skill=(o)=>({maxRank:5,windup:0,recovery:.1,damageType:'physical',heroOnly:false,...o});
 C.heroes[ID]={name:'砧岳',title:'崩山拳',role:'重装战士 / 先手',resource:'energy',color:'#c7873f',
@@ -29,13 +29,13 @@ C.heroes[ID]={name:'砧岳',title:'崩山拳',role:'重装战士 / 先手',resou
  passive:{name:'余震',desc:'能量英雄（上限200，每秒回复10）。技能命中敌方英雄时获得30+9×等级+3%最大生命护盾，持续2.5秒，每次施法最多触发一次。技能命中敌人后4秒内，普攻命中回复20能量；W格挡伤害达到阈值时回复50能量；强化Q把敌人锤到墙体/防御塔上眩晕时回复60能量。能量消耗：Q 50/45/40/35/30，W 60/55/50/45/40，E 60/55/50/45/40，R 固定100。',params:P.P},
  skills:[
   skill({key:'Q',name:'崩山冲拳',icon:'拳',target:'direction',range:425,width:110,cd:P.Q.cooldown,mana:0,damage:P.Q.damage,
-   desc:'按住蓄力（最长1秒），松手朝指定方向突进（可穿墙：越过墙体厚度2/3即可穿过）：蓄力越久，突进距离（190→425码）、伤害（60%→100%）和击退距离（150→300码）越高。撞到的第一个敌人受到80/120/160/200/240+100%额外AD+9%自身最大生命物理伤害，外加目标已损失生命8%（每100额外AD +3%）的伤害（对野怪最多300），并被击退，落地后0.25秒无法行动。被击退途中撞上墙体或防御塔：眩晕1.25秒，并再受一次同等伤害（共双倍）。强化Q：持续6秒；同样需要蓄力，已开始蓄力的强化Q不会因到期变回普通Q；伤害改为80/100/120/140/160+80%额外AD+8%自身最大生命、击退360码，命中后对目标周围250码内的敌人同样造成伤害并一起击退。'}),
+   desc:'按住蓄力（最长1秒），松手朝指定方向突进（可穿墙：越过墙体厚度2/3即可穿过）：蓄力越久，突进距离（190→425码）、伤害（60%→100%）和击退距离（150→300码）越高。撞到的第一个敌人受到80/100/120/140/160+80%额外AD+8%自身最大生命物理伤害，外加目标已损失生命8%（每100额外AD +3%）的伤害（对野怪最多300），并被击退，落地后0.25秒无法行动。被击退途中撞上墙体或防御塔：眩晕1.25秒，并再受一次同等伤害（共双倍）。强化Q：持续6秒；同样需要蓄力，已开始蓄力的强化Q不会因到期变回普通Q；伤害改为80/100/120/140/160+80%额外AD+8%自身最大生命、击退360码，命中后对目标周围250码内的敌人同样造成伤害并一起击退。'}),
   skill({key:'W',name:'镇岳格挡',icon:'挡',target:'direction',range:0,cd:P.W.cooldown,mana:0,damage:0,
    desc:'朝指定方向格挡1.5秒（施放其他技能会结束格挡；可打断普攻后摇、E跳跃和技能后摇，Q冲刺中和R升空时不可施放），期间移速-40%，移动不会改变朝向。来自正面120°的伤害降低50%。格挡期间正面受到的伤害（按护甲/减伤前的数值计算）累计达到「100 + 敌方英雄平均等级×12」（1级112，18级316）时，立刻获得强化Q（持续6秒，Q冷却直接刷新，仍需消耗能量）。会被控制技能打断；打断时那一下的伤害若已使累计达到所需数值，仍会获得强化Q。施放Q会提前结束格挡。'}),
   skill({key:'E',name:'裂地坠击',icon:'砸',target:'area',range:450,radius:320,cd:P.E.cooldown,mana:0,damage:P.E.damage,
-   desc:'跃向目标点并锤击地面（跳跃途中施放任何技能会取消E，取消后不造成任何效果），对落地前方90°扇形、475码内的敌人造成90/130/170/210/250+40%AD物理伤害（扇形命中3名或以上敌方英雄时获得强化Q），减速30%持续1.5秒，敌方英雄被拉近50码、小兵和野怪被拉到砧岳身前，并击飞0.4秒；落地后砧岳有0.25秒后摇；落地点160码圆形范围内（扇形以外）的敌人受到60%伤害。'}),
+   desc:'跃向目标点并锤击地面（跳跃途中施放任何技能会取消E，取消后不造成任何效果），对落地前方90°扇形、475码内的敌人造成50/80/110/140/170+50%额外AD物理伤害（扇形命中3名或以上敌方英雄时获得强化Q），减速30%持续1.5秒，敌方英雄被拉近50码、小兵和野怪被拉到砧岳身前，并击飞0.4秒；落地后砧岳有0.25秒后摇；落地点160码圆形范围内（扇形以外）的敌人受到60%伤害。'}),
   skill({key:'R',name:'天陨',icon:'陨',target:'self',range:0,radius:600,maxRank:3,heroOnly:false,cd:P.R.cooldown,mana:0,damage:P.R.damage,
-   desc:'升空最多2.5秒，期间不可选中、免疫伤害与控制，移动速度提高100%，可用摇杆或方向键控制落点；飞行中按普攻可立即开始坠落。坠落阶段0.75秒，位置锁定，落点对敌我双方都可见：600码内敌人受到300/450/600+60%额外AD+15%自身最大生命物理伤害并减速。中心275码内100%伤害、击飞0.5秒、减速40%；275码外伤害随距离线性递减至最低30%，不击飞，仅减速30%，减速持续2秒。落地后0.35秒后摇，并获得强化Q（Q冷却直接刷新）。'})
+   desc:'升空最多2.5秒，期间不可选中、免疫伤害与控制，移动速度提高100%，可用摇杆或方向键控制落点；飞行中按普攻可立即开始坠落。坠落阶段0.75秒，位置锁定，落点对敌我双方都可见：600码内敌人受到250/350/450+50%额外AD+10%自身最大生命物理伤害并减速。中心275码内100%伤害、击飞0.5秒、减速40%；275码外伤害随距离线性递减至最低30%，不击飞，仅减速30%，减速持续2秒。落地后0.35秒后摇，并获得强化Q（Q冷却直接刷新）。'})
  ],params:P};
 C.heroParams??={};C.heroParams[ID]=P;
 if(C.ultimateCooldowns)C.ultimateCooldowns[ID]=P.R.cooldown;
@@ -87,7 +87,7 @@ window.installAnvil=function(m,env){
  function startE(u,c,e){endBlock(u);let to={x:c.p.x,y:c.p.y};if(dist(u,to)>P.E.range){let a=Math.atan2(to.y-u.y,to.x-u.x);to={x:u.x+Math.cos(a)*P.E.range,y:u.y+Math.sin(a)*P.E.range}}
   let ang=dist(u,to)>5?Math.atan2(to.y-u.y,to.x-u.x):(u.angle||0);core.startDisplacement(u,to,{type:'LEAP',duration:P.E.leap_duration,source:u,abilityId:2});S(u).leap={start:now(),end:now()+P.E.leap_duration,event:e,angle:ang};u.anvilLift={start:now(),end:now()+P.E.leap_duration,height:120}}
  function inCone(u,t,angle,radius,deg){let d=dist(u,t);if(d>radius+(t.radius||0))return false;if(d<(t.radius||25)+30)return true;let a=Math.atan2(t.y-u.y,t.x-u.x)-angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=deg*Math.PI/360+Math.asin(Math.min(1,(t.radius||0)/Math.max(d,1)))}
- function landE(u,l){let damage=at(P.E.damage,u,2)+P.E.ad_ratio*u.attack,angle=l.angle,front={x:u.x+Math.cos(angle)*P.E.pull_to,y:u.y+Math.sin(angle)*P.E.pull_to};u.angle=angle;
+ function landE(u,l){let damage=at(P.E.damage,u,2)+P.E.ad_ratio*u.attack+(P.E.bonus_ad_ratio||0)*bonusAD(u),angle=l.angle,front={x:u.x+Math.cos(angle)*P.E.pull_to,y:u.y+Math.sin(angle)*P.E.pull_to};u.angle=angle;
   let heroesHit=0;for(let t of m.nearby(u,P.E.radius+80,v=>foe(u,v))){if(!inCone(u,t,angle,P.E.radius,P.E.cone_degrees))continue;if(!hit(u,t,damage,l.event,{once:true,abilityId:2}))continue;if(champ(t))heroesHit++;if(!alive(t))continue;m.slow(t,P.E.slow,P.E.slow_duration,u,null,'anvil-e:'+u.id);
    let to=front;if(t.type==='hero'){let d=dist(t,u),k=Math.min(P.E.hero_pull,Math.max(0,d-(u.radius||22)-(t.radius||22)-10));to={x:t.x+(u.x-t.x)/(d||1)*k,y:t.y+(u.y-t.y)/(d||1)*k}}if(dist(t,to)>8)core.startDisplacement(t,to,{type:'PULL',duration:P.E.pull_duration,source:u,abilityId:2});S(u).pending.push({kind:'knockup',at:now()+P.E.pull_duration,target:t,life:t._life||0})}
   for(let t of m.nearby(u,P.E.impact_radius+80,v=>foe(u,v))){if(inCone(u,t,angle,P.E.radius,P.E.cone_degrees)||dist(u,t)>P.E.impact_radius+(t.radius||0))continue;hit(u,t,damage*P.E.impact_damage_ratio,l.event,{once:true,abilityId:2,hitIndex:'impact'})}
