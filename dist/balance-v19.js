@@ -16,6 +16,8 @@
    q.desc=q.desc.replace('每拳15/20/25/30/35+18%总AD','每拳15/20/25/30/35+15%额外AD');
    w.desc=w.desc.replace(/同目标前1～6把全额，之后每把递减10个百分点，最低50%。/,'多把飞刀命中同一目标均为全额伤害。').replace(/飞刀或R结算击杀带有自己印记的敌方英雄刷新E。?/,'').replace(/无印记目标的飞刀击杀不刷新。?/,'');
    r.desc=r.desc.replace('每点迪奥当前总AD增加0.1个百分点，400AD为140%','每点迪奥额外AD增加0.1个百分点，400额外AD为140%').replace('结算击杀敌方英雄刷新E。','')}}
+ // V19 平衡：空之律者 W 空间牢笼吸引速度 35 → 75 码/秒。
+ {let P=C.heroParams?.herrscher_of_the_void,H=C.heroes.herrscher_of_the_void;for(let p of new Set([P,H?.params]))if(p?.W&&p.W.pull_speed===35)p.W.pull_speed=75;let w=H?.skills?.[1];if(w)w.desc=w.desc.replace('弱吸引速度 35 码/秒','吸引速度 75 码/秒');if(w&&'pullSpeed' in w)w.pullSpeed=75}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
  {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
   r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
