@@ -40,7 +40,7 @@
    if(['SLEEP','STUN','ROOT','SILENCE','SLOW'].includes(type)&&statuses(u,'CLEANSE_IMMUNITY').length)return null;
    if(type==='SLOW'&&u.hero==='masteryi'&&u.championState?.highlanderUntil>now())return null;
    if(type==='SLOW'&&u.slowResistance>0)options={...options,amount:(options.amount||0)*(1-Math.min(1,u.slowResistance))};
-   let reduced=!['AIRBORNE','SUPPRESSION'].includes(type)&&options.tenacity!==false,durationActual=duration*(reduced&&u.tenacityTime>0?Math.max(0,1-u.tenacity):1)*(reduced?Math.max(0,1-(u.itemTenacity||0)):1);
+   let reduced=!['AIRBORNE','SUPPRESSION','HEAL_REDUCTION'].includes(type)&&options.tenacity!==false,durationActual=duration*(reduced&&u.tenacityTime>0?Math.max(0,1-u.tenacity):1)*(reduced?Math.max(0,1-(u.itemTenacity||0)):1);
    let sourceAbilityId=options.abilityId??source?.pendingCast?.i??null;
    let key=options.uniqueKey??type+':'+(source?.id??'world')+':'+(sourceAbilityId??'generic')+':'+(options.tag??'');
    let prior=collection(u).get(key),record={type,sourceId:source?.id??null,sourceAbilityId,targetId:u.id,startTime:prior?.startTime??now(),endTime:now()+durationActual,duration:durationActual,stacks:options.stacks??1,dispelCategory:options.dispelCategory??(type==='SUPPRESSION'?'suppression':type==='AIRBORNE'?'airborne':'normal'),priority:options.priority??0,uniqueEffectId:prior?.uniqueEffectId??++effect,source,...options};

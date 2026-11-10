@@ -27,6 +27,9 @@
   let ud=I.UNENDING_DESPAIR;if(ud&&ud.period===4){ud.period=.25;ud.damage/=16;ud.bonus_hp_ratio/=16}
   let hr=I.HOLLOW_RADIANCE;if(hr&&hr.period===1){hr.period=.25;hr.damage/=4;hr.bonus_hp_ratio/=4}
   let zs=C.heroes?.zarya?.skills?.[3];if(zs){zs.desc=zs.desc.replace('最多4次持续伤害','每0.25秒造成一次持续伤害（最多8次）');if(Array.isArray(zs.tickDamage))zs.tickDamage=zs.tickDamage.map(v=>v/2)}}
+ // V19 重伤：死刑宣告 -30% 受到治疗（3秒）；凡性的提醒按敌方当前生命：高于60% -40%，低于40% -60%，之间线性（3秒）。
+ {let I=C.itemParams||{};if(I.C_3123){I.C_3123.grievous=.3;I.C_3123.duration=3}if(I.mortal){I.mortal.grievous_wounds=.4;I.mortal.gw_duration=3}
+  for(let it of C.items||[]){if(it.id==='C_3123'){it.passive='攻击造成物理伤害时施加3秒重伤：目标受到的治疗效果降低30%。';it.desc=(it.statText?it.statText+'；':'')+it.passive}if(it.id==='mortal'){it.passive='造成物理伤害时施加3秒重伤：目标生命高于60%时治疗效果降低40%，低于40%时降低60%，之间按生命线性变化（实时计算）。';it.desc=(it.statText?it.statText+'；':'')+it.passive}}}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
  {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
   r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
