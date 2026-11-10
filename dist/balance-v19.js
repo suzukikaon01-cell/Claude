@@ -24,6 +24,7 @@
   ch(H.ana?.P,'enemy_magic_tick_interval',.1,.25);
   ch(H.xuefeng?.W,'heal_tick_interval',.25,.1);ch(H.xuefeng?.R,'heal_field_tick_interval',.5,.1);
   ch(I.liandry,'burn_tick_interval',1,.25);ch(I.MALIGNANCE,'period',.5,.25);ch(I.ZEKES_CONVERGENCE,'period',.5,.25);
+  let ud=I.UNENDING_DESPAIR;if(ud&&ud.period===4){ud.period=.25;ud.damage/=16;ud.bonus_hp_ratio/=16}
   let hr=I.HOLLOW_RADIANCE;if(hr&&hr.period===1){hr.period=.25;hr.damage/=4;hr.bonus_hp_ratio/=4}
   let zs=C.heroes?.zarya?.skills?.[3];if(zs){zs.desc=zs.desc.replace('最多4次持续伤害','每0.25秒造成一次持续伤害（最多8次）');if(Array.isArray(zs.tickDamage))zs.tickDamage=zs.tickDamage.map(v=>v/2)}}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。

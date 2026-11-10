@@ -19,6 +19,8 @@
  }
  const fields={SLEEP:'sleep',STUN:'stun',ROOT:'root',SILENCE:'silence',AIRBORNE:'airborne',SUPPRESSION:'suppression',STEALTH:'invisible',UNTARGETABLE:'untargetable',DAMAGE_IMMUNITY:'invulnerable',CC_IMMUNITY:'ccImmune',SLOW:'slow',HEAL_REDUCTION:'healReduction',MOVE_SPEED_BUFF:'boost',ATTACK_SPEED_BUFF:'asBuff'};
  const typeName=t=>Object.keys(fields).find(k=>fields[k]===t)||t.toUpperCase();
+ // V19 结算节奏：逐帧的持续效果先累计，按固定间隔一次结算（持续伤害0.25秒，持续治疗0.1秒）。
+ window.settleOverTime=function(u,key,amount,time,interval,apply){if(!u)return;let s=(u._settle??={})[key]??={acc:0,next:time+interval};if(time<s.next-interval-1e-9)s.next=time+interval;s.acc+=amount>0?amount:0;if(time+1e-9>=s.next){s.next=time+interval;let v=s.acc;s.acc=0;if(v>0)apply(v)}};
  window.CombatClock=CombatClock;window.CombatObjectPool=ObjectPool;window.CombatSpatialIndex=SpatialIndex;
  window.createCombatRuntime=function(env){
   const now=env.time,live=u=>u&&u.hp>0&&!(u.death>0);let id=0,cast=0,effect=0,queue=[],history=[],head=0,listeners=new Map,errors=0,inputs=new Map;
