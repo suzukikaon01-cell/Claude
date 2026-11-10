@@ -30,6 +30,8 @@
  // V19 重伤：死刑宣告 -30% 受到治疗（3秒）；凡性的提醒按敌方当前生命：高于60% -40%，低于40% -60%，之间线性（3秒）。
  {let I=C.itemParams||{};if(I.C_3123){I.C_3123.grievous=.3;I.C_3123.duration=3}if(I.mortal){I.mortal.grievous_wounds=.4;I.mortal.gw_duration=3}
   for(let it of C.items||[]){if(it.id==='C_3123'){it.passive='攻击造成物理伤害时施加3秒重伤：目标受到的治疗效果降低30%。';it.desc=(it.statText?it.statText+'；':'')+it.passive}if(it.id==='mortal'){it.passive='造成物理伤害时施加3秒重伤：目标生命高于60%时治疗效果降低40%，低于40%时降低60%，之间按生命线性变化（实时计算）。';it.desc=(it.statText?it.statText+'；':'')+it.passive}}}
+ // V19 泉水防御：每秒500真实伤害，单目标锁定（英雄与小兵），召唤师峡谷半径800、大乱斗沿用原半径。
+ if(C.aram)C.aram.fountain_damage=500;C.fountainDamage=500;C.fountainDefenseRadius=800;
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
  {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
   r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
