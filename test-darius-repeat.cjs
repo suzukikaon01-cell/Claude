@@ -10,7 +10,7 @@ test('an attack on the exact expiry frame starts fresh instead of reviving five 
  let f=fixture();five(f);let until=Math.max(f.t.dariusBleed[f.u.id].until,f.u.v9State.rageUntil);
  f.h.a.clock(until);strike(f);
  assert.equal(f.t.dariusBleed[f.u.id].stacks,1);
- assert.equal(f.t.dariusBleed[f.u.id].next,until+1);
+ assert.equal(f.t.dariusBleed[f.u.id].next,until+.25);
  assert(!(f.u.v9State.rageUntil>f.h.a.time));
  let hp=f.t.hp;f.h.step(1.05);assert(f.t.hp<hp,'new bleed must continue dealing damage');
 });

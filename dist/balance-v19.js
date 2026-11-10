@@ -18,6 +18,14 @@
    r.desc=r.desc.replace('每点迪奥当前总AD增加0.1个百分点，400AD为140%','每点迪奥额外AD增加0.1个百分点，400额外AD为140%').replace('结算击杀敌方英雄刷新E。','')}}
  // V19 平衡：空之律者 W 空间牢笼吸引速度 35 → 75 码/秒。
  {let P=C.heroParams?.herrscher_of_the_void,H=C.heroes.herrscher_of_the_void;for(let p of new Set([P,H?.params]))if(p?.W&&p.W.pull_speed===35)p.W.pull_speed=75;let w=H?.skills?.[1];if(w)w.desc=w.desc.replace('弱吸引速度 35 码/秒','吸引速度 75 码/秒');if(w&&'pullSpeed' in w)w.pullSpeed=75}
+ // V19 结算节奏：所有持续伤害每0.25秒结算一次，所有持续治疗每0.1秒结算一次（总量不变）。
+ {const H=C.heroParams||{},I=C.itemParams||{},ch=(o,k,old,v)=>{if(o&&JSON.stringify(o[k])===JSON.stringify(old))o[k]=v};
+  let z=H.zarya?.R;if(z&&z.tick_interval===.5){z.tick_interval=.25;z.tick_count=8;z.tick_damage=z.tick_damage.map(v=>v/2);z.tick_ap_ratio=z.tick_ap_ratio/2}
+  ch(H.ana?.P,'enemy_magic_tick_interval',.1,.25);
+  ch(H.xuefeng?.W,'heal_tick_interval',.25,.1);ch(H.xuefeng?.R,'heal_field_tick_interval',.5,.1);
+  ch(I.liandry,'burn_tick_interval',1,.25);ch(I.MALIGNANCE,'period',.5,.25);ch(I.ZEKES_CONVERGENCE,'period',.5,.25);
+  let hr=I.HOLLOW_RADIANCE;if(hr&&hr.period===1){hr.period=.25;hr.damage/=4;hr.bonus_hp_ratio/=4}
+  let zs=C.heroes?.zarya?.skills?.[3];if(zs){zs.desc=zs.desc.replace('最多4次持续伤害','每0.25秒造成一次持续伤害（最多8次）');if(Array.isArray(zs.tickDamage))zs.tickDamage=zs.tickDamage.map(v=>v/2)}}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
  {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
   r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
