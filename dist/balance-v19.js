@@ -35,6 +35,9 @@
  // V19 平衡：D.Va 普攻伤害 +50%（机甲双机枪与驾驶员手枪），Q 额外生命加成：直击 0.75% → 0.5%，爆炸 0.375% → 0.25%。
  {let d=C.heroParams?.dva,H=C.heroes?.dva;if(d){if(d.P.wave_total_ad_ratio===.55125){d.P.wave_total_ad_ratio=.826875;d.P.wave_edge_ad_ratio=.4725}if(d.P.pilot_ad_ratio===.85)d.P.pilot_ad_ratio=1.275;if(d.Q.bonus_hp_ratio===.0075)d.Q.bonus_hp_ratio=.005;if(d.Q.explosion_bonus_hp_ratio===.00375)d.Q.explosion_bonus_hp_ratio=.0025}
   if(H){H.passive.desc=H.passive.desc.replace('55.125%总AD','82.69%总AD').replace('31.5%总AD','47.25%总AD');let q=H.skills[0];q.desc=q.desc.replace('0.75%释放时额外生命','0.5%释放时额外生命').replace('0.375%额外生命','0.25%额外生命');if('bonusHpRatio' in q)q.bonusHpRatio=.005}}
+ // V19 太刀侠：大招最高4级（1级自带1级大招，6/11/16级升2/3/4级）；原1/2/3级数值顺延为2/3/4级，1级按比例：200×200/300≈133。
+ {let H=C.heroes?.longsword_hunter,P=C.heroParams?.longsword_hunter;if(H?.skills?.[3])H.skills[3].maxRank=4;for(let p of new Set([P,H?.params]))if(p?.R&&JSON.stringify(p.R.spirit_iai_base_damage)==='[200,300,400]')p.R.spirit_iai_base_damage=[133,200,300,400];
+  if(H?.skills?.[3]){let r=H.skills[3];r.desc=r.desc.replace(/200\/300\/400/g,'133/200/300/400');for(let k in r)if(Array.isArray(r[k])&&r[k].length===3&&k!=='counter_damage_sources')r[k]=[r[k][0]*r[k][0]/r[k][1],...r[k]].map(v=>typeof v==='number'?Math.round(v*100)/100:v)}}
  // V19 平衡：瑟提 Q/R 削弱；盖伦基础属性加强（更肉）。
  {let H=C.heroes.sett,P=C.heroParams?.sett;if(H){let q=H.skills[0],r=H.skills[3];q.damage=[5,10,15,20,25];q.hpAdRatio=[0,0,0,0,0];q.desc=q.desc.replace('5/16.25/27.5/38.75/50','5/10/15/20/25').replace('每拳目标最大生命基础比例 1%','每拳目标最大生命 1%（不再随攻击力成长）');
   r.bonusAdRatio=.6;r.desc=r.desc.replace('额外AD系数 100%','额外AD系数 60%');for(let p of [P,H.params])if(p){if(p.Q){p.Q.damage_flat=[5,10,15,20,25]}if(p.R)p.R.bonus_ad_ratio=.6}}}
