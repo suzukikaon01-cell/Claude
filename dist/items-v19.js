@@ -51,8 +51,8 @@ window.createItemEffects=function(env,m){
    for(let id in REVIVE_ITEMS){if(!own(u,id)||itemCooldownLeft(u,id)>0)continue;let c=REVIVE_ITEMS[id],r=(u.radius||28)+14+k*9,ph=T*2+k;k++;
     ctx.save();ctx.globalAlpha=.8+.2*Math.sin(ph*2);ctx.strokeStyle=c.color;ctx.lineWidth=5;ctx.shadowColor=c.glow;ctx.shadowBlur=18;ctx.setLineDash([14,8]);ctx.lineDashOffset=-T*40;ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
     for(let j=0;j<3;j++){let a=ph+j*2.094;ctx.fillStyle=c.glow;ctx.beginPath();ctx.arc(u.x+Math.cos(a)*r,u.y+Math.sin(a)*r,7,0,Math.PI*2);ctx.fill()}ctx.restore()}}}
- // 太刀侠：所有技能伤害都可暴击（普攻本来就能暴击；装备、召唤师技能伤害除外）。
- function modifyOutgoing(u,t,value,type,meta={}){let v=base.modifyOutgoing?base.modifyOutgoing(u,t,value,type,meta)??value:value;if(u?.hero==='longsword_hunter'&&!meta.basic&&!meta.critical&&!meta.itemEffect&&!meta.dot&&Number.isInteger(meta.event?.index)&&meta.event.index>=0&&meta.event.index<=3&&(u.crit||0)>0&&v>0&&(env.random||Math.random)()<u.crit){meta.critical=true;v*=(C.baseCritMultiplier??1.75)+(u.critDamageBonus||0)}return v}
+ // 太刀侠：只有登龙（兜割）伤害和普攻可以暴击；其余技能不暴击。
+ function modifyOutgoing(u,t,value,type,meta={}){let v=base.modifyOutgoing?base.modifyOutgoing(u,t,value,type,meta)??value:value;if(u?.hero==='longsword_hunter'&&!meta.basic&&!meta.critical&&!meta.itemEffect&&!meta.dot&&String(meta.hitIndex??'').startsWith('helm:')&&(u.crit||0)>0&&v>0&&(env.random||Math.random)()<u.crit){meta.critical=true;v*=(C.baseCritMultiplier??1.75)+(u.critDamageBonus||0)}return v}
  return {...base,basicHit,deriveStats,tick,afterDamage,healAmount,onTakedown,lethal,draw,itemCooldownLeft,modifyOutgoing};
 };
 })();
