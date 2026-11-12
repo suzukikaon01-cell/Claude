@@ -79,3 +79,5 @@
   for(let list of [a.relic_positions,a.portal_positions,a.inhibitor_positions,a.nexus_positions])for(let p of list||[])squeeze(p);
   for(let team of a.tower_positions||[])for(let p of team)squeeze(p)}
 })();
+// V19 小兵移速略微提高：115 → 125（仅当仍为旧默认值时生效，Excel 改动优先）。
+{let C=window.GAME_CONFIG;if(C?.minion&&C.minion.speed===115)C.minion.speed=125}
