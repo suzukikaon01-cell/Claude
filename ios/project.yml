@@ -1,7 +1,7 @@
 name: RiftArena
 options:
   deploymentTarget:
-    iOS: '15.0'
+    iOS: '16.0'
 settings:
   base:
     SWIFT_VERSION: '5.0'
@@ -26,8 +26,7 @@ targets:
         CFBundleName: 裂境战场
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
-        UILaunchScreen:
-          UIColorName: ''
+        UILaunchScreen: {}
         UIRequiresFullScreen: true
         UIStatusBarHidden: true
         UIViewControllerBasedStatusBarAppearance: false
