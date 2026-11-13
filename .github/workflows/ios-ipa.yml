@@ -1,9 +1,6 @@
 name: iOS IPA
 on:
   workflow_dispatch:
-  push:
-    branches: ['claude/optimistic-cerf-7q7oym']
-    paths: ['ios/**', 'dist/**', '.github/workflows/ios-ipa.yml']
 permissions:
   contents: read
 jobs:
