@@ -64,9 +64,9 @@
   {id:'GARGOYLE_MASK',name:'石像鬼面具',category:'defense',stats:{attack:25,hp:350,abilityHaste:15},cost:3000,recipe:['C_3133','C_1011'],combine:1050,uniqueGroups:['gargoyle_mask'],icon:'鬼',
    passive:'生命低于75%时，受到的治疗效果提升5%，生命越低提升越高，30%生命时达到25%。即将受到致命伤害时免疫此次死亡，并在5秒内回复25%已损失生命值（冷却180秒）。',
    params:{heal_start_ratio:.75,heal_full_ratio:.3,heal_min_pct:.05,heal_max_pct:.25,revive_missing_pct:.25,revive_duration:5,cooldown:180}},
-  {id:'DIMENSION_BLADE',name:'斩罪武具次元刀',category:'physical',stats:{attack:5,armorPenPct:.15},cost:3500,recipe:['C_1038','C_3035'],combine:750,uniqueGroups:['dimension_blade','REVIVE'],icon:'刀',
-   passive:'属性激化：普攻和技能命中附带35～50（随等级）魔法伤害，同一目标0.25秒最多1次（装备、召唤师技能伤害不触发）。基础攻击强化EX：额外获得42攻击力（不计入装备面板）。锋利度强化：15%护甲穿透。黑蚀龙之力：战斗中受侵蚀，每秒损失1%最大生命（不会致死）；对敌方英雄累计造成80+12×等级伤害后克服侵蚀，回复12%已损失生命，并获得25%暴击率，持续15秒。侵蚀冷却30秒（从开始侵蚀时计算）。霸主之魂：即将受到致命伤害时免疫该次死亡，1.5秒无敌（冷却150秒）。',
-   params:{element_min:35,element_max:50,element_icd:.25,erosion_pct:.01,cure_base:80,cure_per_level:12,cure_heal_missing_pct:.12,cure_crit:.25,cure_duration:15,erosion_cooldown:30,ex_attack:42,combat_timeout:5,revive_invuln:1.5,cooldown:150}}];
+  {id:'DIMENSION_BLADE',name:'斩罪武具次元刀',category:'physical',stats:{attack:5,armorPenPct:.3},cost:3500,recipe:['C_1038','C_3035'],combine:750,uniqueGroups:['dimension_blade','REVIVE'],icon:'刀',
+   passive:'属性激化：普攻和技能每次命中附带10～28（随等级）魔法伤害，无冷却（装备、召唤师技能伤害不触发）。基础攻击强化EX：额外获得42攻击力（不计入装备面板）。锋利度强化：30%护甲穿透（百分比穿甲装备只能持有一件）。黑蚀龙之力：战斗中受侵蚀，每秒损失1%最大生命（不会致死）；对敌方英雄累计造成80+12×等级伤害后克服侵蚀，回复12%已损失生命，并获得25%暴击率，持续15秒。侵蚀冷却30秒（从开始侵蚀时计算）。霸主之魂：即将受到致命伤害时免疫该次死亡，1.5秒无敌（冷却150秒）。',
+   params:{element_min:10,element_max:28,element_icd:0,erosion_pct:.01,cure_base:80,cure_per_level:12,cure_heal_missing_pct:.12,cure_crit:.25,cure_duration:15,erosion_cooldown:30,ex_attack:42,combat_timeout:5,revive_invuln:1.5,cooldown:150}}];
  for(let d of newItems){if(C.items.some(i=>i.id===d.id))continue;let statText=Object.entries(d.stats).map(([k,v])=>({hp:'生命',attack:'攻击力',ap:'法术强度',abilityHaste:'技能急速',bonusAS:'攻击速度',armorPenPct:'护甲穿透'}[k]||k)+' +'+(['bonusAS','armorPenPct'].includes(k)?Math.round(v*100)+'%':v)).join(' · ');
   C.items.push({id:d.id,name:d.name,category:d.category,stats:d.stats,passive:d.passive,uniqueGroups:d.uniqueGroups,icon:d.icon,quality:'传说',sellRatio:.7,statText,desc:statText+'；'+d.passive,cost:d.cost,recipe:d.recipe,availableModes:['SR','ARAM'],tier:'LEGENDARY',iconUrl:'assets/items/'+d.id+'.png',boots:false,legendary:true,purchaseRestrictions:'NONE',params:{__description:d.passive,price:d.cost,combine_cost:d.combine,name:d.name,category:d.category,tier:'LEGENDARY',recipe:JSON.stringify(d.recipe),icon:'assets/items/'+d.id+'.png',builds_into:'[]',sell_ratio:.7,...d.params},...d.stats});
   C.itemParams[d.id]=C.items.at(-1).params;
@@ -81,3 +81,5 @@
 })();
 // V19 小兵移速略微提高：115 → 125（仅当仍为旧默认值时生效，Excel 改动优先）。
 {let C=window.GAME_CONFIG;if(C?.minion&&C.minion.speed===115)C.minion.speed=125}
+// V19 登龙：在空中按下后0.1秒内用摇杆方向决定下劈方向；只对剑身覆盖范围（长220×宽80）内的敌方英雄造成伤害。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.W){p.W.helm_aim_window??=.1;p.W.helm_blade_length??=220;p.W.helm_blade_width??=80}}
