@@ -83,3 +83,5 @@
 {let C=window.GAME_CONFIG;if(C?.minion&&C.minion.speed===115)C.minion.speed=125}
 // V19 登龙：在空中按下后0.1秒内用摇杆方向决定下劈方向；只对剑身覆盖范围（长220×宽80）内的敌方英雄造成伤害。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.W){p.W.helm_aim_window??=.1;p.W.helm_blade_length??=220;p.W.helm_blade_width??=80}}
+// V19 登龙：突刺前0.25秒蓄势（先略微后撤），再以1400速度突进235码，命中判定285码；登龙落地后0.25秒后摇。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.W){p.W.thrust_windup??=.25;p.W.thrust_backstep??=30;p.W.thrust_dash_speed??=1400;if(p.W.dash_distance===225)p.W.dash_distance=235;if(p.W.thrust_range===275)p.W.thrust_range=285;if(p.W.range===275)p.W.range=285;p.W.helm_landing_recovery??=.25}if(H?.skills?.[1]&&H.skills[1].range===275)H.skills[1].range=285}
