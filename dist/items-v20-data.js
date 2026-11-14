@@ -30,9 +30,31 @@ const items=[
  {id:'RECOIL_PLATE',name:'反震铁甲',category:'defense',stats:{hp:400,mr:45},recipe:['C_1011','C_1057'],icon:'震',color:'#8fa3b8',
   passive:'反震：3秒内受到敌方英雄的伤害累计达到300时，获得10%最大生命的护盾，持续3秒（冷却20秒）。',
   params:{window:3,threshold:300,shield_maxhp_pct:.1,shield_duration:3,cooldown:20}}
+,
+ // —— 第二批：暴击 ——
+ {id:'BLAZE_REPEATER',name:'赤焰连弩',category:'physical',stats:{attack:40,bonusAS:.35,crit:.25},recipe:['C_1043','C_1018','C_1037'],icon:'弩',color:'#ff6a3d',
+  passive:'裂焰：普攻暴击时，对目标周围250码内的其他敌人造成该次伤害30%的物理伤害。',params:{splash_radius:250,splash_ratio:.3}},
+ {id:'GALE_LONGBOW',name:'疾风长弓',category:'physical',stats:{bonusAS:.4,crit:.25,movePct:.05},recipe:['C_3086','C_1043'],icon:'风',color:'#8fe3ff',
+  passive:'乘风：普攻命中敌方英雄获得1层疾风（持续3秒，最多6层），每层+4%攻击速度；满层时移动速度+8%。',params:{max_stacks:6,as_per_stack:.04,duration:3,full_move_pct:.08}},
+ {id:'VERDICT_SCIMITAR',name:'断罪弯刀',category:'physical',stats:{attack:60,crit:.25,lifesteal:.08},recipe:['C_1038','C_1053'],icon:'断',color:'#ff4d6d',
+  passive:'断罪：对生命低于40%的敌方英雄造成的伤害提高12%。',params:{hp_threshold:.4,bonus_pct:.12}},
+ // —— 第二批：法师 ——
+ {id:'ASTRAL_ORB',name:'星海宝珠',category:'magic',stats:{ap:90,magicPenFlat:12,abilityHaste:15},recipe:['C_1058','C_3108'],icon:'星',color:'#7d8bff',
+  passive:'星痕：技能命中敌方英雄时留下星痕，4秒内你对其造成的技能伤害提高12%。',params:{duration:4,bonus_pct:.12}},
+ {id:'FROSTVEIL_DIADEM',name:'寒霜法冠',category:'magic',stats:{ap:85,hp:250,abilityHaste:15},recipe:['C_3145','ruby','C_3108'],icon:'霜',color:'#9fe8ff',
+  passive:'寒霜：技能伤害使敌人减速20%，持续1.5秒；你对被寒霜减速的敌方英雄造成的技能伤害提高8%。',params:{slow:.2,slow_duration:1.5,bonus_pct:.08}},
+ {id:'PSYCHIC_FONT',name:'灵能泉杖',category:'magic',stats:{ap:70,mana:500,abilityHaste:25},recipe:['C_3802','C_3108'],icon:'泉',color:'#c38bff',
+  passive:'灵泉：技能命中敌方英雄时，获得60+15%法术强度的护盾，持续2.5秒（冷却10秒）。',params:{shield_base:60,shield_ap_ratio:.15,shield_duration:2.5,cooldown:10}},
+ // —— 第二批：穿甲 ——
+ {id:'SHADEFANG',name:'影噬匕',category:'physical',stats:{attack:55,armorPenFlat:20,abilityHaste:10},recipe:['C_3134','C_1037'],icon:'影',color:'#6c5ce7',
+  passive:'噬影：技能对生命低于50%的敌方英雄造成伤害时，额外造成40+25%额外攻击力的物理伤害（每个目标15秒一次）。',params:{hp_threshold:.5,damage:40,bonus_ad_ratio:.25,cooldown:15}},
+ {id:'DUSKVEIL_BLADE',name:'夜幕之刃',category:'physical',stats:{attack:50,armorPenFlat:15,abilityHaste:15},recipe:['C_3134','C_3133'],icon:'夜',color:'#4b4f7a',
+  passive:'夜行：击杀或助攻敌方英雄后2秒内移动速度+25%，且下一次普攻额外造成60物理伤害。',params:{move_pct:.25,duration:2,empower:60}},
+ {id:'RENDING_SICKLE',name:'裂甲钩镰',category:'physical',stats:{attack:45,armorPenFlat:15,hp:250},recipe:['C_3134','ruby','sword'],icon:'镰',color:'#d9a441',
+  passive:'裂甲：普攻或技能命中敌方英雄时，削减其3点护甲，持续4秒，最多叠加5层（−15护甲）。',params:{armor_per_stack:3,max_stacks:5,duration:4}}
 ];
-const NAMES={hp:'生命',attack:'攻击力',ap:'法术强度',mana:'法力',mr:'魔抗',armor:'护甲',abilityHaste:'技能急速',bonusAS:'攻击速度',crit:'暴击率',armorPenFlat:'穿甲'};
-for(let d of items){if(C.items.some(i=>i.id===d.id))continue;let statText=Object.entries(d.stats).map(([k,v])=>(NAMES[k]||k)+' +'+(['bonusAS','crit'].includes(k)?Math.round(v*100)+'%':v)).join(' · ');
+const NAMES={lifesteal:'生命偷取',movePct:'移动速度',magicPenFlat:'法术穿透',hp:'生命',attack:'攻击力',ap:'法术强度',mana:'法力',mr:'魔抗',armor:'护甲',abilityHaste:'技能急速',bonusAS:'攻击速度',crit:'暴击率',armorPenFlat:'穿甲'};
+for(let d of items){if(C.items.some(i=>i.id===d.id))continue;let statText=Object.entries(d.stats).map(([k,v])=>(NAMES[k]||k)+' +'+(['bonusAS','crit','lifesteal','movePct'].includes(k)?Math.round(v*100)+'%':v)).join(' · ');
  C.items.push({id:d.id,name:d.name,category:d.category,stats:d.stats,passive:d.passive,uniqueGroups:[],icon:d.icon,quality:'传说',sellRatio:.7,statText,desc:statText+'；'+d.passive,cost:3000,recipe:d.recipe,availableModes:['SR','ARAM'],tier:'LEGENDARY',iconUrl:'assets/items/'+d.id+'.png',boots:false,legendary:true,purchaseRestrictions:'NONE',v20:true,
   params:{__description:d.passive,price:3000,combine_cost:0,name:d.name,category:d.category,tier:'LEGENDARY',recipe:JSON.stringify(d.recipe),icon:'assets/items/'+d.id+'.png',builds_into:'[]',sell_ratio:.7,...d.params},...d.stats});
  C.itemParams[d.id]=C.items.at(-1).params;
