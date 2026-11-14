@@ -89,11 +89,11 @@
 {let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.R){if(JSON.stringify(p.R.spirit_iai_base_damage)==="[100,200,300,400]")p.R.spirit_iai_base_damage=[75,100,125,150];if(p.R.spirit_iai_bonus_ad_ratio_pct===2)p.R.spirit_iai_bonus_ad_ratio_pct=2.75;p.R.red_counter_heal_missing_pct=.08;p.R.red_counter_heal_missing_pct_per_100_bonus_ad=.01}if(H?.skills?.[3]){let r=H.skills[3];r.desc=r.desc.replace('完整居合伤害100/200/300/400+200%额外AD，失败半伤。','完整居合伤害75/100/125/150+275%额外AD，失败半伤。红刃时完美居合斩中敌方英雄/史诗野怪，回复8%已损失生命（每100额外AD再+1%，史诗野怪减半，多目标只回一次）。').replace('开刃居合基础伤害 100/200/300/400','开刃居合基础伤害 75/100/125/150').replace('开刃居合额外攻击力系数百分比 200%','开刃居合额外攻击力系数百分比 275%');if(Array.isArray(r.damage))r.damage=[75,100,125,150]}}
 // V19 腕豪E：前摇0.25秒（期间显示双侧拉人范围，敌我可见）。
 {let H=window.GAME_CONFIG?.heroes?.sett;if(H?.skills?.[2]&&(H.skills[2].windup===.15||!H.skills[2].windup))H.skills[2].windup=.25}
-// V19 太刀侠回调：普攻100%；登龙每段20/30/40/50/60+25%额外AD；居合150/200/250/300+275%额外AD；解放斩每段10/15/20/25/30+30%额外AD。
+// V19 太刀侠回调：普攻100%；登龙每段20/30/40/50/60+25%额外AD；居合75/150/225/300+275%额外AD；解放斩每段10/15/20/25/30+30%额外AD。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter,same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);for(let p of new Set([L,H?.params]))if(p){
  if(p.P.basic_attack_damage_ratio===.7)p.P.basic_attack_damage_ratio=1;
  if(same(p.W.helm_tick_base_damage,[15,20,25,30,35])){p.W.helm_tick_base_damage=[20,30,40,50,60];if(p.W.helm_tick_bonus_ad_ratio_pct===.225)p.W.helm_tick_bonus_ad_ratio_pct=.25}
- if(same(p.R.spirit_iai_base_damage,[75,100,125,150]))p.R.spirit_iai_base_damage=[150,200,250,300];
+ if(same(p.R.spirit_iai_base_damage,[75,100,125,150]))p.R.spirit_iai_base_damage=[75,150,225,300];
  if(same(p.RELEASE.tick_base_damage,[10,15,20,25,30])&&p.RELEASE.tick_bonus_ad_ratio_pct===.25)p.RELEASE.tick_bonus_ad_ratio_pct=.3}
- if(H?.skills){let w=H.skills[1],r=H.skills[3];if(r){r.desc=r.desc.replace('完整居合伤害75/100/125/150+275%额外AD','完整居合伤害150/200/250/300+275%额外AD').replace('开刃居合基础伤害 75/100/125/150','开刃居合基础伤害 150/200/250/300').replace(/每段10\/15\/20\/25\/30\+25%额外AD/,'每段10/15/20/25/30+30%额外AD');if(Array.isArray(r.damage))r.damage=[150,200,250,300]}
+ if(H?.skills){let w=H.skills[1],r=H.skills[3];if(r){r.desc=r.desc.replace('完整居合伤害75/100/125/150+275%额外AD','完整居合伤害75/150/225/300+275%额外AD').replace('开刃居合基础伤害 75/100/125/150','开刃居合基础伤害 75/150/225/300').replace(/每段10\/15\/20\/25\/30\+25%额外AD/,'每段10/15/20/25/30+30%额外AD');if(Array.isArray(r.damage))r.damage=[75,150,225,300]}
   if(w)w.desc=w.desc.replace(/15\/20\/25\/30\/35\+22\.5%额外AD/g,'20/30/40/50/60+25%额外AD')}}
