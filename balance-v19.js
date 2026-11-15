@@ -97,3 +97,16 @@
  if(same(p.RELEASE.tick_base_damage,[10,15,20,25,30])&&p.RELEASE.tick_bonus_ad_ratio_pct===.25)p.RELEASE.tick_bonus_ad_ratio_pct=.3}
  if(H?.skills){let w=H.skills[1],r=H.skills[3];if(r){r.desc=r.desc.replace('完整居合伤害75/100/125/150+275%额外AD','完整居合伤害75/150/225/300+275%额外AD').replace('开刃居合基础伤害 75/100/125/150','开刃居合基础伤害 75/150/225/300').replace(/每段10\/15\/20\/25\/30\+25%额外AD/,'每段10/15/20/25/30+30%额外AD');if(Array.isArray(r.damage))r.damage=[75,150,225,300]}
   if(w)w.desc=w.desc.replace(/15\/20\/25\/30\/35\+22\.5%额外AD/g,'20/30/40/50/60+25%额外AD')}}
+// V20 平衡：太刀侠 登龙每段25/35/45/55/65+30%额外AD、解放斩每段15/20/25/30/35+35%额外AD、完美居合100/200/300/400+275%额外AD；
+// 迪奥 Q每拳+20%额外AD且1.25秒内打完、W每把+25%额外AD、R结算倍率110/120/130%+每点额外AD 0.1个百分点；腕豪 W冷却24/22/20/18/16、基础伤害80/100/125/150/175，E冷却14/13/12/11/10。
+{let C=window.GAME_CONFIG,same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+ let L=C?.heroParams?.longsword_hunter,LH=C?.heroes?.longsword_hunter;for(let p of new Set([L,LH?.params]))if(p){
+  if(same(p.W.helm_tick_base_damage,[20,30,40,50,60])){p.W.helm_tick_base_damage=[25,35,45,55,65];if(p.W.helm_tick_bonus_ad_ratio_pct===.25)p.W.helm_tick_bonus_ad_ratio_pct=.3}
+  if(same(p.RELEASE.tick_base_damage,[10,15,20,25,30])){p.RELEASE.tick_base_damage=[15,20,25,30,35];if(p.RELEASE.tick_bonus_ad_ratio_pct===.3)p.RELEASE.tick_bonus_ad_ratio_pct=.35}
+  if(same(p.R.spirit_iai_base_damage,[75,150,225,300]))p.R.spirit_iai_base_damage=[100,200,300,400]}
+ let D=C?.heroParams?.dio,DH=C?.heroes?.dio;for(let p of new Set([D,DH?.params]))if(p){
+  if(p.Q.bonus_ad_ratio_pct===.15)p.Q.bonus_ad_ratio_pct=.2;if(p.Q.cast_duration===1.5)p.Q.cast_duration=1.25;if(p.W.bonus_ad_ratio_pct===.15)p.W.bonus_ad_ratio_pct=.25;if(p.R.damage_settlement_base_pct===1)p.R.damage_settlement_base_pct=[1.1,1.2,1.3]}
+ if(DH?.skills){if(DH.skills[1]&&DH.skills[1].bonusAdRatio===.15)DH.skills[1].bonusAdRatio=.25}
+ let S=C?.heroParams?.sett,SH=C?.heroes?.sett;for(let p of new Set([S,SH?.params]))if(p){
+  if(same(p.W.cooldown,[16,14.875,13.75,12.625,11.5]))p.W.cooldown=[24,22,20,18,16];if(same(p.W.damage_base,[80,98.75,117.5,136.25,155]))p.W.damage_base=[80,100,125,150,175];if(same(p.E.cooldown,[13,11.875,10.75,9.625,8.5]))p.E.cooldown=[14,13,12,11,10]}
+ if(SH?.skills){let w=SH.skills[1],e=SH.skills[2];if(w&&same(w.cd,[16,14.875,13.75,12.625,11.5]))w.cd=[24,22,20,18,16];if(w&&same(w.damage,[80,98.75,117.5,136.25,155]))w.damage=[80,100,125,150,175];if(e&&same(e.cd,[13,11.875,10.75,9.625,8.5]))e.cd=[14,13,12,11,10]}}
