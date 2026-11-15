@@ -147,3 +147,6 @@
   q.desc=q.desc.replace('伤害（60%→100%）','伤害（60%→140%）').replace(/80\/100\/120\/140\/160\+80%额外AD\+8%自身最大生命/g,'100/125/150/200/225+175%额外AD+12%自身最大生命');if(Array.isArray(q.damage))q.damage=[100,125,150,200,225];
   e.desc=e.desc.replace('50/80/110/140/170+50%额外AD','100/150/200/250/300+75%额外AD');if(Array.isArray(e.damage))e.damage=[100,150,200,250,300];
   r.desc=r.desc.replace('250/350/450+50%额外AD+10%自身最大生命','300/400/500+275%额外AD+12%自身最大生命');if(Array.isArray(r.damage))r.damage=[300,400,500]}}
+// V20.8 DIO Q：降低每拳基础伤害、提高总AD加成：每拳 5/8/11/14/17+30%总AD。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.dio,H=C?.heroes?.dio,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.Q&&J(p.Q.damage_per_punch)==='[15,20,25,30,35]'&&p.Q.total_ad_ratio_pct===.2){p.Q.damage_per_punch=[5,8,11,14,17];p.Q.total_ad_ratio_pct=.3}
+ let q=H?.skills?.[0];if(q&&L?.Q?.total_ad_ratio_pct===.3){q.desc=q.desc.replace(/每拳15\/20\/25\/30\/35\+\d+%(?:额外|总)AD/,'每拳5/8/11/14/17+30%总AD');if(Array.isArray(q.damage))q.damage=[5,8,11,14,17]}}
