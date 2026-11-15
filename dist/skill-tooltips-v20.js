@@ -12,7 +12,7 @@ const bonus=u=>Math.max(0,(u.attack||0)-(u.baseAttack??u.attack??0));
 const rk=(u,i)=>Math.max(1,u.skillRanks?.[i]||1);
 const P=id=>C.heroParams?.[id]||{};
 function dmg(type,text){return '<span style="color:'+(COLOR[type]||'#fff')+';font-weight:600">'+text+'</span>'}
-function colorize(t){return esc(t).replace(/(物理伤害)/g,dmg('physical','$1')).replace(/(魔法伤害)/g,dmg('magic','$1')).replace(/(真实伤害)/g,dmg('true','$1'))}
+function colorize(t){return esc(t).replace(/(物理伤害)/g,dmg('physical','$1')).replace(/(魔法伤害)/g,dmg('magic','$1')).replace(/(真实伤害)/g,dmg('true','$1')).replace(/((?:回复|恢复|治疗)[^，。；（）]*?(?:生命|法力)?(?:值)?)(?=[，。；（）]|$)/g,m=>'<span style="color:#6ee07a;font-weight:600">'+m+'</span>')}
 // 一行伤害：label：base[ + x%额外AD][ + x%AD][ + x%AP][ + extra] = total 类型伤害 [×hits]
 function line(u,o){let r=o.r,base=at(o.base,r)||0,total=base,parts=[list(o.base)];
  for(let [k,label,val] of [['bad','额外AD',bonus(u)],['ad','AD',u.attack||0],['ap','AP',u.ap||0]])if(o[k]){let c=at(o[k],r);parts.push(Array.isArray(o[k])?o[k].map(pct).join('/')+label:pct(c)+label);total+=c*val}
