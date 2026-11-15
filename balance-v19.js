@@ -122,3 +122,5 @@
  if(r){r.desc=r.desc.replace(/每段[\d/]+\+[\d.]+%额外AD/,'每段15/15/20/20/25+40%额外AD').replace(/完整居合伤害[\d/]+\+[\d.]+%额外AD/,'完整居合伤害75/125/175/225+337.5%额外AD').replace(/开刃居合基础伤害 [\d/]+/,'开刃居合基础伤害 75/125/175/225').replace(/开刃居合额外攻击力系数百分比 [\d.]+%/,'开刃居合额外攻击力系数百分比 337.5%');if(Array.isArray(r.damage))r.damage=[75,125,175,225]}}
 // V20.3 太刀侠：完美居合不再眩晕。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.spirit_iai_stun_duration===.5)p.R.spirit_iai_stun_duration=0;let r=H?.skills?.[3];if(r&&L?.R?.spirit_iai_stun_duration===0)r.desc=r.desc.replace('仅成功且斩中敌人眩晕0.5秒，','').replace(/ · 开刃居合眩晕持续时间 0\.5 秒/,'')}
+// V20.4 俄洛伊：基础攻击力68，普攻距离125，W强化后距离350，R持续8秒。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.illaoi,H=C?.heroes?.illaoi;if(H?.stats){if(H.stats.attack===65)H.stats.attack=68;if(H.stats.range===89)H.stats.range=125}for(let p of new Set([L,H?.params]))if(p?.BASE){if(p.BASE.ad_base===65)p.BASE.ad_base=68;if(p.BASE.attack_range===89)p.BASE.attack_range=125;if(p.W.range_total===314)p.W.range_total=350;p.R.duration=8}}
