@@ -7,7 +7,7 @@ for(let [level,value]of [[1,10],[18,180]])test('level '+level+' base '+value,()=
 test('110% total AD',()=>{let{u,m,h}=fixture();u.attack=200;u.ap=0;h.close(m.illaoi.rawTentacleDamage(u),10+240)});
 test('40% AP',()=>{let{u,m,h}=fixture();u.attack=0;u.ap=100;h.close(m.illaoi.rawTentacleDamage(u),10+40)});
 for(let [rank,bonus]of [[1,.1],[5,.3]])test('Q rank '+rank+' single damage multiplier',()=>{let{u,m,h}=fixture();u.level=18;u.attack=200;u.ap=0;u.skillRanks[0]=rank;h.close(m.illaoi.rawTentacleDamage(u),420*(1+bonus))});
-test('Q range and width match configured geometry',()=>{let{u,h}=fixture();assert.equal(u.skills[0].range,800);assert.equal(u.skills[0].width,h.C.heroParams.illaoi.Q.width);assert.equal(u.skills[0].windup,.75)});
+test('Q range and width match configured geometry',()=>{let{u,h}=fixture();assert.equal(u.skills[0].range,700);assert.equal(u.skills[0].width,h.C.heroParams.illaoi.Q.width);assert.equal(u.skills[0].windup,.75)});
 test('Q damages at release after movement and does not repeat on later frames',()=>{let{h,u,t,m}=fixture();h.ready(u,0);let hp=t.hp;assert(h.a.cast(u,0,t));u.x+=20;h.a.tickCast(u,.75);assert(t.hp<hp);let after=t.hp;m.tickCast(u,1);assert.equal(t.hp,after)});
 test('Q hits soul and transfers while healing owner',()=>{let f=fixture(),s=spirit(f);let{h,u,t,m}=f;u.hp-=200;let soul=s.hp,body=t.hp,hp=u.hp;h.ready(u,0);h.release(u,0,t);assert(s.hp<soul);assert(t.hp<body);assert(u.hp>hp)});
 test('E 475 range,1900 speed,100 width,.25 cast and .75 extraction animation',()=>{let{u,h}=fixture(),e=h.C.heroParams.illaoi.E;assert.equal(u.skills[2].range,900);assert.equal(u.skills[2].projectileSpeed,1900);assert.equal(u.skills[2].width,100);assert.equal(u.skills[2].windup,.25);assert.equal(e.extraction_time,.75)});

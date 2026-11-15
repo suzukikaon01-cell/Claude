@@ -124,10 +124,10 @@
 {let C=window.GAME_CONFIG,L=C?.heroParams?.longsword_hunter,H=C?.heroes?.longsword_hunter;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.spirit_iai_stun_duration===.5)p.R.spirit_iai_stun_duration=0;let r=H?.skills?.[3];if(r&&L?.R?.spirit_iai_stun_duration===0)r.desc=r.desc.replace('仅成功且斩中敌人眩晕0.5秒，','').replace(/ · 开刃居合眩晕持续时间 0\.5 秒/,'')}
 // V20.4 俄洛伊：基础攻击力68，普攻距离125，W强化后距离350，R持续8秒。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.illaoi,H=C?.heroes?.illaoi;if(H?.stats){if(H.stats.attack===65)H.stats.attack=68;if(H.stats.range===89)H.stats.range=125}for(let p of new Set([L,H?.params]))if(p?.BASE){if(p.BASE.ad_base===65)p.BASE.ad_base=68;if(p.BASE.attack_range===89)p.BASE.attack_range=125;if(p.W.range_total===314)p.W.range_total=350;p.R.duration=8}}
-// V20.5 俄洛伊按参考表：被动冷却20→7.5秒、触手10～180+120%AD、回复4.5%已损失生命；Q射程800；E耗蓝35/45/55/65/75、射程900；R范围450、冷却120/95/70、期间W冷却2秒。
-{let C=window.GAME_CONFIG,L=C?.heroParams?.illaoi,H=C?.heroes?.illaoi;for(let p of new Set([L,H?.params]))if(p?.P){Object.assign(p.P,{spawn_cooldown_max:20,spawn_cooldown_min:7.5,tentacle_damage_min:10,tentacle_damage_max:180,base_tentacle_damage_min:10,base_tentacle_damage_max:180,total_ad_ratio:1.2,tentacle_total_ad_ratio_pct:1.2,heal_missing_hp:.045});p.Q.cast_range=800;p.E.mana_cost=[35,45,55,65,75];p.E.range=900;p.E.cast_range=900;p.R.radius=450;p.R.cooldown=[120,95,70];p.R.w_cooldown_multiplier=.5;p.R.w_cooldown_fixed=2}
- let s=H?.skills;if(s){s[0].range=800;s[2].mana=[35,45,55,65,75];s[2].range=900;s[3].cd=[120,95,70];
-  s[0].desc=s[0].desc.replace('长度700','长度800').replace('9～200','10～180').replace(/110\.?0*\d*%总AD/,'120%总AD');
+// V20.5 俄洛伊按参考表：被动冷却20→7.5秒、触手10～180+120%AD、回复4.5%已损失生命；E耗蓝35/45/55/65/75、射程900；R范围450、冷却120/95/70、期间W冷却2秒。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.illaoi,H=C?.heroes?.illaoi;for(let p of new Set([L,H?.params]))if(p?.P){Object.assign(p.P,{spawn_cooldown_max:20,spawn_cooldown_min:7.5,tentacle_damage_min:10,tentacle_damage_max:180,base_tentacle_damage_min:10,base_tentacle_damage_max:180,total_ad_ratio:1.2,tentacle_total_ad_ratio_pct:1.2,heal_missing_hp:.045});p.E.mana_cost=[35,45,55,65,75];p.E.range=900;p.E.cast_range=900;p.R.radius=450;p.R.cooldown=[120,95,70];p.R.w_cooldown_multiplier=.5;p.R.w_cooldown_fixed=2}
+ let s=H?.skills;if(s){s[2].mana=[35,45,55,65,75];s[2].range=900;s[3].cd=[120,95,70];
+  s[0].desc=s[0].desc.replace('9～200','10～180').replace(/110\.?0*\d*%总AD/,'120%总AD');
   s[2].desc=s[2].desc.replace('射程475','射程900');
   s[3].desc=s[3].desc.replace('减半W冷却','W基础冷却降至2秒').replace('范围 500','范围 450').replace('项目R冷却 90/75/60','项目R冷却 120/95/70');}
  if(H?.passive?.desc)H.passive.desc=H.passive.desc.replace('9～200','10～180').replace('110%总AD','120%总AD').replace('5%已损失生命','4.5%已损失生命')}
