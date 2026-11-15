@@ -110,3 +110,5 @@
  let S=C?.heroParams?.sett,SH=C?.heroes?.sett;for(let p of new Set([S,SH?.params]))if(p){
   if(same(p.W.cooldown,[16,14.875,13.75,12.625,11.5]))p.W.cooldown=[24,22,20,18,16];if(same(p.W.damage_base,[80,98.75,117.5,136.25,155]))p.W.damage_base=[80,100,125,150,175];if(same(p.E.cooldown,[13,11.875,10.75,9.625,8.5]))p.E.cooldown=[14,13,12,11,10]}
  if(SH?.skills){let w=SH.skills[1],e=SH.skills[2];if(w&&same(w.cd,[16,14.875,13.75,12.625,11.5]))w.cd=[24,22,20,18,16];if(w&&same(w.damage,[80,98.75,117.5,136.25,155]))w.damage=[80,100,125,150,175];if(e&&same(e.cd,[13,11.875,10.75,9.625,8.5]))e.cd=[14,13,12,11,10]}}
+// V20 迪奥：Q每拳+20%总攻击力，W每把+25%总攻击力（原为额外攻击力）。
+{let D=window.GAME_CONFIG?.heroParams?.dio,DH=window.GAME_CONFIG?.heroes?.dio;for(let p of new Set([D,DH?.params]))if(p){if(p.Q.total_ad_ratio_pct===undefined&&p.Q.bonus_ad_ratio_pct===.2)p.Q.total_ad_ratio_pct=.2;if(p.W.total_ad_ratio_pct===undefined&&p.W.bonus_ad_ratio_pct===.25)p.W.total_ad_ratio_pct=.25}if(DH?.skills?.[1]&&DH.skills[1].bonusAdRatio===.25){DH.skills[1].bonusAdRatio=0;DH.skills[1].adRatio=.25}}
