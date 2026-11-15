@@ -3,7 +3,7 @@
 (()=>{'use strict';
 const create=window.createItemEffects;if(!create)return;
 window.createItemEffects=function(env,m){
- const base=create(env,m),C=GAME_CONFIG,now=env.time,units=env.units,live=u=>u&&u.hp>0&&!(u.death>0),own=(u,id)=>(u.items||[]).some(v=>(typeof v==='string'?v:v.id)===id),P=id=>C.itemParams[id];
+ const base=create(env,m),C=GAME_CONFIG,now=env.time,units=env.units,live=u=>u&&u.hp>0&&!(u.death>0),own=(u,id)=>(u.items||[]).some(v=>(typeof v==='string'?v:v.id)===id)&&!window.ItemPassivesV20?.suppressed?.(u,id),P=id=>C.itemParams[id];
  const foe=(u,t)=>live(t)&&t.team!==u.team&&['hero','minion','monster'].includes(t.type)&&!(t.untargetable>0);
  function basicHit(u,t,a={}){base.basicHit(u,t,a);if(!own(u,'GIANT_MAW')||!live(t)||a.itemEffect)return;let p=P('GIANT_MAW'),ranged=!m.isMelee(u),dmg=u.maxHp*p.hit_maxhp_pct*(ranged?p.ranged_ratio:1)*(a.onHitEffectiveness??1),meta={itemEffect:true,itemId:'GIANT_MAW',event:a.event};
   m.deal(t,dmg,u,'physical',{...meta,hitIndex:'maw-main'});

@@ -85,15 +85,19 @@ function parse(it){if(NAMED[it.id])return NAMED[it.id].map(([n,t])=>({name:n,tex
  if(p.includes('；；')){let parts=p.split('；；').slice(1).map(x=>x.split('；').map(s=>s.trim()).filter(Boolean)).filter(a=>a.length);let out=[];for(let a of parts){if(a.length>=2)out.push({name:a[0],text:a.slice(1).join('；').replace(/[；;]+$/,'')});else if(out.length)out[out.length-1].text+=a[0]}return out}
  let re=/([^\s。；，：（）]{2,10})：/g,idx=[],m;while((m=re.exec(p)))if(m.index===0||/[。；]/.test(p[m.index-1]))idx.push({at:m.index,name:m[1],start:m.index+m[0].length});
  if(!idx.length)return[{name:'被动',text:p}];return idx.map((x,i)=>({name:x.name,text:p.slice(x.start,idx[i+1]?.at??p.length).trim()}))}
-function html(it){let list=parse(it);if(!list.length)return '<p class="ip-none">无额外被动</p>';
+function html(it){let list=parse(it);if(!list.length)return '<p class="ip-none">无额外被动</p>';let me=window.RiftArena?.panel?.()?.player,warn=me&&suppressed(me,it.id)?'<p class="ip-warn">你已有提供同名唯一被动的装备，这件装备的被动不生效（属性照常生效）。</p>':'';
  return '<div class="ip-list">'+list.map(x=>{let active=/主动/.test(x.name);return '<div class="ip-item'+(active?' ip-active':'')+'"><div class="ip-name">'+esc(x.name.replace(/（主动）/,''))+'<em>'+(active?'主动':'唯一被动')+'</em></div><div class="ip-text">'+colorize(x.text)+'</div></div>'}).join('')+'</div>'}
 function names(id){let it=C.items.find(i=>i.id===id);return it?parse(it).filter(x=>!/主动/.test(x.name)).map(x=>x.name):[]}
-// 同名被动只生效一个：传说装备之间若有同名唯一被动（如「咒刃」「重伤」「献祭」），不能同时持有（合成时会被消耗的配件不计）。
-const legendary=id=>{let it=C.items.find(i=>i.id===id);return (it?.tier||it?.params?.tier)==='LEGENDARY'};
-const SKIP=new Set(['被动','兼容']);
-function conflict(u,id){if(!legendary(id))return null;let mine=new Set(names(id).filter(n=>!SKIP.has(n)));if(!mine.size)return null;let I=window.ItemSystem,have=(u.items||[]).map(x=>typeof x==='string'?x:x?.id),used=new Set((I?.quote?.(u,id)?.used)||[]);
- for(let i=0;i<have.length;i++){let h=have[i];if(!h||h===id||used.has(i)||!legendary(h))continue;for(let n of names(h))if(mine.has(n))return n}return null}
-const I=window.ItemSystem;if(I?.validatePurchase){const v=I.validatePurchase;I.validatePurchase=(u,id,o={})=>{let r=v(u,id,o);if(!r?.ok)return r;let n=conflict(u,id);return n?{...r,ok:false,reason:'已有同名唯一被动「'+n+'」的装备，同名被动只可生效一个'}:r}}
-window.ItemPassivesV20={html,parse,names,colorize,NAMED,conflict};
-if(typeof document!=='undefined'&&document.head&&!document.getElementById('ipV20Style')){let st=document.createElement('style');st.id='ipV20Style';st.textContent='.ip-list{display:flex;flex-direction:column;gap:6px;margin:4px 0 8px}.ip-item{padding:6px 8px;border-radius:5px;background:#ffffff0a;border-left:3px solid #c9a24f}.ip-item.ip-active{border-left-color:#5aa9ff}.ip-name{font-weight:700;color:#f3e7c4;display:flex;align-items:center;gap:6px}.ip-name em{font-style:normal;font-size:10px;font-weight:600;color:#9fb2bd;border:1px solid #ffffff22;border-radius:3px;padding:0 4px}.ip-text{margin-top:2px;color:#c9d6de;line-height:1.5;font-size:12px}.ip-none{color:#9fb2bd}';document.head.appendChild(st)}
+// 同名被动只生效一个：允许同时持有；拥有同名唯一被动的多件装备中，被动数量最多的那件生效（相同则装备栏靠前的生效），其余装备的被动不生效（属性照常）。
+const SKIP=new Set(['被动','兼容']);const nameCache=new Map;
+function namesOf(id){if(!nameCache.has(id))nameCache.set(id,names(id).filter(n=>!SKIP.has(n)));return nameCache.get(id)}
+const supCache=new WeakMap;
+function suppressedSet(u){let ids=(u?.items||[]).map(x=>typeof x==='string'?x:x?.id).filter(Boolean),sig=ids.join('|'),c=supCache.get(u);if(c&&c.sig===sig)return c.set;
+ let out=new Set,byName=new Map;ids.forEach((id,slot)=>{for(let n of namesOf(id)){let a=byName.get(n)||[];a.push({id,slot,count:namesOf(id).length});byName.set(n,a)}});
+ for(let list of byName.values()){let distinct=[...new Map(list.map(x=>[x.id,x])).values()];if(distinct.length<2)continue;distinct.sort((a,b)=>b.count-a.count||a.slot-b.slot);for(let x of distinct.slice(1))out.add(x.id)}
+ supCache.set(u,{sig,set:out});return out}
+function suppressed(u,id){return !!u&&suppressedSet(u).has(id)}
+function conflict(u,id){let mine=new Set(namesOf(id));if(!mine.size)return null;for(let x of (u.items||[])){let h=typeof x==='string'?x:x?.id;if(!h||h===id)continue;for(let n of namesOf(h))if(mine.has(n))return n}return null}
+window.ItemPassivesV20={html,parse,names,colorize,NAMED,conflict,suppressed,suppressedSet};
+if(typeof document!=='undefined'&&document.head&&!document.getElementById('ipV20Style')){let st=document.createElement('style');st.id='ipV20Style';st.textContent='.ip-list{display:flex;flex-direction:column;gap:6px;margin:4px 0 8px}.ip-item{padding:6px 8px;border-radius:5px;background:#ffffff0a;border-left:3px solid #c9a24f}.ip-item.ip-active{border-left-color:#5aa9ff}.ip-name{font-weight:700;color:#f3e7c4;display:flex;align-items:center;gap:6px}.ip-name em{font-style:normal;font-size:10px;font-weight:600;color:#9fb2bd;border:1px solid #ffffff22;border-radius:3px;padding:0 4px}.ip-text{margin-top:2px;color:#c9d6de;line-height:1.5;font-size:12px}.ip-none{color:#9fb2bd}.ip-warn{color:#ffb15c;font-size:12px;margin:2px 0 6px}';document.head.appendChild(st)}
 })();
