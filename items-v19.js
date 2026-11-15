@@ -61,5 +61,5 @@ window.createItemEffects=function(env,m){
 I.recommended=hero=>{let l=[...(rec(hero)||[])],s=swap[hero];if(s&&I.get(s[1])){let i=l.indexOf(s[0]);if(i>=0)l[i]=s[1]}return l}})();
 
 // 复活类装备（守护天使、石像鬼面具、斩罪武具次元刀）只能持有其中一件。
-(()=>{const I=window.ItemSystem;if(!I?.validatePurchase)return;const REVIVE=['guardian','GARGOYLE_MASK','DIMENSION_BLADE'],v=I.validatePurchase;
-I.validatePurchase=(u,id,o={})=>{let r=v(u,id,o);if(!r?.ok||!REVIVE.includes(id))return r;let have=(u.items||[]).map(x=>typeof x==='string'?x:x?.id),consumed=new Set(I.quote?.(u,id)?.consumed||I.quote?.(u,id)?.uses||[]);if(have.some(k=>k!==id&&REVIVE.includes(k)&&!consumed.has(k)))return{ok:false,reason:'守护天使、石像鬼面具、次元刀只能持有其中一件'};return r}})();
+(()=>{const I=window.ItemSystem;if(!I?.validatePurchase)return;const REVIVE=['GARGOYLE_MASK','DIMENSION_BLADE'],v=I.validatePurchase;
+I.validatePurchase=(u,id,o={})=>{let r=v(u,id,o);if(!r?.ok||!REVIVE.includes(id))return r;let have=(u.items||[]).map(x=>typeof x==='string'?x:x?.id),consumed=new Set(I.quote?.(u,id)?.consumed||I.quote?.(u,id)?.uses||[]);if(have.some(k=>k!==id&&REVIVE.includes(k)&&!consumed.has(k)))return{ok:false,reason:'石像鬼面具、次元刀只能持有其中一件'};return r}})();
