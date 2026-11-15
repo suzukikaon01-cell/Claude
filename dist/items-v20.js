@@ -6,13 +6,17 @@ window.createItemEffects=function(env,m){
  const champ=t=>t?.type==='hero'&&!t.spiritOwner&&!t.tentacle&&!t.clone,epic=t=>t?.type==='monster'&&(t.epic||t.monsterType==='EPIC_MONSTER');
  const foe=(u,t)=>live(t)&&t.team!==u.team&&['hero','minion','monster'].includes(t.type)&&!(t.untargetable>0);
  const abilityHit=a=>!a.itemEffect&&!a.dot&&!a.basic&&Number.isInteger(a.event?.index)&&a.event.index>=0&&a.event.index<=3;
- const dots=new Set,timed=new Set; // timed：疾风层数、夜行、裂甲等需要到期刷新的单位 // 正在燃烧/破城的目标
+ const dots=new Set,timed=new Set;
+ // 亚空之矛：击杀小兵/野怪（每3个）或史诗野怪叠层，英雄击杀/助攻在 onTakedown 中叠层。
+ const voidStack=(u,n=1)=>{let p=P('VOID_SPEAR');if(!p)return;let before=u.voidSpearStacks||0;u.voidSpearStacks=Math.min(p.max_stacks,before+n);if(u.voidSpearStacks!==before)m.recalc(u)};
+ m.core.on?.('UnitKilled',e=>{let list=units(),u=list.find(v=>v.id===e.sourceId),t=list.find(v=>v.id===e.targetId);if(!u||!t||u.type!=='hero'||!own(u,'VOID_SPEAR')||t.team===u.team)return;if(epic(t))return voidStack(u);if(t.type==='minion'||t.type==='monster'){u.voidSpearKills=(u.voidSpearKills||0)+1;if(u.voidSpearKills>=P('VOID_SPEAR').unit_kills_per_stack){u.voidSpearKills=0;voidStack(u)}}}); // timed：疾风层数、夜行、裂甲等需要到期刷新的单位 // 正在燃烧/破城的目标
  const item=(id,extra={})=>({itemEffect:true,itemId:id,...extra});
 
  function deriveStats(u,s,ratio){base.deriveStats?.(u,s,ratio);
   if(own(u,'SOVEREIGN_CROWN')){let p=P('SOVEREIGN_CROWN'),k=Math.max(0,p.base_pct+p.takedown_pct*Math.min(p.takedown_max,u.crownTakedowns||0)-p.death_pct*(u.crownDeaths||0));u.crownPct=k;
    for(let key of ['attack','ap','armor','mr','abilityHaste'])if(Number.isFinite(u[key]))u[key]*=1+k;if(Number.isFinite(u.attackSpeed))u.attackSpeed*=1+k;if(Number.isFinite(u.maxHp)){u.maxHp*=1+k}}
   if(own(u,'THUNDER_RING_BLADE')&&(u.thunderLethUntil||0)>now())u.armorPenFlat=(u.armorPenFlat||0)+P('THUNDER_RING_BLADE').lethality;
+  if(own(u,'VOID_SPEAR')&&u.voidSpearStacks>0&&Number.isFinite(u.attackSpeed))u.attackSpeed+=(u.asRatio||u.baseAS||.625)*P('VOID_SPEAR').as_per_stack*u.voidSpearStacks;
   if(own(u,'EMBER_LANTERN')&&u.emberCount>0)u.ap*=1+P('EMBER_LANTERN').ap_pct_per_target*u.emberCount;
   let T=now();if(own(u,'GALE_LONGBOW')&&u.gale&&u.gale.until>T){let p=P('GALE_LONGBOW');if(Number.isFinite(u.attackSpeed))u.attackSpeed*=1+p.as_per_stack*u.gale.stacks;if(u.gale.stacks>=p.max_stacks&&Number.isFinite(u.speed))u.speed*=1+p.full_move_pct}
   if(own(u,'DUSKVEIL_BLADE')&&(u.duskUntil||0)>T&&Number.isFinite(u.speed))u.speed*=1+P('DUSKVEIL_BLADE').move_pct;
@@ -41,6 +45,7 @@ window.createItemEffects=function(env,m){
   if(own(u,'SURGE_CODEX')&&champ(t)&&!((u.surgeReadyAt||0)>T)){let p=P('SURGE_CODEX'),log=((u.surgeLog??={})[t.id]||[]).filter(e=>T-e.at<=p.window);if(!log.some(e=>e.cast===a.event.castId))log.push({cast:a.event.castId,at:T});u.surgeLog[t.id]=log;if(log.length>=p.hits){u.surgeLog[t.id]=[];u.surgeReadyAt=T+p.cooldown;m.deal(t,p.damage+p.ap_ratio*(u.ap||0),u,'magic',item('SURGE_CODEX',{event:a.event,hitIndex:'surge'}));u.v20Fx={kind:'surge',x:t.x,y:t.y,until:T+.35}}}}
 
  function onTakedown(u,t,a={}){base.onTakedown?.(u,t,a);if(!champ(t)||!['kill','assist'].includes(a.kind))return;let T=now();
+  if(own(u,'VOID_SPEAR'))voidStack(u);
   if(own(u,'SOVEREIGN_CROWN')){u.crownTakedowns=(u.crownTakedowns||0)+1;m.recalc(u)}
   if(own(u,'SIEGE_HORN'))u.sabotageUntil=T+P('SIEGE_HORN').sabotage_window;
   if(own(u,'DUSKVEIL_BLADE')){u.duskUntil=T+P('DUSKVEIL_BLADE').duration;u.duskEmpower=true;timed.add(u);m.recalc(u)}
