@@ -2,7 +2,7 @@
 (()=>{'use strict';
 const create=window.createItemEffects;if(!create)return;
 window.createItemEffects=function(env,m){
- const base=create(env,m),C=GAME_CONFIG,now=env.time,units=env.units,live=u=>u&&u.hp>0&&!(u.death>0),own=(u,id)=>(u?.items||[]).some(v=>(typeof v==='string'?v:v.id)===id),P=id=>C.itemParams[id];
+ const base=create(env,m),C=GAME_CONFIG,now=env.time,units=env.units,live=u=>u&&u.hp>0&&!(u.death>0),own=(u,id)=>(u?.items||[]).some(v=>(typeof v==='string'?v:v.id)===id)&&!window.ItemPassivesV20?.suppressed?.(u,id),P=id=>C.itemParams[id];
  const champ=t=>t?.type==='hero'&&!t.spiritOwner&&!t.tentacle&&!t.clone,epic=t=>t?.type==='monster'&&(t.epic||t.monsterType==='EPIC_MONSTER');
  const foe=(u,t)=>live(t)&&t.team!==u.team&&['hero','minion','monster'].includes(t.type)&&!(t.untargetable>0);
  const abilityHit=a=>!a.itemEffect&&!a.dot&&!a.basic&&Number.isInteger(a.event?.index)&&a.event.index>=0&&a.event.index<=3;
