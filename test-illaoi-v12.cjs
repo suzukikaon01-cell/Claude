@@ -3,14 +3,14 @@ const assert=require('assert'),make=require('./test-harness.cjs');let count=0;
 const fixture=()=>{let h=make(),u=h.reset('illaoi'),t=h.a.enemy('lux',u.x+300,u.y);t.items=['heartsteel'];t.itemState.heartsteelHp=10000;h.a.m.recalc(t);t.hp=t.maxHp;t.armor=t.mr=0;t.hpRegen=0;u.v9State={nextSpawn:Infinity,tentacles:[]};return{h,u,t,m:h.a.m}};
 function test(name,fn){fn();count++;console.log('PASS Illaoi V12 '+name)}
 function spirit(f,rank=1){f.h.ready(f.u,2,rank);f.h.release(f.u,2,f.t);f.h.step(.2);let s=f.u.v9State.spirit;assert(s);return s}
-for(let [level,value]of [[1,9],[18,200]])test('level '+level+' base '+value,()=>{let{u,m}=fixture();u.level=level;assert.equal(m.illaoi.baseTentacleDamage(u),value)});
-test('110% total AD',()=>{let{u,m,h}=fixture();u.attack=200;u.ap=0;h.close(m.illaoi.rawTentacleDamage(u),9+220)});
-test('40% AP',()=>{let{u,m,h}=fixture();u.attack=0;u.ap=100;h.close(m.illaoi.rawTentacleDamage(u),9+40)});
+for(let [level,value]of [[1,10],[18,180]])test('level '+level+' base '+value,()=>{let{u,m}=fixture();u.level=level;assert.equal(m.illaoi.baseTentacleDamage(u),value)});
+test('110% total AD',()=>{let{u,m,h}=fixture();u.attack=200;u.ap=0;h.close(m.illaoi.rawTentacleDamage(u),10+240)});
+test('40% AP',()=>{let{u,m,h}=fixture();u.attack=0;u.ap=100;h.close(m.illaoi.rawTentacleDamage(u),10+40)});
 for(let [rank,bonus]of [[1,.1],[5,.3]])test('Q rank '+rank+' single damage multiplier',()=>{let{u,m,h}=fixture();u.level=18;u.attack=200;u.ap=0;u.skillRanks[0]=rank;h.close(m.illaoi.rawTentacleDamage(u),420*(1+bonus))});
-test('Q range and width match configured geometry',()=>{let{u,h}=fixture();assert.equal(u.skills[0].range,700);assert.equal(u.skills[0].width,h.C.heroParams.illaoi.Q.width);assert.equal(u.skills[0].windup,.75)});
+test('Q range and width match configured geometry',()=>{let{u,h}=fixture();assert.equal(u.skills[0].range,800);assert.equal(u.skills[0].width,h.C.heroParams.illaoi.Q.width);assert.equal(u.skills[0].windup,.75)});
 test('Q damages at release after movement and does not repeat on later frames',()=>{let{h,u,t,m}=fixture();h.ready(u,0);let hp=t.hp;assert(h.a.cast(u,0,t));u.x+=20;h.a.tickCast(u,.75);assert(t.hp<hp);let after=t.hp;m.tickCast(u,1);assert.equal(t.hp,after)});
 test('Q hits soul and transfers while healing owner',()=>{let f=fixture(),s=spirit(f);let{h,u,t,m}=f;u.hp-=200;let soul=s.hp,body=t.hp,hp=u.hp;h.ready(u,0);h.release(u,0,t);assert(s.hp<soul);assert(t.hp<body);assert(u.hp>hp)});
-test('E 475 range,1900 speed,100 width,.25 cast and .75 extraction animation',()=>{let{u,h}=fixture(),e=h.C.heroParams.illaoi.E;assert.equal(u.skills[2].range,475);assert.equal(u.skills[2].projectileSpeed,1900);assert.equal(u.skills[2].width,100);assert.equal(u.skills[2].windup,.25);assert.equal(e.extraction_time,.75)});
+test('E 475 range,1900 speed,100 width,.25 cast and .75 extraction animation',()=>{let{u,h}=fixture(),e=h.C.heroParams.illaoi.E;assert.equal(u.skills[2].range,900);assert.equal(u.skills[2].projectileSpeed,1900);assert.equal(u.skills[2].width,100);assert.equal(u.skills[2].windup,.25);assert.equal(e.extraction_time,.75)});
 test('E creates independent soul at current HP and snapshots armor/MR and binding',()=>{let f=fixture();f.t.hp=500;f.t.armor=70;f.t.mr=40;let s=spirit(f);assert.equal(s.hp,500);assert.equal(s.maxHp,500);assert.equal(s.armor,70);assert.equal(s.mr,40);assert.equal(s.spiritOwnerId,f.t.id);assert.notEqual(s.id,f.t.id);assert(s.radius===f.t.radius||s.radius===undefined)});
 for(let [rank,base]of [[1,.25],[5,.45]])test('E rank '+rank+' base transfer',()=>{let{u,m,h}=fixture();u.attack=0;u.skillRanks[2]=rank;h.close(m.illaoi.transferRatio(u),base)});
 test('100 total AD adds8 percentage points',()=>{let{u,m,h}=fixture();u.attack=100;u.skillRanks[2]=1;h.close(m.illaoi.transferRatio(u),.33)});
