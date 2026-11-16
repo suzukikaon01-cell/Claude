@@ -59,10 +59,30 @@ function Read-Utf8Json($resp) {
   [Text.Encoding]::UTF8.GetString($ms.ToArray()) | ConvertFrom-Json
 }
 
+$script:LoginPausedUntil = [datetime]::MinValue
 function Connect-Edu {
+  # 登录失败后暂停，避免触发教务系统“15 分钟 8 次”的登录限制（会连带锁住浏览器登录）
+  if ((Get-Date) -lt $script:LoginPausedUntil) {
+    throw ('登录已暂停到 {0:HH:mm}（{1}）' -f $script:LoginPausedUntil, $script:LoginPauseReason)
+  }
   $body = [Text.Encoding]::UTF8.GetBytes((@{ password = (Get-Password); remember = $true } | ConvertTo-Json))
-  Invoke-WebRequest -Uri "$BaseUrl/api/login" -Method Post -Body $body -ContentType 'application/json; charset=utf-8' `
-    -SessionVariable s -UseBasicParsing | Out-Null
+  try {
+    Invoke-WebRequest -Uri "$BaseUrl/api/login" -Method Post -Body $body -ContentType 'application/json; charset=utf-8' `
+      -SessionVariable s -UseBasicParsing | Out-Null
+  } catch {
+    $code = $null; if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode }
+    if ($code -eq 401) {
+      $script:LoginPausedUntil = (Get-Date).AddHours(6)
+      $script:LoginPauseReason = '密码错误：请重新双击「安装.bat」输入正确密码'
+    } elseif ($code -eq 429) {
+      $script:LoginPausedUntil = (Get-Date).AddMinutes(16)
+      $script:LoginPauseReason = '教务系统提示尝试次数过多，16 分钟后自动重试'
+    } else {
+      $script:LoginPausedUntil = (Get-Date).AddMinutes(2)
+      $script:LoginPauseReason = "网络或服务器错误（$code），2 分钟后重试"
+    }
+    throw ('登录失败：{0}' -f $script:LoginPauseReason)
+  }
   $script:Session = $s
 }
 
@@ -128,7 +148,12 @@ function Get-SafeName([string]$s) {
 
 function Move-Feedback([IO.FileInfo]$f) {
   $t = $f.LastWriteTime
-  try { $m = Find-Student $t } catch { Log ("读取教务课表失败，稍后重试：{0}" -f $_.Exception.Message); return }
+  try { $m = Find-Student $t } catch {
+    $msg = $_.Exception.Message
+    if ($msg -ne $script:LastError) { Log ("读取教务课表失败，文件先留在桌面：{0}" -f $msg); $script:LastError = $msg }
+    return
+  }
+  $script:LastError = $null
   $student = if ($m.Student) { Get-SafeName $m.Student } else { '未知学生' }
   $dir = Join-Path $Target ($t.ToString('yyyy-MM-dd'))
   New-Item -ItemType Directory -Force -Path $dir | Out-Null
@@ -151,6 +176,7 @@ function Invoke-Scan {
 # ---------- 入口 ----------
 if ($WhoAt) {
   $t = [datetime]::Parse($WhoAt)
+  trap { Write-Host ('出错：{0}' -f $_.Exception.Message) -ForegroundColor Red; exit 1 }
   Get-DayLessons $t | Format-Table Student, @{n='开始';e={$_.Start.ToString('HH:mm')}}, @{n='结束';e={$_.Finish.ToString('HH:mm')}}
   $m = Find-Student $t
   Write-Host ('{0:yyyy-MM-dd HH:mm} 保存的反馈 → {1}    [{2}]' -f $t, $(if ($m.Student) { $m.Student } else { '未知学生' }), $m.Reason)

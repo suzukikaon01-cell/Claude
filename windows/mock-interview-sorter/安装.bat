@@ -1,6 +1,8 @@
 @echo off
 chcp 65001 >nul
 set "DIR=%~dp0"
+rem 先停掉正在后台运行的旧版本
+powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \"Name='powershell.exe'\" | Where-Object { $_.ProcessId -ne $PID -and $_.CommandLine -like '*MockInterviewSorter.ps1*' } | ForEach-Object { Stop-Process -Id $_.ProcessId }"
 echo [1/3] 设置教务系统密码
 powershell -NoProfile -ExecutionPolicy Bypass -File "%DIR%MockInterviewSorter.ps1" -Setup
 echo [2/3] 设置开机自动运行
