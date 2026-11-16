@@ -157,3 +157,15 @@
  if(J(p.R.damage)==='[300,400,500]'){p.R.damage=[400,500,600];p.R.ad_ratio=2.75;p.R.bonus_ad_ratio=0;p.R.maxhp_ratio=.15}}
  let s=H?.skills;if(s&&L?.Q?.ad_ratio===2){let q=s[0],r=s[3];q.range=500;q.desc=q.desc.replace('（190→425码）','（'+Math.round(500*L.Q.min_charge_ratio)+'→500码）').replace('（150→300码）','（100→425码）').replace(/100\/125\/150\/200\/225\+175%额外AD\+12%自身最大生命/g,'150/200/250/300/350+200%总AD').replace('击退360码','击退425码');if(Array.isArray(q.damage))q.damage=[150,200,250,300,350];
   r.desc=r.desc.replace('300/400/500+275%额外AD+12%自身最大生命','400/500/600+275%总AD+15%自身最大生命');if(Array.isArray(r.damage))r.damage=[400,500,600]}}
+// V20.10 查莉娅（毛妹）重做：普攻=粒子榴弹（固定1秒/次，不吃攻速），自动锁定射程内生命绝对值最低的敌人、砸在目标出手时的位置（不追踪），
+// 爆炸半径随能量 125→225；伤害 40～160（随等级）+60%AD+3%最大生命+40%AP，×(1+能量×1%)。
+// Q=持续3秒的非指向粒子激光，实时朝瞄准方向扫射：每秒 40/60/80/100/120+4%最大生命+50%AP，×(1+能量×1%)。
+// R 额外 +6%最大生命并吃能量增伤。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.zarya,H=C?.heroes?.zarya;for(let p of new Set([L,H?.params]))if(p?.P&&p.P.aa_interval==null){
+ Object.assign(p.P,{aa_interval:1,aa_base_min:40,aa_base_max:160,aa_ad_ratio:.6,aa_maxhp_ratio:.03,aa_ap_ratio:.4,aa_radius_min:125,aa_radius_max:225,aa_projectile_speed:1100,damage_per_energy:.01});
+ Object.assign(p.Q,{laser_duration:3,laser_tick:.25,laser_length:650,laser_width:80,laser_dps:[40,60,80,100,120],laser_maxhp_ratio:.04,laser_ap_ratio:.5,cooldown:[10,9,8,7,6],windup:0,backswing:0});
+ p.R.maxhp_ratio=.06;if(p.BASE)p.BASE.attack_range=450}
+ if(H&&L?.P?.aa_interval){if(H.stats.range===325)H.stats.range=450;let q=H.skills[0];Object.assign(q,{name:'粒子激光',target:'direction',range:650,width:80,windup:0,recovery:0,cd:[10,9,8,7,6],damage:0,projectileSpeed:undefined});
+  q.desc='按住持续发射3秒粒子激光，实时朝瞄准方向扫射（松手提前结束），穿透路径上所有敌人：每秒 40/60/80/100/120+4%最大生命+50%AP 魔法伤害，享受能量增伤（每点能量+1%）。\n冷却 10/9/8/7/6 · 长度 650 · 宽度 80';
+  if(H.passive)H.passive.desc='普攻改为粒子榴弹：固定每秒1次（不受攻速影响），自动锁定射程内生命值最低的敌人，砸在目标出手时的位置（目标位移后会落空）。爆炸半径随能量 125→225，造成 40～160（随等级）+60%AD+3%最大生命+40%AP 魔法伤害。所有伤害享受能量增伤（每点能量+1%）。W、E各储存2次施放，护盾实际吸收伤害转为能量，4秒未吸收后每秒衰减1。';
+  let r=H.skills[3];if(r&&!r.desc.includes('最大生命'))r.desc=r.desc.replace('发射重力弹','发射重力弹（命中伤害额外+6%最大生命，享受能量增伤）')}}
