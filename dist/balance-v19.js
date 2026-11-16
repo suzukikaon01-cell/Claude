@@ -177,3 +177,5 @@
  let q=H?.skills?.[0];if(q&&L?.Q?.ad_ratio===.8){q.desc=q.desc.replace(/150\/200\/250\/300\/350\+200%总AD\+12%自身最大生命/g,'60/80/100/120/140+80%总AD+5%自身最大生命');if(Array.isArray(q.damage))q.damage=[60,80,100,120,140]}}
 // V20.13 砧岳R总AD加成 275%→125%：400/500/600+125%总AD+15%最大生命。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.ad_ratio===2.75)p.R.ad_ratio=1.25;let r=H?.skills?.[3];if(r&&L?.R?.ad_ratio===1.25)r.desc=r.desc.replace('400/500/600+275%总AD','400/500/600+125%总AD')}
+// V20.14 砧岳R中心范围 275→225 码。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.core_radius===275)p.R.core_radius=225;let r=H?.skills?.[3];if(r&&L?.R?.core_radius===225)r.desc=r.desc.replace(/中心275码/g,'中心225码').replace(/275码外/g,'225码外')}
