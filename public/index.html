@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自动记账</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f766e">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>自动记账</h1>
+  <span><a id="setupLink" href="setup.html" class="hdr">手机设置</a> <input type="month" id="month"></span>
+</header>
+<main>
+  <section class="cards">
+    <div class="card"><span>本月收入</span><b id="income">-</b><small id="school"></small></div>
+    <div class="card"><span>本月流出</span><b id="outflow">-</b><small id="outDetail"></small></div>
+    <div class="card hero"><span>盈余</span><b id="surplus">-</b><small id="rate"></small></div>
+  </section>
+
+  <section>
+    <h2>支出分类</h2>
+    <div id="cats" class="bars"></div>
+    <h2>支付渠道</h2>
+    <div id="srcs" class="bars"></div>
+  </section>
+
+  <section class="actions">
+    <button id="syncSchool">同步教务系统收入</button>
+    <label class="btn">导入教务 CSV<input type="file" id="csv" accept=".csv" hidden></label>
+  </section>
+
+  <section>
+    <h2>导入截图 / 账单（倒查本月记录）</h2>
+    <p class="hint">支持：信用卡/交通卡/PayPay 的明细截图、收据或支付完成页截图、卡公司下载的明细 CSV。已记录过的会自动跳过。</p>
+    <div class="actions">
+      <label class="btn">选择截图或 CSV<input type="file" id="importFile" accept="image/*,.csv,.txt" multiple hidden></label>
+      <select id="importApp"><option value="">自动判断渠道</option><option>信用卡</option><option>Suica</option><option>PayPay</option></select>
+    </div>
+    <textarea id="importText" rows="4" placeholder="也可以直接粘贴明细文字"></textarea>
+    <button id="importBtn">识别并导入粘贴的文字</button>
+    <ul id="importResult" class="import"></ul>
+  </section>
+
+  <section>
+    <h2>手动记一笔</h2>
+    <form id="add">
+      <select name="type"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">转账转出</option></select>
+      <input name="amount" type="number" min="1" step="1" placeholder="金额 ¥" required>
+      <input name="merchant" placeholder="商户/说明">
+      <input name="category" placeholder="分类（可选）">
+      <button>添加</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>明细</h2>
+    <ul id="list"></ul>
+  </section>
+  <p id="msg"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
