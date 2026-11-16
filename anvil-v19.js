@@ -63,7 +63,7 @@ window.installAnvil=function(m,env){
  function cancelCharge(u){let s=S(u);s.charging=null;core.remove(u,x=>x.uniqueKey==='anvil-q-charge:'+u.id,'anvil-q-release')}
  function startQ(u,c,e){let s=S(u),emp=qEmp(u),k=chargeRatio(u);cancelCharge(u);s.empoweredUntil=0;s.block=null;core.remove(u,x=>x.uniqueKey==='anvil-w-slow:'+u.id,'anvil-q');
   let lerp=(a,b)=>a+(b-a)*k,range=(emp?P.Q.empowered_range:P.Q.dash_range)*lerp(P.Q.min_charge_ratio,1),to={x:u.x+Math.cos(c.angle)*range,y:u.y+Math.sin(c.angle)*range},dur=P.Q.dash_duration*range/P.Q.dash_range;
-  let damage=(emp?at(P.Q.empowered_damage,u,0)+P.Q.empowered_bonus_ad_ratio*bonusAD(u)+P.Q.empowered_maxhp_ratio*u.maxHp:at(P.Q.damage,u,0)+P.Q.ad_ratio*u.attack+P.Q.bonus_ad_ratio*bonusAD(u)+P.Q.maxhp_ratio*u.maxHp)*lerp(P.Q.min_damage_ratio,P.Q.max_damage_ratio??1);
+  let damage=(emp?at(P.Q.empowered_damage,u,0)+(P.Q.empowered_ad_ratio||0)*u.attack+P.Q.empowered_bonus_ad_ratio*bonusAD(u)+P.Q.empowered_maxhp_ratio*u.maxHp:at(P.Q.damage,u,0)+P.Q.ad_ratio*u.attack+P.Q.bonus_ad_ratio*bonusAD(u)+P.Q.maxhp_ratio*u.maxHp)*lerp(P.Q.min_damage_ratio,P.Q.max_damage_ratio??1);
   s.dash={angle:c.angle,event:e,damage,knockback:emp?P.Q.empowered_knockback:lerp(P.Q.min_knockback,P.Q.knockback),until:now()+dur,empowered:emp,charge:k};
   core.startDisplacement(u,to,{type:'LEAP',duration:dur,source:u,abilityId:0});fx(u,'qtrail',u,{angle:c.angle,length:range,empowered:emp,life:.4})}
  function tickQ(u){let s=S(u),d=s.dash;if(!d)return;if(now()>d.until||!u.displacement){s.dash=null;return}
@@ -100,7 +100,7 @@ window.installAnvil=function(m,env){
  function startDescent(u){let f=S(u).flight;if(!f||f.descending)return false;f.descending=true;f.land=now()+P.R.descent;f.x=u.x;f.y=u.y;u.dest=null;u.anvilLift={mode:'fall',start:now(),end:f.land,height:900};m.recalc(u);env.ring(u.x,u.y,P.R.radius,'#ff6a3d',P.R.descent);return true}
  function falloff(d){if(d<=P.R.core_radius)return 1;return Math.max(P.R.min_falloff,1-(1-P.R.min_falloff)*(d-P.R.core_radius)/(P.R.radius-P.R.core_radius))}
  function landR(u,f){let p={x:u.x,y:u.y};u.untargetable=0;u.invulnerable=0;u.anvilLift=null;m.recalc(u);empowerQ(u);
-  let base=at(P.R.damage,u,3)+P.R.bonus_ad_ratio*bonusAD(u)+P.R.maxhp_ratio*u.maxHp;
+  let base=at(P.R.damage,u,3)+(P.R.ad_ratio||0)*u.attack+P.R.bonus_ad_ratio*bonusAD(u)+P.R.maxhp_ratio*u.maxHp;
   for(let t of m.nearby(p,P.R.radius+80,v=>foe(u,v))){let d=Math.max(0,dist(p,t)-(t.radius||0));if(d>P.R.radius)continue;let ratio=falloff(d),core_=d<=P.R.core_radius;
    if(!hit(u,t,base*ratio,f.event,{once:true,abilityId:3}))continue;if(!alive(t))continue;
    m.slow(t,core_?P.R.core_slow:P.R.outer_slow,P.R.slow_duration,u,null,'anvil-r:'+u.id);if(core_)m.control(t,'AIRBORNE',P.R.knockup,u,{abilityId:3})}

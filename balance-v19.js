@@ -150,3 +150,10 @@
 // V20.8 DIO Q：降低每拳基础伤害、提高总AD加成：每拳 5/8/11/14/17+30%总AD。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.dio,H=C?.heroes?.dio,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.Q&&J(p.Q.damage_per_punch)==='[15,20,25,30,35]'&&p.Q.total_ad_ratio_pct===.2){p.Q.damage_per_punch=[5,8,11,14,17];p.Q.total_ad_ratio_pct=.3}
  let q=H?.skills?.[0];if(q&&L?.Q?.total_ad_ratio_pct===.3){q.desc=q.desc.replace(/每拳15\/20\/25\/30\/35\+\d+%(?:额外|总)AD/,'每拳5/8/11/14/17+30%总AD');if(Array.isArray(q.damage))q.damage=[5,8,11,14,17]}}
+// V20.9 砧岳：Q 突进上限500，击退100～425（强化Q 425），伤害 150/200/250/300/350+200%总AD（强化Q同，仍乘蓄力60%～140%）；
+// R 400/500/600+275%总AD+15%最大生命。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.Q){
+ if(J(p.Q.damage)==='[100,125,150,200,225]'){Object.assign(p.Q,{dash_range:500,empowered_range:500,min_knockback:100,knockback:425,empowered_knockback:425,damage:[150,200,250,300,350],ad_ratio:2,bonus_ad_ratio:0,maxhp_ratio:0,empowered_damage:[150,200,250,300,350],empowered_ad_ratio:2,empowered_bonus_ad_ratio:0,empowered_maxhp_ratio:0})}
+ if(J(p.R.damage)==='[300,400,500]'){p.R.damage=[400,500,600];p.R.ad_ratio=2.75;p.R.bonus_ad_ratio=0;p.R.maxhp_ratio=.15}}
+ let s=H?.skills;if(s&&L?.Q?.ad_ratio===2){let q=s[0],r=s[3];q.range=500;q.desc=q.desc.replace('（190→425码）','（'+Math.round(500*L.Q.min_charge_ratio)+'→500码）').replace('（150→300码）','（100→425码）').replace(/100\/125\/150\/200\/225\+175%额外AD\+12%自身最大生命/g,'150/200/250/300/350+200%总AD').replace('击退360码','击退425码');if(Array.isArray(q.damage))q.damage=[150,200,250,300,350];
+  r.desc=r.desc.replace('300/400/500+275%额外AD+12%自身最大生命','400/500/600+275%总AD+15%自身最大生命');if(Array.isArray(r.damage))r.damage=[400,500,600]}}
