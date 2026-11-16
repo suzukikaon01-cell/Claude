@@ -169,3 +169,6 @@
   q.desc='按住持续发射3秒粒子激光，实时朝瞄准方向扫射（松手提前结束），穿透路径上所有敌人：每秒 40/60/80/100/120+4%最大生命+50%AP 魔法伤害，享受能量增伤（每点能量+1%）。\n冷却 10/9/8/7/6 · 长度 650 · 宽度 80';
   if(H.passive)H.passive.desc='普攻改为粒子榴弹：固定每秒1次（不受攻速影响），自动锁定射程内生命值最低的敌人，砸在目标出手时的位置（目标位移后会落空）。爆炸半径随能量 125→225，造成 40～160（随等级）+60%AD+3%最大生命+40%AP 魔法伤害。所有伤害享受能量增伤（每点能量+1%）。W、E各储存2次施放，护盾实际吸收伤害转为能量，4秒未吸收后每秒衰减1。';
   let r=H.skills[3];if(r&&!r.desc.includes('最大生命'))r.desc=r.desc.replace('发射重力弹','发射重力弹（命中伤害额外+6%最大生命，享受能量增伤）')}}
+// V20.11 砧岳Q恢复最大生命加成：150/200/250/300/350+200%总AD+12%最大生命（强化Q同）。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.Q&&p.Q.ad_ratio===2&&p.Q.maxhp_ratio===0){p.Q.maxhp_ratio=.12;p.Q.empowered_maxhp_ratio=.12}
+ let q=H?.skills?.[0];if(q&&L?.Q?.maxhp_ratio===.12)q.desc=q.desc.replace(/150\/200\/250\/300\/350\+200%总AD(?!\+12%)/g,'150/200/250/300/350+200%总AD+12%自身最大生命')}
