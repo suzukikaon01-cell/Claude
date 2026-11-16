@@ -172,3 +172,6 @@
 // V20.11 砧岳Q恢复最大生命加成：150/200/250/300/350+200%总AD+12%最大生命（强化Q同）。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.Q&&p.Q.ad_ratio===2&&p.Q.maxhp_ratio===0){p.Q.maxhp_ratio=.12;p.Q.empowered_maxhp_ratio=.12}
  let q=H?.skills?.[0];if(q&&L?.Q?.maxhp_ratio===.12)q.desc=q.desc.replace(/150\/200\/250\/300\/350\+200%总AD(?!\+12%)/g,'150/200/250/300/350+200%总AD+12%自身最大生命')}
+// V20.12 砧岳Q伤害-60%：60/80/100/120/140+80%总AD+5%最大生命（强化Q同）。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.Q&&J(p.Q.damage)==='[150,200,250,300,350]'&&p.Q.ad_ratio===2){Object.assign(p.Q,{damage:[60,80,100,120,140],ad_ratio:.8,maxhp_ratio:.05,empowered_damage:[60,80,100,120,140],empowered_ad_ratio:.8,empowered_maxhp_ratio:.05})}
+ let q=H?.skills?.[0];if(q&&L?.Q?.ad_ratio===.8){q.desc=q.desc.replace(/150\/200\/250\/300\/350\+200%总AD\+12%自身最大生命/g,'60/80/100/120/140+80%总AD+5%自身最大生命');if(Array.isArray(q.damage))q.damage=[60,80,100,120,140]}}
