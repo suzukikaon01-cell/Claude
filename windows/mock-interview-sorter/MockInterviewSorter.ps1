@@ -16,7 +16,10 @@ param([switch]$Setup, [switch]$Once, [string]$WhoAt)
 # ===== 设置 =====
 $Desktop       = [Environment]::GetFolderPath('Desktop')
 $Target        = 'C:\Users\HLT\Desktop\私塾\模拟面试'
-$Keywords      = @('模拟面试', '面试反馈', '模擬面接')
+# 文件名含任一关键词即整理（面试稿、面谈建议、愿书、各大学面试材料等）
+$Keywords      = @('面试', '面試', '面接', '面谈', '面談', '模拟', '模擬', '愿书', '願書', '志望理由', '大学', '大學')
+$ExcludePrefix = @('G', 'SNS')   # 以这些开头的文件不整理（不区分大小写）
+$Extensions    = @('.doc', '.docx', '.pdf', '.pages', '.txt', '.rtf', '.odt', '.xls', '.xlsx', '.ppt', '.pptx')
 $SwitchMinutes = 30            # 一节课开始后多少分钟内保存的反馈，算上一节课的
 $BaseUrl       = 'https://app.lesson-desk.workers.dev'
 $PollSeconds   = 5
@@ -120,6 +123,20 @@ function Get-DayLessons([datetime]$t) {
       } } | Sort-Object Start)
 }
 
+# 本月和上月教过的所有学生（用于识别文件名里已经写了的学生名）
+function Get-KnownStudents([datetime]$t) {
+  $names = @()
+  foreach ($m in @($t.ToString('yyyy-MM'), $t.AddMonths(-1).ToString('yyyy-MM'))) {
+    $rep = Get-MonthReport $m
+    foreach ($d in $rep.days) {
+      $list = if ($d.gross_lessons) { $d.gross_lessons } else { $d.lessons }
+      $names += @($list | Where-Object { $_.student } | ForEach-Object { $_.student })
+    }
+  }
+  # 名字长的优先，避免短名字误匹配
+  @($names | Sort-Object -Unique | Sort-Object { $_.Length } -Descending)
+}
+
 # 返回 @{ Student; Reason }
 function Find-Student([datetime]$t) {
   $lessons = Get-DayLessons $t
@@ -148,7 +165,10 @@ function Get-SafeName([string]$s) {
 
 function Move-Feedback([IO.FileInfo]$f) {
   $t = $f.LastWriteTime
-  try { $m = Find-Student $t } catch {
+  try {
+    $named = Get-KnownStudents $t | Where-Object { $f.BaseName.Contains($_) -or $f.BaseName.Contains(($_ -replace '\s', '')) } | Select-Object -First 1
+    if ($named) { $m = @{ Student = $named; Reason = '文件名里已有学生名'; InName = $true } } else { $m = Find-Student $t }
+  } catch {
     $msg = $_.Exception.Message
     if ($msg -ne $script:LastError) { Log ("读取教务课表失败，文件先留在桌面：{0}" -f $msg); $script:LastError = $msg }
     return
@@ -157,7 +177,7 @@ function Move-Feedback([IO.FileInfo]$f) {
   $student = if ($m.Student) { Get-SafeName $m.Student } else { '未知学生' }
   $dir = Join-Path $Target ($t.ToString('yyyy-MM-dd'))
   New-Item -ItemType Directory -Force -Path $dir | Out-Null
-  $base = '{0}_{1}_{2}' -f $f.BaseName, $student, $t.ToString('HHmm')
+  $base = if ($m.InName) { '{0}_{1}' -f $f.BaseName, $t.ToString('HHmm') } else { '{0}_{1}_{2}' -f $f.BaseName, $student, $t.ToString('HHmm') }
   $dest = Join-Path $dir ($base + $f.Extension)
   $n = 2
   while (Test-Path -LiteralPath $dest) { $dest = Join-Path $dir ('{0}({1}){2}' -f $base, $n, $f.Extension); $n++ }
@@ -168,7 +188,8 @@ function Move-Feedback([IO.FileInfo]$f) {
 function Invoke-Scan {
   Get-ChildItem -LiteralPath $Desktop -File | Where-Object {
     $name = $_.Name
-    -not $name.StartsWith('~$') -and $_.Extension -notin @('.lnk', '.tmp', '.url') -and
+    -not $name.StartsWith('~$') -and ($Extensions -contains $_.Extension.ToLower()) -and
+    -not ($ExcludePrefix | Where-Object { $name.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) }) -and
     ($Keywords | Where-Object { $name -like "*$_*" })
   } | ForEach-Object { if (Test-Ready $_) { Move-Feedback $_ } }
 }

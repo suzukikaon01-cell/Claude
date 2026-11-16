@@ -14,6 +14,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 echo [3/3] 现在启动
 start "" /min powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%DIR%MockInterviewSorter.ps1"
 echo.
-echo 完成。桌面上文件名含“模拟面试/面试反馈”的文件会自动整理到 C:\Users\HLT\Desktop\私塾\模拟面试
+echo 完成。桌面上面试相关文件（面试/面接/面谈/愿书/大学…，G 和 SNS 开头除外）会自动整理到 C:\Users\HLT\Desktop\私塾\模拟面试
 echo 记录文件：%APPDATA%\MockInterviewSorter\sorter.log
 pause
