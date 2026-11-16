@@ -175,3 +175,5 @@
 // V20.12 砧岳Q伤害-60%：60/80/100/120/140+80%总AD+5%最大生命（强化Q同）。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.Q&&J(p.Q.damage)==='[150,200,250,300,350]'&&p.Q.ad_ratio===2){Object.assign(p.Q,{damage:[60,80,100,120,140],ad_ratio:.8,maxhp_ratio:.05,empowered_damage:[60,80,100,120,140],empowered_ad_ratio:.8,empowered_maxhp_ratio:.05})}
  let q=H?.skills?.[0];if(q&&L?.Q?.ad_ratio===.8){q.desc=q.desc.replace(/150\/200\/250\/300\/350\+200%总AD\+12%自身最大生命/g,'60/80/100/120/140+80%总AD+5%自身最大生命');if(Array.isArray(q.damage))q.damage=[60,80,100,120,140]}}
+// V20.13 砧岳R总AD加成 275%→125%：400/500/600+125%总AD+15%最大生命。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.ad_ratio===2.75)p.R.ad_ratio=1.25;let r=H?.skills?.[3];if(r&&L?.R?.ad_ratio===1.25)r.desc=r.desc.replace('400/500/600+275%总AD','400/500/600+125%总AD')}
