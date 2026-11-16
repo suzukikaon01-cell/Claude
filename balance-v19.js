@@ -179,3 +179,6 @@
 {let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.ad_ratio===2.75)p.R.ad_ratio=1.25;let r=H?.skills?.[3];if(r&&L?.R?.ad_ratio===1.25)r.desc=r.desc.replace('400/500/600+275%总AD','400/500/600+125%总AD')}
 // V20.14 砧岳R中心范围 275→225 码。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.anvil,H=C?.heroes?.anvil;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.core_radius===275)p.R.core_radius=225;let r=H?.skills?.[3];if(r&&L?.R?.core_radius===225)r.desc=r.desc.replace(/中心275码/g,'中心225码').replace(/275码外/g,'225码外')}
+// V20.15 艾希：W 射程500、弹速600、冷却22/20/18/16/14；R 飞行速度 800→1200。
+{let C=window.GAME_CONFIG,L=C?.heroParams?.ashe,H=C?.heroes?.ashe,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.W&&p.W.cast_range===1200){p.W.cast_range=500;p.W.projectile_speed=600;p.W.cooldown=[22,20,18,16,14];p.R.projectile_speed_initial=800;p.R.projectile_speed_max=1200}
+ let s=H?.skills;if(s&&L?.W?.cast_range===500){Object.assign(s[1],{range:500,projectileSpeed:600,cd:[22,20,18,16,14]});s[1].desc=s[1].desc.replace('射程 1200','射程 500').replace('弹速 2000','弹速 600').replace('冷却 18/14.5/11/7.5/4','冷却 22/20/18/16/14');Object.assign(s[3],{projectileSpeed:800,maxSpeed:1200});s[3].desc=s[3].desc.replace('初始弹速 1500','初始弹速 800').replace('最高弹速 2100','最高弹速 1200')}}
