@@ -139,7 +139,7 @@ window.installClaude=function(m,env){
   if(perfect){s.empowered=true;s.flash=now()+.35;setCd(u,3,P.R.cooldown*.5);gain(u,P.P.context_handoff);env.ring?.(u.x,u.y,110,'#ffffff',.35)}
   env.ring?.(u.x,u.y,70,F(u).color,.45);core.emit('ClaudeFormChanged',u,u,{form:next,perfect});if(u.player)env.toast?.((perfect?'完美交接 · ':'')+F(u).name+'（'+F(u).label+'）')}
  function finisherTick(u){let s=S(u),f=s.finisher,R=P.R;if(!f)return;if(!alive(u)){s.finisher=null;return}let t=f.target&&alive(f.target)?f.target:null;if(t)f.angle=Math.atan2(t.y-u.y,t.x-u.x);let a=f.angle,e=f.event;
-  while(f.step<4&&now()-f.start>=R.finisher_steps[f.step]){let k=f.step;switchTo(u,FORMS[k]);
+  while(f.step<4&&now()-f.start>=R.finisher_steps[f.step]){let k=f.step;switchTo(u,FORMS[k]);f.amount=at(R.finisher_damage,u,3)+R.finisher_ad*u.attack+R.finisher_ap*(u.ap||0);
    if(k===0){let d=t?Math.max(0,Math.min(350,dist(u,t)-80)):250,from={x:u.x,y:u.y},to=safe(u,{x:u.x+Math.cos(a)*d,y:u.y+Math.sin(a)*d},u.radius||22);for(let v of lineHits(from,a,d+60,R.finisher_radius[0],u))hit(u,v,f.amount,e,'fin0:'+v.id);env.line?.(from,to,P.FORMS.haiku.color,40,.3);u.x=to.x;u.y=to.y;core.spatial?.update(u);u.dest=null}
    if(k===1){s.fx={kind:'cone',x:u.x,y:u.y,angle:a,radius:R.finisher_radius[1],deg:100,until:now()+.35};for(let v of coneHits(u,a,R.finisher_radius[1],100))hit(u,v,f.amount,e,'fin1:'+v.id)}
    if(k===2){let p=t?{x:t.x,y:t.y}:{x:u.x+Math.cos(a)*300,y:u.y+Math.sin(a)*300};env.ring?.(p.x,p.y,R.finisher_radius[2],P.FORMS.opus.color,.45);for(let v of circleHits(u,p,R.finisher_radius[2]))hit(u,v,f.amount,e,'fin2:'+v.id)}
