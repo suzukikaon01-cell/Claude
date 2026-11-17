@@ -65,7 +65,7 @@ require('./test-structures-v17-4.cjs');
 require('./test-balance-v17-5.cjs');
 require('./test-v9.cjs');
 require('./test-v18.cjs');
-require('./test-v19-anvil.cjs');require('./test-v19-greatsword.cjs');require('./test-v19-sr-pacing.cjs');require('./test-v19-items-pricing.cjs');require('./test-v20-roles.cjs');require('./test-v20-claude.cjs');require('./test-v20-dio-deathdance.cjs');require('./test-v20-items.cjs');
+require('./test-v19-anvil.cjs');require('./test-v19-greatsword.cjs');require('./test-v19-sr-pacing.cjs');require('./test-v19-items-pricing.cjs');require('./test-v20-roles.cjs');require('./test-v20-claude.cjs');require('./test-v20-dio-deathdance.cjs');require('./test-v20-dio-cleaver.cjs');require('./test-v20-items.cjs');
 require('./test-v19-reserve.cjs');
 require('./test-v21-walls.cjs');
 require('./test-v19-portal.cjs');
