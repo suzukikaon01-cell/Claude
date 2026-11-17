@@ -219,3 +219,5 @@
  if(H?.passive)H.passive.desc='百折不屈：移动时积攒剑意，剑意满时受到英雄或野怪伤害会获得125～600（随等级）护盾。\n向死而生：暴击几率翻倍，暴击伤害降低；超过100%的暴击几率每1%转化为0.5额外攻击力。'}}
 // V20.20 兰顿之兆：无主动，400生命+75护甲；坚如磐石：受到的普攻伤害降低5+0.35%最大生命，至多为该次伤害的40%；暴击抵抗：受到的暴击伤害降低20%。移除“冰冷”叠层。
 {let C=window.GAME_CONFIG,p=C?.itemParams?.armor,it=C?.items?.find(i=>i.id==='armor');if(p&&p.crit_damage_reduction===.3){Object.assign(p,{crit_damage_reduction:.2,rock_flat:5,rock_per_max_hp:.0035,rock_cap:.4,ms_per_stack:0,slow_resist_per_stack:0,max_stacks:0,armor:75});if(it){it.stats={...it.stats,armor:75};it.armor=75;it.active=undefined;it.passive='坚如磐石：受到的普攻伤害降低5+0.35%最大生命，至多为该次伤害的40%。暴击抵抗：受到的暴击伤害降低20%。';p.__description=it.passive}}}
+// V20.21 兰顿之兆暴击抵抗改为降低30%暴击伤害。
+{let C=window.GAME_CONFIG,p=C?.itemParams?.armor,it=C?.items?.find(i=>i.id==='armor');if(p&&p.rock_cap){p.crit_damage_reduction=.3;if(it){it.passive=it.passive.replace('受到的暴击伤害降低20%','受到的暴击伤害降低30%');p.__description=it.passive}}}
