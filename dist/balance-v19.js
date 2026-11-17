@@ -205,3 +205,17 @@
 // V20.18 亚索R：冷却 60/45/30；之后15秒内暴击伤害穿透目标额外护甲（总护甲−基础与成长护甲，含装备/技能/队友/符文/龙等全部来源）的 30/40/50%。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.yasuo,H=C?.heroes?.yasuo;for(let p of new Set([L,H?.params]))if(p?.R&&p.R.penetration_bonus_armor===.55){p.R.penetration_bonus_armor=[.3,.4,.5];p.R.cooldown=[60,45,30]}
  let r=H?.skills?.[3];if(r&&Array.isArray(L?.R?.penetration_bonus_armor)){r.cd=[60,45,30];if(C.ultimateCooldowns)C.ultimateCooldowns.yasuo=[60,45,30];r.desc='只能对处于合法击飞的英雄使用；范围打击并延长空中控制。之后15秒内，暴击伤害穿透目标30/40/50%的额外护甲。\n基础物理伤害 200/350/500 物理 · 额外AD系数 150% · 冷却 60/45/30 秒 · 延长击飞 1.3 秒 · 暴击穿透额外护甲 30/40/50% · 穿透持续 15 秒'}}
+// V20.19 亚索按参考表全面调整：被动护盾125～600；Q 20/45/70/95/120+105%AD（暴击时攻击力部分×暴击倍率：199.5%AD），额外攻速110%时冷却达1.33秒下限；
+// W 宽320～600、冷却30～18；E 70～130+20%额外AD+60%AP，每层再+17.5～32.5+5%额外AD+15%AP（最多4层），冷却0.5～0.1，同目标10～6秒；R 冷却70/50/30、距离1400、暴击无视60%额外护甲。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.yasuo,H=C?.heroes?.yasuo,s=H?.skills;if(p?.P&&p.P.shield_min===77){
+ Object.assign(p.P,{shield_min:125,shield_max:600});Object.assign(p.Q,{damage:[20,45,70,95,120],bonus_as_for_min_cooldown_pct:1.1});Object.assign(p.W,{wall_width:[320,390,460,530,600],cooldown:[30,27,24,21,18]});
+ Object.assign(p.E,{damage:[70,85,100,115,130],cooldown:[.5,.4,.3,.2,.1],same_target_lockout:[10,9,8,7,6],stack_damage:[17.5,21.25,25,28.75,32.5],stack_bonus_ad_ratio:.05,stack_ap_ratio:.15,max_stacks:4});
+ Object.assign(p.R,{cooldown:[70,50,30],penetration_bonus_armor:[.6,.6,.6],cast_range:1400});
+ if(s){s[0].damage=[20,45,70,95,120];s[1].width=[320,390,460,530,600];s[1].cd=[30,27,24,21,18];Object.assign(s[2],{damage:[70,85,100,115,130],cd:[.5,.4,.3,.2,.1],targetLock:[10,9,8,7,6]});s[3].cd=[70,50,30];s[3].range=1400;if(C.ultimateCooldowns)C.ultimateCooldowns.yasuo=[70,50,30];
+  s[0].desc='向前戳刺，造成20/45/70/95/120+105%攻击力物理伤害；可以暴击，暴击时造成20/45/70/95/120+199.5%攻击力物理伤害，对命中的首个敌人施加攻击特效。命中叠1层（持续6秒），2层时下一次Q改为发射龙卷风，造成同等伤害并击飞1秒。冲刺中施放改为环形斩击。冷却4秒，随额外攻速缩短，额外攻速110%时达到下限1.33秒。';
+  s[1].desc='形成持续4秒的风墙，阻挡敌方飞行道具（防御塔的子弹与光束除外）。宽度320/390/460/530/600，冷却30/27/24/21/18秒。';
+  s[2].desc='冲刺穿过一个目标，造成70/85/100/115/130+20%额外攻击力+60%法强魔法伤害；每次施放后5秒内的后续施放每层额外+17.5/21.25/25/28.75/32.5+5%额外攻击力+15%法强，最多叠4层。冷却0.5/0.4/0.3/0.2/0.1秒，对同一目标冷却10/9/8/7/6秒。';
+  s[3].desc='传送到1400码内一名浮空的敌方英雄身边，造成200/350/500+150%额外攻击力物理伤害并使附近浮空的敌人继续浮空1秒，获得满剑意并失去所有斩钢闪层数。之后15秒内，暴击无视60%额外护甲。冷却70/50/30秒。'}
+ if(H?.passive)H.passive.desc='百折不屈：移动时积攒剑意，剑意满时受到英雄或野怪伤害会获得125～600（随等级）护盾。\n向死而生：暴击几率翻倍，暴击伤害降低；超过100%的暴击几率每1%转化为0.5额外攻击力。'}}
+// V20.20 兰顿之兆：无主动，400生命+75护甲；坚如磐石：受到的普攻伤害降低5+0.35%最大生命，至多为该次伤害的40%；暴击抵抗：受到的暴击伤害降低20%。移除“冰冷”叠层。
+{let C=window.GAME_CONFIG,p=C?.itemParams?.armor,it=C?.items?.find(i=>i.id==='armor');if(p&&p.crit_damage_reduction===.3){Object.assign(p,{crit_damage_reduction:.2,rock_flat:5,rock_per_max_hp:.0035,rock_cap:.4,ms_per_stack:0,slow_resist_per_stack:0,max_stacks:0,armor:75});if(it){it.stats={...it.stats,armor:75};it.armor=75;it.active=undefined;it.passive='坚如磐石：受到的普攻伤害降低5+0.35%最大生命，至多为该次伤害的40%。暴击抵抗：受到的暴击伤害降低20%。';p.__description=it.passive}}}
