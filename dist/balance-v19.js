@@ -182,3 +182,16 @@
 // V20.15 艾希：W 射程500、弹速600、冷却22/20/18/16/14；R 飞行速度 800→1200。
 {let C=window.GAME_CONFIG,L=C?.heroParams?.ashe,H=C?.heroes?.ashe,J=JSON.stringify;for(let p of new Set([L,H?.params]))if(p?.W&&p.W.cast_range===1200){p.W.cast_range=500;p.W.projectile_speed=600;p.W.cooldown=[22,20,18,16,14];p.R.projectile_speed_initial=800;p.R.projectile_speed_max=1200}
  let s=H?.skills;if(s&&L?.W?.cast_range===500){Object.assign(s[1],{range:500,projectileSpeed:600,cd:[22,20,18,16,14]});s[1].desc=s[1].desc.replace('射程 1200','射程 500').replace('弹速 2000','弹速 600').replace('冷却 18/14.5/11/7.5/4','冷却 22/20/18/16/14');Object.assign(s[3],{projectileSpeed:800,maxSpeed:1200});s[3].desc=s[3].desc.replace('初始弹速 1500','初始弹速 800').replace('最高弹速 2100','最高弹速 1200')}}
+// V20.16 平衡：源氏下调（R单刀 100/150/200+180%额外AD，Q +120%额外AD）；零上调（生命600，Q 65～185+50%AP，W 70～190+45%AP，R 120/190/260+55%AP，E冷却22～16）；
+// 拉克丝（W每段护盾55～135，R冷却60/48/36）；盖伦（E每圈AD系数36%～48%）。
+{let C=window.GAME_CONFIG,HP=C?.heroParams||{},H=C?.heroes||{},J=JSON.stringify,same=(a,b)=>J(a)===J(b),rep=(s,a,b)=>{if(s&&typeof s.desc==='string')s.desc=s.desc.split(a).join(b)};
+ // 源氏
+ {let p=HP.genji,s=H.genji?.skills;if(p?.R&&same(p.R.base_hit_damage,[125,175,225])&&same(p.R.bonus_ad_ratio,[2.3,2.3,2.3])){p.R.base_hit_damage=[100,150,200];p.R.bonus_ad_ratio=[1.8,1.8,1.8];if(p.Q.bonus_ad_ratio===1.35)p.Q.bonus_ad_ratio=1.2;
+   if(s){s[3].damage=[100,150,200];s[3].bonusAdRatio=[1.8,1.8,1.8];s[0].bonusAdRatio=1.2;rep(s[3],'125/175/250+225%额外AD','100/150/200+180%额外AD');rep(s[3],'125/175/225','100/150/200');rep(s[3],'230%','180%');rep(s[0],'135%','120%')}}}
+ // 零
+ {let p=HP.zero,h=H.zero,s=h?.skills;if(p?.Q&&same(p.Q.damage,[55,85,115,145,175])){p.Q.damage=[65,95,125,155,185];p.Q.ap_ratio=.5;p.R.damage=[120,190,260];p.R.ap_ratio=.55;p.E.cooldown=[22,20.5,19,17.5,16];p.W.damage=[70,100,130,160,190];p.W.ap_ratio=.45;if(p.BASE?.hp_base===570)p.BASE.hp_base=600;if(h.stats.hp===570)h.stats.hp=600;
+   if(s){s[0].damage=[65,95,125,155,185];s[0].apRatio=.5;s[3].damage=[120,190,260];s[3].apRatio=.55;s[2].cd=[22,20.5,19,17.5,16];s[1].damage=[70,100,130,160,190];s[1].apRatio=.45;rep(s[1],'55/80/105/130/155','70/100/130/160/190');rep(s[0],'55/85/115/145/175','65/95/125/155/185');rep(s[3],'75/130/185','120/190/260');rep(s[2],'26/24/22/20/18','22/20.5/19/17.5/16')}}}
+ // 拉克丝
+ {let p=HP.lux,s=H.lux?.skills;if(p?.W&&same(p.W.shield_per_pass,[40,55,70,85,100])){p.W.shield_per_pass=[55,75,95,115,135];p.R.cooldown=[60,48,36];if(s){s[1].shield=[55,75,95,115,135];s[3].cd=[60,48,36];rep(s[1],'40/55/70/85/100','55/75/95/115/135');rep(s[3],'55/42/30','60/48/36')}if(C.ultimateCooldowns?.lux)C.ultimateCooldowns.lux=[60,48,36]}}
+ // 盖伦
+ {let p=HP.garen,s=H.garen?.skills;if(p?.E&&same(p.E.per_tick_ad_ratio,[.4,.43,.46,.49,.52])){p.E.per_tick_ad_ratio=[.36,.39,.42,.45,.48];if(s){s[2].adRatio=[.36,.39,.42,.45,.48];rep(s[2],'40/43/46/49/52%','36/39/42/45/48%')}}}}
