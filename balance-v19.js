@@ -195,3 +195,10 @@
  {let p=HP.lux,s=H.lux?.skills;if(p?.W&&same(p.W.shield_per_pass,[40,55,70,85,100])){p.W.shield_per_pass=[55,75,95,115,135];p.R.cooldown=[60,48,36];if(s){s[1].shield=[55,75,95,115,135];s[3].cd=[60,48,36];rep(s[1],'40/55/70/85/100','55/75/95/115/135');rep(s[3],'55/42/30','60/48/36')}if(C.ultimateCooldowns?.lux)C.ultimateCooldowns.lux=[60,48,36]}}
  // 盖伦
  {let p=HP.garen,s=H.garen?.skills;if(p?.E&&same(p.E.per_tick_ad_ratio,[.4,.43,.46,.49,.52])){p.E.per_tick_ad_ratio=[.36,.39,.42,.45,.48];if(s){s[2].adRatio=[.36,.39,.42,.45,.48];rep(s[2],'40/43/46/49/52%','36/39/42/45/48%')}}}}
+// V20.17 对照全英雄基准（同等级同装备打木桩12秒，对比全体中位数）再校准这四位：
+// 源氏 R 额外AD系数 180%→200%（回到中位数附近）；拉克丝 Q 90～270、E +90%AP、R 350/475/600（约为中位数85%，远程安全位）；
+// 零 Q +60%AP、冷却7～5秒，W +55%AP（约为中位数80%+，后期靠熵增补足）；盖伦维持上一版。
+{let C=window.GAME_CONFIG,HP=C?.heroParams||{},H=C?.heroes||{},J=JSON.stringify,same=(a,b)=>J(a)===J(b),rep=(s,a,b)=>{if(s&&typeof s.desc==='string')s.desc=s.desc.split(a).join(b)};
+ {let p=HP.genji,s=H.genji?.skills;if(p?.R&&same(p.R.bonus_ad_ratio,[1.8,1.8,1.8])){p.R.bonus_ad_ratio=[2,2,2];if(s){s[3].bonusAdRatio=[2,2,2];rep(s[3],'180%','200%')}}}
+ {let p=HP.lux,s=H.lux?.skills;if(p?.Q&&same(p.Q.damage,[80,120,160,200,240])){p.Q.damage=[90,135,180,225,270];p.Q.ap_ratio=.85;p.E.ap_ratio=.9;p.E.damage=[80,130,180,230,280];p.R.damage=[350,475,600];p.R.ap_ratio=1.3;if(s){s[0].damage=[90,135,180,225,270];s[0].apRatio=.85;s[2].apRatio=.9;s[2].damage=[80,130,180,230,280];s[3].damage=[350,475,600];s[3].apRatio=1.3;rep(s[2],'65/115/165/215/265','80/130/180/230/280');rep(s[0],'80/120/160/200/240','90/135/180/225/270');rep(s[3],'300/400/500','350/475/600')}}}
+ {let p=HP.zero,s=H.zero?.skills;if(p?.Q&&p.Q.ap_ratio===.5&&same(p.Q.damage,[65,95,125,155,185])){p.Q.ap_ratio=.7;p.Q.damage=[80,115,150,185,220];p.Q.cooldown=[6,5.5,5,4.5,4];p.W.ap_ratio=.55;p.R.damage=[150,250,350];p.R.ap_ratio=.7;if(s){s[0].apRatio=.7;s[0].damage=[80,115,150,185,220];s[0].cd=[6,5.5,5,4.5,4];s[1].apRatio=.55;s[3].damage=[150,250,350];s[3].apRatio=.7;rep(s[0],'8/7.5/7/6.5/6','6/5.5/5/4.5/4');rep(s[0],'65/95/125/155/185','80/115/150/185/220');rep(s[3],'120/190/260','150/250/350')}}}}
