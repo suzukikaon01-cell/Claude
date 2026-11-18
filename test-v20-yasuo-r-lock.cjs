@@ -1,0 +1,10 @@
+const make=require('./test-harness.cjs'),assert=require('assert');const h=make();let u=h.reset('yasuo'),m=h.a.m,P=h.C.heroParams.yasuo;
+let t=h.a.enemy('garen',u.x+300,u.y);t.hp=t.maxHp=1e6;m.control(t,'airborne',.5,u,{});
+h.ready(u,3);u.skillRanks[1]=1;u.skillRanks[0]=1;assert(h.a.cast(u,3,t),'R rejected');h.a.tickCast(u,(u.skills[3].windup||0)+1e-5);
+let hp=t.hp,ext=P.R.extend_airborne;assert((u.yasuoUltLockUntil||0)>h.a.time);
+h.step(.05);u.cd[0]=0;u.cd[1]=0;assert(!h.a.cast(u,0,{x:u.x+100,y:u.y}),'Q during ult');assert(!h.a.cast(u,1,{x:u.x+100,y:u.y}),'W during ult');
+let x=u.x;h.a.walk(1,0);h.step(.3);h.a.walk(0,0);assert(Math.abs(u.x-x)<1,'moved during ult');
+h.step(ext-.35+.02);assert(t.hp<hp,'damage on enemy landing');assert(!(t.airborne>0),'enemy landed');assert(u.airborne>0,'yasuo still airborne');u.cd[0]=0;assert(!h.a.cast(u,0,{x:u.x+100,y:u.y}),'Q before yasuo lands');
+h.step(.16);assert(!(u.airborne>0));u.cd[0]=0;assert(h.a.cast(u,0,{x:u.x+100,y:u.y}),'Q after landing');
+u.attackSpeed=u.baseAS;assert(Math.abs(m.heroHooks.yasuo.windup(u,0,.4)-.25)<1e-9);u.attackSpeed=u.baseAS*3;assert(Math.abs(m.heroHooks.yasuo.windup(u,0,.4)-.1)<1e-9);
+console.log('PASS Yasuo R lock: enemies land 0.15s first, no actions; Q windup 0.25->0.1');
