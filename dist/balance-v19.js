@@ -221,3 +221,6 @@
 {let C=window.GAME_CONFIG,p=C?.itemParams?.armor,it=C?.items?.find(i=>i.id==='armor');if(p&&p.crit_damage_reduction===.3){Object.assign(p,{crit_damage_reduction:.2,rock_flat:5,rock_per_max_hp:.0035,rock_cap:.4,ms_per_stack:0,slow_resist_per_stack:0,max_stacks:0,armor:75});if(it){it.stats={...it.stats,armor:75};it.armor=75;it.active=undefined;it.passive='坚如磐石：受到的普攻伤害降低5+0.35%最大生命，至多为该次伤害的40%。暴击抵抗：受到的暴击伤害降低20%。';p.__description=it.passive}}}
 // V20.21 兰顿之兆暴击抵抗改为降低30%暴击伤害。
 {let C=window.GAME_CONFIG,p=C?.itemParams?.armor,it=C?.items?.find(i=>i.id==='armor');if(p&&p.rock_cap){p.crit_damage_reduction=.3;if(it){it.passive=it.passive.replace('受到的暴击伤害降低20%','受到的暴击伤害降低30%');p.__description=it.passive}}}
+// V20.22 全局暴击伤害：默认175%，无尽之刃+35%（210%）；亚索被动固定−10%（165%，出无尽200%）。
+{let C=window.GAME_CONFIG;if(C){C.baseCritMultiplier=1.75;let p=C.itemParams?.infinity;if(p)p.standard_crit_multiplier=2.1;let y=C.heroParams?.yasuo;if(y?.P)y.P.crit_damage_penalty=.1;
+ let H=C.heroes?.yasuo;if(H?.passive)H.passive.desc=H.passive.desc.replace('暴击几率翻倍，暴击伤害降低；','暴击几率翻倍，暴击伤害固定−10%（默认165%，出无尽之刃200%）；')}}
