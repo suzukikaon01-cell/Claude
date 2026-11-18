@@ -251,5 +251,5 @@
 // 召唤机甲落地对250码内敌人造成 100/150/200+10%额外生命 魔法伤害，随距离衰减到30%；召唤引导可被控制打断。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.dva,s=C?.heroes?.dva?.skills?.[3];if(p?.R&&p.R.core_radius==null){p.R.core_radius=200;Object.assign(p.P,{land_radius:250,land_damage:[100,150,200],land_bonus_hp_ratio:.1,land_edge_multiplier:.3});
  if(s)s.desc=s.desc.replace('余波可被地形、风墙、格挡阻挡','核心200码内直接受到爆炸伤害；核心以外为冲击波伤害，只能被地形和源氏格挡阻挡（格挡不会反弹）')+'\n驾驶员形态呼叫机甲：引导1.25秒（可被控制打断），落地时对250码内敌人造成100/150/200+10%额外生命魔法伤害，随距离衰减到30%。'}}
-// V20.32 亚索成长下调：18级攻击力约116、生命约2450（与艾希/剑圣看齐）。
-(function(){let C=window.GAME_CONFIG,b=C?.heroParams?.yasuo?.BASE;if(!b)return;let g=C.heroes?.yasuo?.stats?.growth,H=C.heroes?.yasuo?.params?.BASE;if(g?.attack===4.5&&g.hp===120){g.attack=3.4;g.hp=107;for(let p of new Set([b,H]))if(p){p.ad_growth=3.4;p.hp_growth=107}}})();
+// V20.32 亚索成长下调：每级 +3 攻击力、+105 生命。
+(function(){let C=window.GAME_CONFIG,b=C?.heroParams?.yasuo?.BASE;if(!b)return;let g=C.heroes?.yasuo?.stats?.growth,H=C.heroes?.yasuo?.params?.BASE;if(g?.attack===4.5&&g.hp===120){g.attack=3;g.hp=105;for(let p of new Set([b,H]))if(p){p.ad_growth=3;p.hp_growth=105}}})();
