@@ -227,3 +227,5 @@
 // V20.23 DIO：Q拳数与W飞刀数随技能等级提升 12/13/14/15/16。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.dio,H=C?.heroes?.dio;if(p?.Q&&p.W){p.Q.count_by_rank=[12,13,14,15,16];p.W.count_by_rank=[12,13,14,15,16];
  let s=H?.skills;if(s){s[0].desc=s[0].desc.replace(/10～16拳/g,'12/13/14/15/16拳').replace(/275×110范围内10～16拳/,'275×110范围内12/13/14/15/16拳');s[1].desc=s[1].desc.replace(/10～16(把|枚)?飞刀/g,'12/13/14/15/16把飞刀')}}}
+// V20.24 死亡之舞：60攻击力/15技能急速/45护甲；无视痛苦 近战30%、远程10%；蔑视 3秒内受你伤害的英雄阵亡时净化剩余延后伤害，2秒内回复75%额外攻击力。
+{let C=window.GAME_CONFIG,p=C?.itemParams?.deathdance,it=C?.items?.find(i=>i.id==='deathdance');if(p&&p.ranged_deferral===.12){Object.assign(p,{ad:60,ranged_deferral:.1,kill_heal_bonus_ad_ratio:.75});if(it){it.stats={...it.stats,attack:60};it.attack=60;it.statText='攻击力 +60 · 护甲 +45 · 技能急速 +15'}}}
