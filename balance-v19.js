@@ -240,7 +240,7 @@
 {let C=window.GAME_CONFIG,HP=C?.heroParams||{},H=C?.heroes||{},rep=(s,a,b)=>{if(s&&typeof s.desc==='string')s.desc=s.desc.split(a).join(b)};
  {let p=HP.lux,s=H.lux?.skills;if(p?.Q?.range===1300){p.Q.range=850;p.W.range=800;p.E.range=750;p.E.radius=210;p.R.range=2300;p.R.width=140;
   if(s){s[0].range=850;s[1].range=800;s[2].range=750;s[2].radius=210;s[3].range=2300;s[3].width=140;for(let [a,b] of [['1300','850'],['1175','800'],['1100','750'],['310','210'],['3400','2300']])for(let k of s)rep(k,a,b);rep(s[3],'宽度 200','宽度 140')}}}
- {let p=HP.dva,s=H.dva?.skills;if(p?.R?.radius===1000){p.R.radius=700;p.R.range=700;if(s?.[3]){s[3].radius=700;s[3].range=700;rep(s[3],'1000','700')}}}
+ // V20.30 用户要求 D.Va R 范围改回 1000，不再缩放。
  {let p=HP.claude,s=H.claude?.skills;if(p?.Q&&s?.[0]?.range===900){s[0].range=700;for(let f of ['haiku','sonnet','opus','fable'])if(p.Q[f]){if(p.Q[f].line_length===700)p.Q[f].line_length=600;if(p.Q[f].range_max===1000)p.Q[f].range_max=800}}}}
 // V20.28 D.Va 自毁：300/400/500+30%额外生命 真实伤害；对小兵/野怪伤害60%。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.dva?.R,s=C?.heroes?.dva?.skills?.[3];if(p&&p.base_damage?.[0]===800&&p.bonus_hp_ratio===.5){Object.assign(p,{base_damage:[300,400,500],bonus_hp_ratio:.3,nonhero_damage_multiplier:.6,damage_type:'true'});
