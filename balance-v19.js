@@ -253,3 +253,8 @@
  if(s)s.desc=s.desc.replace('余波可被地形、风墙、格挡阻挡','核心200码内直接受到爆炸伤害；核心以外为冲击波伤害，只能被地形和源氏格挡阻挡（格挡不会反弹）')+'\n驾驶员形态呼叫机甲：引导1.25秒（可被控制打断），落地时对250码内敌人造成100/150/200+10%额外生命魔法伤害，随距离衰减到30%。'}}
 // V20.32 亚索成长下调：每级 +3 攻击力、+105 生命。
 (function(){let C=window.GAME_CONFIG,b=C?.heroParams?.yasuo?.BASE;if(!b)return;let g=C.heroes?.yasuo?.stats?.growth,H=C.heroes?.yasuo?.params?.BASE;if(g?.attack===4.5&&g.hp===120){g.attack=3;g.hp=105;for(let p of new Set([b,H]))if(p){p.ad_growth=3;p.hp_growth=105}}})();
+// V20.33 刺客/射手基础属性统一：主定位刺客（亚索/卡兹克/源氏）按亚索基准（生命590+105/级、护甲30+4.4/级、攻击成长3）；射手更低（生命570+96、护甲26+4.2）。
+(function(){let C=window.GAME_CONFIG;if(!C?.heroes)return;
+ const T={yasuo:{hp:590,hpG:105,ar:30,arG:4.4},khazix:{hp:590,hpG:105,ar:30,arG:4.4,adG:3},genji:{hp:590,hpG:105,ar:30,arG:4.4,adG:3},ashe:{hp:570,hpG:96,ar:26,arG:4.2}};
+ for(let [id,t] of Object.entries(T)){let H=C.heroes[id],s=H?.stats;if(!s||H._v2033)continue;H._v2033=1;s.growth??={};s.hp=t.hp;s.growth.hp=t.hpG;s.armor=t.ar;s.growth.armor=t.arG;if(t.adG!=null)s.growth.attack=t.adG;
+  for(let p of new Set([C.heroParams?.[id]?.BASE,H.params?.BASE]))if(p){p.hp_base=t.hp;p.hp_growth=t.hpG;p.armor_base=t.ar;p.armor_growth=t.arG;if(t.adG!=null)p.ad_growth=t.adG}}})();
