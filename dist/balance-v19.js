@@ -224,3 +224,6 @@
 // V20.22 全局暴击伤害：默认175%，无尽之刃+35%（210%）；亚索被动固定−10%（165%，出无尽200%）。
 {let C=window.GAME_CONFIG;if(C){C.baseCritMultiplier=1.75;let p=C.itemParams?.infinity;if(p)p.standard_crit_multiplier=2.1;let y=C.heroParams?.yasuo;if(y?.P)y.P.crit_damage_penalty=.1;
  let H=C.heroes?.yasuo;if(H?.passive)H.passive.desc=H.passive.desc.replace('暴击几率翻倍，暴击伤害降低；','暴击几率翻倍，暴击伤害固定−10%（默认165%，出无尽之刃200%）；')}}
+// V20.23 DIO：Q拳数与W飞刀数随技能等级提升 12/13/14/15/16。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.dio,H=C?.heroes?.dio;if(p?.Q&&p.W){p.Q.count_by_rank=[12,13,14,15,16];p.W.count_by_rank=[12,13,14,15,16];
+ let s=H?.skills;if(s){s[0].desc=s[0].desc.replace(/10～16拳/g,'12/13/14/15/16拳').replace(/275×110范围内10～16拳/,'275×110范围内12/13/14/15/16拳');s[1].desc=s[1].desc.replace(/10～16(把|枚)?飞刀/g,'12/13/14/15/16把飞刀')}}}
