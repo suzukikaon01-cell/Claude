@@ -235,3 +235,10 @@
 // 新增不屈：生命低于70%时攻击力+5%，随生命降低线性提高，30%生命时达到+10%。
 {let C=window.GAME_CONFIG,p=C?.itemParams?.GARGOYLE_MASK,it=C?.items?.find(i=>i.id==='GARGOYLE_MASK');if(p&&!p.revive_invuln){Object.assign(p,{revive_invuln:1.5,ad_start_ratio:.7,ad_full_ratio:.3,ad_min_pct:.05,ad_max_pct:.1,ad:30,hp:350});
  if(it){it.stats={...it.stats,attack:30,hp:350};it.attack=30;it.hp=350;it.statText='攻击力 +30 · 生命 +350 · 技能急速 +20';it.passive='生命低于75%时受到的治疗效果提升，30%生命时达到+25%。生命低于70%时攻击力+5%～10%。即将受到致命伤害时免疫此次死亡并无敌1.5秒（冷却180秒）。';p.__description=it.passive}}}
+// V20.27 技能距离/范围按本作地图比例（远程普攻375≈端游550，约0.68）校正：
+// 拉克丝 Q 1300→850、W 1175→800、E 1100→750/半径310→210、R 3400→2300/宽200→140；D.Va 自毁半径/射程 1000→700；Claude Q 900→700。
+{let C=window.GAME_CONFIG,HP=C?.heroParams||{},H=C?.heroes||{},rep=(s,a,b)=>{if(s&&typeof s.desc==='string')s.desc=s.desc.split(a).join(b)};
+ {let p=HP.lux,s=H.lux?.skills;if(p?.Q?.range===1300){p.Q.range=850;p.W.range=800;p.E.range=750;p.E.radius=210;p.R.range=2300;p.R.width=140;
+  if(s){s[0].range=850;s[1].range=800;s[2].range=750;s[2].radius=210;s[3].range=2300;s[3].width=140;for(let [a,b] of [['1300','850'],['1175','800'],['1100','750'],['310','210'],['3400','2300']])for(let k of s)rep(k,a,b);rep(s[3],'宽度 200','宽度 140')}}}
+ {let p=HP.dva,s=H.dva?.skills;if(p?.R?.radius===1000){p.R.radius=700;p.R.range=700;if(s?.[3]){s[3].radius=700;s[3].range=700;rep(s[3],'1000','700')}}}
+ {let p=HP.claude,s=H.claude?.skills;if(p?.Q&&s?.[0]?.range===900){s[0].range=700;for(let f of ['haiku','sonnet','opus','fable'])if(p.Q[f]){if(p.Q[f].line_length===700)p.Q[f].line_length=600;if(p.Q[f].range_max===1000)p.Q[f].range_max=800}}}}
