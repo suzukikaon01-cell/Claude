@@ -231,3 +231,7 @@
 {let C=window.GAME_CONFIG,p=C?.itemParams?.deathdance,it=C?.items?.find(i=>i.id==='deathdance');if(p&&p.ranged_deferral===.12){Object.assign(p,{ad:60,ranged_deferral:.1,kill_heal_bonus_ad_ratio:.75});if(it){it.stats={...it.stats,attack:60};it.attack=60;it.statText='攻击力 +60 · 护甲 +45 · 技能急速 +15'}}}
 // V20.25 DIO R：领域半径150、施法距离400、前摇0.35秒（前摇期间双方可见预警圈）。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.dio?.R,s=C?.heroes?.dio?.skills?.[3];if(p&&p.radius===135){p.radius=150;p.cast_range=400;p.windup=.35;if(s){s.radius=150;s.range=400;s.windup=.35;s.desc=s.desc.replace('在385码内指定半径135的领域','在400码内指定半径150的领域（0.35秒前摇，期间敌我双方都能看到即将时停的区域）').replace('施法距离 385 · 范围半径 135','施法距离 400 · 范围半径 150 · 前摇 0.35 秒')}}}
+// V20.26 石像鬼面具：30攻击力/350生命/20技能急速；不死之身（原“不屈”）：免疫致命伤害并无敌1.5秒（冷却180秒）；
+// 新增不屈：生命低于70%时攻击力+5%，随生命降低线性提高，30%生命时达到+10%。
+{let C=window.GAME_CONFIG,p=C?.itemParams?.GARGOYLE_MASK,it=C?.items?.find(i=>i.id==='GARGOYLE_MASK');if(p&&!p.revive_invuln){Object.assign(p,{revive_invuln:1.5,ad_start_ratio:.7,ad_full_ratio:.3,ad_min_pct:.05,ad_max_pct:.1,ad:30,hp:350});
+ if(it){it.stats={...it.stats,attack:30,hp:350};it.attack=30;it.hp=350;it.statText='攻击力 +30 · 生命 +350 · 技能急速 +20';it.passive='生命低于75%时受到的治疗效果提升，30%生命时达到+25%。生命低于70%时攻击力+5%～10%。即将受到致命伤害时免疫此次死亡并无敌1.5秒（冷却180秒）。';p.__description=it.passive}}}
