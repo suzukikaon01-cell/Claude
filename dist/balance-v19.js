@@ -245,3 +245,7 @@
 // V20.28 D.Va 自毁：300/400/500+30%额外生命 真实伤害；对小兵/野怪伤害60%。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.dva?.R,s=C?.heroes?.dva?.skills?.[3];if(p&&p.base_damage?.[0]===800&&p.bonus_hp_ratio===.5){Object.assign(p,{base_damage:[300,400,500],bonus_hp_ratio:.3,nonhero_damage_multiplier:.6,damage_type:'true'});
  if(s){s.damage=[300,400,500];s.damageType='true';s.desc=s.desc.replace('800/1000/1200+50%释放前机甲额外生命魔法伤害','300/400/500+30%释放前机甲额外生命真实伤害').replace('对小兵/野怪最终伤害降低20%','对小兵/野怪造成60%伤害').replace('基础伤害 800/1000/1200','基础伤害 300/400/500')}}}
+// V20.29 D.Va：自毁核心区200码（直接伤害，不受墙阻挡），核心区外为冲击波伤害（可被墙体阻挡）；
+// 召唤机甲落地对250码内敌人造成 100/150/200+10%额外生命 魔法伤害，随距离衰减到30%；召唤引导可被控制打断。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.dva,s=C?.heroes?.dva?.skills?.[3];if(p?.R&&p.R.core_radius==null){p.R.core_radius=200;Object.assign(p.P,{land_radius:250,land_damage:[100,150,200],land_bonus_hp_ratio:.1,land_edge_multiplier:.3});
+ if(s)s.desc=s.desc.replace('余波可被地形、风墙、格挡阻挡','核心200码内直接受到爆炸伤害；核心以外为冲击波伤害，可被墙体、风墙、格挡阻挡')+'\n驾驶员形态呼叫机甲：引导1.25秒（可被控制打断），落地时对250码内敌人造成100/150/200+10%额外生命魔法伤害，随距离衰减到30%。'}}
