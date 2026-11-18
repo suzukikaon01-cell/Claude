@@ -229,3 +229,5 @@
  let s=H?.skills;if(s){s[0].desc=s[0].desc.replace(/10～16拳/g,'12/13/14/15/16拳').replace(/275×110范围内10～16拳/,'275×110范围内12/13/14/15/16拳');s[1].desc=s[1].desc.replace(/10～16(把|枚)?飞刀/g,'12/13/14/15/16把飞刀')}}}
 // V20.24 死亡之舞：60攻击力/15技能急速/45护甲；无视痛苦 近战30%、远程10%；蔑视 3秒内受你伤害的英雄阵亡时净化剩余延后伤害，2秒内回复75%额外攻击力。
 {let C=window.GAME_CONFIG,p=C?.itemParams?.deathdance,it=C?.items?.find(i=>i.id==='deathdance');if(p&&p.ranged_deferral===.12){Object.assign(p,{ad:60,ranged_deferral:.1,kill_heal_bonus_ad_ratio:.75});if(it){it.stats={...it.stats,attack:60};it.attack=60;it.statText='攻击力 +60 · 护甲 +45 · 技能急速 +15'}}}
+// V20.25 DIO R：领域半径150、施法距离400、前摇0.35秒（前摇期间双方可见预警圈）。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.dio?.R,s=C?.heroes?.dio?.skills?.[3];if(p&&p.radius===135){p.radius=150;p.cast_range=400;p.windup=.35;if(s){s.radius=150;s.range=400;s.windup=.35;s.desc=s.desc.replace('在385码内指定半径135的领域','在400码内指定半径150的领域（0.35秒前摇，期间敌我双方都能看到即将时停的区域）').replace('施法距离 385 · 范围半径 135','施法距离 400 · 范围半径 150 · 前摇 0.35 秒')}}}
