@@ -322,3 +322,5 @@
 (function(){let C=window.GAME_CONFIG;if(!C)return;C.aoeVampEfficiency=.33;let p=C.heroParams?.genji?.R,s=C.heroes?.genji?.skills?.[3];
  for(let q of new Set([p,C.heroes?.genji?.params?.R]))if(q){q.attack_speed_fixed=+(1/.75).toFixed(6);q.base_hit_damage=[120,180,240];q.bonus_ad_ratio=[1.75,1.75,1.75]}
  if(s){s.damage=[120,180,240];s.bonusAdRatio=[1.75,1.75,1.75];if(s.desc)s.desc=s.desc.replace(/100\/150\/200 \+ \d+%额外AD/,'120/180/240 + 175%额外AD').replace('固定攻速1','每刀固定0.75秒')}})();
+// V20.49 瑟提W：长度 375→400，远端宽 325→375（+50），近端宽 77→102（+25），中心真伤区域按比例扩大（中心宽 90→103.8，占比不变）。
+{let s=window.GAME_CONFIG?.heroes?.sett?.skills?.[1];if(s&&s.range===375&&s.width===325){let k=375/325;s.range=400;s.width=375;s.nearWidth=(s.nearWidth||77)+25;s.centerWidth=+(s.centerWidth*k).toFixed(2);if(s.desc)s.desc=s.desc.replace('长度375，远端宽325，中心宽90','长度400，远端宽375，近端宽102，中心宽'+Math.round(s.centerWidth))}}
