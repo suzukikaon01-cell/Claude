@@ -324,3 +324,20 @@
  if(s){s.damage=[120,180,240];s.bonusAdRatio=[1.75,1.75,1.75];if(s.desc)s.desc=s.desc.replace(/100\/150\/200 \+ \d+%额外AD/,'120/180/240 + 175%额外AD').replace('固定攻速1','每刀固定0.75秒')}})();
 // V20.49 瑟提W：长度 375→400，远端宽 325→375（+50），近端宽 77→102（+25），中心真伤区域按比例扩大（中心宽 90→103.8，占比不变）。
 {let s=window.GAME_CONFIG?.heroes?.sett?.skills?.[1];if(s&&s.range===375&&s.width===325){let k=375/325;s.range=400;s.width=375;s.nearWidth=(s.nearWidth||77)+25;s.centerWidth=+(s.centerWidth*k).toFixed(2);if(s.desc)s.desc=s.desc.replace('长度375，远端宽325，中心宽90','长度400，远端宽375，近端宽102，中心宽'+Math.round(s.centerWidth))}}
+// V20.50 瑟提按参考表调整：属性、被动、Q/W/E/R 数值。双抗沿用定位分档；移速/攻击距离沿用本作缩放；W 形状（V20.49）与 E 前摇 0.15 保留。
+(function(){let C=window.GAME_CONFIG,H=C?.heroes?.sett;if(!H||H._v2050)return;H._v2050=1;
+ for(let p of new Set([C.heroParams?.sett,H.params]))if(p){
+  Object.assign(p.BASE||{},{hp_base:670,hp_growth:107,ad_base:60,ad_growth:4,as_base:.625,as_ratio:.625,as_growth:.0175});
+  Object.assign(p.P,{right_punch_speed_multiplier:8,right_punch_damage_min:5,right_punch_damage_max:90,right_punch_bonus_ad_ratio:.5,right_punch_timeout:2,missing_hp_step:.05,regen_min:.2,regen_max:2});
+  Object.assign(p.Q,{bonus_ms:.3,duration:1.5,empowered_attacks:2,damage_flat:[10,20,30,40,50],target_max_hp_pct:[.01,.015,.02,.025,.03],max_hp_pct_per_100_ad:.01,cooldown:[9,8,7,6,5],monster_bonus_damage_cap:400});
+  Object.assign(p.W,{damage_base:[80,100,120,140,160],grit_cap_hp_pct:.5,grit_decay_delay:4,shield_duration:3,center_damage_pct:0,center_damage_bonus_ad_increment:.002,cooldown:[18,16.5,15,13.5,12]});
+  Object.assign(p.E,{damage:[50,70,90,110,130],total_ad_ratio:.6,slow:.5,slow_duration:.5,stun_duration:1,cooldown:[16,14.5,13,11.5,10]});
+  Object.assign(p.R,{damage:[200,300,400],bonus_ad_ratio:1.2,victim_bonus_hp_ratio:[.4,.5,.6],slow:.99,slow_duration:1,cooldown:[120,100,80]})}
+ Object.assign(H.stats,{hp:670,attack:60,hpRegen:7});Object.assign(H.stats.growth,{hp:107,attack:4,as:.0175,hpRegen:.5});
+ let K=H.skills;
+ Object.assign(K[0],{cd:[9,8,7,6,5],damage:[10,20,30,40,50],target_max_hp_pct_v:[.01,.015,.02,.025,.03],desc:'朝敌方英雄移动时获得30%移动速度，持续1.5秒。下两次攻击额外造成10/20/30/40/50+（1/1.5/2/2.5/3%+每100攻击力1%）目标最大生命值的物理伤害，攻击总以一左一右进行；每次重拳对小兵和野怪最多造成400伤害。'});
+ Object.assign(K[1],{cd:[18,16.5,15,13.5,12],damage:[80,100,120,140,160]});if(K[1].desc)K[1].desc='被动：受到的100%伤害存储为豪意，上限为50%最大生命，停止受伤4秒后快速衰减。主动：进发全部豪意，获得等量护盾（3秒内衰减），并轰出一记重拳：中央的敌人受到80/100/120/140/160+（每100额外攻击力20%）进发豪意值的真实伤害，不在中央的敌人改为受到物理伤害。'+(K[1].desc.match(/长度\d+，远端宽\d+，近端宽\d+，中心宽\d+/)?.[0]?'（'+K[1].desc.match(/长度\d+，远端宽\d+，近端宽\d+，中心宽\d+/)[0]+'）':'');
+ Object.assign(K[2],{cd:[16,14.5,13,11.5,10],damage:[50,70,90,110,130]});if(K[2].desc)K[2].desc='将两侧所有敌人猛撞到一起，造成50/70/90/110/130+60%攻击力物理伤害并减速50%，持续0.5秒；若两侧各至少擒住一名敌人，所有敌人被晕眩1秒。'+(K[2].desc.match(/总长度\d+（两侧各\d+），宽\d+/)?.[0]?'（'+K[2].desc.match(/总长度\d+（两侧各\d+），宽\d+/)[0]+'）':'');
+ Object.assign(K[3],{cd:[120,100,80],damage:[200,300,400],bonusAdRatio:1.2,bonusHpRatio:[.4,.5,.6]});K[3].desc='擒住一名敌方英雄，扛着前行时将其压制，然后猛摔到地上，对着陆点附近的敌人造成200/300/400+40/50/60%被擒英雄额外生命值+120%额外攻击力的物理伤害，并造成持续1秒的99%减速；离着陆点越远伤害越低。';
+ if(H.passive)H.passive.desc='攻击交替使用左重拳和右重拳。右重拳紧跟左重拳快速打出（攻速为左拳8倍），额外造成5～90（随等级）+50%额外攻击力物理伤害；2秒内没有打出右拳则重置为左拳。每5%已损失生命值提供0.2～2（随等级）生命回复。';
+})();
