@@ -1,6 +1,6 @@
 const make=require('./test-harness.cjs'),assert=require('assert');const h=make(),m=h.a.m,C=h.C;
-let it=C.items.find(i=>i.id==='DRAGON_EDGE');assert(it&&it.name==='神龙之刃');assert(it.cost>=3600&&it.cost<=3800,'price '+it.cost);assert.deepEqual(it.recipe,['C_1038','C_3086','C_1042']);
-let u=h.reset('genji');u.level=11;u.items=[];m.recalc(u);let a0=u.attack,as0=u.attackSpeed;u.items=['DRAGON_EDGE'];m.recalc(u);assert(Math.abs(u.attack-a0-55)<1e-6);assert(u.crit>=.25-1e-9);assert(u.attackSpeed>as0);
+let it=C.items.find(i=>i.id==='DRAGON_EDGE');assert(it&&it.name==='神龙之刃');assert(it.cost>=3600&&it.cost<=3800,'price '+it.cost);assert.deepEqual(it.recipe,['C_1038','C_1018','C_3134']);
+let u=h.reset('genji');u.level=11;u.items=[];m.recalc(u);let a0=u.attack,as0=u.attackSpeed,p0=u.armorPenFlat||0;u.items=['DRAGON_EDGE'];m.recalc(u);assert(Math.abs(u.attack-a0-65)<1e-6);assert(u.crit>=.25-1e-9);assert(Math.abs(u.attackSpeed-as0)<1e-9,'no AS');assert((u.armorPenFlat||0)>p0,'lethality');
 let t=h.a.enemy('garen',u.x+150,u.y);t.hp=t.maxHp=1e5;t.armor=0;
 const hit=()=>{let hp=t.hp;m.itemEffects.basicHit(u,t,{event:m.event(u,-1)});return hp-t.hp};
 assert.equal(hit(),0,'no bonus without dash');
