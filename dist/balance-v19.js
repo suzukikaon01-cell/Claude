@@ -266,3 +266,7 @@
 {let s=window.GAME_CONFIG?.heroes?.genji?.skills?.[1];if(s?.desc&&!s.desc.includes('范围/爆炸'))s.desc=s.desc.replace('并阻挡正面近战打击；','并阻挡正面的近战普攻和非范围技能（如卡兹克Q）；').replace('非弹道区域技能不挡。','落地区域/爆炸伤害（如拉克丝E落地、零W/R、D.Va Q爆炸与R、查莉娅激光与R引力场、卡兹克W溅射）和持续伤害不挡；飞行途中的弹道（查莉娅R、卡兹克W、拉克丝E）会被反弹。')}
 // V20.37 源氏大招拔刀攻击范围 200→225。
 {let C=window.GAME_CONFIG,g=C?.genji,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(g&&g.bladeRange===200){g.bladeRange=225;if(p)p.attack_range=225;if(s){s.range=225;if(s.desc)s.desc=s.desc.replace('200范围','225范围')}}}
+// V20.38 源氏R额外AD加成 200%→230%（全等级）。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(p&&JSON.stringify(p.bonus_ad_ratio)==='[2,2,2]'){p.bonus_ad_ratio=[2.3,2.3,2.3];if(s){s.bonusAdRatio=[2.3,2.3,2.3];if(s.desc)s.desc=s.desc.replace('200%额外AD','230%额外AD')}}}
+// V20.38 射手/法师护甲上调：统一 30 基础护甲 +4.8/级（18级111.6，略高于刺客、低于战士坦克）。
+(function(){let C=window.GAME_CONFIG;for(let id of ['ashe','lux','zero','ana','claude','herrscher_of_the_void']){let H=C?.heroes?.[id],s=H?.stats;if(!s||H._v2038)continue;H._v2038=1;s.armor=30;(s.growth??={}).armor=4.8;for(let b of new Set([C.heroParams?.[id]?.BASE,H.params?.BASE]))if(b){b.armor_base=30;b.armor_growth=4.8}}})();
