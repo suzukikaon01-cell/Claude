@@ -5,12 +5,12 @@ let t=h.a.enemy('garen',u.x+150,u.y);t.hp=t.maxHp=1e5;t.armor=0;
 const hit=()=>{let hp=t.hp;m.itemEffects.basicHit(u,t,{event:m.event(u,-1)});return hp-t.hp};
 assert.equal(hit(),0,'no bonus without dash');
 // 拔刀疾斩：Genji E（自身发出 DisplacementStarted）
-h.ready(u,2);let tt=h.a.enemy('lux',u.x+300,u.y);assert(h.a.cast(u,2,tt));h.a.tickCast(u,(u.skills[2].windup||0)+1e-5);h.step(.02);assert.equal(u.dragonEdgeCharges,3);assert.equal(u.dragonEdgeDashSkill,2);
+h.ready(u,2);let tt=h.a.enemy('lux',u.x+300,u.y);assert(h.a.cast(u,2,tt));h.a.tickCast(u,(u.skills[2].windup||0)+1e-5);h.step(.02);assert.equal(u.dragonEdgeCharges,3);
 let bonus=35+.35*(u.attack-u.baseAttack);for(let i=0;i<3;i++)assert(Math.abs(hit()-bonus)<.5,'empowered hit '+i);assert.equal(hit(),0,'only 3 hits');
 m.core.startDisplacement(u,{x:u.x+50,y:u.y},{type:'DASH',duration:.1,source:u,abilityId:2});h.a.clock(h.a.time+4.1);assert.equal(hit(),0,'expires after 4s');
-// 影·疾风斩
-u.cd=[5,6,7,60];m.itemEffects.onTakedown(u,t,{kind:'assist'});assert.deepEqual(u.cd,[5,6,0,60]);
+// 无击杀刷新被动（源氏自带 E 刷新）
+u.cd=[5,6,7,60];m.itemEffects.onTakedown?.(u,t,{kind:'assist'});assert.deepEqual(u.cd,[5,6,7,60]);
 // 龙神之剑
 u.items=['DRAGON_EDGE'];m.recalc(u);let ad=u.attack;m.core.emit('AbilityCommitted',u,u,{abilityId:3,castId:'r'});h.step(.02);assert(Math.abs(u.attack-ad*1.15)<1e-6,'R +15% AD');h.a.clock(h.a.time+8.1);h.step(.02);assert(Math.abs(u.attack-ad)<1e-6,'expires');
 let g=h.reset('garen');g.items=['DRAGON_EDGE'];m.recalc(g);assert(g.attack>0,'universal');
-console.log('PASS 神龙之刃: 3700 price, dash-empowered 3 hits, takedown refreshes dash skill, R +15% AD for 8s');
+console.log('PASS 神龙之刃: 3700 price, dash-empowered 3 hits, R +15% AD for 8s');
