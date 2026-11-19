@@ -33,3 +33,9 @@ test('nano snapshots ranged Genji even if he later draws his sword',()=>{let{h,u
 console.log(`V11: ${passed} scenarios passed`);
 {const make=require('./test-harness.cjs'),assert=require('assert');const h=make(),m=h.a.m;let u=h.reset('zarya'),t=h.a.enemy('garen',u.x+300,u.y);t.hp=t.maxHp=1e7;let z=m.zarya.state(u);h.ready(u,0);h.a.cast(u,0,{x:t.x,y:t.y,target:t});h.a.tickCast(u,1e-5);h.step(4.5);assert(z.laser,'still firing after 4.5s (no 3s limit)');h.step(.6);assert(!z.laser&&z.reloadUntil,'stops when ammo empty and reloads');
  let u2=h.reset('zarya'),t2=h.a.enemy('garen',u2.x+200,u2.y);t2.hp=t2.maxHp=1e7;let z2=m.zarya.state(u2),n=0;for(let i=0;i<450;i++){if(!u2.pendingAttack&&!(u2.attackCd>0)&&h.a.attack(u2,t2))n++;h.a.update(.01)}assert.equal(n,4,'4 grenades per 100 ammo then reload');console.log('PASS Zarya: Q laser limited by ammo, AA costs 25 ammo')}
+{const make=require('./test-harness.cjs'),assert=require('assert');const h=make(),m=h.a.m;
+ const fire=(setup,full)=>{let u=h.reset('zarya',!!full),ts=setup(u);h.ready(u,0);assert(h.a.cast(u,0,{x:u.x+400,y:u.y}));h.a.tickCast(u,1e-5);h.step(.6);m.zarya.stopLaser(u);return {u,ts}};
+ let r=fire(u=>{let a=h.a.enemy('garen',u.x+150,u.y),b=h.a.enemy('lux',u.x+300,u.y);a.hp=a.maxHp=b.hp=b.maxHp=1e5;return [a,b]});assert(r.ts[0].hp<r.ts[0].maxHp&&r.ts[1].hp===r.ts[1].maxHp,'only first unit hit');assert.equal(r.u.cd[0],0,'Q cooldown 0');
+ r=fire(u=>{let a=h.a.enemy('garen',u.x+480,u.y);a.hp=a.maxHp=1e5;return [a]});assert.equal(r.ts[0].hp,r.ts[0].maxHp,'425 length');
+ let w=h.terrainWalls.find(w=>w.kind==='jungle'&&w.w>300&&w.h>300);r=fire(u=>{u.x=w.x-w.w/2-120;u.y=w.y;let a=h.a.enemy('garen',u.x+400,u.y);a.hp=a.maxHp=1e5;return [a]},true);assert.equal(r.ts[0].hp,r.ts[0].maxHp,'blocked by terrain');
+ console.log('PASS Zarya laser: 0 CD, 425 length, no pierce, blocked by terrain')}
