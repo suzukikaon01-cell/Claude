@@ -318,3 +318,7 @@
  if(H?.genji?.skills?.[3])H.genji.skills[3].windup=.5;
  for(let p of new Set([C?.heroParams?.ashe,H?.ashe?.params]))if(p?.R)p.R.arrow_radius=+(20*Math.cbrt(15)).toFixed(2);
  let ir=H?.illaoi?.skills?.[3];if(ir?.desc&&!ir.desc.includes('高高跃起'))ir.desc='高高跃起后砸向地面（0.25秒，期间霸体）。'+ir.desc;let gr=H?.genji?.skills?.[3];if(gr?.desc&&!gr.desc.includes('0.5秒，霸体'))gr.desc=gr.desc.replace('拔刀8秒并刷新一次E','拔刀（0.5秒，霸体且无法被打断），随后持续8秒并刷新一次E')}
+// V20.48 非单体技能吸血效率33%；源氏R：每刀固定0.75秒，伤害 120/180/240 + 175%额外AD。
+(function(){let C=window.GAME_CONFIG;if(!C)return;C.aoeVampEfficiency=.33;let p=C.heroParams?.genji?.R,s=C.heroes?.genji?.skills?.[3];
+ for(let q of new Set([p,C.heroes?.genji?.params?.R]))if(q){q.attack_speed_fixed=+(1/.75).toFixed(6);q.base_hit_damage=[120,180,240];q.bonus_ad_ratio=[1.75,1.75,1.75]}
+ if(s){s.damage=[120,180,240];s.bonusAdRatio=[1.75,1.75,1.75];if(s.desc)s.desc=s.desc.replace(/100\/150\/200 \+ \d+%额外AD/,'120/180/240 + 175%额外AD').replace('固定攻速1','每刀固定0.75秒')}})();
