@@ -264,3 +264,5 @@
  if(s){s.range=250;s.tornadoRange=475;s.projectileSpeed=800}})();
 // V20.36 源氏格挡说明：正面近战普攻与单体/近战技能也会被挡下；范围/爆炸伤害（如D.Va Q爆炸与R、查莉娅激光与R）、持续伤害无法格挡。
 {let s=window.GAME_CONFIG?.heroes?.genji?.skills?.[1];if(s?.desc&&!s.desc.includes('范围/爆炸'))s.desc=s.desc.replace('并阻挡正面近战打击；','并阻挡正面的近战普攻和非范围技能（如卡兹克Q）；').replace('非弹道区域技能不挡。','落地区域/爆炸伤害（如拉克丝E落地、零W/R、D.Va Q爆炸与R、查莉娅激光与R引力场、卡兹克W溅射）和持续伤害不挡；飞行途中的弹道（查莉娅R、卡兹克W、拉克丝E）会被反弹。')}
+// V20.37 源氏大招拔刀攻击范围 200→225。
+{let C=window.GAME_CONFIG,g=C?.genji,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(g&&g.bladeRange===200){g.bladeRange=225;if(p)p.attack_range=225;if(s){s.range=225;if(s.desc)s.desc=s.desc.replace('200范围','225范围')}}}
