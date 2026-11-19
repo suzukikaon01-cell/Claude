@@ -1,0 +1,12 @@
+const make=require('./test-harness.cjs'),assert=require('assert');const h=make(),m=h.a.m,C=h.C;
+let it=C.items.find(i=>i.id==='DRAGON_EDGE');assert(it&&it.name==='神龙之刃'&&it.cost%50===0);assert.deepEqual(it.recipe,['C_1037','C_3086']);
+let u=h.reset('genji');u.level=11;u.items=['DRAGON_EDGE'];m.recalc(u);u.items=[];m.recalc(u);let a0=u.attack,as0=u.attackSpeed;u.items=['DRAGON_EDGE'];m.recalc(u);assert(Math.abs(u.attack-a0-45)<1e-6);assert(u.crit>=.2-1e-9);assert(u.attackSpeed>as0);
+let t=h.a.enemy('garen',u.x+150,u.y);t.hp=t.maxHp=1e5;t.armor=0;
+const hit=()=>{let hp=t.hp;m.itemEffects.basicHit(u,t,{event:m.event(u,-1)});return hp-t.hp};
+assert.equal(hit(),0,'no bonus without dash');
+m.core.startDisplacement(u,{x:u.x+50,y:u.y},{type:'DASH',duration:.1,source:u,abilityId:2});assert.equal(u.dragonEdgeCharges,3);
+let bonus=30+.3*(u.attack-u.baseAttack);for(let i=0;i<3;i++)assert(Math.abs(hit()-bonus)<.5,'empowered hit '+i);assert.equal(hit(),0,'only 3 hits');
+m.core.startDisplacement(u,{x:u.x+50,y:u.y},{type:'DASH',duration:.1,source:u,abilityId:2});h.a.clock(h.a.time+4.1);assert.equal(hit(),0,'expires after 4s');
+u.cd=[10,10,10,100];m.itemEffects.onTakedown(u,t,{kind:'kill'});assert.deepEqual(u.cd.map(x=>+x.toFixed(6)),[8,8,8,100]);
+let g=h.reset('garen');g.items=['DRAGON_EDGE'];m.recalc(g);assert(g.attack>0,'universal');
+console.log('PASS 神龙之刃: stats/recipe, dash-empowered 3 hits within 4s, takedown basic CD -20%');
