@@ -289,3 +289,5 @@
 // V20.42 查莉娅：Q激光每0.25秒结算一次，每秒基础伤害 40/60/80/100/120 → 60/90/120/150/180；普攻每发消耗25弹药（弹药不足时自动换弹）。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.zarya,C?.heroes?.zarya?.params])){if(p?.Q&&JSON.stringify(p.Q.laser_dps)==='[40,60,80,100,120]')p.Q.laser_dps=[60,90,120,150,180];if(p?.P&&p.P.aa_ammo_cost==null)p.P.aa_ammo_cost=25}
  let H=C?.heroes?.zarya,q=H?.skills?.[0];if(q?.desc)q.desc=q.desc.replace('每秒 40/60/80/100/120','每秒 60/90/120/150/180（每0.25秒结算一次）');if(H?.passive?.desc&&!H.passive.desc.includes('每发普攻消耗'))H.passive.desc+='\n每发普攻消耗25弹药（满弹夹4发），弹药不足时自动换弹。'}
+// V20.43 源氏R额外AD加成 230%→200%（全等级）。
+{let C=window.GAME_CONFIG,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(p&&JSON.stringify(p.bonus_ad_ratio)==='[2.3,2.3,2.3]'){p.bonus_ad_ratio=[2,2,2];if(s){s.bonusAdRatio=[2,2,2];if(s.desc)s.desc=s.desc.replace('230%额外AD','200%额外AD')}}}
