@@ -162,7 +162,7 @@ function targetFor(u,range,mode='hero',point=null,dragged=false){
 function applySlow(u,amount,duration){mechanics.slow(u,amount,duration,null)}
 
 function stopAttack(){attackHeld=false;if(player)mechanics?.core.cancelInput(player,'attack')}
-function startAttack(mode='attack'){if(state!=='playing'||!alive(player))return;if(player.hero==='anvil'&&mechanics.anvil?.state(player).flight){mechanics.anvil.attackLand(player);return}if(player.hero==='longsword_hunter'&&mechanics.longsword.inStance(player)){mechanics.attack(player,targetFor(player,attackRange(player),mode));return;}summoners.cancel(player,'attack');attackMode=mode;player.recall=0;player.target=targetFor(player,attackRange(player),mode);if(player.target)attack(player,player.target);if(!player.target&&!attackHeld)toast(mode==='tower'?'附近没有可攻击的防御塔或水晶':mode==='minion'?'附近没有可补刀的单位':'附近没有可攻击目标')}
+function startAttack(mode='attack'){if(state!=='playing'||!alive(player))return;player.manualAttackAt=time;if(player.hero==='anvil'&&mechanics.anvil?.state(player).flight){mechanics.anvil.attackLand(player);return}if(player.hero==='longsword_hunter'&&mechanics.longsword.inStance(player)){mechanics.attack(player,targetFor(player,attackRange(player),mode));return;}summoners.cancel(player,'attack');attackMode=mode;player.recall=0;player.target=targetFor(player,attackRange(player),mode);if(player.target)attack(player,player.target);if(!player.target&&!attackHeld)toast(mode==='tower'?'附近没有可攻击的防御塔或水晶':mode==='minion'?'附近没有可补刀的单位':'附近没有可攻击目标')}
 
 function alive(u){return u.hp>0&&!(u.death>0)}
 function nearestEnemy(u,range,heroesOnly=false){return mechanics.nearest(u,range,v=>v.team!==u.team&&(!heroesOnly||v.type==='hero')&&canBeTarget(u,v))}
