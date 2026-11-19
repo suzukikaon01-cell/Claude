@@ -14,7 +14,7 @@ const ID='claude',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const lv=(a,b,n=5)=>Array.from({length:n},(_,i)=>+(a+(b-a)*i/(n-1)).toFixed(3));
 const FORMS=['haiku','sonnet','opus','fable'];
 const P={
- BASE:{resource_type:'ENERGY',max_energy:100,energy_regen:0,hp_base:610,hp_growth:100,mana_base:0,mana_growth:0,ad_base:56,ad_growth:3.3,armor_base:30,armor_growth:4.8,mr_base:30,mr_growth:1.4,as_base:.64,as_ratio:.64,as_growth:.02,move_speed:215,attack_range:525,is_ranged:1,hero_name:'Claude'},
+ BASE:{resource_type:'ENERGY',max_energy:100,energy_regen:0,hp_base:610,hp_growth:100,mana_base:0,mana_growth:0,ad_base:56,ad_growth:3.3,armor_base:24,armor_growth:2.7,mr_base:30,mr_growth:2.6,as_base:.64,as_ratio:.64,as_growth:.02,move_speed:215,attack_range:525,is_ranged:1,hero_name:'Claude'},
  P:{start_form:'sonnet',context_skill_champion:8,context_skill_other:2,context_attack_champion:4,context_attack_other:1,context_parry:20,context_handoff:10,decay_delay:6,decay_per_second:4,
     handoff_window:.5,handoff_damage:.35,opener_window:3,draft_max:5,draft_duration:6,rhyme_duration:6,zone_duration:4,zone_bonus:.15,foreshadow_max:3,foreshadow_duration:8,foreshadow_radius:180},
  FORMS:{
