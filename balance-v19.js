@@ -263,4 +263,4 @@
  for(let q of new Set([p,C.heroes.yasuo.params?.Q]))if(q){q.range=250;q.tornado_range=475;if('projectile_speed' in q)q.projectile_speed=800}
  if(s){s.range=250;s.tornadoRange=475;s.projectileSpeed=800}})();
 // V20.36 源氏格挡说明：正面近战普攻与单体/近战技能也会被挡下；范围/爆炸伤害（如D.Va Q爆炸与R、查莉娅激光与R）、持续伤害无法格挡。
-{let s=window.GAME_CONFIG?.heroes?.genji?.skills?.[1];if(s?.desc&&!s.desc.includes('范围/爆炸'))s.desc=s.desc.replace('并阻挡正面近战打击；','并阻挡正面的近战普攻和非范围技能（如卡兹克Q）；').replace('非弹道区域技能不挡。','范围/爆炸伤害（如D.Va Q爆炸与R、查莉娅激光与R）和持续伤害不挡。')}
+{let s=window.GAME_CONFIG?.heroes?.genji?.skills?.[1];if(s?.desc&&!s.desc.includes('范围/爆炸'))s.desc=s.desc.replace('并阻挡正面近战打击；','并阻挡正面的近战普攻和非范围技能（如卡兹克Q）；').replace('非弹道区域技能不挡。','落地区域/爆炸伤害（如拉克丝E落地、零W/R、D.Va Q爆炸与R、查莉娅激光与R引力场、卡兹克W溅射）和持续伤害不挡；飞行途中的弹道（查莉娅R、卡兹克W、拉克丝E）会被反弹。')}
