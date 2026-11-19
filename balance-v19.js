@@ -293,3 +293,20 @@
 {let C=window.GAME_CONFIG,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(p&&JSON.stringify(p.bonus_ad_ratio)==='[2.3,2.3,2.3]'){p.bonus_ad_ratio=[2,2,2];if(s){s.bonusAdRatio=[2,2,2];if(s.desc)s.desc=s.desc.replace('230%额外AD','200%额外AD')}}}
 // V20.44 查莉娅Q：冷却0，激光长度425，被地形/建筑/单位阻挡（无穿透，只命中第一个敌方单位），持续光柱；换弹期间不能释放。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.zarya,C?.heroes?.zarya?.params]))if(p?.Q){p.Q.cooldown=[0,0,0,0,0];p.Q.laser_length=425}let q=C?.heroes?.zarya?.skills?.[0];if(q){q.cd=[0,0,0,0,0];q.range=425;if(q.desc)q.desc=q.desc.replace('穿透路径上所有敌人','命中路径上第一个敌方单位（被地形、建筑和单位阻挡，无穿透），长度425').replace('冷却 10/9/8/7/6','冷却 0').replace('长度 650','长度 425')}}
+// V20.45 诺手（德莱厄斯）按参考表调整：属性、出血、Q/W/E/R 数值。双抗沿用 V20.40 定位分档；移速/攻击距离沿用本作缩放。
+(function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H||H._v2045)return;H._v2045=1;
+ for(let p of new Set([C.heroParams?.darius,H.params]))if(p){
+  Object.assign(p.BASE||{},{hp_base:652.24,hp_growth:114,mana_base:263,mana_growth:57.5,ad_base:64,ad_growth:5,as_base:.625,as_ratio:.625,as_growth:.01});
+  Object.assign(p.P,{bleed_base_min:13,bleed_base_max:30,bleed_bonus_ad_ratio:.3,noxian_might_ad_min:30,noxian_might_ad_max:230,noxian_might_duration:5,bleed_monster_multiplier:1.75});
+  let o=[50,80,110,140,170],r=[1,1.1,1.2,1.3,1.4];Object.assign(p.Q,{outer_damage:o,outer_ad_ratio:r,inner_damage:o.map(v=>+(v*.35).toFixed(2)),inner_ad_ratio:r.map(v=>+(v*.35).toFixed(3)),heal_missing_hp_per_target:.15,heal_missing_hp_cap:.45,cooldown:[9,8,7,6,5],mana_cost:[70,60,50,40,30]});
+  Object.assign(p.W,{total_ad_bonus_ratio:[.4,.45,.5,.55,.6],slow:.9,slow_duration:1,cooldown:[7,6.5,6,5.5,5],mana_cost:40,on_kill_mana_refund:1,on_kill_cd_refund:.5});
+  Object.assign(p.E,{armor_penetration:[.15,.2,.25,.3,.35],slow:.4,slow_duration:1,landing_slow_pct:.4,landing_slow_duration:1,airborne_duration:0,cooldown:[24,21,18,15,12],mana_cost:[70,60,50,40,30]});
+  Object.assign(p.R,{base_true_damage:[125,250,375],bonus_ad_ratio:[.75,.75,.75],damage_bonus_per_bleed:.2,max_bleed_stacks:5,cooldown:[120,100,80],mana_cost:[100,100,0],reset_on_kill:1,free_recast_window:20})}
+ let s=H.stats;Object.assign(s,{hp:652.24,mana:263,attack:64,hpRegen:10,manaRegen:6.6});Object.assign(s.growth,{hp:114,mana:57.5,attack:5,as:.01,hpRegen:.95,manaRegen:.35});
+ let K=H.skills,set=(i,o)=>K[i]&&Object.assign(K[i],o);
+ set(0,{cd:[9,8,7,6,5],mana:[70,60,50,40,30],desc:'短暂延迟后挥舞斧头横扫周围。斧刃（外圈）造成50/80/110/140/170+100/110/120/130/140%攻击力物理伤害并施加出血；斧柄（内圈）只造成其35%伤害且不施加出血。斧刃每命中一名敌方英雄或大型野怪，回复15%已损失生命（最多45%）。'});
+ set(1,{cd:[7,6.5,6,5.5,5],mana:40,desc:'下一次普攻额外造成40/45/50/55/60%总攻击力物理伤害，并使目标减速90%，持续1秒。若击杀目标，返还全部法力消耗并减少50%冷却时间。'});
+ set(2,{cd:[24,21,18,15,12],mana:[70,60,50,40,30],desc:'被动：获得15/20/25/30/35%护甲穿透。主动：将前方锥形范围内的所有敌人拉到身前，并减速40%，持续1秒。'});
+ set(3,{cd:[120,100,80],mana:[100,100,0],desc:'跃向目标英雄进行致命打击，造成125/250/375+75%额外攻击力真实伤害；目标身上每层出血使伤害额外提高20%（最多100%）。若击杀目标，可在20秒内无消耗地再次施放；3级时击杀会完全重置冷却且不消耗法力。'});
+ if(H.passive)H.passive.desc='攻击和技能使敌人进入出血状态，5秒内造成13～30（随等级）+30%额外攻击力物理伤害，最多叠加5层；出血对野怪造成175%伤害。敌方英雄叠满5层或被诺克萨斯断头台击杀时，进入持续5秒的血怒：获得30～230（随等级）额外攻击力，并且攻击立即为敌方英雄叠满5层出血。';
+})();
