@@ -12,7 +12,7 @@ function attach(c,units,now){if(!c||core===c)return;core=c;unitsFn=units;clock=n
   if(s.type==='tower'||s.type==='nexus'){push({kind:'towerHit',tid:t.id,x:t.x,y:t.y,start:T,end:T+.35,team:s.team});return}
   if(s.type!=='hero'||!e.basic)return;let st=STYLE[s.hero]||(s.range>200?'shot':'blade'),a=Math.atan2(t.y-s.y,t.x-s.x);
   push({kind:'hit',tid:t.id,style:st,x:t.x,y:t.y,angle:a,start:T,end:T+(st==='heavy'||st==='axe'?.32:.24),color:s.color||'#e8f4ff',crit:!!e.critical,flip:((s.fxFlip=!s.fxFlip))?1:-1})});
- c.on('AbilityCommitted',e=>{if(typeof e.abilityId!=='number'||e.abilityId<0)return;let s=unitsFn().find(u=>u.id===e.sourceId);if(!s||s.type!=='hero')return;let T=clock();push({kind:'cast',id:s.id,x:s.x,y:s.y,angle:s.angle||0,start:T,end:T+.3,color:s.color||'#e8f4ff',ult:e.abilityId===3})})}
+ c.on('AbilityCommitted',e=>{if(typeof e.abilityId!=='number'||e.abilityId<0)return;let s=unitsFn().find(u=>u.id===e.sourceId);if(!s||s.type!=='hero')return;let T=clock();s.poseCastV20={i:e.abilityId,at:T};push({kind:'cast',id:s.id,x:s.x,y:s.y,angle:s.angle||0,start:T,end:T+.3,color:s.color||'#e8f4ff',ult:e.abilityId===3})})}
 function arc(ctx,r,a0,a1,w,c){ctx.beginPath();ctx.arc(0,0,r,a0,a1);ctx.strokeStyle=c;ctx.lineWidth=w;ctx.stroke()}
 function drawHit(ctx,f,k){let fade=1-k,c=f.color,size=f.crit?1.35:1;ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.angle);ctx.globalAlpha=fade;ctx.lineCap='round';
  if(f.style==='blade'||f.style==='heavy'||f.style==='axe'){let r=(f.style==='blade'?34:46)*size,sweep=(f.style==='axe'?2.2:1.7)*(.4+.6*Math.min(1,k*3)),mid=f.flip*.15;arc(ctx,r,mid-sweep/2,mid+sweep/2,f.style==='blade'?7:11,c);arc(ctx,r,mid-sweep/2,mid+sweep/2,2.5,'#ffffff');if(f.crit){ctx.rotate(Math.PI/2);arc(ctx,r*.8,-.7,.7,5,c)}}
