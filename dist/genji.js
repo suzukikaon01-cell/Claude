@@ -12,7 +12,7 @@ window.installGenji=function(m,env){
  function front(u,p){let a=state(u).deflectAngle,dx=p.x-u.x,dy=p.y-u.y;return dx*Math.cos(a)+dy*Math.sin(a)>=Math.hypot(dx,dy)*Math.cos(P.W.front_angle*Math.PI/360)-1e-8}
  // 格挡规则：正面近战普攻、以及非范围/非爆炸的技能直接伤害全部挡下；弹道走 intercept 反弹。
  // 不可格挡：范围/爆炸类（技能带半径或在 AREA 表中，如 D.Va Q 爆炸/R、查莉娅激光/R、拉克丝E/R）、持续伤害、装备/符文触发、反弹伤害。
- const AREA={garen:[2],lux:[2,3],zero:[1,3],khazix:[1,2],sett:[1,3],darius:[0],illaoi:[0,3],ana:[2],dva:[0,3],zarya:[0,3],dio:[0,1,3],anvil:[2,3],herrscher_of_the_void:[1]};
+ const AREA={garen:[2],lux:[2,3],zero:[1,3],khazix:[1,2],sett:[3],illaoi:[3],ana:[2],dva:[0,3],zarya:[0,3],dio:[1,3],anvil:[2,3],herrscher_of_the_void:[1]};
  function areaHit(source,meta){if(meta.area||meta.explosion||meta.splash)return true;let i=meta.event?.index;if(!Number.isInteger(i))return true;if((AREA[source.hero]||[]).includes(i))return true;let sk=source.skills?.[i];return Number(sk?.radius)>0}
  function blockMelee(t,source,meta){if(t.hero!=='genji'||!(state(t).deflectUntil>now())||!source||source===t||source.team===t.team||meta.projectile||meta.reflected||!front(t,source))return false;
   if(meta.basic){if(!(meta.melee??m.isMelee(source)))return false}
