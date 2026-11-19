@@ -310,3 +310,5 @@
  set(3,{cd:[120,100,80],mana:[100,100,0],desc:'跃向目标英雄进行致命打击，造成125/250/375+75%额外攻击力真实伤害；目标身上每层出血使伤害额外提高20%（最多100%）。若击杀目标，可在20秒内无消耗地再次施放；3级时击杀会完全重置冷却且不消耗法力。'});
  if(H.passive)H.passive.desc='攻击和技能使敌人进入出血状态，5秒内造成13～30（随等级）+30%额外攻击力物理伤害，最多叠加5层；出血对野怪造成175%伤害。敌方英雄叠满5层或被诺克萨斯断头台击杀时，进入持续5秒的血怒：获得30～230（随等级）额外攻击力，并且攻击立即为敌方英雄叠满5层出血。';
 })();
+// V20.46 俄洛伊：Q长度 700→650，E距离 900→600。
+{let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.illaoi,C?.heroes?.illaoi?.params])){if(p?.Q&&p.Q.cast_range===700)p.Q.cast_range=650;if(p?.E&&p.E.range===900){p.E.range=600;p.E.cast_range=600}}let s=C?.heroes?.illaoi?.skills;if(s){if(s[0]?.range===700){s[0].range=650;if(s[0].desc)s[0].desc=s[0].desc.replace(/长度700/g,'长度650').replace(/700码/g,'650码')}if(s[2]?.range===900){s[2].range=600;if(s[2].desc)s[2].desc=s[2].desc.replace(/射程900/g,'射程600').replace(/900码/g,'600码')}}}
