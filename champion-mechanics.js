@@ -120,7 +120,7 @@ window.createChampionMechanics=function(env){
    if(i===0){u.focusStacks-=s.requiredFocus;u.focus=s.duration;env.ring(u.x,u.y,70,'#9be9ff',.6);attackReset(u,'full',e.castId);derive(u)}
    if(i===1){let count=rank(u,i,'arrows');for(let n=0;n<count;n++)launch(u,c,{angle:c.angle+(n/(count-1)-.5)*s.cone,volley:true,ignoreWalls:true})}
    if(i===2){u.charges=(u.charges??2)-1;if(!u.chargeTimer)u.chargeTimer=rank(u,i,'recharge');launch(u,c,{vision:true,ignoreWalls:true,destination:c.p,maxRange:d(u,c.p),life:d(u,c.p)/s.projectileSpeed+1})}
-   if(i===3)launch(u,c,{crystalArrow:true,ignoreWalls:true,radius:20,maxSpeed:s.maxSpeed,acceleration:s.acceleration})
+   if(i===3)launch(u,c,{crystalArrow:true,ignoreWalls:true,radius:C.heroParams?.ashe?.R?.arrow_radius??20,maxSpeed:s.maxSpeed,acceleration:s.acceleration})
   },garen(u,c,s,e){let i=c.i;
    if(i===0){cleanse(u,'slow');u.boost=rank(u,i,'speedDuration');u.boostAmount=s.speedBonus;u.empowered=s.empowerDuration;attackReset(u,'full',e.castId)}
    if(i===1){u.guard=s.duration;u.guardAmount=rank(u,i,'damageReduction');u.tenacity=s.tenacity;u.tenacityTime=s.tenacityDuration;shield(u,rank(u,i,'shield')+s.bonusHpRatio*u.bonusHp,s.shieldDuration,u)}

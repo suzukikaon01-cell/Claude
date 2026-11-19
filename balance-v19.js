@@ -312,3 +312,9 @@
 })();
 // V20.46 俄洛伊：Q长度 700→650，E距离 900→600。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.illaoi,C?.heroes?.illaoi?.params])){if(p?.Q&&p.Q.cast_range===700)p.Q.cast_range=650;if(p?.E&&p.E.range===900){p.E.range=600;p.E.cast_range=600}}let s=C?.heroes?.illaoi?.skills;if(s){if(s[0]?.range===700){s[0].range=650;if(s[0].desc)s[0].desc=s[0].desc.replace(/长度700/g,'长度650').replace(/700码/g,'650码')}if(s[2]?.range===900){s[2].range=600;if(s[2].desc)s[2].desc=s[2].desc.replace(/射程900/g,'射程600').replace(/900码/g,'600码')}}}
+// V20.47 瑟提E前摇 0.25→0.15；俄洛伊R 高跳砸地 0.25s（霸体）；源氏R 拔刀 0.5s（霸体，不可打断）；艾希R 体积×15（尺寸×15^(1/3)≈2.47，碰撞半径 20→49.3）。
+{let C=window.GAME_CONFIG,H=C?.heroes;if(H?.sett?.skills?.[2])H.sett.skills[2].windup=.15;for(let p of new Set([C?.heroParams?.sett,H?.sett?.params]))if(p?.E)p.E.windup=.15;
+ if(H?.illaoi?.skills?.[3])H.illaoi.skills[3].windup=.25;for(let p of new Set([C?.heroParams?.illaoi,H?.illaoi?.params]))if(p?.R)p.R.windup=.25;
+ if(H?.genji?.skills?.[3])H.genji.skills[3].windup=.5;
+ for(let p of new Set([C?.heroParams?.ashe,H?.ashe?.params]))if(p?.R)p.R.arrow_radius=+(20*Math.cbrt(15)).toFixed(2);
+ let ir=H?.illaoi?.skills?.[3];if(ir?.desc&&!ir.desc.includes('高高跃起'))ir.desc='高高跃起后砸向地面（0.25秒，期间霸体）。'+ir.desc;let gr=H?.genji?.skills?.[3];if(gr?.desc&&!gr.desc.includes('0.5秒，霸体'))gr.desc=gr.desc.replace('拔刀8秒并刷新一次E','拔刀（0.5秒，霸体且无法被打断），随后持续8秒并刷新一次E')}
