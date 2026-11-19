@@ -349,3 +349,5 @@
 {let H=window.GAME_CONFIG?.heroes,Z=[['garen',0],['garen',1],['garen',2],['darius',1],['illaoi',1],['masteryi',2],['masteryi',3],['khazix',3],['ashe',0],['sett',0]];for(let [id,i] of Z){let s=H?.[id]?.skills?.[i];if(s)s.windup=0}}
 // V20.53 诺手E：前摇0.25秒、后摇0.2秒。
 {let s=window.GAME_CONFIG?.heroes?.darius?.skills?.[2];if(s){s.windup=.25;s.recovery=.2}}
+// V20.54 装备固定移速按本作移速缩放（英雄基础移速约为端游的0.64，如艾希335→210）：鞋子等固定移速×0.64，避免叠装后移速过快（艾希满装可到290）。百分比移速不变。
+(function(){let C=window.GAME_CONFIG;if(!C?.items||C._v2054)return;C._v2054=1;const K=.64;for(let it of C.items){let v=it.stats?.speed;if(!v)continue;let n=Math.round(v*K);it.stats.speed=n;if(it.speed!=null)it.speed=n;for(let k of ['statText','desc'])if(typeof it[k]==='string')it[k]=it[k].replace('移速 +'+v,'移速 +'+n).replace(v+'移动速度',n+'移动速度')}})();
