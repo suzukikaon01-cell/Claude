@@ -58,7 +58,21 @@ const SPECS={
   0:u=>{let p=C.heroParams.great_sword,r=rk(u,0);return header(u,0,'无消耗','连招结束后 '+list(p.Q.cooldown)+' 秒')+[1,2,3].map(k=>line(u,{r,label:'Q'+k+'（一级蓄力）',base:p['Q'+k].damage,bad:p['Q'+k].bonus_ad_ratio,type:'physical'})).join('')+text('按住蓄力、松开挥砍；蓄力倍率 一级100% · 二级145% · 三级210%（过蓄165%）。Q3分两段（20%/80%），前段命中英雄则后段+20%。')},
   1:u=>{let p=C.heroParams.great_sword.W,r=rk(u,1);return header(u,1)+line(u,{r,label:'上挑',base:p.damage,bad:p.bonus_ad_ratio,type:'physical'})+line(u,{r,label:'相杀追加',base:p.offset_bonus_damage,bad:p.offset_bonus_ad_ratio,type:'physical'})+line(u,{r,label:'十字斩两段',base:p.cross_slash_damage,bad:p.cross_slash_ratio,type:'physical',extra:'第二段 '+list(p.cross_slash_damage_2)+'+'+pct(p.cross_slash_ratio_2)+'额外AD'})+text('准备0.65秒，期间正面挡下敌方英雄攻击即相杀：抵消伤害、反击、霸体0.6秒，0.8秒内按Q出十字斩。')},
   2:u=>{let p=C.heroParams.great_sword.E,r=rk(u,2);return header(u,2)+line(u,{r,label:'肩撞',base:p.damage,bad:p.bonus_ad_ratio,type:'physical'})+text('冲撞'+n(p.dash_distance)+'码，霸体并减伤'+pct(p.damage_reduction)+'；可在Q蓄力中使用并保留蓄力。')},
-  3:u=>{let p=C.heroParams.great_sword.R,r=rk(u,3);return header(u,3)+line(u,{r,label:'落剑',base:p.damage,bad:p.bonus_ad_ratio,mult:1+p.full_charge_bonus,type:'physical',note:'已含满蓄力+50%'})+text('蓄力'+n(p.charge_duration)+'秒后落剑（350×180），命中英雄额外造成其'+pct(p.max_hp_damage)+'最大生命伤害。')}}
+  3:u=>{let p=C.heroParams.great_sword.R,r=rk(u,3);return header(u,3)+line(u,{r,label:'落剑',base:p.damage,bad:p.bonus_ad_ratio,mult:1+p.full_charge_bonus,type:'physical',note:'已含满蓄力+50%'})+text('蓄力'+n(p.charge_duration)+'秒后落剑（350×180），命中英雄额外造成其'+pct(p.max_hp_damage)+'最大生命伤害。')}},
+ // V20 空之律者：W 实时斩杀线（仅 W 触发，真实伤害白色）；R 实时波数与总伤害。
+ herrscher_of_the_void:{
+  1:u=>{let p=P('herrscher_of_the_void'),w=p.W,pp=p.P,r=rk(u,1),f=u.hovState?.fragments||0,t3=(u.hovState?.tier||0)>=3,dur=w.duration+(t3?(pp.w_duration_bonus_180||0):0),ticks=Math.round(dur/w.damage_tick_interval),per=at(w.damage_per_tick,r)+w.damage_tick_ap_ratio_pct*(u.ap||0),mode=u.hovState?.mode?1+(p.Q.damage_bonus_pct||0):1,
+   unlocked=f>=pp.execute_unlock_fragments,th=pp.execute_base_pct+Math.floor(Math.max(f,pp.execute_unlock_fragments)/pp.execute_fragments_step)*pp.execute_bonus_pct_per_100_fragments;
+   return header(u,1)+line(u,{r,label:'每跳',base:w.damage_per_tick,ap:w.damage_tick_ap_ratio_pct,mult:mode,type:'magic',note:mode>1?'律者模式×'+n(mode):''})+'<div class="tt-line"><span class="tt-k">满额</span> '+ticks+' 跳 = '+dmg('magic',n(per*mode*ticks)+' 魔法伤害')+'</div>'
+    +'<div class="tt-line"><span class="tt-k">斩杀</span> '+(unlocked?'生命低于 '+dmg('true',pct(th))+' 的敌方英雄、小兵、非史诗野怪受到W伤害时直接斩杀（'+dmg('true','真实伤害')+'）':'未解锁（碎片 '+n(f)+'/'+n(pp.execute_unlock_fragments)+'），解锁后斩杀线 '+dmg('true',pct(th))+'，之后每 '+n(pp.execute_fragments_step)+' 碎片 +'+pct(pp.execute_bonus_pct_per_100_fragments))+'</div>'
+    +text('空间牢笼持续'+n(dur)+'秒，每'+n(w.damage_tick_interval)+'秒造成一次伤害并向中心吸引；只有W的伤害能触发斩杀。'+(t3?'已强化（第3阶）：减速'+pct(pp.w_slow_pct_180||.3)+'。':''))},
+  3:u=>{let p=P('herrscher_of_the_void'),R=p.R,r=rk(u,3),f=u.hovState?.fragments||0,s=u.hovState,enh=s?Math.min(R.enhancement_charge_limit||1,Math.max(0,(s.earned||0)-(s.consumed||0)))>0:false,
+   normal=R.normal_hit_count+Math.floor(f/R.normal_hit_fragments_step),strong=R.enhanced_hit_count+Math.floor(f/R.enhanced_hit_fragments_step)*(R.enhanced_hits_per_step||1),per=at(R.damage_per_hit,r)+R.damage_per_hit_ap_ratio_pct*(u.ap||0),mode=s?.mode?1+(p.Q.damage_bonus_pct||0):1,waves=enh?strong:normal;
+   return header(u,3)+line(u,{r,label:'每波',base:R.damage_per_hit,ap:R.damage_per_hit_ap_ratio_pct,mult:mode,type:'magic',note:mode>1?'律者模式×'+n(mode):''})
+    +'<div class="tt-line"><span class="tt-k">本次'+(enh?'（强化）':'')+'</span> '+waves+' 波 = '+dmg('magic',n(per*mode*waves)+' 魔法伤害')+'</div>'
+    +'<div class="tt-line"><span class="tt-k">'+(enh?'普通':'强化')+'</span> '+(enh?normal:strong)+' 波 = '+dmg('magic',n(per*mode*(enh?normal:strong))+' 魔法伤害')+' <small>'+(enh?'':'持有强化R时')+'</small></div>'
+    +text('前摇'+n(R.windup)+'秒升空开启空间，随后从空间门连续发射亚空之矛（真实飞行与碰撞，可被风墙阻挡、格挡反弹）。普通'+R.normal_hit_count+'波，每'+R.normal_hit_fragments_step+'碎片+1波；强化'+R.enhanced_hit_count+'波，每'+R.enhanced_hit_fragments_step+'碎片+1波。当前碎片 '+n(f)+'，强化R '+(enh?'可用':'未就绪')+'。')}
+}
 };
 
 // 通用：其它英雄用技能对象上的 damage / adRatio / bonusAdRatio / apRatio 计算，说明取前两句。
