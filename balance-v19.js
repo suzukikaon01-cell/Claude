@@ -270,3 +270,23 @@
 {let C=window.GAME_CONFIG,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(p&&JSON.stringify(p.bonus_ad_ratio)==='[2,2,2]'){p.bonus_ad_ratio=[2.3,2.3,2.3];if(s){s.bonusAdRatio=[2.3,2.3,2.3];if(s.desc)s.desc=s.desc.replace('200%额外AD','230%额外AD')}}}
 // V20.38 射手/法师护甲上调：统一 30 基础护甲 +4.8/级（18级111.6，略高于刺客、低于战士坦克）。
 (function(){let C=window.GAME_CONFIG;for(let id of ['ashe','lux','zero','ana','claude','herrscher_of_the_void']){let H=C?.heroes?.[id],s=H?.stats;if(!s||H._v2038)continue;H._v2038=1;s.armor=30;(s.growth??={}).armor=4.8;for(let b of new Set([C.heroParams?.[id]?.BASE,H.params?.BASE]))if(b){b.armor_base=30;b.armor_growth=4.8}}})();
+// V20.39 双抗按定位统一分档（[基础, 每级成长]）。
+// 护甲：法师 < 射手 < 刺客 < 轻装战士 < 重装战士 < 坦克；魔抗：射手 < 法师 < 刺客 < 轻装战士 < 重装战士 < 坦克。
+// 法术输出：魔抗 > 护甲；物理输出：护甲 > 魔抗；混合输出：两者相等；同档远程英雄双抗低于近战。
+(function(){let C=window.GAME_CONFIG;if(!C?.heroes)return;
+ const T={
+  // 法师（法术）/ 混合法师
+  lux:[24,2.7,30,2.6],zero:[24,2.7,30,2.6],herrscher_of_the_void:[24,2.7,30,2.6],claude:[24,2.7,30,2.6],ana:[27,2.65,27,2.65],
+  // 射手（物理）
+  ashe:[28,3.9,30,1.8],
+  // 刺客（物理）；源氏远程略低
+  yasuo:[30,4.4,32,2.8],khazix:[30,4.4,32,2.8],genji:[29,4.2,31,2.7],
+  // 轻装战士（物理）
+  masteryi:[34,4.6,34,3],dio:[34,4.6,34,3],longsword_hunter:[34,4.6,34,3],xuefeng:[34,4.6,34,3],
+  // 重装战士（物理）
+  garen:[38,5,36,3.2],darius:[38,5,36,3.2],sett:[38,5,36,3.2],illaoi:[38,5,36,3.2],great_sword:[38,5,36,3.2],anvil:[38,5,36,3.2],
+  // 坦克（远程）：D.Va 混合 → 平衡；查莉娅法术 → 魔抗 > 护甲
+  dva:[40,4.95,40,4.95],zarya:[40,4.95,42,5.3]};
+ C.resistTiersV20=T;
+ for(let [id,[a,ag,r,rg]] of Object.entries(T)){let H=C.heroes[id],s=H?.stats;if(!s||H._v2039)continue;H._v2039=1;s.armor=a;s.mr=r;s.growth??={};s.growth.armor=ag;s.growth.mr=rg;
+  for(let b of new Set([C.heroParams?.[id]?.BASE,H.params?.BASE]))if(b){b.armor_base=a;b.armor_growth=ag;b.mr_base=r;b.mr_growth=rg}}})();
