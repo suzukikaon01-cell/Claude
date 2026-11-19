@@ -291,3 +291,5 @@
  let H=C?.heroes?.zarya,q=H?.skills?.[0];if(q?.desc)q.desc=q.desc.replace('每秒 40/60/80/100/120','每秒 60/90/120/150/180（每0.25秒结算一次）');if(H?.passive?.desc&&!H.passive.desc.includes('每发普攻消耗'))H.passive.desc+='\n每发普攻消耗25弹药（满弹夹4发），弹药不足时自动换弹。'}
 // V20.43 源氏R额外AD加成 230%→200%（全等级）。
 {let C=window.GAME_CONFIG,p=C?.heroParams?.genji?.R,s=C?.heroes?.genji?.skills?.[3];if(p&&JSON.stringify(p.bonus_ad_ratio)==='[2.3,2.3,2.3]'){p.bonus_ad_ratio=[2,2,2];if(s){s.bonusAdRatio=[2,2,2];if(s.desc)s.desc=s.desc.replace('230%额外AD','200%额外AD')}}}
+// V20.44 查莉娅Q：冷却0，激光长度425，被地形/建筑/单位阻挡（无穿透，只命中第一个敌方单位），持续光柱；换弹期间不能释放。
+{let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.zarya,C?.heroes?.zarya?.params]))if(p?.Q){p.Q.cooldown=[0,0,0,0,0];p.Q.laser_length=425}let q=C?.heroes?.zarya?.skills?.[0];if(q){q.cd=[0,0,0,0,0];q.range=425;if(q.desc)q.desc=q.desc.replace('穿透路径上所有敌人','命中路径上第一个敌方单位（被地形、建筑和单位阻挡，无穿透），长度425').replace('冷却 10/9/8/7/6','冷却 0').replace('长度 650','长度 425')}}
