@@ -341,3 +341,11 @@
  Object.assign(K[3],{cd:[120,100,80],damage:[200,300,400],bonusAdRatio:1.2,bonusHpRatio:[.4,.5,.6]});K[3].desc='擒住一名敌方英雄，扛着前行时将其压制，然后猛摔到地上，对着陆点附近的敌人造成200/300/400+40/50/60%被擒英雄额外生命值+120%额外攻击力的物理伤害，并造成持续1秒的99%减速；离着陆点越远伤害越低。';
  if(H.passive)H.passive.desc='攻击交替使用左重拳和右重拳。右重拳紧跟左重拳快速打出（攻速为左拳8倍），额外造成5～90（随等级）+50%额外攻击力物理伤害；2秒内没有打出右拳则重置为左拳。每5%已损失生命值提供0.2～2（随等级）生命回复。';
 })();
+// V20.51 亚索：龙卷风飞行速度 800→1100（提高双风成功率）；E 固定位移275码，EQ 窗口仅在E位移期间；E 优先选择未进入同目标冷却的单位；EQ延迟出伤期间按R会缓存到击飞生效（双风）。
+{let C=window.GAME_CONFIG,q=C?.heroes?.yasuo?.skills?.[0],e=C?.heroes?.yasuo?.skills?.[2];if(q&&q.projectileSpeed===800)q.projectileSpeed=1100;for(let p of new Set([C?.heroParams?.yasuo,C?.heroes?.yasuo?.params]))if(p?.E)p.E.dash_distance=275;
+ if(e?.desc&&!e.desc.includes('固定位移275'))e.desc=e.desc.replace('冲刺穿过一个目标','向目标方向冲刺并固定位移275码（贴脸也会穿过目标）；优先选择范围内未进入同目标冷却的单位；只有冲刺期间按Q才是EQ环斩').replace(/^/,'');
+ let r=C?.heroes?.yasuo?.skills?.[3];if(r?.desc&&!r.desc.includes('双风'))r.desc+='\n双风：EQ延迟出伤期间按R会缓存，击飞生效后立即释放；R清空斩钢闪层数，但之后才结算的EQ仍会正常叠层。'}
+// V20.52 强化普攻/自身状态技能删除前摇：盖伦QWE、诺手W、俄洛伊W、易大师E/R、卡兹克R（艾希Q、瑟提Q原本为0）。
+{let H=window.GAME_CONFIG?.heroes,Z=[['garen',0],['garen',1],['garen',2],['darius',1],['illaoi',1],['masteryi',2],['masteryi',3],['khazix',3],['ashe',0],['sett',0]];for(let [id,i] of Z){let s=H?.[id]?.skills?.[i];if(s)s.windup=0}}
+// V20.53 诺手E：前摇0.25秒、后摇0.2秒。
+{let s=window.GAME_CONFIG?.heroes?.darius?.skills?.[2];if(s){s.windup=.25;s.recovery=.2}}
