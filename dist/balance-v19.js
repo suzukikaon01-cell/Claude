@@ -367,3 +367,5 @@
 (function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p?.Q){p.Q.outer_radius=313;p.Q.inner_radius=139}let q=H.skills?.[0];if(q)q.range=313;let e=H.skills?.[2];if(e){e.windup=.25;e.recovery=0}})();
 // V20.60 诺手Q/E范围缩小：Q外圈260/内圈116（仍按端游460:205比例），E射程330（扇形60°不变）
 (function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p){if(p.Q){p.Q.outer_radius=260;p.Q.inner_radius=116}if(p.E)p.E.range=330}let q=H.skills?.[0];if(q)q.range=260;let e=H.skills?.[2];if(e){e.range=330;if(e.desc)e.desc=e.desc.replace('射程380','射程330')}})();
+// V20.61 诺手E拉到身前后击飞0.75s（落地后仍减速）
+(function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p?.E)p.E.airborne_duration=.75})();
