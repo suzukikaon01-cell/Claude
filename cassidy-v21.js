@@ -76,6 +76,8 @@ window.installCassidy=function(m,env){
  function targetMult(L){let r=P.R,k=Math.max(0,Math.min(1,(L?.charge||0)/(r.max_charge-r.lock_time)));return 1+(r.charge_max_mult-1)*Math.pow(k,r.charge_curve)}
  // 预计伤害（未计算护甲与暴击）：基础 + 额外AD + 目标已损失生命值，乘该目标的叠伤倍率
  function previewDamage(u,t,L){let r=P.R;return (at(r.damage,u,3)+at(r.bonus_ad_ratio,u,3)*bonusAD(u))*targetMult(L)+at(r.missing_hp_ratio,u,3)*Math.max(0,(t.maxHp||0)-(t.hp||0))}
+ // 是否足以击杀：按目标护甲（计入麦克雷穿甲）折算后的预计伤害 ≥ 当前生命+护盾（不计暴击）
+ function lethal(u,t,L){let a=t.armor||0;if(a>0)a=Math.max(0,a*(1-(u.armorPenPct||0))-(u.armorPenFlat||0));let mult=ChampionRules.resistanceMultiplier(a)*(window.GameModes?.balance?.(t,'damage_taken_multiplier')??1);return previewDamage(u,t,L)*mult>=(t.hp||0)+(t.shield||0)}
  function chargeMult(u){let d=S(u).dead;if(!d)return 1;return Math.max(1,...d.locks.filter(L=>!L.lost).map(targetMult))}
  // 开火：按锁定顺序逐个射击（间隔 shot_interval），每枪在射出那一刻判定视野/阻挡/已损失生命值；倍率在开火瞬间按目标锁定
  function fireDeadeye(u){let s=S(u),d=s.dead;if(!d)return false;s.volley={event:d.event,next:now(),queue:d.locks.map(L=>({L,mult:targetMult(L),lockedOk:(L.prog||0)>=P.R.lock_time}))};s.dead=null;return true}
@@ -141,8 +143,11 @@ window.installCassidy=function(m,env){
    // 敌我双方都能看到：瞄准光圈 + 扫描范围
    ctx.strokeStyle='rgba(255,90,60,'+(.35+.3*Math.abs(Math.sin(T*8)))+')';ctx.lineWidth=3;ctx.setLineDash?.([18,12]);let ca=d.angle??0,hc=P.R.cone_deg*Math.PI/360;ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.arc(u.x,u.y,P.R.range,ca-hc,ca+hc);ctx.closePath();ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle='rgba(255,90,60,.06)';ctx.fill();
    ctx.strokeStyle='#ffcf5a';ctx.lineWidth=6;ctx.beginPath();ctx.arc(u.x,u.y,46,-Math.PI/2,-Math.PI/2+TAU*Math.min(1,(T-d.start)/P.R.max_charge));ctx.stroke();
-   for(let L of d.locks){let t=L.t;if(!alive(t))continue;let k2=Math.min(1,(L.prog||0)/P.R.lock_time),rr=(t.radius||22)+60-34*k2,col=L.lost?'#9aa4b2':k2>=1?'#ff3b30':'#ff9a3c';ctx.strokeStyle=col;ctx.lineWidth=3+2*k2*(mult-1)*2;ctx.save();ctx.translate(t.x,t.y);ctx.rotate(T*2);for(let q=0;q<4;q++){ctx.beginPath();ctx.arc(0,0,rr,q*Math.PI/2+.3,q*Math.PI/2+Math.PI/2-.3);ctx.stroke()}ctx.restore();
-    if(k2>=1&&!L.lost){ctx.fillStyle=col;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText('☠ ×'+targetMult(L).toFixed(1),t.x,t.y-(t.radius||22)-70);if(!viewer||u.team===viewer.team){ctx.font='bold 13px Arial';ctx.fillText('≈'+Math.round(previewDamage(u,t,L)),t.x,t.y-(t.radius||22)-52)}}
+   for(let L of d.locks){let t=L.t;if(!alive(t))continue;let k2=Math.min(1,(L.prog||0)/P.R.lock_time),kill=k2>=1&&!L.lost&&lethal(u,t,L),dtd=Math.min(.1,Math.max(0,T-(L.drawT??T)));L.drawT=T;L.lk=Math.max(0,Math.min(1,(L.lk||0)+(kill?dtd*5:-dtd*5)));
+    // 黄圈：已锁定但这一枪还打不死；伤害足够击杀时缩成红圈并显示骷髅头
+    let lk=L.lk,rr=(t.radius||22)+60-34*lk,col=L.lost?'#9aa4b2':lk>.5?'#ff3b30':'#ffd24a';ctx.strokeStyle=col;ctx.lineWidth=3+2*lk;ctx.save();ctx.translate(t.x,t.y);ctx.rotate(T*2);for(let q=0;q<4;q++){ctx.beginPath();ctx.arc(0,0,rr,q*Math.PI/2+.3,q*Math.PI/2+Math.PI/2-.3);ctx.stroke()}ctx.restore();
+    if(k2<1){ctx.strokeStyle='rgba(255,210,74,.8)';ctx.lineWidth=3;ctx.beginPath();ctx.arc(t.x,t.y,rr+8,-Math.PI/2,-Math.PI/2+TAU*k2);ctx.stroke()}
+    if(k2>=1&&!L.lost){ctx.fillStyle=col;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText((lk>=.99?'☠ ':'')+'×'+targetMult(L).toFixed(1),t.x,t.y-(t.radius||22)-70);if(!viewer||u.team===viewer.team){ctx.font='bold 13px Arial';ctx.fillText('≈'+Math.round(previewDamage(u,t,L)),t.x,t.y-(t.radius||22)-52)}}
     ctx.globalAlpha=.25*lockK;ctx.strokeStyle='#ff5a3c';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.lineTo(t.x,t.y);ctx.stroke();ctx.globalAlpha=1}
    ctx.restore()}}
   hud(viewer)}
@@ -154,6 +159,6 @@ window.installCassidy=function(m,env){
   let txt=s.reloadUntil?'换弹中 '+Math.max(0,s.reloadUntil-now()).toFixed(1)+'s':'弹药 '+s.ammo+'/'+P.P.magazine+' · Q 可倾泻 '+s.ammo+' 发';
   if(s.dead)txt='神枪手 · 锁定 '+s.dead.locks.filter(L=>!L.lost&&(L.prog||0)>=P.R.lock_time).length+'/'+s.dead.locks.length+' · 最高 ×'+chargeMult(viewer).toFixed(1)+' · 普攻键开火 / 再按 R 取消';
   let html=pips+' '+txt;if(el._last!==html){el._last=html;el.innerHTML=html}let op=s.dead?'1':'0';if(vg.style.opacity!==op)vg.style.opacity=op}
- m.cassidy={state:S,draw,ammo:u=>S(u).ammo,reloading:u=>!!S(u).reloadUntil,deadeye:u=>S(u).dead,volley:u=>S(u).volley,chargeMult,targetMult,fireDeadeye,refill};
+ m.cassidy={lethal,state:S,draw,ammo:u=>S(u).ammo,reloading:u=>!!S(u).reloadUntil,deadeye:u=>S(u).dead,volley:u=>S(u).volley,chargeMult,targetMult,fireDeadeye,refill};
 };
 })();
