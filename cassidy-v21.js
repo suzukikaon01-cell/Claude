@@ -14,7 +14,7 @@ const P={
  Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.6,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
  E:{cooldown:[16,15,14,13,12],range:450,radius:225,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:.75},
- R:{cooldown:[120,100,80],range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,damage:[180,270,360],bonus_ad_ratio:1,charge_max_mult:6,charge_curve:2}
+ R:{cooldown:[120,100,80],reset_q:true,range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,damage:[180,270,360],bonus_ad_ratio:1,charge_max_mult:6,charge_curve:2}
 };
 C.heroParams[ID]=P;
 const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:false,mana:0,...o});
@@ -30,7 +30,7 @@ C.heroes[ID]={name:'麦克雷',title:'神枪手',role:'ADC / 物理爆发',color
   skill({key:'E',name:'闪光弹',icon:'闪',target:'area',range:P.E.range,radius:P.E.radius,cd:P.E.cooldown,damage:P.E.damage,
    desc:'向450码内的目标点投掷闪光弹，落地爆炸：225码内敌人受到 60/90/120/150/180+80%额外AD 物理伤害并减速35%（1.25秒），敌方英雄0.75秒内无法使用位移技能。'}),
   skill({key:'R',name:'神枪手',icon:'瞄',target:'direction',range:P.R.range,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
-   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹：每个已锁定目标受到（180/270/360+100%额外AD）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
+   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹并刷新神射手连发的冷却：每个已锁定目标受到（180/270/360+100%额外AD）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
 };
 if(window.ChampionStats)ChampionStats[ID]=C.heroes[ID].stats;
 if(window.ChampionAbilities)ChampionAbilities[ID]=C.heroes[ID].skills;
@@ -87,7 +87,7 @@ window.installCassidy=function(m,env){
   if(c.i===0){s.fan={angle:a,event:e,fired:0,total:s.ammo,next:now()};fx(u,{kind:'fanSpin',x:u.x,y:u.y,life:s.ammo*P.Q.interval+.1})}
   if(c.i===1){let w=P.W,to={x:u.x+Math.cos(a)*w.distance,y:u.y+Math.sin(a)*w.distance};s.roll={until:now()+w.duration,angle:a,from:{x:u.x,y:u.y}};if(w.reset_q&&u.cd)u.cd[0]=0;s.fan=null;core.startDisplacement(u,to,{type:'DASH',duration:w.duration,source:u,abilityId:1});fx(u,{kind:'roll',x:u.x,y:u.y,angle:a,life:w.duration+.25})}
   if(c.i===2){let e2=P.E,d=Math.min(e2.range,Math.hypot((c.p?.x??u.x)-u.x,(c.p?.y??u.y)-u.y)),tx=u.x+Math.cos(a)*d,ty=u.y+Math.sin(a)*d;s.flash.push({x0:u.x,y0:u.y,x:tx,y:ty,start:now(),land:now()+Math.max(.12,d/e2.speed),event:e})}
-  if(c.i===3){let r=P.R;s.dead={start:now(),until:now()+r.max_charge,event:e,locks:[],angle:a};s.dead.locks=units().filter(t=>lockable(u,t)).sort((x,y)=>dist(u,x)-dist(u,y)).slice(0,r.max_targets).map(t=>({t,since:now(),prog:0}));s.fan=null;u.target=null;refill(u);sound(u,300,.4)}
+  if(c.i===3){let r=P.R;s.dead={start:now(),until:now()+r.max_charge,event:e,locks:[],angle:a};s.dead.locks=units().filter(t=>lockable(u,t)).sort((x,y)=>dist(u,x)-dist(u,y)).slice(0,r.max_targets).map(t=>({t,since:now(),prog:0}));s.fan=null;u.target=null;refill(u);if(P.R.reset_q&&u.cd)u.cd[0]=0;sound(u,300,.4)}
  },{attackTiming:{windup:.2,recovery:.12}});
 
  m.heroHooks[ID]={
