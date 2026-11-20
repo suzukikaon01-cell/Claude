@@ -8,3 +8,4 @@ function run(id,i,deflect,pre){let h=make(),m=h.a.m,g=h.reset('genji');g.hp=g.ma
 for(let [id,i,pre] of [['lux',0],['yasuo',0,c=>c.championState={qStacks:2}],['ashe',1],['khazix',1]]){let a=run(id,i,false,pre),b=run(id,i,true,pre);
  assert(Math.abs(a.raw-b.raw)<1,id+' raw '+a.raw+' vs reflected '+b.raw);assert.equal(b.vis,id,id+' keeps model');assert.equal(b.g.hp,b.g.maxHp,'genji unhurt')}
 console.log('PASS Genji reflection: same raw damage, effects and projectile model as the original');
+{const h=make();let g=h.reset('genji'),calls=[],ctx=new Proxy({save(){},restore(){},arc(...a){calls.push(a)}},{get:(o,k)=>o[k]||(()=>{}),set:(o,k,v)=>(o[k]=v,true)});h.env.drawCombatProjectile(ctx,{x:0,y:0,dx:1,dy:0,life:1,source:g,visualSource:{type:'tower',team:1},reflectionCount:1,speed:800,radius:9},1);assert(calls.some(a=>a[2]===11),'reflected tower shot keeps tower bolt model');console.log('PASS reflected tower projectile keeps its model')}
