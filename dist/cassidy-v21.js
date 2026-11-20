@@ -131,8 +131,8 @@ window.installCassidy=function(m,env){
   for(let b of s.flash){let k=Math.min(1,(T-b.start)/(b.land-b.start)),x=b.x0+(b.x-b.x0)*k,y=b.y0+(b.y-b.y0)*k-Math.sin(k*Math.PI)*60;ctx.save();ctx.fillStyle='#d9dde3';ctx.strokeStyle='#3a3f46';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,8,0,TAU);ctx.fill();ctx.stroke();ctx.globalAlpha=.35;ctx.strokeStyle='#fff6c8';ctx.beginPath();ctx.arc(b.x,b.y,P.E.radius,0,TAU);ctx.stroke();ctx.restore()}
   if(!alive(u))continue;
   if(seen){// 弹药：头顶 6 颗子弹，已消耗的变暗；换弹时显示进度环
-   ctx.save();let y=u.y-(u.radius||22)-58;for(let i=0;i<P.P.magazine;i++){ctx.fillStyle=i<s.ammo?'#ffd27a':'#4a4f57';ctx.fillRect(u.x-27+i*9,y,6,11);ctx.fillStyle=i<s.ammo?'#b4762e':'#30343a';ctx.fillRect(u.x-27+i*9,y,6,3)}
-   if(s.reloadUntil){let k=1-(s.reloadUntil-T)/P.P.reload;ctx.strokeStyle='#ffd27a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(u.x+36,y+5,7,-Math.PI/2,-Math.PI/2+TAU*k);ctx.stroke()}ctx.restore()}
+   ctx.save();let y=u.y-92*(u.visualScale||1)+9,bw=65,gap=2,pw=(bw-gap*(P.P.magazine-1))/P.P.magazine;ctx.fillStyle='#07121ee8';ctx.fillRect(u.x-bw/2-1,y-1,bw+2,6);for(let i=0;i<P.P.magazine;i++){ctx.fillStyle=i<s.ammo?'#ffd27a':'#3a3f46';ctx.fillRect(u.x-bw/2+i*(pw+gap),y,pw,4)}
+   if(s.reloadUntil){let k=1-(s.reloadUntil-T)/P.P.reload;ctx.strokeStyle='#ffd27a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(u.x+bw/2+9,y+2,5,-Math.PI/2,-Math.PI/2+TAU*k);ctx.stroke()}ctx.restore()}
   if(s.dead&&seen){ctx.save();let g=ctx.createRadialGradient?ctx.createRadialGradient(u.x,u.y,8,u.x,u.y,70):null;if(g){g.addColorStop(0,'rgba(255,40,20,.55)');g.addColorStop(1,'rgba(255,40,20,0)');ctx.fillStyle=g}else ctx.fillStyle='rgba(255,40,20,.3)';ctx.beginPath();ctx.arc(u.x,u.y,70+6*Math.sin(T*10),0,TAU);ctx.fill();ctx.restore()}
   if(s.dead){let d=s.dead,lockK=Math.min(1,(T-d.start)/P.R.lock_time),mult=chargeMult(u);ctx.save();
    // 敌我双方都能看到：瞄准光圈 + 扫描范围
