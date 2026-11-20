@@ -355,6 +355,6 @@
 {let C=window.GAME_CONFIG,H=C?.heroes;if(H?.genji?.skills?.[3]){H.genji.skills[3].windup=0;H.genji.skills[3].recovery=0}let a=C?.heroParams?.genji?.AA;if(a)a.shuriken_speed=600;
  for(let i of [0,1])if(H?.garen?.skills?.[i])H.garen.skills[i].recovery=0;
  let w=H?.ashe?.skills?.[1];if(w&&w.projectileSpeed===600)w.projectileSpeed=900;for(let p of new Set([C?.heroParams?.ashe,H?.ashe?.params]))if(p?.W&&p.W.projectile_speed===600)p.W.projectile_speed=900;
- let gr=H?.genji?.skills?.[3];if(gr?.desc)gr.desc=gr.desc.replace('拔刀（0.5秒，霸体且无法被打断）','拔刀（0.5秒，可移动、不能使用技能和普攻，霸体且无法被打断）')}
+ let gr=H?.genji?.skills?.[3];if(gr?.desc)gr.desc=gr.desc.replace('拔刀（0.5秒，霸体且无法被打断）','拔刀（0.5秒，可移动、不能使用技能和普攻；不是霸体，但被控制也不会打断拔刀）')}
 // V20.56 源氏Q散镖弹速 1200→600（与普攻飞镖一致）。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params]))if(p?.Q)p.Q.speed=600;let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=600;if(q.desc)q.desc=q.desc.replace('弹速1200','弹速600')}}
