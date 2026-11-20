@@ -4,14 +4,14 @@
  * Q 神射手连发：以 0.09 秒间隔倾泻当前弹匣剩余子弹（最多 6 发），每发独立弹道与散布，400 码外无效。
  * W 战术翻滚：朝指定方向翻滚 350 码（0.4 秒，不能穿墙，可穿过单位），期间受到伤害 -35%，结束时装满弹匣。
  * E 闪光弹：投掷至 450 码内目标点，落地爆炸 225 码：物理伤害、减速 35%（1.25 秒）、禁止位移技能 0.75 秒（遵守控制免疫）。
- * R 神枪手：最长 6 秒；每个锁定目标独立叠伤（二次加速，最高 6 倍），再按 R 提前开火或到时自动开火。
+ * R 神枪手：最长 6 秒；每个锁定目标独立叠伤（二次加速，最高 6 倍），普攻键提前开火，再按 R 取消，开大时装满弹匣。
  *   伤害 =（基础 + 100%额外AD）× 蓄力倍率（1.0→1.5 平滑提升）；开火时已离开范围、被地形遮挡、隐身/不可选中的目标不受伤害；被硬控打断则不开火。 */
 (()=>{'use strict';
 const ID='cassidy',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
  BASE:{hp_base:600,hp_growth:100,mana_base:0,mana_growth:0,ad_base:63,ad_growth:3.3,armor_base:28,armor_growth:4.85,mr_base:30,mr_growth:1.8,as_base:.625,as_ratio:.625,as_growth:.025,move_speed:216,attack_range:400,is_ranged:1,hero_name:'麦克雷'},
  P:{magazine:6,reload:1.6,idle_reload_delay:4,crit_multiplier:1.75,crit_w_refund:1,projectile_speed:2400},
- Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.45,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
+ Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.6,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
  E:{cooldown:[16,15,14,13,12],range:450,radius:225,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:.75},
  R:{cooldown:[120,100,80],range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,damage:[180,270,360],bonus_ad_ratio:1,charge_max_mult:6,charge_curve:2}
@@ -24,13 +24,13 @@ C.heroes[ID]={name:'麦克雷',title:'神枪手',role:'ADC / 物理爆发',color
  passive:{name:'神枪手本能',desc:'左轮弹匣 6 发，每次普攻消耗 1 发；打空后自动换弹 1.6 秒（换弹期间不能普攻），4 秒未开火会自动补满。普攻暴击伤害 175%；暴击命中敌方英雄时战术翻滚冷却 -1 秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'神射手连发',icon:'连',target:'direction',range:P.Q.range,width:60,cd:P.Q.cooldown,damage:P.Q.damage,adRatio:P.Q.ad_ratio,
-   desc:'快速倾泻弹匣中剩余的全部子弹（最多6发，每发间隔0.09秒），每发造成 12/18/24/30/36+45%AD 物理伤害。200码内散布小，200～400码散布逐渐增大，400码外无效。每发子弹可暴击（175%）。打空后自动换弹。'}),
+   desc:'快速倾泻弹匣中剩余的全部子弹（最多6发，每发间隔0.09秒），每发造成 12/18/24/30/36+60%AD 物理伤害。200码内散布小，200～400码散布逐渐增大，400码外无效。每发子弹可暴击（175%）。打空后自动换弹。'}),
   skill({key:'W',name:'战术翻滚',icon:'滚',target:'direction',range:P.W.distance,cd:P.W.cooldown,damage:0,
    desc:'朝指定方向翻滚350码（0.4秒，不能穿墙，可穿过敌方英雄），翻滚期间受到的伤害降低35%、不能普攻，结束时立即装满6发子弹，并刷新神射手连发的冷却。'}),
   skill({key:'E',name:'闪光弹',icon:'闪',target:'area',range:P.E.range,radius:P.E.radius,cd:P.E.cooldown,damage:P.E.damage,
    desc:'向450码内的目标点投掷闪光弹，落地爆炸：225码内敌人受到 60/90/120/150/180+80%额外AD 物理伤害并减速35%（1.25秒），敌方英雄0.75秒内无法使用位移技能。'}),
   skill({key:'R',name:'神枪手',icon:'瞄',target:'direction',range:P.R.range,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
-   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，再次按R开火或到时自动开火：每个已锁定目标受到（180/270/360+100%额外AD）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
+   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹：每个已锁定目标受到（180/270/360+100%额外AD）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
 };
 if(window.ChampionStats)ChampionStats[ID]=C.heroes[ID].stats;
 if(window.ChampionAbilities)ChampionAbilities[ID]=C.heroes[ID].skills;
@@ -87,12 +87,12 @@ window.installCassidy=function(m,env){
   if(c.i===0){s.fan={angle:a,event:e,fired:0,total:s.ammo,next:now()};fx(u,{kind:'fanSpin',x:u.x,y:u.y,life:s.ammo*P.Q.interval+.1})}
   if(c.i===1){let w=P.W,to={x:u.x+Math.cos(a)*w.distance,y:u.y+Math.sin(a)*w.distance};s.roll={until:now()+w.duration,angle:a,from:{x:u.x,y:u.y}};if(w.reset_q&&u.cd)u.cd[0]=0;s.fan=null;core.startDisplacement(u,to,{type:'DASH',duration:w.duration,source:u,abilityId:1});fx(u,{kind:'roll',x:u.x,y:u.y,angle:a,life:w.duration+.25})}
   if(c.i===2){let e2=P.E,d=Math.min(e2.range,Math.hypot((c.p?.x??u.x)-u.x,(c.p?.y??u.y)-u.y)),tx=u.x+Math.cos(a)*d,ty=u.y+Math.sin(a)*d;s.flash.push({x0:u.x,y0:u.y,x:tx,y:ty,start:now(),land:now()+Math.max(.12,d/e2.speed),event:e})}
-  if(c.i===3){let r=P.R;s.dead={start:now(),until:now()+r.max_charge,event:e,locks:[],angle:a};s.dead.locks=units().filter(t=>lockable(u,t)).sort((x,y)=>dist(u,x)-dist(u,y)).slice(0,r.max_targets).map(t=>({t,since:now(),prog:0}));s.fan=null;u.target=null;sound(u,300,.4)}
+  if(c.i===3){let r=P.R;s.dead={start:now(),until:now()+r.max_charge,event:e,locks:[],angle:a};s.dead.locks=units().filter(t=>lockable(u,t)).sort((x,y)=>dist(u,x)-dist(u,y)).slice(0,r.max_targets).map(t=>({t,since:now(),prog:0}));s.fan=null;u.target=null;refill(u);sound(u,300,.4)}
  },{attackTiming:{windup:.2,recovery:.12}});
 
  m.heroHooks[ID]={
   prepare(u,i){let s=S(u);if(s.dead&&i!==3)return false;if(i===0&&(s.ammo<=0||s.reloadUntil||s.fan||s.roll))return false},
-  recast(u,i){let s=S(u);if(i===3&&s.dead){if(now()-s.dead.start<P.R.lock_time)return false;return fireDeadeye(u)}return undefined},
+  recast(u,i){let s=S(u);if(i===3&&s.dead){cancelDeadeye(u);return true}return undefined},
   canMove(u){return true},
   beforeAttack(u){let s=S(u);if(s.dead||s.fan||(s.roll&&s.roll.until>now()))return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
   attackProfile:()=>({windup:.2,recovery:.12,projectileSpeed:P.P.projectile_speed}),
@@ -147,7 +147,7 @@ window.installCassidy=function(m,env){
   if(!vg){vg=document.createElement('div');vg.id='cassidyVignette';vg.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:20;transition:opacity .25s;opacity:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 45%,rgba(90,10,0,.55) 100%)';document.body.appendChild(vg)}
   el.style.display='';let pips='';for(let i=0;i<P.P.magazine;i++)pips+='<span style="display:inline-block;width:6px;height:12px;margin-right:2px;border-radius:2px;background:'+(i<s.ammo?'#ffd27a':'#3a3f46')+'"></span>';
   let txt=s.reloadUntil?'换弹中 '+Math.max(0,s.reloadUntil-now()).toFixed(1)+'s':'弹药 '+s.ammo+'/'+P.P.magazine+' · Q 可倾泻 '+s.ammo+' 发';
-  if(s.dead)txt='神枪手 · 锁定 '+s.dead.locks.filter(L=>!L.lost&&(L.prog||0)>=P.R.lock_time).length+'/'+s.dead.locks.length+' · 最高 ×'+chargeMult(viewer).toFixed(1)+' · 再按 R 开火';
+  if(s.dead)txt='神枪手 · 锁定 '+s.dead.locks.filter(L=>!L.lost&&(L.prog||0)>=P.R.lock_time).length+'/'+s.dead.locks.length+' · 最高 ×'+chargeMult(viewer).toFixed(1)+' · 普攻键开火 / 再按 R 取消';
   let html=pips+' '+txt;if(el._last!==html){el._last=html;el.innerHTML=html}let op=s.dead?'1':'0';if(vg.style.opacity!==op)vg.style.opacity=op}
  m.cassidy={state:S,draw,ammo:u=>S(u).ammo,reloading:u=>!!S(u).reloadUntil,deadeye:u=>S(u).dead,chargeMult,targetMult,fireDeadeye,refill};
 };
