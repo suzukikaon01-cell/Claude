@@ -11,7 +11,7 @@ const ID='cassidy',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
  BASE:{hp_base:600,hp_growth:100,mana_base:0,mana_growth:0,ad_base:63,ad_growth:3.3,armor_base:28,armor_growth:4.85,mr_base:30,mr_growth:1.8,as_base:.625,as_ratio:.625,as_growth:.025,move_speed:216,attack_range:400,is_ranged:1,hero_name:'麦克雷'},
  P:{magazine:6,reload:1.6,idle_reload_delay:4,crit_multiplier:1.75,crit_w_refund:1,projectile_speed:2400},
- Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.6,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
+ Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.4,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
  E:{cooldown:[16,15,14,13,12],range:450,radius:225,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:.75},
  R:{cooldown:[120,100,80],reset_q:true,range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,damage:[180,270,360],bonus_ad_ratio:1,charge_max_mult:6,charge_curve:2}
@@ -24,7 +24,7 @@ C.heroes[ID]={name:'麦克雷',title:'神枪手',role:'ADC / 物理爆发',color
  passive:{name:'神枪手本能',desc:'左轮弹匣 6 发，每次普攻消耗 1 发；打空后自动换弹 1.6 秒（换弹期间不能普攻），4 秒未开火会自动补满。普攻暴击伤害 175%；暴击命中敌方英雄时战术翻滚冷却 -1 秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'神射手连发',icon:'连',target:'direction',range:P.Q.range,width:60,cd:P.Q.cooldown,damage:P.Q.damage,adRatio:P.Q.ad_ratio,
-   desc:'快速倾泻弹匣中剩余的全部子弹（最多6发，每发间隔0.09秒），每发造成 12/18/24/30/36+60%AD 物理伤害。200码内散布小，200～400码散布逐渐增大，400码外无效。每发子弹可暴击（175%）。打空后自动换弹。'}),
+   desc:'快速倾泻弹匣中剩余的全部子弹（最多6发，每发间隔0.09秒），每发造成 12/18/24/30/36+40%AD 物理伤害。200码内散布小，200～400码散布逐渐增大，400码外无效。每发子弹可暴击（175%）。打空后自动换弹。'}),
   skill({key:'W',name:'战术翻滚',icon:'滚',target:'direction',range:P.W.distance,cd:P.W.cooldown,damage:0,
    desc:'朝指定方向翻滚350码（0.4秒，不能穿墙，可穿过敌方英雄），翻滚期间受到的伤害降低35%、不能普攻，结束时立即装满6发子弹，并刷新神射手连发的冷却。'}),
   skill({key:'E',name:'闪光弹',icon:'闪',target:'area',range:P.E.range,radius:P.E.radius,cd:P.E.cooldown,damage:P.E.damage,
