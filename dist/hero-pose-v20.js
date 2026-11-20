@@ -35,15 +35,15 @@ function anvilPose(b,U,I){let S=U.anvilState||{},A=b.arms||[],L=A[0],R=A[1],body
  // R：升空/坠落阶段高度超过阈值时隐藏整个模型，只保留地面落点预警
  if(lift&&root){let h=0;if(lift.mode==='rise')h=lift.height*Math.min(1,Math.max(0,(I-lift.start)/lift.rise));else if(lift.mode==='fall'){let k=Math.max(0,Math.min(1,(I-lift.start)/Math.max(.01,lift.end-lift.start)));h=lift.height*(1-k*k)}if(lift.mode&&h>180){root.visible=false;return}
   if(lift.mode==='fall'){body.rotation.x=.35;R.rotation.x=-2.8;if(L)L.rotation.x=-2.8;return}}
- body.rotation.set(0,0,0);body.position.z=0;
+ let fy=body.rotation.y;body.rotation.x=0;body.rotation.z=0;body.position.z=0;
  // 待机：拳击架势，双拳护在胸前，轻微起伏
- let bob=Math.sin(I*4)*.04;R.rotation.set(-.9+bob,0,-.25);if(L)L.rotation.set(-1.1-bob,0,.3);body.rotation.y=.12;
- if(S.block&&S.block.until>I){R.rotation.set(-1.5,0,.75);if(L)L.rotation.set(-1.5,0,-.75);body.rotation.x=.12;body.rotation.y=0;return}
- if(S.dash&&S.dash.until>I){R.rotation.set(-1.65,0,0);if(L)L.rotation.set(.6,0,.3);body.rotation.x=.42;body.position.z=-6;body.rotation.y=-.25;return}
- if(S.charging){let k=Math.min(1,(I-S.charging.start)/(GAME_CONFIG.heroParams.anvil?.Q.charge_max||1));R.rotation.set(1.1*k,0,-.35*k);if(L)L.rotation.set(-1.4,0,.4);body.rotation.x=-.2*k;body.rotation.y=.45*k;return}
+ let bob=Math.sin(I*4)*.04;R.rotation.set(-.9+bob,0,-.25);if(L)L.rotation.set(-1.1-bob,0,.3);body.rotation.y=fy+(.12);
+ if(S.block&&S.block.until>I){R.rotation.set(-1.5,0,.75);if(L)L.rotation.set(-1.5,0,-.75);body.rotation.x=.12;body.rotation.y=fy+(0);return}
+ if(S.dash&&S.dash.until>I){R.rotation.set(-1.65,0,0);if(L)L.rotation.set(.6,0,.3);body.rotation.x=.42;body.position.z=-6;body.rotation.y=fy+(-.25);return}
+ if(S.charging){let k=Math.min(1,(I-S.charging.start)/(GAME_CONFIG.heroParams.anvil?.Q.charge_max||1));R.rotation.set(1.1*k,0,-.35*k);if(L)L.rotation.set(-1.4,0,.4);body.rotation.x=-.2*k;body.rotation.y=fy+(.45*k);return}
  if(lift&&!lift.mode){let k=Math.max(0,Math.min(1,(I-lift.start)/Math.max(.05,lift.end-lift.start)));if(k<.65){let e=ease(k/.65);R.rotation.set(-2.9*e,0,-.2);if(L)L.rotation.set(-2.6*e,0,.2);body.rotation.x=-.25*e}else{let e=ease((k-.65)/.35);R.rotation.set(-2.9+3.1*e,0,-.2);if(L)L.rotation.set(-2.6+2.8*e,0,.2);body.rotation.x=-.25+.6*e}return}
  // 普攻：左右交替刺拳，重拳侧（右）出拳更重
- let tl=U.attackTimeline;if(tl&&tl.started!=null){let span=Math.max(.05,(tl.windup||.24)+(tl.recovery||.25)*.6),k=(I-tl.started)/span;if(k>=0&&k<1){if(U.anvilJabKey!==tl.started){U.anvilJabKey=tl.started;U.anvilJab=!U.anvilJab}let right=!!U.anvilJab,w=k<.45?ease(k/.45):1-ease((k-.45)/.55);if(right){R.rotation.x=-.9-.85*w;body.rotation.y=.12-.4*w;body.rotation.x=.12*w}else if(L){L.rotation.x=-1.1-.7*w;body.rotation.y=.12+.3*w}body.position.z=-4*w}}}
+ let tl=U.attackTimeline;if(tl&&tl.started!=null){let span=Math.max(.05,(tl.windup||.24)+(tl.recovery||.25)*.6),k=(I-tl.started)/span;if(k>=0&&k<1){if(U.anvilJabKey!==tl.started){U.anvilJabKey=tl.started;U.anvilJab=!U.anvilJab}let right=!!U.anvilJab,w=k<.45?ease(k/.45):1-ease((k-.45)/.55);if(right){R.rotation.x=-.9-.85*w;body.rotation.y=fy+(.12-.4*w);body.rotation.x=.12*w}else if(L){L.rotation.x=-1.1-.7*w;body.rotation.y=.12+.3*w}body.position.z=-4*w}}}
 // 麦克雷：用模型自带的网格构造器拼出牛仔帽和左轮（不依赖外部资源），并制作普攻/连发/翻滚/投掷/神枪手动作。
 function cassidyBuild(b){if(b.cassidyBuilt||!b.body)return;let proto=null,cyl=null;b.body.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='BoxGeometry'&&!proto)proto=o;if(o.isMesh&&o.geometry?.type==='CylinderGeometry'&&!cyl)cyl=o});if(!proto)return;b.cassidyBuilt=true;
  const Mesh=proto.constructor,Box=proto.geometry.constructor,Cyl=cyl?.geometry.constructor,mat=c=>{let m=proto.material.clone();m.color?.set(c);if(m.emissive)m.emissive.set('#000000');return m},box=(w,h,d,c,x,y,z,parent)=>{let o=new Mesh(new Box(w,h,d),mat(c));o.position.set(x,y,z);parent.add(o);return o};
@@ -52,10 +52,10 @@ function cassidyBuild(b){if(b.cassidyBuilt||!b.body)return;let proto=null,cyl=nu
  if(b.weapon)b.weapon.visible=false;
  let cape=b.body.children.find(o=>o.isMesh&&o.geometry?.parameters?.depth===3);if(cape)cape.material=mat('#7a3b22')}
 function cassidyPose(b,U,I){cassidyBuild(b);if(b.weapon)b.weapon.visible=false;let S=U.cassidyState||{},A=b.arms||[],L=A[0],R=A[1],body=b.body,ease=x=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);if(!R||!body)return;
- body.rotation.set(0,0,0);body.position.set(0,body.position.y,0);R.rotation.set(-.35,0,0);if(L)L.rotation.set(-.1,0,.12);if(b.cassidyGun)b.cassidyGun.rotation.set(0,0,0);
+ let fy=body.rotation.y;body.rotation.x=0;body.rotation.z=0;body.position.set(0,body.position.y,0);R.rotation.set(-.35,0,0);if(L)L.rotation.set(-.1,0,.12);if(b.cassidyGun)b.cassidyGun.rotation.set(0,0,0);
  if(S.roll&&S.roll.until>I){let k=1-(S.roll.until-I)/.4;body.rotation.x=-Math.PI*2*ease(k);body.position.y=-10*Math.sin(k*Math.PI);R.rotation.x=-.2;if(b.cassidyGun)b.cassidyGun.rotation.z=k*Math.PI*4;return}
  if(S.dead){let k=Math.min(1,(I-S.dead.start)/.3);R.rotation.x=-1.5*k;R.rotation.z=.05;if(L)L.rotation.set(-1.35*k,0,-.45*k);body.rotation.x=.08*k;body.position.y=-3*k;return}
- if(S.fan){let ph=(I*11)%1;R.rotation.x=-1.45+.08*Math.sin(ph*Math.PI*2);if(L)L.rotation.set(-1.2-.35*Math.sin(ph*Math.PI*2),0,-.6);body.rotation.y=-.15;return}
+ if(S.fan){let ph=(I*11)%1;R.rotation.x=-1.45+.08*Math.sin(ph*Math.PI*2);if(L)L.rotation.set(-1.2-.35*Math.sin(ph*Math.PI*2),0,-.6);body.rotation.y=fy+(-.15);return}
  let fl=(S.flash||[])[0];if(fl&&I-fl.start<.35){let k=(I-fl.start)/.35;if(L)L.rotation.x=k<.5?-2.2*(k/.5):-2.2+2.6*((k-.5)/.5);return}
  let tl=U.attackTimeline;if(tl&&tl.started!=null){let w=Math.max(.05,tl.windup||.2),k=(I-tl.started)/w;if(k>=0&&k<2.2){R.rotation.x=-1.45;if(k>1){let r=Math.min(1,(k-1)/.5);R.rotation.x=-1.45-.35*Math.sin(r*Math.PI);body.rotation.x=-.05*Math.sin(r*Math.PI)}}}
  if((S.reloadUntil||0)>I){let k=(I*5)%1;R.rotation.set(-.9,0,.6);if(L)L.rotation.set(-1,0,-.5+.2*Math.sin(k*Math.PI*2));if(b.cassidyGun)b.cassidyGun.rotation.z=Math.PI/2}}
