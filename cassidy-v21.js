@@ -74,6 +74,8 @@ window.installCassidy=function(m,env){
  function wallPoint(u,t){let lo=0,hi=1;for(let k=0;k<12;k++){let mid=(lo+hi)/2;if(los(u,{x:u.x+(t.x-u.x)*mid,y:u.y+(t.y-u.y)*mid}))lo=mid;else hi=mid}return{x:u.x+(t.x-u.x)*lo,y:u.y+(t.y-u.y)*lo}}
  // 每个目标独立叠伤：锁定完成后，目标在视野内被持续瞄准的时间越长，倍率增长越快（二次曲线），最高 6 倍
  function targetMult(L){let r=P.R,k=Math.max(0,Math.min(1,(L?.charge||0)/(r.max_charge-r.lock_time)));return 1+(r.charge_max_mult-1)*Math.pow(k,r.charge_curve)}
+ // 预计伤害（未计算护甲与暴击）：基础 + 额外AD + 目标已损失生命值，乘该目标的叠伤倍率
+ function previewDamage(u,t,L){let r=P.R;return (at(r.damage,u,3)+at(r.bonus_ad_ratio,u,3)*bonusAD(u)+at(r.missing_hp_ratio,u,3)*Math.max(0,(t.maxHp||0)-(t.hp||0)))*targetMult(L)}
  function chargeMult(u){let d=S(u).dead;if(!d)return 1;return Math.max(1,...d.locks.filter(L=>!L.lost).map(targetMult))}
  function fireDeadeye(u){let s=S(u),d=s.dead;if(!d)return false;let r=P.R,n=0;
   for(let L of d.locks){let t=L.t;if((L.prog||0)<r.lock_time||!lockable(u,t)){fx(u,{kind:'deadMiss',x:t.x,y:t.y,life:.5});continue}
@@ -137,7 +139,7 @@ window.installCassidy=function(m,env){
    ctx.strokeStyle='rgba(255,90,60,'+(.35+.3*Math.abs(Math.sin(T*8)))+')';ctx.lineWidth=3;ctx.setLineDash?.([18,12]);let ca=d.angle??0,hc=P.R.cone_deg*Math.PI/360;ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.arc(u.x,u.y,P.R.range,ca-hc,ca+hc);ctx.closePath();ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle='rgba(255,90,60,.06)';ctx.fill();
    ctx.strokeStyle='#ffcf5a';ctx.lineWidth=6;ctx.beginPath();ctx.arc(u.x,u.y,46,-Math.PI/2,-Math.PI/2+TAU*Math.min(1,(T-d.start)/P.R.max_charge));ctx.stroke();
    for(let L of d.locks){let t=L.t;if(!alive(t))continue;let k2=Math.min(1,(L.prog||0)/P.R.lock_time),rr=(t.radius||22)+60-34*k2,col=L.lost?'#9aa4b2':k2>=1?'#ff3b30':'#ff9a3c';ctx.strokeStyle=col;ctx.lineWidth=3+2*k2*(mult-1)*2;ctx.save();ctx.translate(t.x,t.y);ctx.rotate(T*2);for(let q=0;q<4;q++){ctx.beginPath();ctx.arc(0,0,rr,q*Math.PI/2+.3,q*Math.PI/2+Math.PI/2-.3);ctx.stroke()}ctx.restore();
-    if(k2>=1&&!L.lost){ctx.fillStyle=col;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText('☠ ×'+targetMult(L).toFixed(1),t.x,t.y-(t.radius||22)-70)}
+    if(k2>=1&&!L.lost){ctx.fillStyle=col;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText('☠ ×'+targetMult(L).toFixed(1),t.x,t.y-(t.radius||22)-70);if(!viewer||u.team===viewer.team){ctx.font='bold 13px Arial';ctx.fillText('≈'+Math.round(previewDamage(u,t,L)),t.x,t.y-(t.radius||22)-52)}}
     ctx.globalAlpha=.25*lockK;ctx.strokeStyle='#ff5a3c';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.lineTo(t.x,t.y);ctx.stroke();ctx.globalAlpha=1}
    ctx.restore()}}
   hud(viewer)}
