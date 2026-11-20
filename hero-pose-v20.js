@@ -51,10 +51,12 @@ function cassidyBuild(b){if(b.cassidyBuilt||!b.body)return;let proto=null,cyl=nu
  let R=b.arms?.[1];if(R){let gun=new (b.body.constructor)();gun.position.set(0,-24,-4);R.add(gun);box(4,4,24,'#3a3f46',0,0,-12,gun);box(9,9,8,'#6d737c',0,0,-2,gun);box(5,11,5,'#5a3520',0,-7,3,gun);b.cassidyGun=gun}
  if(b.weapon)b.weapon.visible=false;
  let cape=b.body.children.find(o=>o.isMesh&&o.geometry?.parameters?.depth===3);if(cape)cape.material=mat('#7a3b22')}
+// 神枪手：全身红色荧光（每个网格独立材质，避免影响其他单位）
+function cassidyGlow(b,k){if(!b.root)return;if(!b.cassidyMats){b.cassidyMats=[];b.root.traverse(o=>{if(o.isMesh&&o.material&&o.material.emissive){o.material=o.material.clone();b.cassidyMats.push({m:o.material,e:o.material.emissive.clone(),i:o.material.emissiveIntensity??1})}})}if(k===b.cassidyGlowK)return;b.cassidyGlowK=k;for(let x of b.cassidyMats){if(k>0){x.m.emissive.setRGB(1,.12,.05);x.m.emissiveIntensity=x.i+1.6*k}else{x.m.emissive.copy(x.e);x.m.emissiveIntensity=x.i}}}
 function cassidyPose(b,U,I){cassidyBuild(b);if(b.weapon)b.weapon.visible=false;let S=U.cassidyState||{},A=b.arms||[],L=A[0],R=A[1],body=b.body,ease=x=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);if(!R||!body)return;
  let fy=body.rotation.y;body.rotation.x=0;body.rotation.z=0;body.position.set(0,body.position.y,0);R.rotation.set(-.35,0,0);if(L)L.rotation.set(-.1,0,.12);if(b.cassidyGun)b.cassidyGun.rotation.set(0,0,0);
  if(S.roll&&S.roll.until>I){let k=1-(S.roll.until-I)/.4;body.rotation.x=-Math.PI*2*ease(k);body.position.y=-10*Math.sin(k*Math.PI);R.rotation.x=-.2;if(b.cassidyGun)b.cassidyGun.rotation.z=k*Math.PI*4;return}
- if(S.dead){let k=Math.min(1,(I-S.dead.start)/.3);R.rotation.x=-1.5*k;R.rotation.z=.05;if(L)L.rotation.set(-1.35*k,0,-.45*k);body.rotation.x=.08*k;body.position.y=-3*k;return}
+ cassidyGlow(b,S.dead?Math.min(1,(I-S.dead.start)/.25)*(.75+.25*Math.sin(I*10)):0);if(S.dead){let k=ease((I-S.dead.start)/.35);R.rotation.set(-1.75*k,0,.08*k);if(L)L.rotation.set(-1.55*k,0,-.55*k);if(b.cassidyGun)b.cassidyGun.rotation.x=.15*k;body.rotation.x=-.06*k;return}
  if(S.fan){let ph=(I*11)%1;R.rotation.x=-1.45+.08*Math.sin(ph*Math.PI*2);if(L)L.rotation.set(-1.2-.35*Math.sin(ph*Math.PI*2),0,-.6);body.rotation.y=fy+(-.15);return}
  let fl=(S.flash||[])[0];if(fl&&I-fl.start<.35){let k=(I-fl.start)/.35;if(L)L.rotation.x=k<.5?-2.2*(k/.5):-2.2+2.6*((k-.5)/.5);return}
  let tl=U.attackTimeline;if(tl&&tl.started!=null){let w=Math.max(.05,tl.windup||.2),k=(I-tl.started)/w;if(k>=0&&k<2.2){R.rotation.x=-1.45;if(k>1){let r=Math.min(1,(k-1)/.5);R.rotation.x=-1.45-.35*Math.sin(r*Math.PI);body.rotation.x=-.05*Math.sin(r*Math.PI)}}}
