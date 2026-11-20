@@ -10,10 +10,10 @@
 const ID='cassidy',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
  BASE:{hp_base:600,hp_growth:100,mana_base:0,mana_growth:0,ad_base:63,ad_growth:3.3,armor_base:28,armor_growth:4.85,mr_base:30,mr_growth:1.8,as_base:.625,as_ratio:.625,as_growth:.025,move_speed:216,attack_range:400,is_ranged:1,hero_name:'麦克雷'},
- P:{magazine:6,reload:1.6,idle_reload_delay:4,crit_multiplier:1.75,crit_w_refund:1,projectile_speed:2400},
+ P:{aa_ad_ratio:1.15,magazine:6,reload:1.6,idle_reload_delay:4,crit_multiplier:1.75,crit_w_refund:1,projectile_speed:2400},
  Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.4,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
- E:{cooldown:[16,15,14,13,12],range:450,radius:225,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:.75},
+ E:{cooldown:[16,15,14,13,12],range:450,radius:175,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:2.5,interrupt_dash:true},
  R:{cooldown:[120,100,80],reset_q:true,range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,shot_interval:.15,damage:[50,75,100],bonus_ad_ratio:[.4,.5,.6],missing_hp_ratio:[.15,.2,.25],charge_max_mult:6,charge_curve:2}
 };
 C.heroParams[ID]=P;
@@ -21,14 +21,14 @@ const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:fa
 C.heroes[ID]={name:'麦克雷',title:'神枪手',role:'ADC / 物理爆发',color:'#c9643c',
  stats:{hp:P.BASE.hp_base,mana:0,attack:P.BASE.ad_base,ap:0,armor:P.BASE.armor_base,mr:P.BASE.mr_base,baseAS:P.BASE.as_base,asRatio:P.BASE.as_ratio,speed:P.BASE.move_speed,range:P.BASE.attack_range,hpRegen:3.5,manaRegen:0,
   growth:{hp:P.BASE.hp_growth,mana:0,attack:P.BASE.ad_growth,armor:P.BASE.armor_growth,mr:P.BASE.mr_growth,as:P.BASE.as_growth,hpRegen:.55,manaRegen:0}},
- passive:{name:'神枪手本能',desc:'左轮弹匣 6 发，每次普攻消耗 1 发；打空后自动换弹 1.6 秒（换弹期间不能普攻），4 秒未开火会自动补满。普攻暴击伤害 175%；暴击命中敌方英雄时战术翻滚冷却 -1 秒。',params:P.P},
+ passive:{name:'神枪手本能',desc:'左轮弹匣 6 发，每次普攻造成115%AD伤害并消耗 1 发；打空后自动换弹 1.6 秒（换弹期间不能普攻），4 秒未开火会自动补满。普攻暴击伤害 175%；暴击命中敌方英雄时战术翻滚冷却 -1 秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'神射手连发',icon:'连',target:'direction',range:P.Q.range,width:60,cd:P.Q.cooldown,damage:P.Q.damage,adRatio:P.Q.ad_ratio,
    desc:'快速倾泻弹匣中剩余的全部子弹（最多6发，每发间隔0.09秒），每发造成 12/18/24/30/36+40%AD 物理伤害。200码内散布小，200～400码散布逐渐增大，400码外无效。每发子弹可暴击（175%）。打空后自动换弹。'}),
   skill({key:'W',name:'战术翻滚',icon:'滚',target:'direction',range:P.W.distance,cd:P.W.cooldown,damage:0,
    desc:'朝指定方向翻滚350码（0.4秒，不能穿墙，可穿过敌方英雄），翻滚期间受到的伤害降低35%、不能普攻，结束时立即装满6发子弹，并刷新神射手连发的冷却。'}),
   skill({key:'E',name:'闪光弹',icon:'闪',target:'area',range:P.E.range,radius:P.E.radius,cd:P.E.cooldown,damage:P.E.damage,
-   desc:'向450码内的目标点投掷闪光弹，落地爆炸：225码内敌人受到 60/90/120/150/180+80%额外AD 物理伤害并减速35%（1.25秒），敌方英雄0.75秒内无法使用位移技能。'}),
+   desc:'向450码内的目标点投掷闪光弹，落地爆炸：175码内敌人受到 60/90/120/150/180+80%额外AD 物理伤害并减速35%（1.25秒），敌方英雄2.5秒内无法使用位移技能，正在位移的会被立即打断。'}),
   skill({key:'R',name:'神枪手',icon:'瞄',target:'direction',range:P.R.range,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
    desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹并刷新神射手连发的冷却：按锁定顺序逐个开枪（每枪间隔0.15秒），每个已锁定目标受到（50/75/100+40/50/60%额外AD）×该目标的叠伤倍率 + 目标15/20/25%已损失生命值（不受叠伤倍率影响、不能暴击）物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标的基础与额外AD部分可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，第一个阻挡的敌方英雄/防御塔/野怪会吃下这一枪；被硬控打断则不开火。'})]
 };
@@ -64,7 +64,7 @@ window.installCassidy=function(m,env){
  // ---- E：闪光弹 ----
  function explode(u,b){let e=P.E;fx(u,{kind:'flashbang',x:b.x,y:b.y,r:e.radius,life:.45});for(let t of units()){if(!foeUnit(u,t)||dist(t,b)>e.radius+(t.radius||0))continue;
   let ok=m.deal(t,at(e.damage,u,2)+e.bonus_ad_ratio*bonusAD(u),u,'physical',{event:b.event,once:true,hitIndex:'flash',abilityId:2});if(!ok)continue;core.emit('AbilityHit',u,t,{castId:b.event?.castId,abilityId:2});
-  if(ccImmune(t))continue;m.slow(t,e.slow,e.slow_duration,u);if(t.type==='hero'){t.groundedUntil=Math.max(t.groundedUntil||0,now()+e.ground_duration);t.cassidyFlashed=now()+e.ground_duration}}}
+  if(ccImmune(t))continue;m.slow(t,e.slow,e.slow_duration,u);if(t.type==='hero'){if(e.interrupt_dash&&t.displacement&&['DASH','LEAP','BLINK'].includes(t.displacement.type)&&(t.displacement.sourceId??t.id)===t.id){t.displacement=null;core.spatial?.update?.(t);fx(u,{kind:'deadMiss',x:t.x,y:t.y,life:.4})}t.groundedUntil=Math.max(t.groundedUntil||0,now()+e.ground_duration);t.cassidyFlashed=now()+e.ground_duration}}}
  // ---- R：神枪手 ----
  function inCone(u,t){let d=S(u).dead;if(!d||d.angle==null)return true;let a=Math.atan2(t.y-u.y,t.x-u.x)-d.angle;a=Math.atan2(Math.sin(a),Math.cos(a));return Math.abs(a)<=P.R.cone_deg*Math.PI/360}
  function lockable(u,t){return inCone(u,t)&&alive(t)&&t.type==='hero'&&t.team!==u.team&&!(t.untargetable>0)&&!(t.invulnerable>0)&&!(t.invisible>0)&&!t.clone&&!t.dvaBomb&&dist(u,t)<=P.R.range&&(env.visibleTo?env.visibleTo(u,t)!==false:true)}
@@ -99,6 +99,7 @@ window.installCassidy=function(m,env){
   canMove(u){return true},
   beforeAttack(u){let s=S(u);if(s.dead||s.volley||s.fan||(s.roll&&s.roll.until>now()))return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
   attackProfile:()=>({windup:.2,recovery:.12,projectileSpeed:P.P.projectile_speed}),
+  attackPacket(u,t,p){if(p&&Number.isFinite(p.damage))p.damage*=P.P.aa_ad_ratio},
   attackRelease(u,t,p){spend(u);fx(u,{kind:'muzzle',x:u.x,y:u.y,angle:Math.atan2(t.y-u.y,t.x-u.x),life:.12});sound(u,900,.04)},
   attackHit(u,t,p){if(p?.critical&&t?.type==='hero'&&t.team!==u.team&&u.cd?.[1]>0)u.cd[1]=Math.max(0,u.cd[1]-P.P.crit_w_refund)},
   reduceDamage(t,value){let s=S(t);if(s.dead)value*=1-P.R.damage_reduction;return s.roll&&s.roll.until>now()?value*(1-P.W.damage_reduction):value},
