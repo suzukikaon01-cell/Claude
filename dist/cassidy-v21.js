@@ -126,6 +126,7 @@ window.installCassidy=function(m,env){
   if(seen){// 弹药：头顶 6 颗子弹，已消耗的变暗；换弹时显示进度环
    ctx.save();let y=u.y-(u.radius||22)-58;for(let i=0;i<P.P.magazine;i++){ctx.fillStyle=i<s.ammo?'#ffd27a':'#4a4f57';ctx.fillRect(u.x-27+i*9,y,6,11);ctx.fillStyle=i<s.ammo?'#b4762e':'#30343a';ctx.fillRect(u.x-27+i*9,y,6,3)}
    if(s.reloadUntil){let k=1-(s.reloadUntil-T)/P.P.reload;ctx.strokeStyle='#ffd27a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(u.x+36,y+5,7,-Math.PI/2,-Math.PI/2+TAU*k);ctx.stroke()}ctx.restore()}
+  if(s.dead&&seen){ctx.save();let g=ctx.createRadialGradient?ctx.createRadialGradient(u.x,u.y,8,u.x,u.y,70):null;if(g){g.addColorStop(0,'rgba(255,40,20,.55)');g.addColorStop(1,'rgba(255,40,20,0)');ctx.fillStyle=g}else ctx.fillStyle='rgba(255,40,20,.3)';ctx.beginPath();ctx.arc(u.x,u.y,70+6*Math.sin(T*10),0,TAU);ctx.fill();ctx.restore()}
   if(s.dead){let d=s.dead,lockK=Math.min(1,(T-d.start)/P.R.lock_time),mult=chargeMult(u);ctx.save();
    // 敌我双方都能看到：瞄准光圈 + 扫描范围
    ctx.strokeStyle='rgba(255,90,60,'+(.35+.3*Math.abs(Math.sin(T*8)))+')';ctx.lineWidth=3;ctx.setLineDash?.([18,12]);let ca=d.angle??0,hc=P.R.cone_deg*Math.PI/360;ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.arc(u.x,u.y,P.R.range,ca-hc,ca+hc);ctx.closePath();ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle='rgba(255,90,60,.06)';ctx.fill();
