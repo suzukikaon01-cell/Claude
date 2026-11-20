@@ -360,3 +360,6 @@
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params]))if(p?.Q)p.Q.speed=600;let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=600;if(q.desc)q.desc=q.desc.replace('弹速1200','弹速600')}}
 // V20.57 源氏弹速 600→800（普攻飞镖与Q散镖）；普攻三连镖间隔 0.075→0.11 秒。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params])){if(p?.AA){p.AA.shuriken_speed=800;p.AA.burst_shot_interval=.11}if(p?.Q)p.Q.speed=800}let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=800;if(q.desc)q.desc=q.desc.replace('弹速600','弹速800')}}
+// V20.58 E范围平衡：拉克丝E 半径210→180、施法距离750→700；诺手E 拉拽距离330→380、扇形50°→60°。
+{let C=window.GAME_CONFIG,H=C?.heroes;for(let p of new Set([C?.heroParams?.lux,H?.lux?.params]))if(p?.E){p.E.radius=180;p.E.range=700}let l=H?.lux?.skills?.[2];if(l){l.radius=180;l.range=700;if(l.desc)l.desc=l.desc.replace(/750/g,'700').replace(/210/g,'180')}
+ for(let p of new Set([C?.heroParams?.darius,H?.darius?.params]))if(p?.E){p.E.range=380;p.E.fan_angle=60}let d=H?.darius?.skills?.[2];if(d){d.range=380;if(d.desc)d.desc=d.desc.replace('射程330','射程380')}}
