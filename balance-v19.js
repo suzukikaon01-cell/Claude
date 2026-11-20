@@ -358,5 +358,5 @@
  let gr=H?.genji?.skills?.[3];if(gr?.desc)gr.desc=gr.desc.replace('拔刀（0.5秒，霸体且无法被打断）','拔刀（0.5秒，可移动、不能使用技能和普攻；不是霸体，但被控制也不会打断拔刀）')}
 // V20.56 源氏Q散镖弹速 1200→600（与普攻飞镖一致）。
 {let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params]))if(p?.Q)p.Q.speed=600;let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=600;if(q.desc)q.desc=q.desc.replace('弹速1200','弹速600')}}
-// V20.57 源氏弹速 600→800（普攻飞镖与Q散镖）；普攻三连镖间隔 0.075→0.15 秒。
-{let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params])){if(p?.AA){p.AA.shuriken_speed=800;p.AA.burst_shot_interval=.15}if(p?.Q)p.Q.speed=800}let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=800;if(q.desc)q.desc=q.desc.replace('弹速600','弹速800')}}
+// V20.57 源氏弹速 600→800（普攻飞镖与Q散镖）；普攻三连镖间隔 0.075→0.11 秒。
+{let C=window.GAME_CONFIG;for(let p of new Set([C?.heroParams?.genji,C?.heroes?.genji?.params])){if(p?.AA){p.AA.shuriken_speed=800;p.AA.burst_shot_interval=.11}if(p?.Q)p.Q.speed=800}let q=C?.heroes?.genji?.skills?.[0];if(q){if(q.projectileSpeed)q.projectileSpeed=800;if(q.desc)q.desc=q.desc.replace('弹速600','弹速800')}}
