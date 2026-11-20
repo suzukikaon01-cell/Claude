@@ -365,3 +365,5 @@
  for(let p of new Set([C?.heroParams?.darius,H?.darius?.params]))if(p?.E){p.E.range=380;p.E.fan_angle=60}let d=H?.darius?.skills?.[2];if(d){d.range=380;if(d.desc)d.desc=d.desc.replace('射程330','射程380')}}
 // V20.59 诺手Q内外圈按端游 460/205 等比缩放（×0.68 → 313/139）；E 前摇 0.25s、无后摇（端游同步）
 (function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p?.Q){p.Q.outer_radius=313;p.Q.inner_radius=139}let q=H.skills?.[0];if(q)q.range=313;let e=H.skills?.[2];if(e){e.windup=.25;e.recovery=0}})();
+// V20.60 诺手Q/E范围缩小：Q外圈260/内圈116（仍按端游460:205比例），E射程330（扇形60°不变）
+(function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p){if(p.Q){p.Q.outer_radius=260;p.Q.inner_radius=116}if(p.E)p.E.range=330}let q=H.skills?.[0];if(q)q.range=260;let e=H.skills?.[2];if(e){e.range=330;if(e.desc)e.desc=e.desc.replace('射程380','射程330')}})();
