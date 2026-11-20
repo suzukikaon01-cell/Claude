@@ -351,3 +351,8 @@
 {let s=window.GAME_CONFIG?.heroes?.darius?.skills?.[2];if(s){s.windup=.25;s.recovery=.2}}
 // V20.54 装备固定移速等比削减：二级鞋 45→25（×25/45），其余固定移速同比例，避免叠装后移速过快（艾希满装可到290）。百分比移速不变。
 (function(){let C=window.GAME_CONFIG;if(!C?.items||C._v2054)return;C._v2054=1;const K=25/45;for(let it of C.items){let v=it.stats?.speed;if(!v)continue;let n=Math.round(v*K);it.stats.speed=n;if(it.speed!=null)it.speed=n;for(let k of ['statText','desc'])if(typeof it[k]==='string')it[k]=it[k].replace('移速 +'+v,'移速 +'+n).replace(v+'移动速度',n+'移动速度')}})();
+// V20.55 源氏R：取消0.5秒前摇，改为放R后0.5秒拔刀（可移动、不能用技能/普攻、霸体）；源氏普攻飞镖弹速600；盖伦Q/W无后摇；艾希W弹速+50%（600→900）。
+{let C=window.GAME_CONFIG,H=C?.heroes;if(H?.genji?.skills?.[3]){H.genji.skills[3].windup=0;H.genji.skills[3].recovery=0}let a=C?.heroParams?.genji?.AA;if(a)a.shuriken_speed=600;
+ for(let i of [0,1])if(H?.garen?.skills?.[i])H.garen.skills[i].recovery=0;
+ let w=H?.ashe?.skills?.[1];if(w&&w.projectileSpeed===600)w.projectileSpeed=900;for(let p of new Set([C?.heroParams?.ashe,H?.ashe?.params]))if(p?.W&&p.W.projectile_speed===600)p.W.projectile_speed=900;
+ let gr=H?.genji?.skills?.[3];if(gr?.desc)gr.desc=gr.desc.replace('拔刀（0.5秒，霸体且无法被打断）','拔刀（0.5秒，可移动、不能使用技能和普攻，霸体且无法被打断）')}
