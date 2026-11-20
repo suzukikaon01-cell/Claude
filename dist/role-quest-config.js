@@ -21,7 +21,7 @@ window.ROLE_QUEST_CONFIG={
   top:{id:'TOP',name:'孤峰霸主',icon:'⛰',goal:850,
    points:{kill:20,laneMinion:3,plate:50,tower:70,epic:40},
    rewards:{maxLevel:20,xp:600,killXp:80,xpMult:.11,teleportShieldPct:.35,teleportShieldDuration:10},
-   preview:['等级上限 18 → 20','立即获得 600 经验','击杀英雄额外 +80 经验，其他经验 +11%','解锁专属传送（已携带传送则强化）','传送落地获得 35% 最大生命护盾，持续 10 秒']},
+   preview:['等级上限 18 → 20，小技能可升到 6 级','立即获得 600 经验','击杀英雄额外 +80 经验，其他经验 +11%','解锁专属传送（已携带传送则强化）','传送落地获得 35% 最大生命护盾，持续 10 秒']},
   jungle:{id:'JUNGLE',name:'野区之王',icon:'🌲',goal:25,unit:'层',
    points:{small:.6,large:1.4,epic:5,takedown:2,contest:3},
    rewards:{jungleMs:.04,outOfCombatMs:.08,outOfCombatDelay:5,largeGold:10,largeXp:10,smiteMonsterMult:1.3,smiteEpicMult:1.5,smiteRechargeMult:.7},

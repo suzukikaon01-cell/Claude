@@ -70,7 +70,7 @@ const QuestProgressManager={
 /* ---------- 奖励：一次性发放 + 持续效果 ---------- */
 const QuestRewardManager={
  grant(u,role){let q=u.roleQuest;if(!q||q.rewarded)return false;q.rewarded=true;let r=CFG().quests[role].rewards,h=H();
-  if(role==='top'){u.maxLevel=r.maxLevel;u.questXpMult=1+r.xpMult;h.gainXp(u,r.xp/u.questXpMult);if(u.summoners?.includes('teleport'))u.questTeleportEmpowered=true;else{u.summoners=[...(u.summoners||[]),'teleport'];u.questTeleportGranted=true;u.questTeleportEmpowered=true}}
+  if(role==='top'){u.maxLevel=r.maxLevel;u.questRank6=true;u.questXpMult=1+r.xpMult;h.gainXp(u,r.xp/u.questXpMult);if(u.summoners?.includes('teleport'))u.questTeleportEmpowered=true;else{u.summoners=[...(u.summoners||[]),'teleport'];u.questTeleportGranted=true;u.questTeleportEmpowered=true}}
   if(role==='jungle'){u.questSmite={monster:r.smiteMonsterMult,epic:r.smiteEpicMult,recharge:r.smiteRechargeMult};if(u.summoners?.includes('smite')){let s=u.summonerState?.smite;if(s&&s.ecology<20){s.ecology=20;h.m?.core.emit('SummonerSmiteEvolved',u,u,{ecology:20})}}}
   if(role==='mid'){u.midQuestCompleted=true;u.questBonusAdPct=r.bonusAdPct;u.questBonusApPct=r.bonusApPct;this.upgradeBoots(u)}
   if(role==='adc'){u.gold+=r.gold;u.questBootSlot=true;u.questExtraSlots=(u.questExtraSlots||0)+r.extraSlots}

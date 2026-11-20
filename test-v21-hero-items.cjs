@@ -1,0 +1,12 @@
+// V21 三件英雄主题装备：价格、合成、属性、被动。
+const make=require('./test-harness.cjs'),assert=require('assert');let count=0;const test=(n,f)=>{f();console.log('PASS V21 items '+n);count++};
+const flush=h=>h.step(.02,.02);
+function setup(hero,item){let h=make(),u=h.a.reset(hero);u.items=[item];h.a.recalc(u);let t=h.a.enemy('garen',u.x+200,u.y);t.hp=t.maxHp=5000;return{h,u,t,m:h.a.m}}
+test('prices, recipes and recommended builds',()=>{let h=make(),I=h.env.ItemSystem;for(let [id,cost] of [['SEISMIC_GAUNTLET',3400],['DEFENSE_MATRIX',3000],['NANO_RIFLE',3100]]){let it=I.get(id);assert.equal(it.cost,cost,id);assert.equal(it.recipe.length,3);for(let c of it.recipe)assert(I.get(c),c)}
+ assert.equal(I.recommended('anvil')[0],'SEISMIC_GAUNTLET');assert.equal(I.recommended('dva')[0],'DEFENSE_MATRIX');assert.equal(I.recommended('ana')[0],'NANO_RIFLE')});
+test('stats apply',()=>{let{u}=setup('anvil','SEISMIC_GAUNTLET');let h2=make(),v=h2.a.reset('anvil');v.items=[];h2.a.recalc(v);assert(Math.abs(u.maxHp-v.maxHp-400)<1);assert(Math.abs(u.attack-v.attack-40)<1)});
+test('gauntlet: ability damage on heroes grants capped shield, once per hero per cast',()=>{let{h,u,t,m}=setup('anvil','SEISMIC_GAUNTLET');let ev=m.event(u,0);m.deal(t,100,u,'physical',{event:ev});m.deal(t,100,u,'physical',{event:ev});let p=h.C.itemParams.SEISMIC_GAUNTLET;assert(Math.abs(u.shield-(p.shield_base+p.shield_hp_pct*u.maxHp))<1,'one shield per hero per cast '+u.shield)});
+test('defense matrix: projectile damage -15%, emergency shield once per 60s',()=>{let{h,u,t,m}=setup('dva','DEFENSE_MATRIX');u.armor=u.mr=0;let hp=u.hp;m.deal(u,100,t,'true',{});let trueLoss=hp-u.hp;u.hp=hp;m.deal(u,100,t,'magic',{projectile:true});let projLoss=hp-u.hp;u.hp=hp;m.deal(u,100,t,'magic',{});let plain=hp-u.hp;assert(Math.abs(projLoss-plain*.85)<1,projLoss+' vs '+plain);
+ u.shields=[];u.shield=0;u.hp=u.maxHp*.35;m.deal(u,u.maxHp*.1,t,'true',{});assert(u.shield>0,'eject shield');let s1=u.shield;u.shields=[];u.shield=0;m.deal(u,10,t,'true',{});assert.equal(u.shield,0,'cooldown')});
+test('nano rifle: ability damage applies grievous wounds; heals give ally move speed',()=>{let{h,u,t,m}=setup('ana','NANO_RIFLE');m.deal(t,100,u,'magic',{event:m.event(u,0)});flush(h);assert(h.a.m.core.has(t,'HEAL_REDUCTION'),'grievous');let ally=h.a.enemy('garen',u.x+50,u.y,0);ally.hp=ally.maxHp/2;m.heal(ally,100,u);flush(h);assert(h.a.m.core.has(ally,'MOVE_SPEED_BUFF'),'boost')});
+console.log(count+' V21 hero item tests passed');

@@ -1,0 +1,28 @@
+/* V21 新增三件通用传说装备（任何英雄可买，属性与被动参照原著，价格 = 基础属性金币价值 + 被动溢价）。效果逻辑在 hero-items-v21-fx.js。
+ * 崩山臂铠（砧岳/铁拳）：AD40 生命400 急速15（属性约2870金）+ 被动溢价530 = 3400
+ * 防御矩阵核心（D.Va）：生命450 护甲35 魔抗30（属性约2440金）+ 被动溢价560 = 3000
+ * 纳米激素枪（安娜）：AP70 治疗护盾强度12% 急速15（属性约2520金）+ 被动溢价580 = 3100 */
+(()=>{'use strict';
+const C=window.GAME_CONFIG;if(!C?.items)return;
+const DEFS=[
+ {id:'SEISMIC_GAUNTLET',name:'崩山臂铠',category:'physical',stats:{attack:40,hp:400,abilityHaste:15},recipe:['C_2021','C_3133','C_1011'],icon:'拳',color:'#ffb347',cost:3400,
+  statText:'攻击力 +40 · 生命 +400 · 技能急速 +15',
+  passive:'最佳防守：技能对敌方英雄造成伤害时，每名英雄提供 25+3%最大生命 的护盾（单次施法最多3名，护盾上限20%最大生命，持续3秒）。火箭重拳：位移技能后3秒内，下一次普攻额外造成 30+4%最大生命 物理伤害（冷却6秒）。',
+  params:{shield_base:25,shield_hp_pct:.03,shield_targets:3,shield_cap_pct:.2,shield_duration:3,punch_window:3,punch_base:30,punch_hp_pct:.04,punch_cd:6}},
+ {id:'DEFENSE_MATRIX',name:'防御矩阵核心',category:'defense',stats:{hp:450,armor:35,mr:30},recipe:['C_1011','C_1031','C_1057'],icon:'矩',color:'#ff7ac8',cost:3000,
+  statText:'生命 +450 · 护甲 +35 · 魔抗 +30',
+  passive:'防御矩阵：受到的飞行道具伤害降低15%。紧急弹射：生命值低于30%时获得 20%最大生命 的护盾，持续3秒（冷却60秒）。',
+  params:{projectile_reduction:.15,eject_threshold:.3,eject_shield_pct:.2,eject_duration:3,eject_cd:60}},
+ {id:'NANO_RIFLE',name:'纳米激素枪',category:'magic',stats:{ap:70,healShieldPower:.12,abilityHaste:15},recipe:['C_3108','C_3114','C_1026'],icon:'激',color:'#7fd6ff',cost:3100,
+  statText:'法术强度 +70 · 治疗与护盾强度 +12% · 技能急速 +15',
+  passive:'生物手雷：技能对敌方英雄造成伤害时施加40%重伤，持续2.5秒。纳米激素：治疗或护盾友方英雄时，使其获得20%移动速度，持续2秒（每名目标冷却6秒）。',
+  params:{grievous:.4,grievous_duration:2.5,boost_ms:.2,boost_duration:2,boost_cd:6}}];
+C.itemParams??={};
+for(let d of DEFS){if(C.items.some(i=>i.id===d.id))continue;
+ C.items.push({id:d.id,name:d.name,category:d.category,stats:d.stats,passive:d.passive,uniqueGroups:[],icon:d.icon,quality:'传说',sellRatio:.7,statText:d.statText,desc:d.statText+'；'+d.passive,cost:d.cost,recipe:d.recipe,components:[...d.recipe],buildsInto:[],availableModes:['SR','ARAM'],tier:'LEGENDARY',iconUrl:'assets/items/'+d.id+'.png',boots:false,legendary:true,purchaseRestrictions:'NONE',v20:true,
+  params:{__description:d.passive,price:d.cost,combine_cost:0,name:d.name,category:d.category,tier:'LEGENDARY',recipe:JSON.stringify(d.recipe),icon:'assets/items/'+d.id+'.png',builds_into:'[]',sell_ratio:.7,...d.params},...d.stats});
+ C.itemParams[d.id]=C.items.at(-1).params;
+ for(let part of new Set(d.recipe)){let c=C.items.find(i=>i.id===part);if(c?.params){try{let b=JSON.parse(c.params.builds_into||'[]');if(!b.includes(d.id)){b.push(d.id);c.params.builds_into=JSON.stringify(b)}}catch{}if(Array.isArray(c.buildsInto)&&!c.buildsInto.includes(d.id))c.buildsInto.push(d.id)}}
+ (C.itemsV20??=[]).push({id:d.id,color:d.color,icon:d.icon})}
+window.HERO_ITEMS_V21={anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE'};
+})();
