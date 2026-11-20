@@ -363,3 +363,5 @@
 // V20.58 E范围平衡：拉克丝E 半径210→180、施法距离750→700；诺手E 拉拽距离330→380、扇形50°→60°。
 {let C=window.GAME_CONFIG,H=C?.heroes;for(let p of new Set([C?.heroParams?.lux,H?.lux?.params]))if(p?.E){p.E.radius=180;p.E.range=700}let l=H?.lux?.skills?.[2];if(l){l.radius=180;l.range=700;if(l.desc)l.desc=l.desc.replace(/750/g,'700').replace(/210/g,'180')}
  for(let p of new Set([C?.heroParams?.darius,H?.darius?.params]))if(p?.E){p.E.range=380;p.E.fan_angle=60}let d=H?.darius?.skills?.[2];if(d){d.range=380;if(d.desc)d.desc=d.desc.replace('射程330','射程380')}}
+// V20.59 诺手Q内外圈按端游 460/205 等比缩放（×0.68 → 313/139）；E 前摇 0.25s、无后摇（端游同步）
+(function(){let C=window.GAME_CONFIG,H=C?.heroes?.darius;if(!H)return;for(let p of new Set([C.heroParams?.darius,H.params]))if(p?.Q){p.Q.outer_radius=313;p.Q.inner_radius=139}let q=H.skills?.[0];if(q)q.range=313;let e=H.skills?.[2];if(e){e.windup=.25;e.recovery=0}})();
