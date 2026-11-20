@@ -14,7 +14,7 @@ const P={
  Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.4,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
  E:{cooldown:[16,15,14,13,12],range:450,radius:225,speed:1100,damage:[60,90,120,150,180],bonus_ad_ratio:.8,slow:.35,slow_duration:1.25,ground_duration:.75},
- R:{cooldown:[120,100,80],reset_q:true,range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,damage:[100,125,150],bonus_ad_ratio:[.4,.5,.6],missing_hp_ratio:[.15,.2,.25],charge_max_mult:6,charge_curve:2}
+ R:{cooldown:[120,100,80],reset_q:true,range:1200,cone_deg:180,move_slow:.5,move_slow_end:.25,end_window:1,damage_reduction:.5,shot_width:24,max_targets:5,lock_time:.75,max_charge:6,shot_interval:.15,damage:[50,75,100],bonus_ad_ratio:[.4,.5,.6],missing_hp_ratio:[.15,.2,.25],charge_max_mult:6,charge_curve:2}
 };
 C.heroParams[ID]=P;
 const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:false,mana:0,...o});
@@ -30,7 +30,7 @@ C.heroes[ID]={name:'麦克雷',title:'神枪手',role:'ADC / 物理爆发',color
   skill({key:'E',name:'闪光弹',icon:'闪',target:'area',range:P.E.range,radius:P.E.radius,cd:P.E.cooldown,damage:P.E.damage,
    desc:'向450码内的目标点投掷闪光弹，落地爆炸：225码内敌人受到 60/90/120/150/180+80%额外AD 物理伤害并减速35%（1.25秒），敌方英雄0.75秒内无法使用位移技能。'}),
   skill({key:'R',name:'神枪手',icon:'瞄',target:'direction',range:P.R.range,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
-   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹并刷新神射手连发的冷却：每个已锁定目标受到（100/125/150+40/50/60%额外AD+目标15/20/25%已损失生命值）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
+   desc:'朝指定方向进入瞄准状态（不能普攻，移速-50%，最后1秒为-25%，受到伤害-50%），锁定前方180°、1200码内可见的最多5名敌方英雄，每个目标累计被瞄准0.75秒后锁定完成（丢失视野时暂停并保留进度，直到本次大招结束）。最长持续6秒，按普攻键开火或到时自动开火，再次按R取消（不开火，冷却照常）。开大瞬间装满6发子弹并刷新神射手连发的冷却：按锁定顺序逐个开枪（每枪间隔0.15秒），每个已锁定目标受到（50/75/100+40/50/60%额外AD+目标15/20/25%已损失生命值）×该目标的叠伤倍率 物理伤害；锁定完成后目标在视野内被瞄准越久，倍率涨得越快（二次曲线），最高6倍（丢失视野时暂停叠加），每个目标可单独暴击（175%）。开大时镜头拉远，可看到大招全部范围。子弹会被墙体、敌方英雄和其他实体单位（防御塔、大型/史诗野怪等，小兵和小型野怪除外）阻挡，命中第一个阻挡的敌方英雄；被硬控打断则不开火。'})]
 };
 if(window.ChampionStats)ChampionStats[ID]=C.heroes[ID].stats;
 if(window.ChampionAbilities)ChampionAbilities[ID]=C.heroes[ID].skills;
@@ -77,11 +77,12 @@ window.installCassidy=function(m,env){
  // 预计伤害（未计算护甲与暴击）：基础 + 额外AD + 目标已损失生命值，乘该目标的叠伤倍率
  function previewDamage(u,t,L){let r=P.R;return (at(r.damage,u,3)+at(r.bonus_ad_ratio,u,3)*bonusAD(u)+at(r.missing_hp_ratio,u,3)*Math.max(0,(t.maxHp||0)-(t.hp||0)))*targetMult(L)}
  function chargeMult(u){let d=S(u).dead;if(!d)return 1;return Math.max(1,...d.locks.filter(L=>!L.lost).map(targetMult))}
- function fireDeadeye(u){let s=S(u),d=s.dead;if(!d)return false;let r=P.R,n=0;
-  for(let L of d.locks){let t=L.t;if((L.prog||0)<r.lock_time||!lockable(u,t)){fx(u,{kind:'deadMiss',x:t.x,y:t.y,life:.5});continue}
-   let wall=!los(u,t),blk=blocker(u,t);if(wall&&!blk){let wp=wallPoint(u,t);fx(u,{kind:'deadShot',x0:u.x,y0:u.y,x1:wp.x,y1:wp.y,life:.35});continue}
-   let mult=targetMult(L),hitT=blk||t,dmg=(at(r.damage,u,3)+at(r.bonus_ad_ratio,u,3)*bonusAD(u)+at(r.missing_hp_ratio,u,3)*Math.max(0,(hitT.maxHp||0)-(hitT.hp||0)))*mult;if(hitT.type==='hero'&&hitT.team!==u.team||hitT===t){let crit=critRoll(u);if(crit)dmg*=critMult(u);if(m.deal(hitT,dmg,u,'physical',{event:d.event,once:true,hitIndex:'deadeye:'+t.id,abilityId:3,displayCritical:crit,critical:crit})){n++;core.emit('AbilityHit',u,hitT,{castId:d.event?.castId,abilityId:3})}}fx(u,{kind:'deadShot',x0:u.x,y0:u.y,x1:hitT.x,y1:hitT.y,life:.35})}
-  s.dead=null;fx(u,{kind:'muzzle',x:u.x,y:u.y,life:.3,big:true});sound(u,180,.25);return true}
+ // 开火：按锁定顺序逐个射击（间隔 shot_interval），每枪在射出那一刻判定视野/阻挡/已损失生命值；倍率在开火瞬间按目标锁定
+ function fireDeadeye(u){let s=S(u),d=s.dead;if(!d)return false;s.volley={event:d.event,next:now(),queue:d.locks.map(L=>({L,mult:targetMult(L),lockedOk:(L.prog||0)>=P.R.lock_time}))};s.dead=null;return true}
+ function shoot(u,item,event){let d={event},r=P.R,n=0,L=item.L,t=L.t;if(!item.lockedOk||!lockable(u,t)){fx(u,{kind:'deadMiss',x:t.x,y:t.y,life:.5});return}
+   let wall=!los(u,t),blk=blocker(u,t);if(wall&&!blk){let wp=wallPoint(u,t);fx(u,{kind:'deadShot',x0:u.x,y0:u.y,x1:wp.x,y1:wp.y,life:.35});return}
+   let mult=item.mult,hitT=blk||t,dmg=(at(r.damage,u,3)+at(r.bonus_ad_ratio,u,3)*bonusAD(u)+at(r.missing_hp_ratio,u,3)*Math.max(0,(hitT.maxHp||0)-(hitT.hp||0)))*mult;if(hitT.type==='hero'&&hitT.team!==u.team||hitT===t){let crit=critRoll(u);if(crit)dmg*=critMult(u);if(m.deal(hitT,dmg,u,'physical',{event:d.event,once:true,hitIndex:'deadeye:'+t.id,abilityId:3,displayCritical:crit,critical:crit})){n++;core.emit('AbilityHit',u,hitT,{castId:d.event?.castId,abilityId:3})}}fx(u,{kind:'deadShot',x0:u.x,y0:u.y,x1:hitT.x,y1:hitT.y,life:.35})
+  fx(u,{kind:'muzzle',x:u.x,y:u.y,angle:Math.atan2(t.y-u.y,t.x-u.x),life:.25,big:true});sound(u,180,.18);u.angle=Math.atan2(t.y-u.y,t.x-u.x)}
  function cancelDeadeye(u){let s=S(u);if(s.dead){s.dead=null;fx(u,{kind:'deadCancel',x:u.x,y:u.y,life:.4})}}
  let audio=null;function sound(u,f,d){if(!u?.player||typeof AudioContext==='undefined')return;try{audio??=new AudioContext();let o=audio.createOscillator(),g=audio.createGain();o.type='square';o.frequency.value=f;g.gain.value=.025;g.gain.exponentialRampToValueAtTime(.0005,audio.currentTime+d);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d)}catch(e){}}
 
@@ -93,10 +94,10 @@ window.installCassidy=function(m,env){
  },{attackTiming:{windup:.2,recovery:.12}});
 
  m.heroHooks[ID]={
-  prepare(u,i){let s=S(u);if(s.dead&&i!==3)return false;if(i===0&&(s.ammo<=0||s.reloadUntil||s.fan||s.roll))return false},
+  prepare(u,i){let s=S(u);if((s.dead||s.volley)&&i!==3)return false;if(s.volley)return false;if(i===0&&(s.ammo<=0||s.reloadUntil||s.fan||s.roll))return false},
   recast(u,i){let s=S(u);if(i===3&&s.dead){cancelDeadeye(u);return true}return undefined},
   canMove(u){return true},
-  beforeAttack(u){let s=S(u);if(s.dead||s.fan||(s.roll&&s.roll.until>now()))return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
+  beforeAttack(u){let s=S(u);if(s.dead||s.volley||s.fan||(s.roll&&s.roll.until>now()))return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
   attackProfile:()=>({windup:.2,recovery:.12,projectileSpeed:P.P.projectile_speed}),
   attackRelease(u,t,p){spend(u);fx(u,{kind:'muzzle',x:u.x,y:u.y,angle:Math.atan2(t.y-u.y,t.x-u.x),life:.12});sound(u,900,.04)},
   attackHit(u,t,p){if(p?.critical&&t?.type==='hero'&&t.team!==u.team&&u.cd?.[1]>0)u.cd[1]=Math.max(0,u.cd[1]-P.P.crit_w_refund)},
@@ -106,6 +107,7 @@ window.installCassidy=function(m,env){
    if(!s.reloadUntil&&s.ammo<P.P.magazine&&!s.fan&&!s.dead&&t-s.lastShot>=P.P.idle_reload_delay&&!u.pendingAttack)startReload(u);
    if(s.roll&&t>=s.roll.until){s.roll=null;refill(u);fx(u,{kind:'reload',x:u.x,y:u.y,life:.4})}
    if(s.fan){if(core.hardLocked(u)||s.ammo<=0||s.fan.fired>=s.fan.total)s.fan=null;else while(s.fan&&t+1e-9>=s.fan.next&&s.fan.fired<s.fan.total&&s.ammo>0){fireBullet(u,s.fan);s.fan.next+=P.Q.interval;if(s.fan.fired>=s.fan.total||s.ammo<=0)s.fan=null}}
+   if(s.volley){if(!alive(u)||core.hardLocked(u))s.volley=null;else while(s.volley&&t+1e-9>=s.volley.next){let it=s.volley.queue.shift();if(it)shoot(u,it,s.volley.event);s.volley.next+=P.R.shot_interval;if(!s.volley.queue.length)s.volley=null}}
    for(let b of s.flash.slice())if(t+1e-9>=b.land){s.flash.splice(s.flash.indexOf(b),1);explode(u,b)}
    if(s.dead){if(core.hardLocked(u)||u.silence>0)cancelDeadeye(u);else{for(let L of s.dead.locks){L.lost=!lockable(u,L.t);if(!L.lost){if((L.prog||0)>=P.R.lock_time)L.charge=(L.charge||0)+dt;L.prog=Math.min(P.R.lock_time,(L.prog||0)+dt)}}
      m.slow(u,s.dead.until-t<=P.R.end_window?P.R.move_slow_end:P.R.move_slow,.12,u,null,'cassidy-deadeye');
@@ -113,7 +115,7 @@ window.installCassidy=function(m,env){
      if(Math.floor((t-s.dead.start)*6)!==s.dead.beat){s.dead.beat=Math.floor((t-s.dead.start)*6);sound(u,320+260*(chargeMult(u)-1)*2,.05)}
      if(t>=s.dead.until)fireDeadeye(u)}}},
   interrupt(u){cancelDeadeye(u);S(u).fan=null},
-  reset(u){let s=S(u);s.ammo=P.P.magazine;s.reloadUntil=0;s.fan=null;s.roll=null;s.flash=[];s.dead=null},
+  reset(u){let s=S(u);s.volley=null;s.ammo=P.P.magazine;s.reloadUntil=0;s.fan=null;s.roll=null;s.flash=[];s.dead=null},
   describeExtra(u,i){let s=S(u);if(i===0)return '当前可倾泻 '+s.ammo+' 发。';if(i===3&&s.dead)return '已锁定 '+s.dead.locks.filter(L=>!L.lost).length+' 名，蓄力倍率 ×'+chargeMult(u).toFixed(2);return ''}
  };
 
@@ -151,6 +153,6 @@ window.installCassidy=function(m,env){
   let txt=s.reloadUntil?'换弹中 '+Math.max(0,s.reloadUntil-now()).toFixed(1)+'s':'弹药 '+s.ammo+'/'+P.P.magazine+' · Q 可倾泻 '+s.ammo+' 发';
   if(s.dead)txt='神枪手 · 锁定 '+s.dead.locks.filter(L=>!L.lost&&(L.prog||0)>=P.R.lock_time).length+'/'+s.dead.locks.length+' · 最高 ×'+chargeMult(viewer).toFixed(1)+' · 普攻键开火 / 再按 R 取消';
   let html=pips+' '+txt;if(el._last!==html){el._last=html;el.innerHTML=html}let op=s.dead?'1':'0';if(vg.style.opacity!==op)vg.style.opacity=op}
- m.cassidy={state:S,draw,ammo:u=>S(u).ammo,reloading:u=>!!S(u).reloadUntil,deadeye:u=>S(u).dead,chargeMult,targetMult,fireDeadeye,refill};
+ m.cassidy={state:S,draw,ammo:u=>S(u).ammo,reloading:u=>!!S(u).reloadUntil,deadeye:u=>S(u).dead,volley:u=>S(u).volley,chargeMult,targetMult,fireDeadeye,refill};
 };
 })();
