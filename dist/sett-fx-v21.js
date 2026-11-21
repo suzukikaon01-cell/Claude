@@ -55,7 +55,7 @@ function haymaker(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}cons
  ctx.fillStyle=lg(ctx,0,0,F,0,[[0,A('255,150,90',.35)],[1,A('255,110,70',.6)]]);ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.lineTo(F,ch2);ctx.lineTo(0,ch0);ctx.closePath();ctx.fill();
  for(let pass of [[8,'255,120,70',.8],[3,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0];ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.moveTo(0,ch0);ctx.lineTo(F,ch2);ctx.stroke()}
  for(let pass of [[ch2*.9,'255,200,120',.55],[10,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0]*(1-p*.4);ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(F,0);ctx.stroke()}
- ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
+ if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-45);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);dragon(ctx,60+35*e,f.T||0);ctx.restore()}ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
  // 真伤命中处的红色光柱（向屏幕上方）
  if(p<.5){ctx.save();ctx.translate(F*.72,0);ctx.rotate(-f.a);let h=260*(1-p*1.4),w=26*(1-p);ctx.fillStyle=lg(ctx,0,0,0,-h,[[0,A('255,120,100',.8)],[1,A('255,80,80',0)]]);ctx.fillRect(-w/2,-h,w,h);ctx.restore()}
  // 金色兽魂（原创：火焰鬃毛的咆哮兽首，沿中线冲出）
