@@ -72,7 +72,7 @@ function tracerPose(b,U,I){tracerBuild(b);if(b.weapon)b.weapon.visible=false;let
  let tl=U.attackTimeline,q=(S.qUntil||0)>I;if(q||tl&&tl.started!=null&&I-tl.started<.35){let side=S.side?1:-1,k=tl?.started!=null?Math.min(1,(I-tl.started)/.12):1;R.rotation.x=-1.5+(side>0?.15*(1-k):0);if(L)L.rotation.x=-1.5+(side<0?.15*(1-k):0);body.rotation.x=-.05}}
 // 盖伦Q强化普攻：跳起往下劈（前摇期间起跳举剑，命中时劈下）
 function garenQ(b,U,I){let tl=U.attackTimeline,sn=U.pendingAttack?.snapshot;if(!tl||!(sn?.silence||sn?.empowered)||tl.started==null)return false;let w=Math.max(.05,tl.windup||.2),k=Math.max(0,Math.min(1,(I-tl.started)/w)),R=b.arms?.[1],W=b.weapon;if(R)R.rotation.x=k<.6?-2.6*(k/.6):-2.6+2.9*((k-.6)/.4);if(W)W.rotation.x=k<.6?-2.2*(k/.6):-2.2+3.2*((k-.6)/.4);if(b.arms?.[0])b.arms[0].rotation.x=-1.6*Math.sin(k*Math.PI);b.body.rotation.x=k<.6?-.2*(k/.6):-.2+.5*((k-.6)/.4);return true}
-function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
+function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body&&!b.settBuilt){try{settBuild(b)}catch(e){b.settBuilt=true}}if(H==='sett'&&b?.settGlow){let g=Math.min(1,(U.championState?.grit||0)/Math.max(1,(U.maxHp||1)*.5)),w=U._settWAt!=null&&I-U._settWAt<1.1?1:0,v=Math.max(w,g>.4?(g-.4)/.6:0);for(let m of b.settGlow)m.emissiveIntensity=.15+1.1*v}if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
  // 普攻：身体前倾/前冲（近战）或后坐（远程）
  let tl=U.attackTimeline;if(tl&&!U.pendingCast&&tl.started!=null){let span=Math.max(.05,(tl.windup||.25)+(tl.recovery||.1)*.5),k=Math.max(0,Math.min(1,(I-tl.started)/span));let s=Math.sin(Math.min(1,k)*Math.PI);if(MELEE.has(H)){b.body.rotation.x+=.14*s;b.body.position.z=-6*s}else{b.body.rotation.x-=.06*s;b.body.position.z=2*s}}
  let pc=U.pendingCast,id=pc?.event?.castId??(pc?'p'+pc.i:null);
@@ -127,5 +127,25 @@ function settDragon(b,U,I){let at=U._settWAt,D=b.settDragon;if(at==null||I<at||I
  let range=U.skills?.[1]?.range||400,ang=U._settWAngle??U.angle??0,d=30+(range-60)*e;D.root.position.set(U.x+Math.cos(ang)*d,70+12*Math.sin(p*Math.PI),U.y+Math.sin(ang)*d);D.root.rotation.set(0,-ang-Math.PI/2,0);let sc=1+.6*e;D.root.scale.set(sc,sc,sc);
  D.jaw.rotation.x=.2+.45*Math.abs(Math.sin(t*12));D.maneG.rotation.z=Math.sin(t*20)*.12;D.maneG.scale.setScalar(1+.08*Math.sin(t*30));D.head.rotation.z=Math.sin(t*9)*.06;D.head.rotation.x=-.12*Math.sin(t*7);D.neck.forEach((n,k)=>{n.rotation.y=Math.sin(t*10-k*.9)*.35;n.rotation.x=Math.cos(t*8-k)*.12});(D.head.userData.wh||[]).forEach(w=>{w.rotation.y=w.userData.sd*(.2+.25*Math.sin(t*11));w.rotation.x=.15*Math.sin(t*9+w.userData.sd)});D.halo.scale.setScalar(1+.06*Math.sin(t*25));
  let fade=p<.55?1:1-(p-.55)/.45;for(let [m,o] of D.mats)m.opacity=o*fade}
+
+// 腕豪模型重做（参考玩家设计图）：红色后梳刺发、白色毛领披肩、裸露胸膛、金色拳套（带指节钉）、红色腰带、深色长裤；豪意越多拳套越亮
+function settBuild(b){if(b.settBuilt||!b.body)return;let proto=null;b.body.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='BoxGeometry'&&!proto)proto=o});if(!proto)return;b.settBuilt=true;
+ const Mesh=proto.constructor,Box=proto.geometry.constructor,G=b.body.constructor,glow=[];
+ const mat=(c,e)=>{let m=proto.material.clone();m.map=null;m.color?.set(c);if(m.emissive){m.emissive.set(e||'#000000');m.emissiveIntensity=e?.15:1}if(e)glow.push(m);return m};
+ const box=(w,h,d,c,x,y,z,par,rx=0,ry=0,rz=0,e)=>{let o=new Mesh(new Box(w,h,d),mat(c,e));o.position.set(x,y,z);o.rotation.set(rx,ry,rz);par.add(o);return o};
+ // 身体底色：上身肤色、裤子深色
+ b.body.children.forEach(o=>{if(!o.isMesh)return;let y=o.position.y;if(y>28&&y<56)o.material=mat('#c98d66');else if(y<=28)o.material=mat('#3a2a2e')});
+ // 胸肌与腹肌线
+ box(22,10,2,'#d79a72',0,46,-11.5,b.body);for(let k=0;k<3;k++)box(12,2,1.5,'#b0714f',0,34+k*4,-12,b.body);
+ // 红色腰带 + 金扣
+ box(30,6,26,'#9b2433',0,27,0,b.body);box(8,6,2,'#f0c04a',0,27,-13.5,b.body,0,0,0,'#a06010');
+ // 白色毛领披肩（一圈参差毛束）
+ for(let i=0;i<16;i++){let a=i/16*Math.PI*2,r=15+(i%2)*2.5;box(7,9+(i%3)*2,7,i%2?'#f4efe6':'#ffffff',Math.sin(a)*r,56+(i%2)*2,Math.cos(a)*r,b.body,0,a,(i%2?.3:-.3))}
+ box(30,6,10,'#e9e2d6',0,58,8,b.body);
+ // 红色后梳刺发
+ for(let i=0;i<9;i++){let x=(i%3-1)*5,z=-2+Math.floor(i/3)*5;box(5,9+(i%2)*4,8,i%2?'#a52a46':'#7c1f38',x,77+(i%2),z,b.body,-.9-.15*Math.floor(i/3),0,(i%3-1)*.25)}
+ // 金色拳套
+ for(let arm of (b.arms||[])){let g=new G();g.position.set(0,-24,0);arm.add(g);box(13,12,14,'#e8b030',0,0,0,g,0,0,0,'#ff9a10');box(14,4,15,'#a8701a',0,6,0,g);for(let k=0;k<4;k++)box(2.6,2.6,3,'#fff0b0',-4.5+k*3,-2,-7.8,g,0,0,0,'#ffd060');box(15,3,3,'#c98d66',0,9,0,g)}
+ if(b.weapon)b.weapon.visible=false;b.settGlow=glow}
 window.HeroPoseV20=apply;window.HeroPoseV20.SPEC=SPEC;
 })();
