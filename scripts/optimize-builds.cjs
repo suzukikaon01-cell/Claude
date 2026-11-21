@@ -4,12 +4,14 @@
 //       node scripts/optimize-builds.cjs --hero ashe （单个英雄，输出 JSON）
 // 评分：13级英雄按固定技能循环（技能就绪即放、穿插普攻）打 12 秒木桩（3000生命/护甲80/魔抗60），
 //       score = DPS^a × 有效生命^(1-a)（输出位 a=0.7、战士 0.5、坦克 0.35）。
-// 选装：候选为英雄伤害类型的传说装备 + 防御装；每一步选择"单位金币带来的评分提升"最大的装备（前2件限伤害装，坦克除外），共6件；
+// 选装：候选为英雄伤害类型的传说装备 + 防御装；每一步选择"单位金币带来的评分提升"最大的装备（前2件限伤害装；坦克只选防御装且首件心之钢），共6件；
 //       结果不如原出装时保留原出装；英雄专属装备固定在第2件。
 'use strict';
 const path=require('path'),fs=require('fs'),cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');process.chdir(ROOT);
 const SIG={genji:'DRAGON_EDGE',anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE',cassidy:'PEACEKEEPER',claude:'MULTIMODAL_PRISM',tracer:'CHRONO_PISTOLS'};
+// 坦克/肉装英雄：只从防御装中选，第1件固定心之钢。
+const TANKS=['garen','sett','dva','zarya','anvil','great_sword','illaoi'];
 const args=process.argv.slice(2),hi=args.indexOf('--hero');
 if(hi>=0){optimizeHero(args[hi+1]);return}
 const make=require(path.join(ROOT,'test-harness.cjs'));const heroes=Object.keys(make().C.heroes);
@@ -24,19 +26,19 @@ function optimizeHero(id){
  const make=require(path.join(ROOT,'test-harness.cjs'));const h=make(),I=h.env.ItemSystem,C=h.C;
  // 原出装：跳过 V21 出装表，取更早的推荐
  const prev=window_prev(h);const cur=(prev(id)||[]).filter(x=>I.get(x)).slice(0,6);
- const role=String(C.heroes[id].role||''),tank=/坦克|重装|护盾|机甲/.test(role)||['dva','zarya'].includes(id),fighter=!tank&&/战士|斗士|先手/.test(role);
+ const role=String(C.heroes[id].role||''),tank=TANKS.includes(id),fighter=!tank&&/战士|斗士|先手/.test(role);
  const dmgType=(()=>{let n={physical:0,magic:0};for(let x of cur)if(n[I.get(x)?.category]!=null)n[I.get(x).category]++;return n.magic>n.physical?'magic':'physical'})();
  const A=tank?.35:fighter?.5:.7;
- const all=C.items.filter(i=>i.tier==='LEGENDARY'&&!i.boots&&!i.shopHidden&&(i.availableModes||['SR']).includes('SR')&&(i.category===dmgType||i.category==='defense')).map(i=>i.id);
+ const all=C.items.filter(i=>i.tier==='LEGENDARY'&&!i.boots&&!i.shopHidden&&(i.availableModes||['SR']).includes('SR')&&(tank?i.category==='defense':(i.category===dmgType||i.category==='defense'))).map(i=>i.id);
  const group=x=>['mortal','LORD_DOMINIKS_REGARDS','SERYLDAS_GRUDGE'].includes(x)?'lastwhisper':['void','CRYPTBLOOM'].includes(x)?'voidpen':null;
  const ug=x=>(I.get(x)?.uniqueGroups||[]).filter(g=>g&&g!=='none'&&!['spellblade','tear'].includes(g));
  const pctPen=new Set(C.percentArmorPenItems||[]);
  const ok=(b,x)=>!b.includes(x)&&!(group(x)&&b.some(y=>group(y)===group(x)))&&!ug(x).some(g=>b.some(y=>ug(y).includes(g)))&&!(pctPen.has(x)&&b.some(y=>pctPen.has(y)));
  const f=I.get(cur[0]),boots=f?.category==='magic'?'B_3020':f?.category==='defense'?'B_3047':'B_3006';
  const evalB=b=>{let r=score(h,id,[boots,...b]);return Math.pow(Math.max(1,r.dps),A)*Math.pow(r.ehp,1-A)};
- let build=[],s0=evalB([]);
- for(let k=0;k<6;k++){let best=null,bv=-Infinity,bs=s0;for(let x of all){if(!ok(build,x))continue;if(!tank&&k<2&&I.get(x).category!==dmgType)continue;let v=evalB([...build,x]),eff=(v/s0-1)/(I.get(x).cost/1000);if(eff>bv){bv=eff;best=x;bs=v}}if(!best)break;build.push(best);s0=bs}
- let sc=evalB(build),cs=evalB(cur);if(sc<cs)build=cur.slice();
+ let build=tank?['heartsteel']:[],s0=evalB(build);
+ for(let k=build.length;k<6;k++){let best=null,bv=-Infinity,bs=s0;for(let x of all){if(!ok(build,x))continue;if(!tank&&k<2&&I.get(x).category!==dmgType)continue;let v=evalB([...build,x]),eff=(v/s0-1)/(I.get(x).cost/1000);if(eff>bv){bv=eff;best=x;bs=v}}if(!best)break;build.push(best);s0=bs}
+ let sc=evalB(build),cs=evalB(cur);if(sc<cs&&!tank)build=cur.slice();
  let sig=SIG[id];if(sig&&I.get(sig)){let rest=build.filter(x=>x!==sig);build=[rest[0],sig,...rest.slice(1)].slice(0,6)}
  console.log(JSON.stringify({id,build,cur:Math.round(cs),score:Math.round(Math.max(sc,cs))}));
 }
