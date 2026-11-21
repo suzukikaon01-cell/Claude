@@ -26,6 +26,17 @@ function punch(ctx,f,k){ctx.save();ctx.translate(f.x,f.y-32);ctx.globalComposite
  ctx.fillStyle=rg(ctx,70,[[0,A(W,fade)],[.25,A('255,236,120',.95*fade)],[.6,A(G,.5*fade)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(0,0,(30+40*e),0,TAU);ctx.fill();
  ctx.rotate(f.seed);for(let i=0;i<12;i++){ctx.rotate(TAU/12);let l=(i%2?40:70)*(0.6+.6*e);ctx.fillStyle=A(W,.8*fade);ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(l,0);ctx.lineTo(0,3);ctx.closePath();ctx.fill()}
  ctx.restore()}
+function dragon(ctx,S,T){// 竖立的龙头（侧面，朝 +x，头顶朝屏幕上方）：鬃毛火焰、双角、长吻、张口獠牙、胡须
+ ctx.save();ctx.fillStyle=rg(ctx,S*1.7,[[0,A(W,.5)],[.5,A(G,.3)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(-S*.1,0,S*1.6,0,TAU);ctx.fill();
+ for(let i=0;i<8;i++){let a=Math.PI*(.6+.8*i/7),l=S*(1.05+.3*Math.sin(T*16+i*1.9));ctx.fillStyle=A(i%2?G:AM,.85);ctx.beginPath();ctx.moveTo(-S*.2,0);ctx.quadraticCurveTo(-S*.3+Math.cos(a)*l*.7,Math.sin(a)*l*.8,-S*.35+Math.cos(a)*l,Math.sin(a)*l*.9);ctx.lineTo(-S*.2+Math.cos(a+.3)*S*.45,Math.sin(a+.3)*S*.45);ctx.closePath();ctx.fill()}
+ ctx.fillStyle=A('255,200,80',.95);for(let h of[-1,1]){ctx.beginPath();ctx.moveTo(-S*.05,-S*.45+h*S*.05);ctx.quadraticCurveTo(-S*.45,-S*1.0,-S*.85,-S*(1.1+h*.12));ctx.quadraticCurveTo(-S*.4,-S*.75,-S*.25,-S*.38);ctx.closePath();ctx.fill()}
+ ctx.fillStyle=A('255,216,96',.97);ctx.beginPath();ctx.moveTo(-S*.45,-S*.35);ctx.quadraticCurveTo(-S*.1,-S*.65,S*.3,-S*.4);ctx.quadraticCurveTo(S*.75,-S*.32,S*1.05,-S*.18);ctx.lineTo(S*1.0,-S*.02);ctx.lineTo(S*.35,-S*.04);ctx.lineTo(S*.95,S*.2);ctx.lineTo(S*.85,S*.34);ctx.quadraticCurveTo(S*.3,S*.38,-S*.1,S*.5);ctx.quadraticCurveTo(-S*.45,S*.4,-S*.5,S*.05);ctx.closePath();ctx.fill();
+ ctx.fillStyle=A('120,40,10',.85);ctx.beginPath();ctx.moveTo(S*.35,-S*.04);ctx.lineTo(S*.95,S*.2);ctx.lineTo(S*.98,S*.02);ctx.closePath();ctx.fill();
+ ctx.fillStyle=A(W,1);for(let i=0;i<4;i++){let x=S*(.42+i*.14);ctx.beginPath();ctx.moveTo(x,-S*.04);ctx.lineTo(x+S*.04,S*.08);ctx.lineTo(x+S*.08,-S*.04);ctx.fill();ctx.beginPath();ctx.moveTo(x+S*.02,S*.2-i*S*.03);ctx.lineTo(x+S*.06,S*.08);ctx.lineTo(x+S*.1,S*.2-i*S*.03);ctx.fill()}
+ ctx.strokeStyle=A('170,80,20',.8);ctx.lineWidth=Math.max(2,S*.05);ctx.lineCap='round';for(let i=0;i<4;i++){let x=-S*.35+i*S*.18;ctx.beginPath();ctx.moveTo(x,-S*.42+i*S*.03);ctx.quadraticCurveTo(x+S*.08,-S*.25,x+S*.04,-S*.12);ctx.stroke()}
+ ctx.fillStyle=A('255,90,40',1);ctx.beginPath();ctx.ellipse(S*.42,-S*.28,S*.09,S*.045,-.25,0,TAU);ctx.fill();ctx.fillStyle=A(W,1);ctx.beginPath();ctx.ellipse(S*.44,-S*.285,S*.035,S*.02,-.25,0,TAU);ctx.fill();
+ ctx.strokeStyle=A(G,.9);ctx.lineWidth=Math.max(1.5,S*.03);for(let w of[-1,1]){ctx.beginPath();ctx.moveTo(S*.9,-S*.12);ctx.quadraticCurveTo(S*1.2,-S*.1+w*S*.2+Math.sin(T*10)*S*.05,S*1.35,w*S*.35);ctx.stroke()}
+ ctx.restore()}
 function beast(ctx,S,T,s0){// 朝 +x 的兽首：后方火焰鬃毛 + 头颅 + 张开的上下颚 + 暗色条纹
  ctx.save();ctx.fillStyle=rg(ctx,S*1.6,[[0,A(W,.55)],[.5,A(G,.35)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(-S*.2,0,S*1.5,0,TAU);ctx.fill();
  for(let i=0;i<9;i++){let a=Math.PI*(.55+.9*i/8),l=S*(1.0+.35*Math.sin(T*18+i*1.7));ctx.fillStyle=A(i%2?G:AM,.85);ctx.beginPath();ctx.moveTo(-S*.1+Math.cos(a)*S*.35,Math.sin(a)*S*.5);ctx.quadraticCurveTo(-S*.4+Math.cos(a)*l*.8,Math.sin(a)*l*.9,-S*.3+Math.cos(a)*l,Math.sin(a)*l*.75+S*.12);ctx.lineTo(-S*.1+Math.cos(a+.25)*S*.35,Math.sin(a+.25)*S*.5);ctx.closePath();ctx.fill()}
@@ -48,7 +59,7 @@ function haymaker(ctx,f,k){const L=400,HW=187,ch=.5;
  // 真伤命中处的红色光柱（向屏幕上方）
  if(p<.5){ctx.save();ctx.translate(F*.72,0);ctx.rotate(-f.a);let h=260*(1-p*1.4),w=26*(1-p);ctx.fillStyle=lg(ctx,0,0,0,-h,[[0,A('255,120,100',.8)],[1,A('255,80,80',0)]]);ctx.fillRect(-w/2,-h,w,h);ctx.restore()}
  // 金色兽魂（原创：火焰鬃毛的咆哮兽首，沿中线冲出）
- if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.globalAlpha=fade*(1-bp*.6);beast(ctx,70+40*e,f.T||0,f.seed);ctx.restore()}
+ if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-45);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);dragon(ctx,60+35*e,f.T||0);ctx.restore()}
  ctx.restore()}
 function facebreaker(ctx,f,k){ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';const R=f.range||225,Wd=f.width||175,cl=.38;let e=ease(Math.min(1,k/cl));
  let fade=k<cl?1:Math.max(0,1-(k-cl)/(1-cl));ctx.globalAlpha=fade;ctx.fillStyle=A(G,.16);ctx.fillRect(-R,-Wd/2,R*2,Wd);ctx.strokeStyle=A(G,.55);ctx.lineWidth=2;ctx.strokeRect(-R,-Wd/2,R*2,Wd);
