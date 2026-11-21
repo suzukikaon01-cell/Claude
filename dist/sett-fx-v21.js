@@ -26,16 +26,38 @@ function punch(ctx,f,k){{let u=find(f.tid);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}ctx.sa
  ctx.fillStyle=rg(ctx,70,[[0,A(W,fade)],[.25,A('255,236,120',.95*fade)],[.6,A(G,.5*fade)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(0,0,(30+40*e),0,TAU);ctx.fill();
  ctx.rotate(f.seed);for(let i=0;i<12;i++){ctx.rotate(TAU/12);let l=(i%2?40:70)*(0.6+.6*e);ctx.fillStyle=A(W,.8*fade);ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(l,0);ctx.lineTo(0,3);ctx.closePath();ctx.fill()}
  ctx.restore()}
-function dragon(ctx,S,T){// 竖立的龙头（侧面，朝 +x，头顶朝屏幕上方）：鬃毛火焰、双角、长吻、张口獠牙、胡须
- ctx.save();ctx.fillStyle=rg(ctx,S*1.7,[[0,A(W,.5)],[.5,A(G,.3)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(-S*.1,0,S*1.6,0,TAU);ctx.fill();
- for(let i=0;i<8;i++){let a=Math.PI*(.6+.8*i/7),l=S*(1.05+.3*Math.sin(T*16+i*1.9));ctx.fillStyle=A(i%2?G:AM,.85);ctx.beginPath();ctx.moveTo(-S*.2,0);ctx.quadraticCurveTo(-S*.3+Math.cos(a)*l*.7,Math.sin(a)*l*.8,-S*.35+Math.cos(a)*l,Math.sin(a)*l*.9);ctx.lineTo(-S*.2+Math.cos(a+.3)*S*.45,Math.sin(a+.3)*S*.45);ctx.closePath();ctx.fill()}
- ctx.fillStyle=A('255,200,80',.95);for(let h of[-1,1]){ctx.beginPath();ctx.moveTo(-S*.05,-S*.45+h*S*.05);ctx.quadraticCurveTo(-S*.45,-S*1.0,-S*.85,-S*(1.1+h*.12));ctx.quadraticCurveTo(-S*.4,-S*.75,-S*.25,-S*.38);ctx.closePath();ctx.fill()}
- ctx.fillStyle=A('255,216,96',.97);ctx.beginPath();ctx.moveTo(-S*.45,-S*.35);ctx.quadraticCurveTo(-S*.1,-S*.65,S*.3,-S*.4);ctx.quadraticCurveTo(S*.75,-S*.32,S*1.05,-S*.18);ctx.lineTo(S*1.0,-S*.02);ctx.lineTo(S*.35,-S*.04);ctx.lineTo(S*.95,S*.2);ctx.lineTo(S*.85,S*.34);ctx.quadraticCurveTo(S*.3,S*.38,-S*.1,S*.5);ctx.quadraticCurveTo(-S*.45,S*.4,-S*.5,S*.05);ctx.closePath();ctx.fill();
- ctx.fillStyle=A('120,40,10',.85);ctx.beginPath();ctx.moveTo(S*.35,-S*.04);ctx.lineTo(S*.95,S*.2);ctx.lineTo(S*.98,S*.02);ctx.closePath();ctx.fill();
- ctx.fillStyle=A(W,1);for(let i=0;i<4;i++){let x=S*(.42+i*.14);ctx.beginPath();ctx.moveTo(x,-S*.04);ctx.lineTo(x+S*.04,S*.08);ctx.lineTo(x+S*.08,-S*.04);ctx.fill();ctx.beginPath();ctx.moveTo(x+S*.02,S*.2-i*S*.03);ctx.lineTo(x+S*.06,S*.08);ctx.lineTo(x+S*.1,S*.2-i*S*.03);ctx.fill()}
- ctx.strokeStyle=A('170,80,20',.8);ctx.lineWidth=Math.max(2,S*.05);ctx.lineCap='round';for(let i=0;i<4;i++){let x=-S*.35+i*S*.18;ctx.beginPath();ctx.moveTo(x,-S*.42+i*S*.03);ctx.quadraticCurveTo(x+S*.08,-S*.25,x+S*.04,-S*.12);ctx.stroke()}
- ctx.fillStyle=A('255,90,40',1);ctx.beginPath();ctx.ellipse(S*.42,-S*.28,S*.09,S*.045,-.25,0,TAU);ctx.fill();ctx.fillStyle=A(W,1);ctx.beginPath();ctx.ellipse(S*.44,-S*.285,S*.035,S*.02,-.25,0,TAU);ctx.fill();
- ctx.strokeStyle=A(G,.9);ctx.lineWidth=Math.max(1.5,S*.03);for(let w of[-1,1]){ctx.beginPath();ctx.moveTo(S*.9,-S*.12);ctx.quadraticCurveTo(S*1.2,-S*.1+w*S*.2+Math.sin(T*10)*S*.05,S*1.35,w*S*.35);ctx.stroke()}
+function dragon(ctx,S,T){// 竖立的金色龙头（侧面朝 +x）：渐变金身、流动火焰鬃毛、弯角、獠牙、飘动龙须、残影与金粉
+ const flame=(x0,y0,len,ang,w,c1,c2,ph)=>{let ex=x0+Math.cos(ang)*len,ey=y0+Math.sin(ang)*len,nx=-Math.sin(ang)*w,ny=Math.cos(ang)*w,wob=Math.sin(T*14+ph)*len*.12;ctx.fillStyle=lg(ctx,x0,y0,ex,ey,[[0,A(c1,.95)],[.6,A(c2,.7)],[1,A(c2,0)]]);ctx.beginPath();ctx.moveTo(x0+nx,y0+ny);ctx.quadraticCurveTo((x0+ex)/2+nx*.6-ny*0+wob*Math.cos(ang+1.57),(y0+ey)/2+ny*.6+wob*Math.sin(ang+1.57),ex,ey);ctx.quadraticCurveTo((x0+ex)/2-nx*.6+wob,(y0+ey)/2-ny*.6,x0-nx,y0-ny);ctx.closePath();ctx.fill()};
+ const headPath=()=>{ctx.beginPath();ctx.moveTo(-S*.55,-S*.05);ctx.bezierCurveTo(-S*.55,-S*.55,-S*.05,-S*.62,S*.25,-S*.45);ctx.bezierCurveTo(S*.55,-S*.38,S*.85,-S*.34,S*1.08,-S*.2);ctx.quadraticCurveTo(S*1.16,-S*.1,S*1.04,-S*.02);ctx.lineTo(S*.42,-S*.02);ctx.lineTo(S*.98,S*.16);ctx.quadraticCurveTo(S*1.02,S*.3,S*.86,S*.34);ctx.bezierCurveTo(S*.5,S*.36,S*.15,S*.48,-S*.12,S*.5);ctx.bezierCurveTo(-S*.4,S*.5,-S*.56,S*.3,-S*.55,-S*.05);ctx.closePath()};
+ ctx.save();ctx.globalCompositeOperation='lighter';
+ // 外层光晕
+ ctx.fillStyle=rg(ctx,S*1.7,[[0,A(G,.22)],[.5,A(AM,.12)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(S*.1,0,S*1.7,0,TAU);ctx.fill();ctx.globalCompositeOperation='source-over';
+ // 残影（向后拖尾）
+ for(let k=3;k>=1;k--){ctx.save();ctx.translate(-S*.35*k,0);ctx.globalAlpha*=.12*(4-k);headPath();ctx.fillStyle=A(G,1);ctx.fill();ctx.restore()}
+ // 火焰鬃毛（两层）
+ for(let i=0;i<11;i++){let a=Math.PI*(.5+.95*i/10);flame(-S*.25,S*.0,S*(1.0+.25*Math.sin(T*9+i)),a,S*.13,'255,200,80','255,90,20',i)}
+ for(let i=0;i<9;i++){let a=Math.PI*(.58+.8*i/8);flame(-S*.2,0,S*(.7+.15*Math.sin(T*11+i*2)),a,S*.1,'255,220,120','255,150,30',i+5)}
+ // 弯角
+ for(let h of[0,1]){ctx.fillStyle=lg(ctx,-S*.1,-S*.45,-S*.95,-S*1.15,[[0,A('255,226,140',1)],[1,A(W,1)]]);ctx.beginPath();ctx.moveTo(-S*(.05+h*.12),-S*.45);ctx.bezierCurveTo(-S*(.35+h*.1),-S*(.9+h*.05),-S*(.7+h*.1),-S*(1.0+h*.1),-S*(1.0+h*.08),-S*(1.12+h*.14));ctx.bezierCurveTo(-S*(.6+h*.1),-S*(.82+h*.05),-S*(.4+h*.1),-S*.6,-S*(.25+h*.12),-S*.38);ctx.closePath();ctx.globalAlpha=h?.7:1;ctx.fill();ctx.globalAlpha=1}
+ ctx.restore();
+ // 头部主体：金色立体渐变
+ ctx.save();ctx.shadowColor=A(AM,.8);ctx.shadowBlur=S*.18;headPath();ctx.fillStyle=lg(ctx,0,-S*.6,0,S*.5,[[0,A('255,240,170',1)],[.3,A('255,200,70',1)],[.7,A('235,140,30',1)],[1,A('170,80,15',1)]]);ctx.fill();ctx.shadowBlur=0;
+ ctx.strokeStyle=A('120,55,10',.9);ctx.lineWidth=Math.max(1.5,S*.03);ctx.stroke();
+ // 口腔
+ ctx.fillStyle=lg(ctx,S*.4,0,S*1,0,[[0,A('120,20,0',1)],[1,A('255,90,20',1)]]);ctx.beginPath();ctx.moveTo(S*.42,-S*.02);ctx.lineTo(S*1.03,-S*.02);ctx.lineTo(S*.97,S*.15);ctx.closePath();ctx.fill();
+ ctx.fillStyle=A(W,1);for(let i=0;i<5;i++){let x=S*(.5+i*.11);ctx.beginPath();ctx.moveTo(x,-S*.02);ctx.lineTo(x+S*.035,S*.07);ctx.lineTo(x+S*.07,-S*.02);ctx.fill();ctx.beginPath();ctx.moveTo(x+S*.01,S*(.14-i*.003)+S*.0);ctx.lineTo(x+S*.045,S*.05);ctx.lineTo(x+S*.08,S*(.15-i*.01));ctx.fill()}
+ // 鳞纹与眉骨
+ ctx.strokeStyle=A('180,90,15',.7);ctx.lineWidth=Math.max(1.5,S*.035);ctx.lineCap='round';for(let r=0;r<2;r++)for(let i=0;i<4;i++){let x=-S*.38+i*S*.17+r*S*.08,y=S*(.05+r*.2);ctx.beginPath();ctx.arc(x,y,S*.08,Math.PI*.1,Math.PI*.9);ctx.stroke()}
+ ctx.strokeStyle=A('150,70,10',.9);ctx.lineWidth=Math.max(2,S*.05);ctx.beginPath();ctx.moveTo(S*.18,-S*.38);ctx.quadraticCurveTo(S*.42,-S*.48,S*.62,-S*.32);ctx.stroke();
+ // 眼睛
+ ctx.shadowColor='rgba(255,60,20,1)';ctx.shadowBlur=S*.2;ctx.fillStyle=A('255,70,30',1);ctx.beginPath();ctx.ellipse(S*.42,-S*.28,S*.1,S*.05,-.2,0,TAU);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=A(W,1);ctx.beginPath();ctx.ellipse(S*.45,-S*.29,S*.035,S*.02,-.2,0,TAU);ctx.fill();
+ // 鼻孔火星
+ ctx.fillStyle=A('120,40,0',.9);ctx.beginPath();ctx.ellipse(S*.98,-S*.18,S*.04,S*.025,0,0,TAU);ctx.fill();
+ ctx.restore();
+ // 龙须
+ ctx.save();ctx.globalCompositeOperation='lighter';ctx.lineCap='round';for(let w of[-1,1]){ctx.strokeStyle=lg(ctx,S*.9,0,S*1.6,0,[[0,A(W,1)],[1,A(G,0)]]);ctx.lineWidth=Math.max(2,S*.04);ctx.beginPath();ctx.moveTo(S*.92,-S*.12);ctx.bezierCurveTo(S*1.2,-S*.12+w*S*.15,S*1.3,w*S*.35+Math.sin(T*10+w)*S*.12,S*1.6,w*S*.45+Math.sin(T*8)*S*.1);ctx.stroke()}
+ // 金粉
+ for(let i=0;i<10;i++){let ph=(T*1.6+hash(i))%1,x=-S*.5-ph*S*1.4,y=(hash(i*3)-.5)*S*1.2+Math.sin(T*6+i)*S*.1;ctx.fillStyle=A(i%2?W:G,1-ph);ctx.beginPath();ctx.arc(x,y,S*.04*(1-ph)+1,0,TAU);ctx.fill()}
  ctx.restore()}
 function beast(ctx,S,T,s0){// 朝 +x 的兽首：后方火焰鬃毛 + 头颅 + 张开的上下颚 + 暗色条纹
  ctx.save();ctx.fillStyle=rg(ctx,S*1.6,[[0,A(W,.55)],[.5,A(G,.35)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(-S*.2,0,S*1.5,0,TAU);ctx.fill();
@@ -55,7 +77,7 @@ function haymaker(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}cons
  ctx.fillStyle=lg(ctx,0,0,F,0,[[0,A('255,150,90',.35)],[1,A('255,110,70',.6)]]);ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.lineTo(F,ch2);ctx.lineTo(0,ch0);ctx.closePath();ctx.fill();
  for(let pass of [[8,'255,120,70',.8],[3,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0];ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.moveTo(0,ch0);ctx.lineTo(F,ch2);ctx.stroke()}
  for(let pass of [[ch2*.9,'255,200,120',.55],[10,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0]*(1-p*.4);ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(F,0);ctx.stroke()}
- if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-45);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);dragon(ctx,60+35*e,f.T||0);ctx.restore()}ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
+ if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-75);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);dragon(ctx,60+35*e,f.T||0);ctx.restore()}ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
  // 真伤命中处的红色光柱（向屏幕上方）
  if(p<.5){ctx.save();ctx.translate(F*.72,0);ctx.rotate(-f.a);let h=260*(1-p*1.4),w=26*(1-p);ctx.fillStyle=lg(ctx,0,0,0,-h,[[0,A('255,120,100',.8)],[1,A('255,80,80',0)]]);ctx.fillRect(-w/2,-h,w,h);ctx.restore()}
  // 金色兽魂（原创：火焰鬃毛的咆哮兽首，沿中线冲出）
