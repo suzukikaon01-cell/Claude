@@ -93,7 +93,7 @@ window.createChampionMechanics=function(env){
  function validTarget(u,t,s){if(s.ally)return alive(t)&&t.type==='hero'&&t.team===u.team&&!(t.untargetable>0)&&!(u.hero==='zarya'&&t===u)&&d(u,t)<=s.range;return alive(t)&&!t.tentacle&&t.team!==u.team&&isUnit(t)&&(!s.heroOnly||t.type==='hero')&&env.canTarget(u,t)&&d(u,t)<=s.range}
  function requestCast(u,i,point,{buffer=true}={}){if(api.temporal?.isFrozen(u))return false;if(env.state()==='playing'&&alive(u)&&!core.hardLocked(u)&&u.silence<=0&&!(u.untargetable>0)){let recast=heroHooks[u.hero]?.recast?.(u,i,point,{buffer});if(recast!==undefined)return recast;}
   if(env.state()!=='playing'||!alive(u)||(u.itemRevivingUntil||0)>now()||!u.skills[i]||core.hardLocked(u)||u.silence>0||(u.invisible>0&&u.hero!=='khazix')||u.untargetable>0)return false;
-  if(heroHooks[u.hero]?.prepare?.(u,i,point)===false)return false;
+  if((u.groundedUntil||0)>now()&&(C.mobilitySkills?.[u.hero]||[]).includes(i))return fail(u,'被闪光弹命中：暂时无法使用位移技能');if(heroHooks[u.hero]?.prepare?.(u,i,point)===false)return false;
   if(!u.pendingAttack&&u.attackRecovery>0)attackReset(u,'backswing');
   if(u.castWindup>0||u.castRecovery>0||u.pendingAttack){if(buffer&&u.player&&abilityLearned(u,i)&&abilityCooldownRemaining(u,i)<=.12&&u.mp>=abilityCost(u,i))return core.buffer(u,{kind:'ability',index:i,point:point?{...point}:point},.3);return false}
   if(u.hero==='lux'&&i===2&&areas.some(a=>a.source===u&&a.kind==='luxE')){detonate(u);return true}if(u.hero==='lux'&&i===2&&u.pendingLuxE){u.detonateOnArrival=true;return true}
