@@ -69,7 +69,7 @@ window.installAnvil=function(m,env){
  function tickQ(u){let s=S(u),d=s.dash;if(!d)return;if(now()>d.until||!u.displacement){s.dash=null;return}
   let t=m.nearest(u,P.Q.hit_radius+60,v=>foe(u,v)&&dist(u,v)<=P.Q.hit_radius+(v.radius||25));if(!t)return;
   s.dash=null;u.displacement=null;if(env.blocked(u.x,u.y,u.radius||22)){let q=C.map.nearestLegal?.(u,u.radius||22);if(q){u.x=q.x;u.y=q.y}}knock(u,t,d)}
- function missingBonus(u,t){let pct=P.Q.missing_hp_base_pct+P.Q.missing_hp_pct_per_100_bonus_ad*bonusAD(u)/100,v=pct*Math.max(0,t.maxHp-t.hp);return t.type==='monster'?Math.min(P.Q.missing_hp_monster_cap,v):v}
+ function missingBonus(u,t){if(['tower','nexus','inhibitor'].includes(t?.type))return 0;let pct=P.Q.missing_hp_base_pct+P.Q.missing_hp_pct_per_100_bonus_ad*bonusAD(u)/100,v=pct*Math.max(0,t.maxHp-t.hp);return t.type==='monster'?Math.min(P.Q.missing_hp_monster_cap,v):v}
  function knock(u,t,d,splash=true){let e=d.event;if(splash&&d.empowered){for(let v of m.nearby(t,P.Q.splash_radius+60,v=>foe(u,v)&&v!==t))if(dist(v,t)<=P.Q.splash_radius+(v.radius||0))knock(u,v,d,false);env.ring(t.x,t.y,P.Q.splash_radius,'#9fd8ff',.4);fx(u,'thunder',t,{radius:P.Q.splash_radius,life:.5})}d={...d,damage:d.damage+missingBonus(u,t)};if(!hit(u,t,d.damage,e,{once:true,hitIndex:0,abilityId:0}))return;if(!alive(t))return;
   let desired={x:t.x+Math.cos(d.angle)*d.knockback,y:t.y+Math.sin(d.angle)*d.knockback},end=core.safePoint(t,desired,t.radius||22),wall=dist(end,desired)>24;
   let moved=core.startDisplacement(t,end,{type:'KNOCKBACK',duration:P.Q.knockback_duration,source:u,abilityId:0});if(!moved)return;
