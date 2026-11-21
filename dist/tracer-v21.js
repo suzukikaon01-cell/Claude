@@ -143,7 +143,7 @@ window.installTracer=function(m,env){
    ctx.fillStyle='rgba('+c2+',1)';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText('⟲ 闪回 '+Math.max(0,R.end-T).toFixed(2),u.x,u.y-(u.radius||22)-48);ctx.restore()}
   let b=s.bomb;if(b){ctx.save();let pulse=.5+.5*Math.sin(T*20);ctx.fillStyle='#1d3f5a';ctx.strokeStyle='#5ec8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,b.y-(b.target?40:0),10,0,TAU);ctx.fill();ctx.stroke();ctx.fillStyle='rgba(94,200,255,'+(.5+.5*pulse)+')';ctx.beginPath();ctx.arc(b.x,b.y-(b.target?40:0),4,0,TAU);ctx.fill();
    if(b.state!=='fly'){let left=Math.max(0,b.fuseAt-T);ctx.strokeStyle='rgba(255,150,40,.85)';ctx.lineWidth=3;ctx.setLineDash?.([12,8]);ctx.beginPath();ctx.arc(b.x,b.y,P.R.radius,0,TAU);ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle='#ffb347';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText(left.toFixed(1),b.x,b.y-(b.target?62:22))}ctx.restore()}
-  if(!alive(u)||!seen)continue;
+  if(!alive(u)||!seen||s.rewind)continue;
   // 血条下方：弹药条 + 时间能量条
   ctx.save();let y=u.y-92*(u.visualScale||1)+9,bw=65;ctx.fillStyle='#07121ee8';ctx.fillRect(u.x-bw/2-1,y-1,bw+2,8);ctx.fillStyle=s.reloadUntil?'#3a3f46':'#bfeaff';ctx.fillRect(u.x-bw/2,y,bw*s.ammo/P.P.magazine,3);
   if(s.reloadUntil){ctx.fillStyle='#7fd6ff';ctx.fillRect(u.x-bw/2,y,bw*(1-(s.reloadUntil-T)/P.P.reload),3)}ctx.fillStyle='#ffb347';ctx.fillRect(u.x-bw/2,y+4,bw*s.energy/P.P.energy_max,2);
