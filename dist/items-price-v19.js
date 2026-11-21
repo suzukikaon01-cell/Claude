@@ -5,7 +5,7 @@
  */
 (()=>{'use strict';
 const C=window.GAME_CONFIG;if(!C?.items)return;
-const UNIT=50,MAX_COMBINE=1100,MIN_COMBINE=50,FIXED={trinity:3333,RENDING_SICKLE:3200,twinguard:3000,DRAGON_EDGE:3700,SEISMIC_GAUNTLET:3650,DEFENSE_MATRIX:3600,NANO_RIFLE:3650,PEACEKEEPER:3750,CHRONO_PISTOLS:3700,MULTIMODAL_PRISM:3650}/* 英雄专属装备统一定价 3600～3800 */;
+const UNIT=50,MAX_COMBINE=1100,MIN_COMBINE=50,FIXED={trinity:3333,RENDING_SICKLE:3200,twinguard:3000,NAVORI_FLICKERBLADE:2800,DRAGON_EDGE:3700,SEISMIC_GAUNTLET:3650,DEFENSE_MATRIX:3600,NANO_RIFLE:3650,PEACEKEEPER:3750,CHRONO_PISTOLS:3700,MULTIMODAL_PRISM:3650}/* 英雄专属装备统一定价 3600～3800 */;
 const GOLD={attack:35,ap:20,hp:2.67,mana:1.4,armor:20,mr:18,bonusAS:2500,crit:4000,lifesteal:3750,omnivamp:4000,movePct:3950,abilityHaste:26.67,armorPenPct:4000,magicPenPct:4000,magicPenFlat:31,armorPenFlat:30,baseHpRegenPct:300,healShieldPower:3000,tenacity:2000,slowResistance:1500,speed:12,baseManaRegenPct:200};
 // 不计入面板、但属于属性的隐藏加成（按属性计价）。
 const HIDDEN={DIMENSION_BLADE:{attack:C.items.find(i=>i.id==='DIMENSION_BLADE')?.params?.ex_attack??42}};

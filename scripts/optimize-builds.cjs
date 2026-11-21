@@ -37,7 +37,7 @@ function optimizeHero(id){
  let build=[],s0=evalB([]);
  for(let k=0;k<6;k++){let best=null,bv=-Infinity,bs=s0;for(let x of all){if(!ok(build,x))continue;if(!tank&&k<2&&I.get(x).category!==dmgType)continue;let v=evalB([...build,x]),eff=(v/s0-1)/(I.get(x).cost/1000);if(eff>bv){bv=eff;best=x;bs=v}}if(!best)break;build.push(best);s0=bs}
  let sc=evalB(build),cs=evalB(cur);if(sc<cs)build=cur.slice();
- let sig=SIG[id];if(sig&&I.get(sig)&&!build.includes(sig))build=[build[0],sig,...build.slice(1)].slice(0,6);
+ let sig=SIG[id];if(sig&&I.get(sig)){let rest=build.filter(x=>x!==sig);build=[rest[0],sig,...rest.slice(1)].slice(0,6)}
  console.log(JSON.stringify({id,build,cur:Math.round(cs),score:Math.round(Math.max(sc,cs))}));
 }
 function window_prev(h){const I=h.env.ItemSystem;let rec=I.recommended;return id=>{let t=h.env.RECOMMENDED_BUILDS_V21;let saved=t?.[id];if(t)delete t[id];let r=rec(id);if(t&&saved)t[id]=saved;return r}}

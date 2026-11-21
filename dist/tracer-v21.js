@@ -10,7 +10,7 @@
 const ID='tracer',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
  BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:275,is_ranged:1,hero_name:'闪光'},
- P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.05,on_hit_scale:.03,idle_reload_delay:1.5,reload:1.3,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
+ P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.045,as_scaling:.6,on_hit_scale:.03,idle_reload_delay:1.5,reload:1.3,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
  Q:{cooldown:[12,11,10,9,8],duration:2.5,bonus_as:.35,aa_damage_ratio:.9},
  W:{distance:300,charges_initial:2,charges_max:3,recharge:8},
  E:{cooldown:[24,22,20,18,16],rewind:3,sample:.1,anim:.75},
@@ -21,7 +21,7 @@ const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:fa
 C.heroes[ID]={name:'闪光',title:'时空特工',role:'AD 刺客 / 机动射手',color:'#ff9a2e',
  stats:{hp:P.BASE.hp_base,mana:0,attack:P.BASE.ad_base,ap:0,armor:P.BASE.armor_base,mr:P.BASE.mr_base,baseAS:P.BASE.as_base,asRatio:P.BASE.as_ratio,speed:P.BASE.move_speed,range:P.BASE.attack_range,hpRegen:3.5,manaRegen:0,
   growth:{hp:P.BASE.hp_growth,mana:0,attack:P.BASE.ad_growth,armor:P.BASE.armor_growth,mr:P.BASE.mr_growth,as:P.BASE.as_growth,hpRegen:.55,manaRegen:0}},
- passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程275）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成5%AD物理伤害，普攻特效按3%效果触发；打空或1.5秒未开火自动装填1.3秒。',params:P.P},
+ passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程275）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成4.5%AD物理伤害（攻速对射速的提升效果为60%），所有普攻特效（含纳沃利迅刃等非伤害效果）按3%效果触发，心之钢除外；打空或1.5秒未开火自动装填1.3秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'双枪速射',icon:'速',target:'self',range:0,cd:P.Q.cooldown,damage:0,
    desc:'2.5秒内攻击速度提高35%，期间普攻造成90%伤害（可暴击，仍消耗弹药，不能跳过装填）。射程不变。'}),
@@ -101,9 +101,9 @@ window.installTracer=function(m,env){
   beforeAttack(u){let s=S(u);if(s.rewind)return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
   attackProfile:()=>({windup:.03,recovery:.03,projectileSpeed:P.P.projectile_speed}),
   // 冲锋枪：每 0.25 秒（随攻速缩短）一轮 8 发，一个弹匣 40 发 1.25 秒打完；每轮按一次普攻结算（触发普攻特效/装备）
-  attackInterval:(u)=>P.P.empty_time/P.P.magazine*Math.min(1,(u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed)),
+  attackInterval:(u)=>P.P.empty_time/P.P.magazine*Math.min(1,Math.pow((u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed),P.P.as_scaling)),
   attackPacket(u,t,p){if(!p||!Number.isFinite(p.damage))return;let s=S(u);p.bullets=1;p.onHitScale=P.P.on_hit_scale;p.damage*=P.P.bullet_ad_ratio;if(s.qUntil>now())p.damage*=P.Q.aa_damage_ratio},
-  attackRelease(u,t,p){let s=S(u);if(t?.type==='hero'&&t.team!==u.team)s.lastCombat=now();let per=P.P.empty_time/P.P.magazine*Math.min(1,(u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed)),gap=now()-(s.lastShot??-99),n=gap>.25?1:Math.max(1,Math.min(4,Math.round(gap/per)));n=Math.min(n,s.ammo);s.ammo=Math.max(0,s.ammo-n);s.lastShot=now();for(let k=1;k<n;k++){if(!live(t))break;m.basicImpact(u,t,{...p,impacted:false,hitIndex:'tracer-b'+k+'-'+now()})}if(s.ammo<=0)startReload(u);s.side=!s.side;fx(u,{kind:'burst',x:u.x,y:u.y,tx:t.x,ty:t.y,n:1,side:(s.side=!s.side)?1:-1,life:.08});sound(u,s.qUntil>now()?1500:1200,.025)},
+  attackRelease(u,t,p){let s=S(u);if(t?.type==='hero'&&t.team!==u.team)s.lastCombat=now();let per=P.P.empty_time/P.P.magazine*Math.min(1,Math.pow((u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed),P.P.as_scaling)),gap=now()-(s.lastShot??-99),n=gap>.25?1:Math.max(1,Math.min(4,Math.round(gap/per)));n=Math.min(n,s.ammo);s.ammo=Math.max(0,s.ammo-n);s.lastShot=now();for(let k=1;k<n;k++){if(!live(t))break;m.basicImpact(u,t,{...p,impacted:false,event:{...p.event,attackProcClaimed:false},hitIndex:'tracer-b'+k+'-'+now()})}if(s.ammo<=0)startReload(u);s.side=!s.side;fx(u,{kind:'burst',x:u.x,y:u.y,tx:t.x,ty:t.y,n:1,side:(s.side=!s.side)?1:-1,life:.08});sound(u,s.qUntil>now()?1500:1200,.025)},
   attackHit(u,t,p){if(t?.type!=='hero'||t.team===u.team)return;let s=S(u);s.lastCombat=now();if(s.qUntil>now()&&!s.qHit){s.qHit=true;gain(u,P.P.energy_q)}else gain(u,P.P.energy_aa)},
   reduceDamage(t,value,src){if(S(t).rewind)return 0;if(src&&src.team!==t.team)S(t).lastCombat=now();return value},
   tick(u,dt){let s=S(u),t=now();
