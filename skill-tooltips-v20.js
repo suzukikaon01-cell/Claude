@@ -48,7 +48,7 @@ const SPECS={
   3:u=>{let p=P('sett').R,r=rk(u,3);return header(u,3)+line(u,{r,label:'落地伤害',base:p.damage,bad:p.bonus_ad_ratio,type:'physical',extra:list(p.victim_bonus_hp_ratio.map(v=>v*100))+'%被抓目标额外生命'})+text('压制敌方英雄并抱摔，落地范围伤害（边缘最低40%）并减速'+pct(p.slow)+'。')}},
  cassidy:{
   0:u=>{let p=P('cassidy').Q,r=rk(u,0),ammo=u.cassidyState?.ammo??6;return header(u,0,'无消耗')+line(u,{r,label:'每发子弹',base:p.damage,ad:p.ad_ratio,type:'physical',hits:ammo,note:'当前弹匣 '+ammo+' 发，可暴击（175%）'})+text(u.skills[0].desc)},
-  3:u=>{let p=P('cassidy').R,r=rk(u,3);return header(u,3,'无消耗')+line(u,{r,label:'每个目标（×1）',base:p.damage,bad:p.bonus_ad_ratio,type:'physical',extra:list((p.missing_hp_ratio||[]).map(v=>v*100))+'%目标已损失生命值',note:'基础+额外AD部分满叠伤 ×'+n(p.charge_max_mult)+'、可暴击（175%）；已损失生命值部分不叠加、不暴击'})+text(u.skills[3].desc)}},
+  3:u=>{let p=P('cassidy').R,r=rk(u,3);return header(u,3,'无消耗')+line(u,{r,label:'每个目标（×1）',base:p.damage,bad:p.bonus_ad_ratio,type:'physical',extra:list((p.missing_hp_ratio||[]).map(v=>v*100))+'%目标已损失生命值',note:'基础+额外AD部分满叠伤 ×'+n(p.charge_max_mult)+'；已损失生命值部分不叠加；不能暴击'})+text(u.skills[3].desc)}},
  darius:{
   P:u=>{let p=P('darius').P;return line(u,{r:1,label:'出血（5秒）',base:+byLvl(p.bleed_base_min,p.bleed_base_max,u).toFixed(1),bad:p.bleed_bonus_ad_ratio,type:'physical',note:'每层，最多5层'})+text('叠满5层触发血怒：攻击力+'+n(byLvl(p.noxian_might_ad_min,p.noxian_might_ad_max,u))+'，持续'+n(p.noxian_might_duration)+'秒。')},
   0:u=>{let p=P('darius').Q,r=rk(u,0);return header(u,0)+line(u,{r,label:'外圈',base:p.outer_damage,ad:p.outer_ad_ratio,type:'physical'})+line(u,{r,label:'内圈',base:p.inner_damage,ad:p.inner_ad_ratio,type:'physical'})+text('前摇'+n(p.windup)+'秒。外圈每命中一名英雄回复'+pct(p.heal_missing_hp_per_target)+'已损失生命（最多'+pct(p.heal_missing_hp_cap)+'）。')},
