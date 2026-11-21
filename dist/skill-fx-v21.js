@@ -15,7 +15,7 @@ const TH={
  herrscher_of_the_void:['255,246,220','221,182,86','170,120,255','void'],xuefeng:['230,255,236','113,223,131','190,240,255','frost'],anvil:['255,238,220','199,135,63','255,170,80','fire'],
  great_sword:['255,246,222','216,178,90','255,220,160','blade'],claude:['255,240,226','232,162,106','255,210,170','rune'],cassidy:['255,236,214','201,100,60','255,210,120','fire'],
  tracer:['230,246,255','255,154,46','120,210,255','tech'],lux:['255,252,232','255,226,122','190,140,255','star']};
-const OWN=new Set(['lux','zarya']);
+const OWN=new Set(['lux','zarya','sett']);
 const hash=n=>{let x=Math.sin(n*12.9898)*43758.5453;return x-Math.floor(x)};
 const th=h=>TH[h]||['255,255,255','200,220,255','255,240,200','star'];
 const rgba=(c,a)=>'rgba('+c+','+Math.max(0,Math.min(1,a))+')';
