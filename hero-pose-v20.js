@@ -72,7 +72,7 @@ function tracerPose(b,U,I){tracerBuild(b);if(b.weapon)b.weapon.visible=false;let
  let tl=U.attackTimeline,q=(S.qUntil||0)>I;if(q||tl&&tl.started!=null&&I-tl.started<.35){let side=S.side?1:-1,k=tl?.started!=null?Math.min(1,(I-tl.started)/.12):1;R.rotation.x=-1.5+(side>0?.15*(1-k):0);if(L)L.rotation.x=-1.5+(side<0?.15*(1-k):0);body.rotation.x=-.05}}
 // 盖伦Q强化普攻：跳起往下劈（前摇期间起跳举剑，命中时劈下）
 function garenQ(b,U,I){let tl=U.attackTimeline,sn=U.pendingAttack?.snapshot;if(!tl||!(sn?.silence||sn?.empowered)||tl.started==null)return false;let w=Math.max(.05,tl.windup||.2),k=Math.max(0,Math.min(1,(I-tl.started)/w)),R=b.arms?.[1],W=b.weapon;if(R)R.rotation.x=k<.6?-2.6*(k/.6):-2.6+2.9*((k-.6)/.4);if(W)W.rotation.x=k<.6?-2.2*(k/.6):-2.2+3.2*((k-.6)/.4);if(b.arms?.[0])b.arms[0].rotation.x=-1.6*Math.sin(k*Math.PI);b.body.rotation.x=k<.6?-.2*(k/.6):-.2+.5*((k-.6)/.4);return true}
-function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
+function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body){settDragon(b,U,I)}if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
  // 普攻：身体前倾/前冲（近战）或后坐（远程）
  let tl=U.attackTimeline;if(tl&&!U.pendingCast&&tl.started!=null){let span=Math.max(.05,(tl.windup||.25)+(tl.recovery||.1)*.5),k=Math.max(0,Math.min(1,(I-tl.started)/span));let s=Math.sin(Math.min(1,k)*Math.PI);if(MELEE.has(H)){b.body.rotation.x+=.14*s;b.body.position.z=-6*s}else{b.body.rotation.x-=.06*s;b.body.position.z=2*s}}
  let pc=U.pendingCast,id=pc?.event?.castId??(pc?'p'+pc.i:null);
@@ -83,5 +83,27 @@ function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body&&U._settW
  if(st.rel&&I>=st.relEnd){st.id=null;st.rel=null}}
 // 瑟提W 轰拳：收拳蓄力后仰 → 跨步前冲、右拳完全伸直重击 → 收势
 function settW(b,k){let A=b.arms||[],L=A[0],R=A[1],body=b.body;if(!R)return;let ch=.62;if(k<ch){let p=Math.sin(k/ch*Math.PI/2);R.rotation.x=1.0*p;R.position.z=8*p;if(L)L.rotation.x=-.8*p;body.rotation.x=-.22*p;body.position.z=6*p;body.rotation.y+=.0}else{let p=(k-ch)/(1-ch),hit=Math.min(1,p/.18),back=p<.6?0:(p-.6)/.4,e=1-Math.pow(1-hit,3);R.rotation.x=1.0-2.9*e+1.2*back;R.position.z=8-30*e+22*back;if(L)L.rotation.x=-.8+1.4*e-.6*back;body.rotation.x=-.22+.5*e-.28*back;body.position.z=6-22*e+16*back}}
+
+// 瑟提W：3D 金色龙头（挂在英雄模型上，英雄被击退/闪现时一起移动）。出拳后沿面朝方向冲出到 W 范围末端再消散。
+function settDragonBuild(b){if(b.settDragon||!b.body)return b.settDragon;let proto=null;b.body.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='BoxGeometry'&&!proto)proto=o});if(!proto)return null;
+ const Mesh=proto.constructor,Box=proto.geometry.constructor,G=b.body.constructor,mats=[];
+ const mat=(c,e,o=.92)=>{let m=proto.material.clone();m.color?.set(c);if(m.emissive){m.emissive.set(e);m.emissiveIntensity=1}m.transparent=true;m.opacity=o;m.depthWrite=false;mats.push([m,o]);return m};
+ const gold=mat('#ffcf4a','#ff9a1a'),dark=mat('#c8781e','#7a3a08'),white=mat('#fff6d8','#ffe7a0'),red=mat('#ff4a2a','#ff2a10'),mane=mat('#ffb02e','#ff7a10',.8);
+ const box=(w,h,d,m,x,y,z,par,rx=0,ry=0,rz=0)=>{let o=new Mesh(new Box(w,h,d),m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);par.add(o);return o};
+ let root=new G();root.visible=false;let sc=b.root||b.body;while(sc.parent)sc=sc.parent;sc.add(root);
+ let head=new G();root.add(head);
+ box(34,30,40,gold,0,0,0,head);box(26,18,34,gold,0,2,-34,head);box(22,6,10,dark,0,12,-48,head);// 头、长吻、鼻梁
+ let jaw=new G();jaw.position.set(0,-10,-14);head.add(jaw);box(24,8,40,gold,0,-2,-20,jaw);
+ for(let i=0;i<4;i++){box(3,6,3,white,-8+i*5.3,-12,-40+i*0,head,0,0,0);box(3,6,3,white,-8+i*5.3,3,-34+0,jaw)}// 獠牙
+ for(let sd of[-1,1]){box(6,6,4,red,sd*12,10,-22,head);box(5,5,36,dark,sd*10,22,14,head,.5,sd*.25,0);box(4,4,20,dark,sd*13,34,32,head,.9,sd*.3,0);// 眼、角
+  box(2,2,34,white,sd*14,-2,-56,head,-.2,sd*.5,0)}// 龙须
+ let maneG=new G();head.add(maneG);for(let i=0;i<9;i++){let a=-1.2+i*.3;box(8,8,34,mane,Math.sin(a)*22,Math.cos(a)*18,26,maneG,.4*Math.cos(a),.5*Math.sin(a),0)}
+ for(let i=0;i<5;i++)box(18-i*2.5,10-i,14,dark,0,18-i*2,10+i*12,head,0,0,0);
+ b.settDragon={root,head,jaw,maneG,mats};return b.settDragon}
+function settDragon(b,U,I){let at=U._settWAt,D=b.settDragon;if(at==null||I<at||I-at>1.3){if(D)D.root.visible=false;return}D=settDragonBuild(b);if(!D)return;let t=I-at,ch=.65;
+ if(t<ch){D.root.visible=false;return}let p=(t-ch)/.62;if(p>=1){D.root.visible=false;return}D.root.visible=true;let e=1-Math.pow(1-Math.min(1,p/.45),3);
+ let range=U.skills?.[1]?.range||400,ang=U._settWAngle??U.angle??0,d=30+(range-60)*e;D.root.position.set(U.x+Math.cos(ang)*d,70+12*Math.sin(p*Math.PI),U.y+Math.sin(ang)*d);D.root.rotation.set(0,-ang-Math.PI/2,0);let sc=1+.6*e;D.root.scale.set(sc,sc,sc);
+ D.jaw.rotation.x=.25+.35*Math.abs(Math.sin(t*14));D.maneG.rotation.z=Math.sin(t*20)*.15;D.head.rotation.z=Math.sin(t*9)*.08;
+ let fade=p<.55?1:1-(p-.55)/.45;for(let [m,o] of D.mats)m.opacity=o*fade}
 window.HeroPoseV20=apply;window.HeroPoseV20.SPEC=SPEC;
 })();
