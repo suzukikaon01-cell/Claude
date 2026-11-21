@@ -9,8 +9,8 @@
 (()=>{'use strict';
 const ID='tracer',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
- BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:400,is_ranged:1,hero_name:'闪光'},
- P:{magazine:40,burst_bullets:8,burst_interval:.25,bullet_ad_ratio:.05,reload:1.3,energy_max:100,energy_aa:2,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
+ BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:275,is_ranged:1,hero_name:'闪光'},
+ P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.05,on_hit_scale:.03,idle_reload_delay:1.5,reload:1.3,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
  Q:{cooldown:[12,11,10,9,8],duration:2.5,bonus_as:.35,aa_damage_ratio:.9},
  W:{distance:300,charges_initial:2,charges_max:3,recharge:8},
  E:{cooldown:[24,22,20,18,16],rewind:3,sample:.1,anim:.75},
@@ -21,14 +21,14 @@ const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:fa
 C.heroes[ID]={name:'闪光',title:'时空特工',role:'AD 刺客 / 机动射手',color:'#ff9a2e',
  stats:{hp:P.BASE.hp_base,mana:0,attack:P.BASE.ad_base,ap:0,armor:P.BASE.armor_base,mr:P.BASE.mr_base,baseAS:P.BASE.as_base,asRatio:P.BASE.as_ratio,speed:P.BASE.move_speed,range:P.BASE.attack_range,hpRegen:3.5,manaRegen:0,
   growth:{hp:P.BASE.hp_growth,mana:0,attack:P.BASE.ad_growth,armor:P.BASE.armor_growth,mr:P.BASE.mr_growth,as:P.BASE.as_growth,hpRegen:.55,manaRegen:0}},
- passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每轮命中+2，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射：弹匣40发，每0.25秒（随攻速缩短）一轮8发，1.25秒打完一个弹匣，每发5%AD（每轮按一次普攻结算，触发普攻特效）；打空自动装填1.3秒。',params:P.P},
+ passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程275）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成5%AD物理伤害，普攻特效按3%效果触发；打空或1.5秒未开火自动装填1.3秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'双枪速射',icon:'速',target:'self',range:0,cd:P.Q.cooldown,damage:0,
-   desc:'2.5秒内攻击速度提高35%，期间普攻造成90%伤害（可暴击，仍消耗弹药，不能跳过装填）。射程仍为400码。'}),
+   desc:'2.5秒内攻击速度提高35%，期间普攻造成90%伤害（可暴击，仍消耗弹药，不能跳过装填）。射程不变。'}),
   skill({key:'W',name:'闪现',icon:'闪',target:'direction',range:P.W.distance,cd:0,damage:0,
    desc:'瞬间朝指定方向移动300码（可越过薄墙，但不能停在墙内或地图外；不消耗弹药）。初始2层、最多3层充能，每层8秒恢复；可连续使用。被动满能量时额外获得1层充能。'}),
   skill({key:'E',name:'闪回',icon:'回',target:'self',range:0,cd:P.E.cooldown,damage:0,
-   desc:'回到3秒前的位置，并恢复当时的生命值与弹药；清除这3秒内新获得的减速、持续伤害等普通负面状态（压制、击飞等不可解除效果除外）。回溯动画持续0.75秒：沿原路倒着滑回，期间无法被选中、不受伤害、不能行动，结束时恢复生命与弹药。不恢复技能冷却、闪现充能、金币与经验，也不影响其他单位。'}),
+   desc:'回到3秒前的位置，并恢复当时的生命值与弹药；清除这3秒内新获得的减速、持续伤害等普通负面状态（压制、击飞等不可解除效果除外）。原地播放0.75秒闪回特效（我方蓝色、敌方红色），期间无法被选中、不受伤害、不能行动，结束时直接回到3秒前的位置并恢复生命与弹药。不恢复技能冷却、闪现充能、金币与经验，也不影响其他单位。'}),
   skill({key:'R',name:'脉冲炸弹',icon:'炸',target:'direction',range:P.R.range,radius:P.R.radius,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
    desc:'向指定方向投掷脉冲炸弹（500码），附着在第一个命中的敌方英雄身上（不可选取/无敌目标除外），未命中则落地。1秒后爆炸：300码内敌人受到 250/400/550+100%额外AD 物理伤害，附着目标承受100%，其余目标按距离衰减至最低50%。可被风墙、格挡等防御机制挡下。'})]
 };
@@ -41,7 +41,7 @@ const I=window.ItemSystem;if(I?.recommended&&!I.recommended.tracer){const rec=I.
 window.installTracer=function(m,env){
  const core=m.core,now=env.time,units=env.units,alive=t=>t&&t.hp>0&&!(t.death>0),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),TAU=Math.PI*2;
  const rk=(u,i)=>Math.max(1,u.skillRanks?.[i]||1),at=(arr,u,i)=>Array.isArray(arr)?arr[Math.min(arr.length,rk(u,i))-1]:arr;
- const S=u=>u.tracerState??={ammo:P.P.magazine,reloadUntil:0,energy:0,bonusBlink:0,charges:P.W.charges_initial,nextCharge:0,qUntil:0,qHit:false,history:[],lastSample:-99,lastCombat:-99,untargetUntil:0,bomb:null,fx:[],skillHitCast:new Set};
+ const live=t=>t&&t.hp>0&&!(t.death>0);const S=u=>u.tracerState??={ammo:P.P.magazine,reloadUntil:0,energy:0,bonusBlink:0,charges:P.W.charges_initial,nextCharge:0,qUntil:0,qHit:false,history:[],lastSample:-99,lastCombat:-99,untargetUntil:0,bomb:null,fx:[],skillHitCast:new Set};
  const bonusAD=u=>Math.max(0,(u.attack||0)-(u.baseAttack??u.attack??0));
  const los=(a,b)=>!GAME_CONFIG.map?.lineOfSight||GAME_CONFIG.map.lineOfSight(a,b);
  const fx=(u,f)=>{let s=S(u);s.fx.push({start:now(),...f});if(s.fx.length>80)s.fx.splice(0,s.fx.length-80)};
@@ -56,9 +56,9 @@ window.installTracer=function(m,env){
  // 闪回：0.75 秒回溯动画——沿记录路径倒着滑回 3 秒前的位置，期间不可选中、不受伤害、不能行动；动画结束时恢复生命/弹药并清除新负面状态
  function recall(u,e){let s=S(u),rec=recordAt(u);if(!rec)return false;let path=s.history.filter(h=>h.t>=rec.t).map(h=>({x:h.x,y:h.y})).reverse();path.unshift({x:u.x,y:u.y});
   s.rewind={start:now(),end:now()+P.E.anim,path,rec,from:{x:u.x,y:u.y}};u.displacement=null;u.dest=null;u.target=null;u.recall=0;u.pendingAttack=null;u.untargetable=1;s.untargetUntil=0;
-  fx(u,{kind:'recallFrom',x:u.x,y:u.y,life:.5});fx(u,{kind:'recallTrail',pts:path.slice(),life:P.E.anim+.3});return true}
+  return true}
  function rewindTick(u){let s=S(u),R=s.rewind;if(!R)return;let k=Math.min(1,(now()-R.start)/(R.end-R.start)),pts=R.path;u.untargetable=1;
-  if(pts.length>1){let f=k*(pts.length-1),i=Math.min(pts.length-2,Math.floor(f)),q=f-i;u.x=pts[i].x+(pts[i+1].x-pts[i].x)*q;u.y=pts[i].y+(pts[i+1].y-pts[i].y)*q;core.spatial?.update?.(u)}
+  u.x=R.from.x;u.y=R.from.y;
   if(k>=1)finishRecall(u)}
  function finishRecall(u){let s=S(u),R=s.rewind;if(!R)return;s.rewind=null;let rec=R.rec,dest=legalNear(u,rec)||legalNear(u,R.from)||R.from;
   u.x=dest.x;u.y=dest.y;core.spatial?.update?.(u);u.displacement=null;
@@ -101,14 +101,15 @@ window.installTracer=function(m,env){
   beforeAttack(u){let s=S(u);if(s.rewind)return false;if(s.reloadUntil||s.ammo<=0){startReload(u);return false}},
   attackProfile:()=>({windup:.03,recovery:.03,projectileSpeed:P.P.projectile_speed}),
   // 冲锋枪：每 0.25 秒（随攻速缩短）一轮 8 发，一个弹匣 40 发 1.25 秒打完；每轮按一次普攻结算（触发普攻特效/装备）
-  attackInterval:(u)=>P.P.burst_interval*Math.min(1,(u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed)),
-  attackPacket(u,t,p){if(!p||!Number.isFinite(p.damage))return;let s=S(u),n=Math.max(1,Math.min(P.P.burst_bullets,s.ammo));p.bullets=n;p.damage*=n*P.P.bullet_ad_ratio;if(s.qUntil>now())p.damage*=P.Q.aa_damage_ratio},
-  attackRelease(u,t,p){let s=S(u);if(t?.type==='hero'&&t.team!==u.team)s.lastCombat=now();s.ammo=Math.max(0,s.ammo-(p?.bullets||P.P.burst_bullets));if(s.ammo<=0)startReload(u);s.side=!s.side;fx(u,{kind:'burst',x:u.x,y:u.y,tx:t.x,ty:t.y,n:p?.bullets||8,life:.25});sound(u,s.qUntil>now()?1500:1200,.025)},
+  attackInterval:(u)=>P.P.empty_time/P.P.magazine*Math.min(1,(u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed)),
+  attackPacket(u,t,p){if(!p||!Number.isFinite(p.damage))return;let s=S(u);p.bullets=1;p.onHitScale=P.P.on_hit_scale;p.damage*=P.P.bullet_ad_ratio;if(s.qUntil>now())p.damage*=P.Q.aa_damage_ratio},
+  attackRelease(u,t,p){let s=S(u);if(t?.type==='hero'&&t.team!==u.team)s.lastCombat=now();let per=P.P.empty_time/P.P.magazine*Math.min(1,(u.baseAS||P.BASE.as_base)/Math.max(.01,u.attackSpeed)),gap=now()-(s.lastShot??-99),n=gap>.25?1:Math.max(1,Math.min(4,Math.round(gap/per)));n=Math.min(n,s.ammo);s.ammo=Math.max(0,s.ammo-n);s.lastShot=now();for(let k=1;k<n;k++){if(!live(t))break;m.basicImpact(u,t,{...p,impacted:false,hitIndex:'tracer-b'+k+'-'+now()})}if(s.ammo<=0)startReload(u);s.side=!s.side;fx(u,{kind:'burst',x:u.x,y:u.y,tx:t.x,ty:t.y,n:1,side:(s.side=!s.side)?1:-1,life:.08});sound(u,s.qUntil>now()?1500:1200,.025)},
   attackHit(u,t,p){if(t?.type!=='hero'||t.team===u.team)return;let s=S(u);s.lastCombat=now();if(s.qUntil>now()&&!s.qHit){s.qHit=true;gain(u,P.P.energy_q)}else gain(u,P.P.energy_aa)},
   reduceDamage(t,value,src){if(S(t).rewind)return 0;if(src&&src.team!==t.team)S(t).lastCombat=now();return value},
   tick(u,dt){let s=S(u),t=now();
    if(s.rewind){rewindTick(u);return}
    if(t-s.lastSample>=P.E.sample-1e-9)sample(u);
+   if(!s.reloadUntil&&s.ammo<P.P.magazine&&!s.rewind&&t-(s.lastShot??-99)>=P.P.idle_reload_delay&&!u.pendingAttack)startReload(u);
    if(s.reloadUntil&&t+1e-9>=s.reloadUntil){s.ammo=P.P.magazine;s.reloadUntil=0;core.emit('ReloadCompleted',u,u)}
    if(s.charges<P.W.charges_max&&s.nextCharge&&t+1e-9>=s.nextCharge){s.charges++;s.nextCharge=s.charges<P.W.charges_max?s.nextCharge+P.W.recharge:0}
    if(s.qUntil&&t>=s.qUntil){s.qUntil=0;m.recalc(u)}
@@ -126,7 +127,7 @@ window.installTracer=function(m,env){
   s.fx=s.fx.filter(f=>T-f.start<f.life);
   for(let f of s.fx){let k=(T-f.start)/f.life;ctx.save();ctx.globalAlpha=1-k;
    if(f.kind==='blink'){let n=5;for(let j=0;j<=n;j++){let p=j/n;ctx.globalAlpha=(1-k)*(.15+.35*p);ctx.fillStyle='#5ec8ff';ctx.beginPath();ctx.arc(f.x0+(f.x1-f.x0)*p,f.y0+(f.y1-f.y0)*p,(u.radius||22)*(.6+.3*p),0,TAU);ctx.fill()}ctx.globalAlpha=1-k;ctx.strokeStyle='#bfeaff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(f.x0,f.y0);ctx.lineTo(f.x1,f.y1);ctx.stroke()}
-   else if(f.kind==='burst'){let ang=Math.atan2(f.ty-f.y,f.tx-f.x),sh=f.n||8;for(let j=0;j<sh;j++){let t0=j/sh;if(k<t0||k>t0+.35)continue;let side=j%2?1:-1,ox=f.x+Math.cos(ang)*24-Math.sin(ang)*9*side,oy=f.y+Math.sin(ang)*24+Math.cos(ang)*9*side,q=(k-t0)/.35,len=Math.hypot(f.tx-ox,f.ty-oy);ctx.globalAlpha=.9*(1-q);ctx.strokeStyle='#e8f8ff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ox+Math.cos(ang)*len*q*.7,oy+Math.sin(ang)*len*q*.7);ctx.lineTo(ox+Math.cos(ang)*len*Math.min(1,q*.7+.3),oy+Math.sin(ang)*len*Math.min(1,q*.7+.3));ctx.stroke();if(q<.3&&seen){ctx.fillStyle='#bfeaff';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill()}}}
+   else if(f.kind==='burst'){let ang=Math.atan2(f.ty-f.y,f.tx-f.x),sh=f.n||1;for(let j=0;j<sh;j++){let t0=0;let side=f.side||1,ox=f.x+Math.cos(ang)*24-Math.sin(ang)*9*side,oy=f.y+Math.sin(ang)*24+Math.cos(ang)*9*side,q=k,len=Math.hypot(f.tx-ox,f.ty-oy);ctx.globalAlpha=.9*(1-q);ctx.strokeStyle='#e8f8ff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ox+Math.cos(ang)*len*q*.7,oy+Math.sin(ang)*len*q*.7);ctx.lineTo(ox+Math.cos(ang)*len*Math.min(1,q*.7+.3),oy+Math.sin(ang)*len*Math.min(1,q*.7+.3));ctx.stroke();if(q<.3&&seen){ctx.fillStyle='#bfeaff';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill()}}}
    else if(f.kind==='muzzle'&&seen){ctx.translate(f.x,f.y);ctx.rotate(f.angle);ctx.fillStyle='#bfeaff';ctx.beginPath();ctx.arc(26,f.side*9,6*(1-k)+2,0,TAU);ctx.fill()}
    else if(f.kind==='recallFrom'){ctx.strokeStyle='#5ec8ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(f.x,f.y,40*(1-k)+5,0,TAU);ctx.stroke()}
    else if(f.kind==='recallTo'){for(let j=0;j<3;j++){ctx.strokeStyle='#7fd6ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(f.x,f.y,20+60*k+j*12,T*6+j,T*6+j+4.2);ctx.stroke()}}
@@ -135,8 +136,11 @@ window.installTracer=function(m,env){
    else if(f.kind==='stick'||f.kind==='bonus'||f.kind==='bombBlocked'){ctx.strokeStyle=f.kind==='bombBlocked'?'#9aa4b2':'#5ec8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(f.x,f.y,20+30*k,0,TAU);ctx.stroke()}
    else if(f.kind==='q'&&seen&&alive(u)){ctx.globalAlpha=.6;ctx.strokeStyle='#5ec8ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(u.x,u.y,(u.radius||22)+14,T*10,T*10+4);ctx.stroke()}
    ctx.restore()}
-  if(s.rewind&&alive(u)){let R=s.rewind,k=Math.min(1,(T-R.start)/(R.end-R.start));ctx.save();for(let j=1;j<=6;j++){let kk=Math.max(0,k-j*.06),pts=R.path;if(pts.length<2)break;let f=kk*(pts.length-1),i=Math.min(pts.length-2,Math.floor(f)),q=f-i,x=pts[i].x+(pts[i+1].x-pts[i].x)*q,y=pts[i].y+(pts[i+1].y-pts[i].y)*q;ctx.globalAlpha=.35*(1-j/7);ctx.fillStyle='#5ec8ff';ctx.beginPath();ctx.arc(x,y,(u.radius||22)*.9,0,TAU);ctx.fill()}
-   ctx.globalAlpha=.9;for(let j=0;j<3;j++){ctx.strokeStyle=j%2?'#bfeaff':'#5ec8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(u.x,u.y,34+j*10,-T*12-j,-T*12-j+4);ctx.stroke()}ctx.fillStyle='#bfeaff';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText('⟲ 闪回',u.x,u.y-(u.radius||22)-48);ctx.restore()}
+  if(s.rewind&&alive(u)){let R=s.rewind,k=Math.min(1,(T-R.start)/(R.end-R.start)),ally=!viewer||u.team===viewer.team,c1=ally?'94,200,255':'255,80,80',c2=ally?'191,234,255':'255,190,190';ctx.save();
+   let g=ctx.createRadialGradient?ctx.createRadialGradient(u.x,u.y,4,u.x,u.y,70):null;if(g){g.addColorStop(0,'rgba('+c2+',.55)');g.addColorStop(1,'rgba('+c1+',0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(u.x,u.y,70,0,TAU);ctx.fill()}
+   for(let j=0;j<4;j++){ctx.strokeStyle='rgba('+(j%2?c2:c1)+',.9)';ctx.lineWidth=3;ctx.beginPath();ctx.arc(u.x,u.y,26+j*11+6*Math.sin(T*10+j),-T*14-j*1.3,-T*14-j*1.3+3.6);ctx.stroke()}
+   for(let j=0;j<10;j++){let a=j*TAU/10-T*6,r=60*(1-((T*2+j/10)%1));ctx.fillStyle='rgba('+c2+',.85)';ctx.beginPath();ctx.arc(u.x+Math.cos(a)*r,u.y+Math.sin(a)*r,2.5,0,TAU);ctx.fill()}
+   ctx.fillStyle='rgba('+c2+',1)';ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillText('⟲ 闪回 '+Math.max(0,R.end-T).toFixed(2),u.x,u.y-(u.radius||22)-48);ctx.restore()}
   let b=s.bomb;if(b){ctx.save();let pulse=.5+.5*Math.sin(T*20);ctx.fillStyle='#1d3f5a';ctx.strokeStyle='#5ec8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,b.y-(b.target?40:0),10,0,TAU);ctx.fill();ctx.stroke();ctx.fillStyle='rgba(94,200,255,'+(.5+.5*pulse)+')';ctx.beginPath();ctx.arc(b.x,b.y-(b.target?40:0),4,0,TAU);ctx.fill();
    if(b.state!=='fly'){let left=Math.max(0,b.fuseAt-T);ctx.strokeStyle='rgba(255,150,40,.85)';ctx.lineWidth=3;ctx.setLineDash?.([12,8]);ctx.beginPath();ctx.arc(b.x,b.y,P.R.radius,0,TAU);ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle='#ffb347';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText(left.toFixed(1),b.x,b.y-(b.target?62:22))}ctx.restore()}
   if(!alive(u)||!seen)continue;
