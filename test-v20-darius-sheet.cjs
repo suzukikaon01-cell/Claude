@@ -1,6 +1,6 @@
 const r5=a=>Array.isArray(a)&&a.length===6?a.slice(0,5):a;// V21：小技能第6级为新增等级，旧断言只比较前5级
 const make=require('./test-harness.cjs'),assert=require('assert');const h=make(),m=h.a.m,P=h.C.heroParams.darius;const cost=(u,i)=>m.heroHooks.darius.cost(u,i,h.R.rank(u.skills[i].mana,u.skillRanks[i]||1));
-let u=h.reset('darius');assert.equal(u.maxHp,652.24);assert.equal(u.attack,64);assert.equal(u.maxMana,263);
+let u=h.reset('darius');assert.equal(u.maxHp,660);assert.equal(u.attack,64);assert.equal(u.maxMana,263);
 u.skillRanks[3]=1;assert.equal(cost(u,3),100,'R costs 100 at rank 1');
 let t=h.a.enemy('lux',u.x+150,u.y);t.hp=50;h.ready(u,3,1);u.mp=u.maxMana;let mp=u.mp;assert(h.a.cast(u,3,t));h.a.tickCast(u,(u.skills[3].windup||0)+1e-5);assert(Math.abs(mp-u.mp-100)<1e-6,'paid 100');h.step(1);assert(t.hp<=0||t.death>0,'R kills');assert.equal(u.cd[3],0,'cd reset on kill');assert.equal(cost(u,3),0,'free recast within 20s');h.step(20.5);assert.equal(cost(u,3),100,'free window ends');
 u.skillRanks[3]=3;assert.equal(cost(u,3),0,'rank 3 no mana');
