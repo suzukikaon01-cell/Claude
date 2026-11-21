@@ -67,7 +67,7 @@ window.installTracer=function(m,env){
   // 清除记录点之后新获得的普通负面状态（压制/击飞等不可解除效果保留）
   core.remove?.(u,x=>x.startTime>rec.t&&x.sourceId!==u.id&&x.dispelCategory==='normal'&&['SLOW','STUN','ROOT','SILENCE','BLIND','TAUNT','FEAR','CHARM','SLEEP','HEAL_REDUCTION','GROUNDED','DOT','BURN','POISON','BLEED','ARMOR_SHRED','MR_SHRED'].includes(x.type),'recalled');core.sync?.(u);
   if((u.groundedUntil||0)>now())u.groundedUntil=0;
-  u.untargetable=0;fx(u,{kind:'recallTo',x:u.x,y:u.y,life:.6});s.history=[];sample(u)}
+  u.untargetable=0;fx(u,{kind:'recallTo',x:u.x,y:u.y,life:.55});s.history=[];sample(u)}
  // ---- R：脉冲炸弹 ----
  function bombTick(u,dt){let s=S(u),b=s.bomb;if(!b)return;let r=P.R;
   if(b.state==='fly'){let step=r.speed*dt,nx=b.x+Math.cos(b.angle)*step,ny=b.y+Math.sin(b.angle)*step;b.travel+=step;
@@ -130,7 +130,7 @@ window.installTracer=function(m,env){
    else if(f.kind==='burst'){let ang=Math.atan2(f.ty-f.y,f.tx-f.x),sh=f.n||1;for(let j=0;j<sh;j++){let t0=0;let side=f.side||1,ox=f.x+Math.cos(ang)*24-Math.sin(ang)*9*side,oy=f.y+Math.sin(ang)*24+Math.cos(ang)*9*side,q=k,len=Math.hypot(f.tx-ox,f.ty-oy);ctx.globalAlpha=.9*(1-q);ctx.strokeStyle='#e8f8ff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ox+Math.cos(ang)*len*q*.7,oy+Math.sin(ang)*len*q*.7);ctx.lineTo(ox+Math.cos(ang)*len*Math.min(1,q*.7+.3),oy+Math.sin(ang)*len*Math.min(1,q*.7+.3));ctx.stroke();if(q<.3&&seen){ctx.fillStyle='#bfeaff';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill()}}}
    else if(f.kind==='muzzle'&&seen){ctx.translate(f.x,f.y);ctx.rotate(f.angle);ctx.fillStyle='#bfeaff';ctx.beginPath();ctx.arc(26,f.side*9,6*(1-k)+2,0,TAU);ctx.fill()}
    else if(f.kind==='recallFrom'){ctx.strokeStyle='#5ec8ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(f.x,f.y,40*(1-k)+5,0,TAU);ctx.stroke()}
-   else if(f.kind==='recallTo'){for(let j=0;j<3;j++){ctx.strokeStyle='#7fd6ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(f.x,f.y,20+60*k+j*12,T*6+j,T*6+j+4.2);ctx.stroke()}}
+   else if(f.kind==='recallTo'){let ally=!viewer||u.team===viewer.team,c1=ally?'94,200,255':'255,80,80',c2=ally?'220,245,255':'255,210,210';if(k<.25){ctx.fillStyle='rgba('+c2+','+(.85*(1-k/.25))+')';ctx.beginPath();ctx.arc(f.x,f.y,30+40*k/.25,0,TAU);ctx.fill()}for(let j=0;j<3;j++){ctx.strokeStyle='rgba('+(j?c1:c2)+',.95)';ctx.lineWidth=5-j;ctx.beginPath();ctx.arc(f.x,f.y,15+90*k-j*14,0,TAU);ctx.stroke()}for(let j=0;j<12;j++){let a=j*TAU/12,r0=20+40*k,r1=40+90*k;ctx.strokeStyle='rgba('+c1+',.85)';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(f.x+Math.cos(a)*r0,f.y+Math.sin(a)*r0);ctx.lineTo(f.x+Math.cos(a)*r1,f.y+Math.sin(a)*r1);ctx.stroke()}}
    else if(f.kind==='recallTrail'&&f.pts?.length>1){ctx.strokeStyle='#5ec8ff';ctx.lineWidth=5;ctx.setLineDash?.([10,8]);ctx.beginPath();f.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.setLineDash?.([])}
    else if(f.kind==='boom'){ctx.fillStyle='rgba(255,150,40,'+(.45*(1-k))+')';ctx.beginPath();ctx.arc(f.x,f.y,f.r*(.4+.6*Math.min(1,k*2)),0,TAU);ctx.fill();ctx.strokeStyle='#5ec8ff';ctx.lineWidth=6;ctx.beginPath();ctx.arc(f.x,f.y,f.r*(.3+.8*k),0,TAU);ctx.stroke()}
    else if(f.kind==='stick'||f.kind==='bonus'||f.kind==='bombBlocked'){ctx.strokeStyle=f.kind==='bombBlocked'?'#9aa4b2':'#5ec8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(f.x,f.y,20+30*k,0,TAU);ctx.stroke()}
