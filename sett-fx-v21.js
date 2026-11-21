@@ -26,8 +26,16 @@ function punch(ctx,f,k){ctx.save();ctx.translate(f.x,f.y-32);ctx.globalComposite
  ctx.fillStyle=rg(ctx,70,[[0,A(W,fade)],[.25,A('255,236,120',.95*fade)],[.6,A(G,.5*fade)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(0,0,(30+40*e),0,TAU);ctx.fill();
  ctx.rotate(f.seed);for(let i=0;i<12;i++){ctx.rotate(TAU/12);let l=(i%2?40:70)*(0.6+.6*e);ctx.fillStyle=A(W,.8*fade);ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(l,0);ctx.lineTo(0,3);ctx.closePath();ctx.fill()}
  ctx.restore()}
-function haymaker(ctx,f,k){const L=400,HW=187,ch=.16;
- if(k<ch){let u=find(f.id);if(u){ctx.save();ctx.translate(u.x,u.y-38);ctx.globalCompositeOperation='lighter';ctx.scale(.75,1.25);glow(ctx,60,.9*k/ch);ctx.restore()}return}
+function beast(ctx,S,T,s0){// 朝 +x 的兽首：后方火焰鬃毛 + 头颅 + 张开的上下颚 + 暗色条纹
+ ctx.save();ctx.fillStyle=rg(ctx,S*1.6,[[0,A(W,.55)],[.5,A(G,.35)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(-S*.2,0,S*1.5,0,TAU);ctx.fill();
+ for(let i=0;i<9;i++){let a=Math.PI*(.55+.9*i/8),l=S*(1.0+.35*Math.sin(T*18+i*1.7));ctx.fillStyle=A(i%2?G:AM,.85);ctx.beginPath();ctx.moveTo(-S*.1+Math.cos(a)*S*.35,Math.sin(a)*S*.5);ctx.quadraticCurveTo(-S*.4+Math.cos(a)*l*.8,Math.sin(a)*l*.9,-S*.3+Math.cos(a)*l,Math.sin(a)*l*.75+S*.12);ctx.lineTo(-S*.1+Math.cos(a+.25)*S*.35,Math.sin(a+.25)*S*.5);ctx.closePath();ctx.fill()}
+ ctx.fillStyle=A('255,214,90',.95);ctx.beginPath();ctx.moveTo(-S*.35,-S*.45);ctx.quadraticCurveTo(S*.35,-S*.6,S*.75,-S*.18);ctx.lineTo(S*.95,-S*.05);ctx.lineTo(S*.35,0);ctx.lineTo(S*.9,S*.12);ctx.lineTo(S*.7,S*.3);ctx.quadraticCurveTo(S*.2,S*.5,-S*.35,S*.45);ctx.closePath();ctx.fill();
+ ctx.strokeStyle=A('170,80,20',.75);ctx.lineWidth=Math.max(2,S*.06);ctx.lineCap='round';for(let i=0;i<4;i++){let x=-S*.25+i*S*.2;ctx.beginPath();ctx.moveTo(x,-S*.38+i*S*.03);ctx.lineTo(x+S*.12,-S*.15);ctx.stroke();ctx.beginPath();ctx.moveTo(x,S*.38-i*S*.03);ctx.lineTo(x+S*.12,S*.18);ctx.stroke()}
+ ctx.fillStyle=A(W,1);ctx.beginPath();ctx.ellipse(S*.38,-S*.25,S*.1,S*.05,-.3,0,TAU);ctx.fill();
+ ctx.fillStyle=A(W,.95);for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(S*(.45+i*.15),-S*.05);ctx.lineTo(S*(.5+i*.15),S*.06);ctx.lineTo(S*(.55+i*.15),-S*.05);ctx.fill()}
+ ctx.restore()}
+function haymaker(ctx,f,k){const L=400,HW=187,ch=.5;
+ if(k<ch){let q=k/ch,u=find(f.id);if(u){ctx.save();ctx.translate(u.x,u.y-38);ctx.globalCompositeOperation='lighter';ctx.scale(.75,1.25);glow(ctx,50+25*q,.5+.5*q);ctx.restore()}ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.25+.35*q;ctx.strokeStyle=A(G,.8);ctx.lineWidth=2;ctx.setLineDash?.([10,8]);ctx.beginPath();ctx.moveTo(0,-51);ctx.lineTo(L,-HW);ctx.lineTo(L,HW);ctx.lineTo(0,51);ctx.stroke();ctx.setLineDash?.([]);ctx.fillStyle=A(G,.08);ctx.fill();ctx.fillStyle=A(G,.5);ctx.fillRect(0,-2,L*q,4);ctx.restore();return}
  ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';
  let p=(k-ch)/(1-ch),e=ease(Math.min(1,p*2.2)),F=L*e,fade=p<.4?1:1-(p-.4)/.6,hw=40+(HW-40)*e;ctx.globalAlpha=fade;
  let cr=f.cr||.27,ch2=hw*cr,ch0=40*cr;
@@ -36,7 +44,11 @@ function haymaker(ctx,f,k){const L=400,HW=187,ch=.16;
  ctx.fillStyle=lg(ctx,0,0,F,0,[[0,A('255,150,90',.35)],[1,A('255,110,70',.6)]]);ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.lineTo(F,ch2);ctx.lineTo(0,ch0);ctx.closePath();ctx.fill();
  for(let pass of [[8,'255,120,70',.8],[3,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0];ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.moveTo(0,ch0);ctx.lineTo(F,ch2);ctx.stroke()}
  for(let pass of [[ch2*.9,'255,200,120',.55],[10,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0]*(1-p*.4);ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(F,0);ctx.stroke()}
- ctx.save();ctx.translate(F*.8,0);ctx.fillStyle=rg(ctx,70,[[0,A('255,120,90',.85*(1-p))],[1,A('255,60,40',0)]]);ctx.beginPath();ctx.arc(0,0,70,0,TAU);ctx.fill();ctx.restore();
+ ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
+ // 真伤命中处的红色光柱（向屏幕上方）
+ if(p<.5){ctx.save();ctx.translate(F*.72,0);ctx.rotate(-f.a);let h=260*(1-p*1.4),w=26*(1-p);ctx.fillStyle=lg(ctx,0,0,0,-h,[[0,A('255,120,100',.8)],[1,A('255,80,80',0)]]);ctx.fillRect(-w/2,-h,w,h);ctx.restore()}
+ // 金色兽魂（原创：火焰鬃毛的咆哮兽首，沿中线冲出）
+ if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.globalAlpha=fade*(1-bp*.6);beast(ctx,70+40*e,f.T||0,f.seed);ctx.restore()}
  ctx.restore()}
 function facebreaker(ctx,f,k){ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';const R=f.range||225,Wd=f.width||175,cl=.38;let e=ease(Math.min(1,k/cl));
  let fade=k<cl?1:Math.max(0,1-(k-cl)/(1-cl));ctx.globalAlpha=fade;ctx.fillStyle=A(G,.16);ctx.fillRect(-R,-Wd/2,R*2,Wd);ctx.strokeStyle=A(G,.55);ctx.lineWidth=2;ctx.strokeRect(-R,-Wd/2,R*2,Wd);
@@ -64,14 +76,14 @@ function stateFx(ctx,u,T){let z=S(u),r=u.radius||24;u._settQA=Math.max(u._settQA
 // ---------------- 事件 ----------------
 function attach(c,units,now){if(!c||core===c)return;core=c;unitsFn=units;clock=now;
  c.on('AbilityCommitted',e=>{if(typeof e.abilityId!=='number')return;let s=find(e.sourceId);if(!s||s.hero!=='sett')return;let T=clock();
-  if(e.abilityId===1)push({k:'w',cr:(s.skills?.[1]?.centerWidth||100)/(s.skills?.[1]?.width||375),id:s.id,x:s.x,y:s.y,a:s.angle||0,start:T,end:T+.9,seed:seed++});
+  if(e.abilityId===1)s._settWAt=T;if(e.abilityId===1)push({k:'w',cr:(s.skills?.[1]?.centerWidth||100)/(s.skills?.[1]?.width||375),id:s.id,x:s.x,y:s.y,a:s.angle||0,start:T,end:T+1.3,seed:seed++});
   if(e.abilityId===2){let fxE=s.settEFx;push({k:'e',x:fxE?.x??s.x,y:fxE?.y??s.y,a:fxE?.angle??s.angle??0,range:fxE?.range||s.skills?.[2]?.range,width:fxE?.width||s.skills?.[2]?.width,start:T,end:T+.7,seed:seed++})}});
  c.on('DamageApplied',e=>{if(e.itemEffect||e.runeProc||e.deferred||!(e.amount>0||e.absorbed>0))return;let s=find(e.sourceId),t=find(e.targetId);if(!s||!t||s.hero!=='sett')return;let T=clock(),a=Math.atan2(t.y-s.y,t.x-s.x);
   if(e.basic){let z=S(s),big=e.empowered||(s._settQA||0)>(z.qAttacks||0);s._settSide=-(s._settSide||1);push({k:'p',x:t.x,y:t.y,a,side:s._settSide,big,start:T,end:T+(big?.28:.2),seed:seed++});s._settQA=z.qAttacks||0;return}
   if(e.abilityId===3){let key='r'+s.id;if((attach.last[key]||-1)>T-.3)return;attach.last[key]=T;push({k:'r',x:s.x,y:s.y,r:s.skills?.[3]?.radius,start:T,end:T+1.8,seed:seed++})}})}
 attach.last={};
 function draw(ctx,player,units,T,seen){for(let u of units){if(u.hero!=='sett'||!(u.hp>0)||u.death>0||seen&&!seen(u))continue;stateFx(ctx,u,T)}
- for(let i=fx.length-1;i>=0;i--){let f=fx[i];if(T>=f.end||T<f.start-1){fx.splice(i,1);continue}let k=Math.max(0,Math.min(1,(T-f.start)/(f.end-f.start)));
+ for(let i=fx.length-1;i>=0;i--){let f=fx[i];if(T>=f.end||T<f.start-1){fx.splice(i,1);continue}let k=Math.max(0,Math.min(1,(T-f.start)/(f.end-f.start)));f.T=T;
   if(f.k==='p')punch(ctx,f,k);else if(f.k==='w')haymaker(ctx,f,k);else if(f.k==='e')facebreaker(ctx,f,k);else if(f.k==='r')landing(ctx,f,k)}}
 window.SettFxV21={attach,draw,fx};
 })();
