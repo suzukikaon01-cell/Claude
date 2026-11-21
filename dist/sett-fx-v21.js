@@ -23,6 +23,9 @@ function fist(ctx,s,a){ctx.fillStyle=A(G,a);ctx.beginPath();ctx.moveTo(-s*.9,-s*
 function hand(ctx,s,a){ctx.fillStyle=A(G,a);ctx.beginPath();ctx.ellipse(0,0,s*.55,s*.5,0,0,TAU);ctx.fill();for(let i=0;i<4;i++){let y=(i-1.5)*s*.26;ctx.beginPath();ctx.ellipse(s*.65,y,s*.32,s*.1,0,0,TAU);ctx.fill()}ctx.beginPath();ctx.ellipse(s*.1,-s*.62,s*.28,s*.1,-.8,0,TAU);ctx.fill()}
 function sparks(ctx,n,R,k,s0){for(let i=0;i<n;i++){let a=hash(i+s0)*TAU,d=R*(.4+.6*hash(i*3+s0))*ease(k);ctx.strokeStyle=A(i%2?G:W,1-k);ctx.lineWidth=2.5*(1-k)+.5;ctx.beginPath();ctx.moveTo(Math.cos(a)*d,Math.sin(a)*d*.7);ctx.lineTo(Math.cos(a)*(d+12),Math.sin(a)*(d+12)*.7);ctx.stroke()}}
 // ---------------- 技能 ----------------
+function crescentTrail(ctx,f,k){let u=find(f.id);if(!u)return;ctx.save();ctx.translate(u.x,u.y-30);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';let e=ease(Math.min(1,k*2)),fade=1-k;ctx.globalAlpha=fade;
+ for(let i=0;i<6;i++){let y=(hash(i+f.seed)-.5)*26*f.side,l=60+80*hash(i*3+f.seed);ctx.strokeStyle=A(i%2?G:W,.7);ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(10+e*40,y);ctx.lineTo(10+e*40-l,y);ctx.stroke()}
+ let x=60+e*60;ctx.fillStyle=lg(ctx,x-30,0,x+20,0,[[0,A(G,0)],[.7,A(G,.85)],[1,A(W,1)]]);ctx.beginPath();ctx.moveTo(x-10,-60);ctx.quadraticCurveTo(x+50,0,x-10,60);ctx.quadraticCurveTo(x+18,0,x-10,-60);ctx.fill();ctx.restore()}
 function punch(ctx,f,k){{let u=find(f.tid);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}ctx.save();ctx.translate(f.x,f.y-32);ctx.globalCompositeOperation='lighter';let e=ease(Math.min(1,k*2.5)),fade=1-k;if(!f.big)ctx.scale(.5,.5);
  ctx.fillStyle=rg(ctx,70,[[0,A(W,fade)],[.25,A('255,236,120',.95*fade)],[.6,A(G,.5*fade)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(0,0,(30+40*e),0,TAU);ctx.fill();
  ctx.rotate(f.seed);for(let i=0;i<12;i++){ctx.rotate(TAU/12);let l=(i%2?40:70)*(0.6+.6*e);ctx.fillStyle=A(W,.8*fade);ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(l,0);ctx.lineTo(0,3);ctx.closePath();ctx.fill()}
@@ -87,7 +90,7 @@ function haymaker(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}cons
 function facebreaker(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalCompositeOperation='lighter';const R=f.range||225,Wd=f.width||175,cl=.38;let e=ease(Math.min(1,k/cl));
  let fade=k<cl?1:Math.max(0,1-(k-cl)/(1-cl));ctx.globalAlpha=fade;ctx.fillStyle=A(G,.16);ctx.fillRect(-R,-Wd/2,R*2,Wd);ctx.strokeStyle=A(G,.55);ctx.lineWidth=2;ctx.strokeRect(-R,-Wd/2,R*2,Wd);
  for(let s of[-1,1]){let head=s*R*(1-e);ctx.fillStyle=lg(ctx,s*R,0,head,0,[[0,A(AM,0)],[.7,A(G,.35)],[1,A(W,.7)]]);let x0=Math.min(s*R,head),w=Math.abs(s*R-head);ctx.fillRect(x0,-Wd/2,w,Wd);ctx.fillStyle=A(W,.85);ctx.fillRect(head-s*6-3,-Wd/2,6,Wd);ctx.save();ctx.translate(head,0);ctx.scale(.5,Wd/100);glow(ctx,50,.8);ctx.restore()}
- if(k>=cl*.9){let p=(k-cl*.9)/(1-cl*.9),q=ease(p);ctx.globalAlpha=1-p;for(let a of[.6,-.6]){ctx.save();ctx.rotate(a);ctx.scale(1,.28);glow(ctx,90+80*q,1);ctx.restore()}glow(ctx,50+30*q,1);
+ if(k>=cl*.9){let p=(k-cl*.9)/(1-cl*.9),q=ease(p);ctx.save();ctx.rotate(-f.a);ctx.globalAlpha=1-p;ctx.fillStyle=lg(ctx,0,0,0,-220,[[0,A(W,.9)],[.4,A(G,.6)],[1,A(G,0)]]);ctx.fillRect(-14*(1-p),-220*q,28*(1-p),220*q);ctx.strokeStyle=A(G,.95);ctx.lineWidth=10*(1-p)+2;ctx.lineCap='round';ctx.beginPath();ctx.arc(0,-60,90,Math.PI*.15,Math.PI*.15+Math.PI*1.2*q,false);ctx.stroke();ctx.globalCompositeOperation='source-over';for(let r=0;r<8;r++){let a=hash(r+f.seed)*TAU,d=60+40*hash(r*3);ctx.fillStyle=A(r%2?'70,55,45':'110,90,70',1-p);ctx.beginPath();ctx.moveTo(Math.cos(a)*d-8,Math.sin(a)*d*.6);ctx.lineTo(Math.cos(a)*d,Math.sin(a)*d*.6-30*q);ctx.lineTo(Math.cos(a)*d+8,Math.sin(a)*d*.6);ctx.fill()}ctx.globalCompositeOperation='lighter';ctx.restore();ctx.globalAlpha=1-p;for(let a of[.6,-.6]){ctx.save();ctx.rotate(a);ctx.scale(1,.28);glow(ctx,90+80*q,1);ctx.restore()}glow(ctx,50+30*q,1);
   for(let i=0;i<14;i++){let a=hash(i+f.seed)*TAU,d=(30+110*hash(i*3+f.seed))*q;ctx.fillStyle=A(i%2?G:W,1);ctx.beginPath();ctx.arc(Math.cos(a)*d,Math.sin(a)*d*.6,2.5,0,TAU);ctx.fill()}}
  ctx.restore()}
 function landing(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0&&k<.5){f.x=u.x;f.y=u.y}}ctx.save();ctx.translate(f.x,f.y);const R=f.r||450;
@@ -95,6 +98,9 @@ function landing(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0&&k<.5){f.x=u.x;f.y=u.y}
  let p=Math.min(1,k/.4),q=ease(p);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=1-p;ctx.save();ctx.fillStyle=rg(ctx,200,[[0,A(W,1)],[.25,A('255,226,110',.95)],[.6,A(G,.6)],[1,A(AM,0)]]);ctx.beginPath();ctx.arc(0,0,90+120*q,0,TAU);ctx.fill();ctx.restore();
  ring(ctx,R*(.2+.6*q),10*(1-p)+2,G,.9,1);ring(ctx,R*(.15+.5*q),3,W,1,1);
  for(let i=0;i<10;i++){let a=i*TAU/10+hash(i+f.seed)*.5;ctx.strokeStyle=A(AM,.9);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(Math.cos(a)*30,Math.sin(a)*30);ctx.lineTo(Math.cos(a)*(60+110*q),Math.sin(a)*(60+110*q));ctx.stroke()}
+ // 岩刺与光柱
+ ctx.globalCompositeOperation='source-over';{let rise=ease(Math.min(1,k/.15)),sink=k<.6?1:1-(k-.6)/.4;for(let i=0;i<14;i++){let a=i*TAU/14+hash(i+f.seed)*.3,d=110+90*hash(i*7+f.seed),h=(40+50*hash(i*3+f.seed))*rise*sink,x=Math.cos(a)*d,y=Math.sin(a)*d;ctx.fillStyle=A(i%2?'64,52,44':'98,82,66',1);ctx.beginPath();ctx.moveTo(x-12,y);ctx.lineTo(x+(hash(i)-.5)*10,y-h);ctx.lineTo(x+12,y);ctx.closePath();ctx.fill();ctx.fillStyle=A(G,.6*sink);ctx.fillRect(x-1.5,y-h*.9,3,h*.8)}}
+ ctx.globalCompositeOperation='lighter';if(k<.45){let q=k/.45;ctx.fillStyle=lg(ctx,0,0,0,-420,[[0,A(W,1-q)],[.4,A(G,.7*(1-q))],[1,A(G,0)]]);ctx.fillRect(-30*(1-q),-420,60*(1-q),420)}
  // 裂坑暗圈
  ctx.globalCompositeOperation='source-over';let lin=k<.7?1:1-(k-.7)/.3;ctx.globalAlpha=lin;ring(ctx,150,14,'60,40,22',.55,1);ring(ctx,110,6,'90,62,34',.6,1);
  // 厚尘云（扩散后停留）
@@ -103,21 +109,31 @@ function landing(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0&&k<.5){f.x=u.x;f.y=u.y}
  ctx.restore()}
 // ---------------- 持续状态 ----------------
 function stateFx(ctx,u,T){let z=S(u),r=u.radius||24;u._settQA=Math.max(u._settQA||0,z.qAttacks||0);if(!(z.qAttacks>0))u._settQA=0;ctx.save();ctx.globalCompositeOperation='lighter';
- let g=Math.min(1,(z.grit||0)/Math.max(1,(u.maxHp||1)*.5));if(g>.4){ctx.save();ctx.translate(u.x,u.y-38);ctx.globalAlpha=Math.min(1,(g-.4)*1.6)*(.7+.3*Math.sin(T*6));ctx.scale(.7,1.3);glow(ctx,r*2.2,.55);ctx.restore()}
+ let g=Math.min(1,(z.grit||0)/Math.max(1,(u.maxHp||1)*.5));if(g>.4){ctx.save();ctx.translate(u.x,u.y);ctx.globalAlpha=Math.min(1,(g-.4)*1.6);for(let j=0;j<3;j++){ctx.save();ctx.rotate(T*(j%2?-1.6:2.2)+j);ctx.strokeStyle=A(j?G:W,.8);ctx.lineWidth=3-j*.6;for(let q=0;q<3;q++){ctx.beginPath();ctx.arc(0,0,r+14+j*9,q*TAU/3,q*TAU/3+1.3);ctx.stroke()}ctx.restore()}ctx.restore();ctx.save();ctx.translate(u.x,u.y-38);ctx.globalAlpha=Math.min(1,(g-.4)*1.6)*(.7+.3*Math.sin(T*6));ctx.scale(.7,1.3);glow(ctx,r*2.2,.55);ctx.restore()}
  if((z.qAttacks||0)>0&&(z.qEnd||0)>T){let ca=Math.cos(u.angle||0),sa=Math.sin(u.angle||0);for(let s of[-1,1]){let x=u.x+ca*r*.8-sa*s*r*.85,y=u.y+sa*r*.8+ca*s*r*.85-38;ctx.save();ctx.translate(x,y);glow(ctx,15+3*Math.sin(T*10+s),.95);ctx.restore()}}
  let sl=z.slam;if(sl&&sl.end>T){let left=Math.max(0,Math.min(1,sl.end-T));ctx.save();ctx.translate(u.x,u.y);ctx.globalAlpha=.4+.5*(1-left);ring(ctx,u.skills?.[3]?.radius||450,3,G,.6,1);ring(ctx,(u.skills?.[3]?.radius||450)*(1-left),2,W,.7,1);ctx.restore()}
  ctx.restore()}
+
+// 技能指示器（金色风格）：W 箭头+中心真伤通道+人字形箭纹；E 前后双向长条+中心拳印
+function aimFx(ctx,i,range,width,skill,T){if(i!==1&&i!==2)return false;ctx.save();ctx.lineJoin='round';
+ if(i===1){let N=(skill.nearWidth||102)/2,F=width/2,c=(skill.centerWidth||104)/width;ctx.fillStyle=lg(ctx,0,0,range,0,[[0,A(G,.08)],[1,A(G,.22)]]);ctx.beginPath();ctx.moveTo(0,-N);ctx.lineTo(range,-F);ctx.lineTo(range,F);ctx.lineTo(0,N);ctx.closePath();ctx.fill();ctx.strokeStyle=A(G,.9);ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle=A('255,150,80',.28);ctx.beginPath();ctx.moveTo(0,-N*c);ctx.lineTo(range,-F*c);ctx.lineTo(range,F*c);ctx.lineTo(0,N*c);ctx.closePath();ctx.fill();ctx.strokeStyle=A('255,170,90',.8);ctx.lineWidth=2;ctx.stroke();
+  for(let k=0;k<4;k++){let x=range*(.3+k*.15)+((T*120)%(range*.15)),h=18;ctx.strokeStyle=A(W,.85-k*.12);ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x-14,-h);ctx.lineTo(x,0);ctx.lineTo(x-14,h);ctx.stroke()}}
+ else{let H=width/2;ctx.fillStyle=A(G,.14);ctx.fillRect(-range,-H,range*2,H*2);ctx.strokeStyle=A(G,.9);ctx.lineWidth=3;ctx.strokeRect(-range,-H,range*2,H*2);
+  for(let sd of[-1,1])for(let k=0;k<3;k++){let x=sd*(range-30-k*26)-sd*((T*90)%26);ctx.strokeStyle=A(W,.8-k*.2);ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x+sd*12,-H*.45);ctx.lineTo(x-sd*4,0);ctx.lineTo(x+sd*12,H*.45);ctx.stroke()}
+  ctx.strokeStyle=A(G,.95);ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26,0,TAU);ctx.stroke()}
+ ctx.restore();return true}
 // ---------------- 事件 ----------------
 function attach(c,units,now){if(!c||core===c)return;core=c;unitsFn=units;clock=now;
  c.on('AbilityCommitted',e=>{if(typeof e.abilityId!=='number')return;let s=find(e.sourceId);if(!s||s.hero!=='sett')return;let T=clock();
   if(e.abilityId===1){s._settWAt=T;s._settWAngle=s.angle||0}if(e.abilityId===1)push({k:'w',cr:(s.skills?.[1]?.centerWidth||100)/(s.skills?.[1]?.width||375),id:s.id,x:s.x,y:s.y,a:s.angle||0,start:T,end:T+1.3,seed:seed++});
   if(e.abilityId===2){let fxE=s.settEFx;push({k:'e',id:s.id,x:fxE?.x??s.x,y:fxE?.y??s.y,a:fxE?.angle??s.angle??0,range:fxE?.range||s.skills?.[2]?.range,width:fxE?.width||s.skills?.[2]?.width,start:T,end:T+.7,seed:seed++})}});
  c.on('DamageApplied',e=>{if(e.itemEffect||e.runeProc||e.deferred||!(e.amount>0||e.absorbed>0))return;let s=find(e.sourceId),t=find(e.targetId);if(!s||!t||s.hero!=='sett')return;let T=clock(),a=Math.atan2(t.y-s.y,t.x-s.x);
-  if(e.basic){let z=S(s),big=e.empowered||(s._settQA||0)>(z.qAttacks||0);s._settSide=-(s._settSide||1);push({k:'p',tid:t.id,x:t.x,y:t.y,a,side:s._settSide,big,start:T,end:T+(big?.28:.2),seed:seed++});s._settQA=z.qAttacks||0;return}
+  if(e.basic){let z=S(s),big=e.empowered||(s._settQA||0)>(z.qAttacks||0);s._settSide=-(s._settSide||1);if(big)push({k:'qc',id:s.id,a,side:s._settSide,start:T,end:T+.3,seed:seed++});push({k:'p',tid:t.id,x:t.x,y:t.y,a,side:s._settSide,big,start:T,end:T+(big?.28:.2),seed:seed++});s._settQA=z.qAttacks||0;return}
   if(e.abilityId===3){let key='r'+s.id;if((attach.last[key]||-1)>T-.3)return;attach.last[key]=T;push({k:'r',id:s.id,x:s.x,y:s.y,r:s.skills?.[3]?.radius,start:T,end:T+1.8,seed:seed++})}})}
 attach.last={};
 function draw(ctx,player,units,T,seen){for(let u of units){if(u.hero!=='sett'||!(u.hp>0)||u.death>0||seen&&!seen(u))continue;stateFx(ctx,u,T)}
  for(let i=fx.length-1;i>=0;i--){let f=fx[i];if(T>=f.end||T<f.start-1){fx.splice(i,1);continue}let k=Math.max(0,Math.min(1,(T-f.start)/(f.end-f.start)));f.T=T;
-  if(f.k==='p')punch(ctx,f,k);else if(f.k==='w')haymaker(ctx,f,k);else if(f.k==='e')facebreaker(ctx,f,k);else if(f.k==='r')landing(ctx,f,k)}}
-window.SettFxV21={attach,draw,fx};
+  if(f.k==='p')punch(ctx,f,k);else if(f.k==='qc')crescentTrail(ctx,f,k);else if(f.k==='w')haymaker(ctx,f,k);else if(f.k==='e')facebreaker(ctx,f,k);else if(f.k==='r')landing(ctx,f,k)}}
+window.SettFxV21={attach,draw,fx,aim:aimFx};
 })();
