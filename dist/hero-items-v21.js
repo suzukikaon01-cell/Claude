@@ -1,6 +1,7 @@
 /* V21 新增三件通用传说装备（任何英雄可买，属性与被动参照原著，价格 = 基础属性金币价值 + 被动溢价）。效果逻辑在 hero-items-v21-fx.js。
  * 崩山臂铠（砧岳/铁拳）：AD40 生命400 急速15（属性约2870金）+ 被动溢价530 = 3400
  * 防御矩阵核心（D.Va）：生命450 护甲35 魔抗30（属性约2440金）+ 被动溢价560 = 3000
+ * 维和者（麦克雷）：AD55 暴击25% + 被动溢价 = 3500
  * 纳米激素枪（安娜）：AP70 治疗护盾强度12% 急速15（属性约2520金）+ 被动溢价580 = 3100 */
 (()=>{'use strict';
 const C=window.GAME_CONFIG;if(!C?.items)return;
@@ -13,6 +14,10 @@ const DEFS=[
   statText:'生命 +450 · 护甲 +35 · 魔抗 +30',
   passive:'防御矩阵：受到的飞行道具伤害降低15%。紧急弹射：生命值低于30%时获得 20%最大生命 的护盾，持续3秒（冷却60秒）。',
   params:{projectile_reduction:.15,eject_threshold:.3,eject_shield_pct:.2,eject_duration:3,eject_cd:60}},
+ {id:'PEACEKEEPER',name:'维和者',category:'physical',stats:{attack:55,crit:.25},recipe:['C_1038','C_6670'],icon:'维',color:'#c9643c',cost:3500,
+  statText:'攻击力 +55 · 暴击 +25%',
+  passive:'神枪手：每第6次普攻额外造成 50+60%额外AD 物理伤害（可暴击）。决斗者：暴击命中敌方英雄后1.5秒内移动速度+15%。',
+  params:{every:6,bonus_base:50,bonus_ad_ratio:.6,crit_ms:.15,crit_ms_duration:1.5}},
  {id:'NANO_RIFLE',name:'纳米激素枪',category:'magic',stats:{ap:70,healShieldPower:.12,abilityHaste:15},recipe:['C_3108','C_3114','C_1026'],icon:'激',color:'#7fd6ff',cost:3100,
   statText:'法术强度 +70 · 治疗与护盾强度 +12% · 技能急速 +15',
   passive:'生物手雷：技能对敌方英雄造成伤害时施加40%重伤，持续2.5秒。纳米激素：治疗或护盾友方英雄时，使其获得20%移动速度，持续2秒（每名目标冷却6秒）。',
@@ -24,5 +29,5 @@ for(let d of DEFS){if(C.items.some(i=>i.id===d.id))continue;
  C.itemParams[d.id]=C.items.at(-1).params;
  for(let part of new Set(d.recipe)){let c=C.items.find(i=>i.id===part);if(c?.params){try{let b=JSON.parse(c.params.builds_into||'[]');if(!b.includes(d.id)){b.push(d.id);c.params.builds_into=JSON.stringify(b)}}catch{}if(Array.isArray(c.buildsInto)&&!c.buildsInto.includes(d.id))c.buildsInto.push(d.id)}}
  (C.itemsV20??=[]).push({id:d.id,color:d.color,icon:d.icon})}
-window.HERO_ITEMS_V21={anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE'};
+window.HERO_ITEMS_V21={anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE',cassidy:'PEACEKEEPER'};
 })();
