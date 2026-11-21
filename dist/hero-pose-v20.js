@@ -72,7 +72,7 @@ function tracerPose(b,U,I){tracerBuild(b);if(b.weapon)b.weapon.visible=false;let
  let tl=U.attackTimeline,q=(S.qUntil||0)>I;if(q||tl&&tl.started!=null&&I-tl.started<.35){let side=S.side?1:-1,k=tl?.started!=null?Math.min(1,(I-tl.started)/.12):1;R.rotation.x=-1.5+(side>0?.15*(1-k):0);if(L)L.rotation.x=-1.5+(side<0?.15*(1-k):0);body.rotation.x=-.05}}
 // 盖伦Q强化普攻：跳起往下劈（前摇期间起跳举剑，命中时劈下）
 function garenQ(b,U,I){let tl=U.attackTimeline,sn=U.pendingAttack?.snapshot;if(!tl||!(sn?.silence||sn?.empowered)||tl.started==null)return false;let w=Math.max(.05,tl.windup||.2),k=Math.max(0,Math.min(1,(I-tl.started)/w)),R=b.arms?.[1],W=b.weapon;if(R)R.rotation.x=k<.6?-2.6*(k/.6):-2.6+2.9*((k-.6)/.4);if(W)W.rotation.x=k<.6?-2.2*(k/.6):-2.2+3.2*((k-.6)/.4);if(b.arms?.[0])b.arms[0].rotation.x=-1.6*Math.sin(k*Math.PI);b.body.rotation.x=k<.6?-.2*(k/.6):-.2+.5*((k-.6)/.4);return true}
-function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body){settDragon(b,U,I)}if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
+function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body){try{settDragon(b,U,I)}catch(err){if(!window.__sdErr){window.__sdErr=1;console.error("settDragon",err)}}}if(H==='sett'&&b?.body&&U._settWAt!=null&&I-U._settWAt<1.05&&I>=U._settWAt){settW(b,(I-U._settWAt)/1.05);return}if(H==='garen'&&b?.body){b.body.rotation.x=0;b.body.position.z=0;if(garenQ(b,U,I))return}if(H==='anvil'){anvilPose(b,U,I);return}if(H==='cassidy'){cassidyPose(b,U,I);return}if(H==='tracer'){tracerPose(b,U,I);return}if(H==='illaoi'||H==='genji'){if(b?.body)special(b,U,I);return}if(!spec||!b?.body)return;let st=b.pv20??={};if(!(H==='darius'&&U.dariusLeapVisual&&I<U.dariusLeapVisual.until)){b.body.rotation.x=0;b.body.position.z=0}
  // 普攻：身体前倾/前冲（近战）或后坐（远程）
  let tl=U.attackTimeline;if(tl&&!U.pendingCast&&tl.started!=null){let span=Math.max(.05,(tl.windup||.25)+(tl.recovery||.1)*.5),k=Math.max(0,Math.min(1,(I-tl.started)/span));let s=Math.sin(Math.min(1,k)*Math.PI);if(MELEE.has(H)){b.body.rotation.x+=.14*s;b.body.position.z=-6*s}else{b.body.rotation.x-=.06*s;b.body.position.z=2*s}}
  let pc=U.pendingCast,id=pc?.event?.castId??(pc?'p'+pc.i:null);
@@ -85,25 +85,47 @@ function apply(b,U,I){let H=U.hero,spec=SPEC[H];if(H==='sett'&&b?.body){settDrag
 function settW(b,k){let A=b.arms||[],L=A[0],R=A[1],body=b.body;if(!R)return;let ch=.62;if(k<ch){let p=Math.sin(k/ch*Math.PI/2);R.rotation.x=1.0*p;R.position.z=8*p;if(L)L.rotation.x=-.8*p;body.rotation.x=-.22*p;body.position.z=6*p;body.rotation.y+=.0}else{let p=(k-ch)/(1-ch),hit=Math.min(1,p/.18),back=p<.6?0:(p-.6)/.4,e=1-Math.pow(1-hit,3);R.rotation.x=1.0-2.9*e+1.2*back;R.position.z=8-30*e+22*back;if(L)L.rotation.x=-.8+1.4*e-.6*back;body.rotation.x=-.22+.5*e-.28*back;body.position.z=6-22*e+16*back}}
 
 // 瑟提W：3D 金色龙头（挂在英雄模型上，英雄被击退/闪现时一起移动）。出拳后沿面朝方向冲出到 W 范围末端再消散。
-function settDragonBuild(b){if(b.settDragon||!b.body)return b.settDragon;let proto=null;b.body.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='BoxGeometry'&&!proto)proto=o});if(!proto)return null;
- const Mesh=proto.constructor,Box=proto.geometry.constructor,G=b.body.constructor,mats=[];
- const mat=(c,e,o=.92)=>{let m=proto.material.clone();m.color?.set(c);if(m.emissive){m.emissive.set(e);m.emissiveIntensity=1}m.transparent=true;m.opacity=o;m.depthWrite=false;mats.push([m,o]);return m};
- const gold=mat('#ffcf4a','#ff9a1a'),dark=mat('#c8781e','#7a3a08'),white=mat('#fff6d8','#ffe7a0'),red=mat('#ff4a2a','#ff2a10'),mane=mat('#ffb02e','#ff7a10',.8);
+function settDragonBuild(b){if(b.settDragon||!b.body)return b.settDragon;let proto=null,cyl=null,sc0=b.root||b.body;while(sc0.parent)sc0=sc0.parent;b.body.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='BoxGeometry'&&!proto)proto=o});sc0.traverse?.(o=>{if(o.isMesh&&o.geometry?.type==='CylinderGeometry'&&!cyl)cyl=o});if(!proto)return null;
+ const Mesh=proto.constructor,Box=proto.geometry.constructor,Cyl=cyl?.geometry.constructor,G=b.body.constructor,mats=[];
+ const mat=(c,e,o=.95)=>{let m=proto.material.clone();m.map=null;m.color?.set(c);if(m.emissive){m.emissive.set(e);m.emissiveIntensity=1}m.transparent=true;m.opacity=o;m.depthWrite=false;mats.push([m,o]);return m};
+ const gold=mat('#ffd04a','#ff9418'),gold2=mat('#ffe07a','#ffb030'),dark=mat('#b8661a','#6a2c06'),white=mat('#fffbe8','#ffeaa0'),red=mat('#ff3a1a','#ff2000'),mane=mat('#ffb02e','#ff6a00',.85),glow=mat('#fff2b0','#ffd060',.45),fire=mat('#ff8a20','#ff4a00',.7);
  const box=(w,h,d,m,x,y,z,par,rx=0,ry=0,rz=0)=>{let o=new Mesh(new Box(w,h,d),m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);par.add(o);return o};
- let root=new G();root.visible=false;let sc=b.root||b.body;while(sc.parent)sc=sc.parent;sc.add(root);
- let head=new G();root.add(head);
- box(34,30,40,gold,0,0,0,head);box(26,18,34,gold,0,2,-34,head);box(22,6,10,dark,0,12,-48,head);// 头、长吻、鼻梁
- let jaw=new G();jaw.position.set(0,-10,-14);head.add(jaw);box(24,8,40,gold,0,-2,-20,jaw);
- for(let i=0;i<4;i++){box(3,6,3,white,-8+i*5.3,-12,-40+i*0,head,0,0,0);box(3,6,3,white,-8+i*5.3,3,-34+0,jaw)}// 獠牙
- for(let sd of[-1,1]){box(6,6,4,red,sd*12,10,-22,head);box(5,5,36,dark,sd*10,22,14,head,.5,sd*.25,0);box(4,4,20,dark,sd*13,34,32,head,.9,sd*.3,0);// 眼、角
-  box(2,2,34,white,sd*14,-2,-56,head,-.2,sd*.5,0)}// 龙须
- let maneG=new G();head.add(maneG);for(let i=0;i<9;i++){let a=-1.2+i*.3;box(8,8,34,mane,Math.sin(a)*22,Math.cos(a)*18,26,maneG,.4*Math.cos(a),.5*Math.sin(a),0)}
- for(let i=0;i<5;i++)box(18-i*2.5,10-i,14,dark,0,18-i*2,10+i*12,head,0,0,0);
- b.settDragon={root,head,jaw,maneG,mats};return b.settDragon}
+ const cone=(r,h,m,x,y,z,par,rx=0,ry=0,rz=0,seg=6)=>{let o=Cyl?new Mesh(new Cyl(0,r,h,seg),m):new Mesh(new Box(r*1.4,h,r*1.4),m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);par.add(o);return o};
+ const cyl2=(r1,r2,h,m,x,y,z,par,rx=0,ry=0,rz=0,seg=10)=>{let o=Cyl?new Mesh(new Cyl(r1,r2,h,seg),m):new Mesh(new Box(r2*1.8,h,r2*1.8),m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);par.add(o);return o};
+ let root=new G();root.visible=false;sc0.add(root);let head=new G();root.add(head);
+ // 头骨与长吻（锥台拼接，朝 -z）
+ cyl2(15,19,30,gold,0,0,4,head,Math.PI/2);cyl2(11,15,22,gold,0,1,-20,head,Math.PI/2);cyl2(8,11,18,gold2,0,2,-39,head,Math.PI/2);
+ box(20,6,16,gold2,0,11,-36,head,-.15);box(24,5,8,dark,0,10,-48,head);// 鼻梁、鼻头
+ for(let sd of[-1,1]){box(4,3,4,red,sd*6,10,-52,head);// 鼻孔
+  box(10,5,22,dark,sd*11,12,-6,head,-.25,sd*.15,0);// 眉骨
+  let eye=box(7,5,5,red,sd*12,8,-14,head);box(3,3,2,white,sd*12.5,9,-16.6,head);// 眼
+  // 后弯分节龙角
+  let h=new G();h.position.set(sd*9,16,0);head.add(h);let px=0,py=0,pz=0;for(let k=0;k<5;k++){let a=-.5-k*.28;cyl2(4.2-k*.6,5-k*.6,12,k%2?gold2:dark,sd*k*1.8,py+Math.cos(a+1.57)*6,pz+k*10,h,a+1.57,0,sd*.18);py+=Math.sin(-a)*5;pz=k*10}
+  cone(3,12,white,sd*9,py+20,pz+16,h,1.1,0,sd*.2);
+  // 腮鳍
+  for(let k=0;k<3;k++)cone(5-k,22-k*4,mane,sd*(17+k*2),-2+k*6,6+k*6,head,1.3,0,sd*(1.1+k*.2));
+  // 分节龙须
+  let w=new G();w.position.set(sd*9,-1,-46);head.add(w);for(let k=0;k<6;k++){let o=box(2,2,10,gold2,sd*k*3.5,-k*1.5,-k*8,w,-.12,sd*(.35+k*.08),0);o.userData.wh=k;}
+  w.userData.sd=sd;(head.userData.wh??=[]).push(w)}
+ // 头顶鳞片
+ for(let k=0;k<5;k++)cone(5,10,gold2,0,19-k,-24+k*10,head,-.25,0,0,4);
+ // 下颚（可张合）+ 牙
+ let jaw=new G();jaw.position.set(0,-9,-6);head.add(jaw);cyl2(8,12,38,gold,0,-2,-18,jaw,Math.PI/2);box(14,3,30,dark,0,2,-22,jaw);
+ for(let k=0;k<5;k++)for(let sd of[-1,1]){cone(1.8,7,white,sd*(6-k*.6),-7,-34+k*6,head,Math.PI,0,0,4);cone(1.6,6,white,sd*(5.5-k*.6),4,-32+k*6,jaw,0,0,0,4)}
+ cone(2.5,10,white,0,-7,-46,head,Math.PI,0,0,4);
+ // 口中火光
+ let mouth=box(14,6,24,fire,0,-5,-30,head);
+ // 鬃毛（层叠火焰锥）
+ let maneG=new G();maneG.position.set(0,4,18);head.add(maneG);for(let ring=0;ring<2;ring++)for(let i=0;i<11;i++){let a=-1.5+i*.3,r=ring?22:16;cone(6-ring,30+ring*14-Math.abs(a)*4,ring?fire:mane,Math.sin(a)*r,Math.cos(a)*r*.9,8+ring*8,maneG,1.2+.3*Math.cos(a),0,-a*.9)}
+ // 颈部：3 节蛇形躯干 + 背鳍，带鳞纹
+ let neck=[];let prev=head;for(let k=0;k<4;k++){let n=new G();n.position.set(0,-2,30+k*0);(k?neck[k-1]:root).add(n);if(!k)n.position.set(0,-4,34);else n.position.set(0,0,22);cyl2(14-k*2.5,15-k*2.5,24,k%2?gold:gold2,0,0,0,n,Math.PI/2);cone(4,12-k*2,mane,0,13-k*2,0,n,-.4,0,0,4);for(let sd of[-1,1])box(2,8-k,14,dark,sd*(12-k*2.3),0,0,n);neck.push(n)}
+ // 光晕外壳
+ let halo=cyl2(26,30,70,glow,0,0,-6,head,Math.PI/2,0,0,12);
+ b.settDragon={root,head,jaw,maneG,neck,mouth,halo,mats};return b.settDragon}
 function settDragon(b,U,I){let at=U._settWAt,D=b.settDragon;if(at==null||I<at||I-at>1.3){if(D)D.root.visible=false;return}D=settDragonBuild(b);if(!D)return;let t=I-at,ch=.65;
  if(t<ch){D.root.visible=false;return}let p=(t-ch)/.62;if(p>=1){D.root.visible=false;return}D.root.visible=true;let e=1-Math.pow(1-Math.min(1,p/.45),3);
  let range=U.skills?.[1]?.range||400,ang=U._settWAngle??U.angle??0,d=30+(range-60)*e;D.root.position.set(U.x+Math.cos(ang)*d,70+12*Math.sin(p*Math.PI),U.y+Math.sin(ang)*d);D.root.rotation.set(0,-ang-Math.PI/2,0);let sc=1+.6*e;D.root.scale.set(sc,sc,sc);
- D.jaw.rotation.x=.25+.35*Math.abs(Math.sin(t*14));D.maneG.rotation.z=Math.sin(t*20)*.15;D.head.rotation.z=Math.sin(t*9)*.08;
+ D.jaw.rotation.x=.2+.45*Math.abs(Math.sin(t*12));D.maneG.rotation.z=Math.sin(t*20)*.12;D.maneG.scale.setScalar(1+.08*Math.sin(t*30));D.head.rotation.z=Math.sin(t*9)*.06;D.head.rotation.x=-.12*Math.sin(t*7);D.neck.forEach((n,k)=>{n.rotation.y=Math.sin(t*10-k*.9)*.35;n.rotation.x=Math.cos(t*8-k)*.12});(D.head.userData.wh||[]).forEach(w=>{w.rotation.y=w.userData.sd*(.2+.25*Math.sin(t*11));w.rotation.x=.15*Math.sin(t*9+w.userData.sd)});D.halo.scale.setScalar(1+.06*Math.sin(t*25));
  let fade=p<.55?1:1-(p-.55)/.45;for(let [m,o] of D.mats)m.opacity=o*fade}
 window.HeroPoseV20=apply;window.HeroPoseV20.SPEC=SPEC;
 })();
