@@ -9,6 +9,7 @@
 const TAU=Math.PI*2,hash=n=>{let x=Math.sin(n*12.9898)*43758.5453;return x-Math.floor(x)};
 const A=(c,a)=>'rgba('+c+','+Math.max(0,Math.min(1,a))+')',ease=k=>1-Math.pow(1-k,3);
 const W='255,250,230',G='255,206,84',AM='240,140,40',DUST='190,170,135';
+const DRAGON_IMG=typeof Image!=='undefined'?Object.assign(new Image(),{src:'assets/fx/sett-dragon.png'}):{};
 const fx=[];const push=f=>{fx.push(f);if(fx.length>120)fx.splice(0,fx.length-120)};
 let core=null,unitsFn=null,clock=()=>0,seed=1;const find=id=>unitsFn?.().find(u=>u.id===id);const S=u=>u?.championState||{};
 function rg(ctx,r,st){if(!ctx.createRadialGradient)return st[1][1];let g=ctx.createRadialGradient(0,0,0,0,0,r);for(let s of st)g.addColorStop(s[0],s[1]);return g}
@@ -77,7 +78,7 @@ function haymaker(ctx,f,k){{let u=find(f.id);if(u&&u.hp>0){f.x=u.x;f.y=u.y}}cons
  ctx.fillStyle=lg(ctx,0,0,F,0,[[0,A('255,150,90',.35)],[1,A('255,110,70',.6)]]);ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.lineTo(F,ch2);ctx.lineTo(0,ch0);ctx.closePath();ctx.fill();
  for(let pass of [[8,'255,120,70',.8],[3,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0];ctx.beginPath();ctx.moveTo(0,-ch0);ctx.lineTo(F,-ch2);ctx.moveTo(0,ch0);ctx.lineTo(F,ch2);ctx.stroke()}
  for(let pass of [[ch2*.9,'255,200,120',.55],[10,W,1]]){ctx.strokeStyle=A(pass[1],pass[2]);ctx.lineWidth=pass[0]*(1-p*.4);ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(F,0);ctx.stroke()}
- if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-75);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);dragon(ctx,60+35*e,f.T||0);ctx.restore()}ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
+ if(p<.75){let bx=Math.min(F,L)*.95,bp=p/.75;ctx.save();ctx.translate(bx,0);ctx.rotate(-f.a);let dir=Math.cos(f.a)<0?-1:1;ctx.translate(0,-75);ctx.scale(dir,1);ctx.globalAlpha=fade*(1-bp*.6);if(DRAGON_IMG.complete&&DRAGON_IMG.naturalWidth){let Wd=(210+90*e),Hd=Wd*DRAGON_IMG.naturalHeight/DRAGON_IMG.naturalWidth,bob=Math.sin((f.T||0)*14)*3;ctx.drawImage(DRAGON_IMG,-Wd*.72,-Hd/2+bob,Wd,Hd);ctx.globalCompositeOperation='lighter';ctx.globalAlpha*=.35+.15*Math.sin((f.T||0)*20);ctx.drawImage(DRAGON_IMG,-Wd*.72,-Hd/2+bob,Wd,Hd)}else dragon(ctx,60+35*e,f.T||0);ctx.restore()}ctx.save();ctx.translate(F*.72,0);ctx.fillStyle=rg(ctx,80,[[0,A('255,110,90',.9*(1-p))],[.5,A('255,70,60',.5*(1-p))],[1,A('255,40,40',0)]]);ctx.beginPath();ctx.arc(0,0,80,0,TAU);ctx.fill();ctx.restore();
  // 真伤命中处的红色光柱（向屏幕上方）
  if(p<.5){ctx.save();ctx.translate(F*.72,0);ctx.rotate(-f.a);let h=260*(1-p*1.4),w=26*(1-p);ctx.fillStyle=lg(ctx,0,0,0,-h,[[0,A('255,120,100',.8)],[1,A('255,80,80',0)]]);ctx.fillRect(-w/2,-h,w,h);ctx.restore()}
  // 金色兽魂（原创：火焰鬃毛的咆哮兽首，沿中线冲出）
