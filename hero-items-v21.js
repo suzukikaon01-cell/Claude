@@ -18,6 +18,10 @@ const DEFS=[
   statText:'攻击力 +55 · 暴击 +25%',
   passive:'神枪手：每第6次普攻额外造成 50+60%额外AD 物理伤害（可暴击）。决斗者：暴击命中敌方英雄后1.5秒内移动速度+15%。',
   params:{every:6,bonus_base:50,bonus_ad_ratio:.6,crit_ms:.15,crit_ms_duration:1.5}},
+ {id:'CHRONO_PISTOLS',name:'时空脉冲枪',category:'physical',stats:{attack:35,bonusAS:.35,crit:.2,movePct:.06},recipe:['C_3086','C_1037'],icon:'脉',color:'#5ec8ff',cost:3200,
+  statText:'攻击力 +35 · 攻速 +35% · 暴击 +20% · 移速 +6%',
+  passive:'时空跃迁：使用位移或闪现技能后3秒内，接下来2次普攻额外造成 30+25%额外AD 物理伤害。',
+  params:{charges:2,window:3,bonus_base:30,bonus_ad_ratio:.25}},
  {id:'NANO_RIFLE',name:'纳米激素枪',category:'magic',stats:{ap:70,healShieldPower:.12,abilityHaste:15},recipe:['C_3108','C_3114','C_1026'],icon:'激',color:'#7fd6ff',cost:3100,
   statText:'法术强度 +70 · 治疗与护盾强度 +12% · 技能急速 +15',
   passive:'生物手雷：技能对敌方英雄造成伤害时施加40%重伤，持续2.5秒。纳米激素：治疗或护盾友方英雄时，使其获得20%移动速度，持续2秒（每名目标冷却6秒）。',
@@ -29,5 +33,5 @@ for(let d of DEFS){if(C.items.some(i=>i.id===d.id))continue;
  C.itemParams[d.id]=C.items.at(-1).params;
  for(let part of new Set(d.recipe)){let c=C.items.find(i=>i.id===part);if(c?.params){try{let b=JSON.parse(c.params.builds_into||'[]');if(!b.includes(d.id)){b.push(d.id);c.params.builds_into=JSON.stringify(b)}}catch{}if(Array.isArray(c.buildsInto)&&!c.buildsInto.includes(d.id))c.buildsInto.push(d.id)}}
  (C.itemsV20??=[]).push({id:d.id,color:d.color,icon:d.icon})}
-window.HERO_ITEMS_V21={anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE',cassidy:'PEACEKEEPER'};
+window.HERO_ITEMS_V21={anvil:'SEISMIC_GAUNTLET',dva:'DEFENSE_MATRIX',ana:'NANO_RIFLE',cassidy:'PEACEKEEPER',tracer:'CHRONO_PISTOLS'};
 })();
