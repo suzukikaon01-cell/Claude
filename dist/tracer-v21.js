@@ -10,7 +10,7 @@
 const ID='tracer',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
  BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:285,is_ranged:1,hero_name:'闪光'},
- P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.03,as_scaling:1,on_hit_scale:.03,rune_every:4,idle_reload_delay:1.5,reload:.75,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
+ P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.03,as_scaling:1,on_hit_scale:.05,rune_every:4,idle_reload_delay:1.5,reload:.75,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
  Q:{cooldown:[12,11,10,9,8],duration:2.5,bonus_as:.35,aa_damage_ratio:.9},
  W:{distance:300,charges_initial:2,charges_max:3,recharge:8},
  E:{cooldown:[24,22,20,18,16],rewind:3,sample:.1,anim:.75},
@@ -21,14 +21,14 @@ const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:fa
 C.heroes[ID]={name:'闪光',title:'时空特工',role:'AD 刺客 / 机动射手',color:'#ff9a2e',
  stats:{hp:P.BASE.hp_base,mana:0,attack:P.BASE.ad_base,ap:0,armor:P.BASE.armor_base,mr:P.BASE.mr_base,baseAS:P.BASE.as_base,asRatio:P.BASE.as_ratio,speed:P.BASE.move_speed,range:P.BASE.attack_range,hpRegen:3.5,manaRegen:0,
   growth:{hp:P.BASE.hp_growth,mana:0,attack:P.BASE.ad_growth,armor:P.BASE.armor_growth,mr:P.BASE.mr_growth,as:P.BASE.as_growth,hpRegen:.55,manaRegen:0}},
- passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程285）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成3%AD物理伤害，所有普攻特效（含纳沃利迅刃等非伤害效果）按3%效果触发（符文每4发触发/叠加一次），心之钢除外；打空或1.5秒未开火自动装填0.75秒。',params:P.P},
+ passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程285）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成3%AD物理伤害，所有普攻特效（含纳沃利迅刃等非伤害效果）按5%效果触发（符文每4发触发/叠加一次），心之钢除外；打空或1.5秒未开火自动装填0.75秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'双枪速射',icon:'速',target:'self',range:0,cd:P.Q.cooldown,damage:0,
    desc:'2.5秒内攻击速度提高35%，期间普攻造成90%伤害（可暴击，仍消耗弹药，不能跳过装填）。射程不变。'}),
   skill({key:'W',name:'闪现',icon:'闪',target:'direction',range:P.W.distance,cd:0,damage:0,
    desc:'瞬间朝指定方向移动300码（可越过薄墙，但不能停在墙内或地图外；不消耗弹药）。初始2层、最多3层充能，每层8秒恢复；可连续使用。被动满能量时额外获得1层充能。'}),
   skill({key:'E',name:'闪回',icon:'回',target:'self',range:0,cd:P.E.cooldown,damage:0,
-   desc:'回到3秒前的位置，并恢复当时的生命值与弹药；清除这3秒内新获得的减速、持续伤害等普通负面状态（压制、击飞等不可解除效果除外）。原地播放0.75秒闪回特效（我方蓝色、敌方红色），期间无法被选中、不受伤害、不能行动，结束时直接回到3秒前的位置并恢复生命与弹药。不恢复技能冷却、闪现充能、金币与经验，也不影响其他单位。'}),
+   desc:'回到3秒前的位置，并恢复当时的生命值与弹药，同时回复1层闪现；清除这3秒内新获得的减速、持续伤害等普通负面状态（压制、击飞等不可解除效果除外）。原地播放0.75秒闪回特效（我方蓝色、敌方红色），期间无法被选中、不受伤害、不能行动，结束时直接回到3秒前的位置并恢复生命与弹药。不恢复技能冷却、闪现充能、金币与经验，也不影响其他单位。'}),
   skill({key:'R',name:'脉冲炸弹',icon:'炸',target:'direction',damageType:'true',range:P.R.range,radius:P.R.radius,cd:P.R.cooldown,damage:P.R.damage,maxRank:3,
    desc:'向指定方向投掷脉冲炸弹（500码），附着在第一个命中的敌方英雄身上（不可选取/无敌目标除外），未命中则落地。1秒后爆炸：300码内敌人受到 125/250/375+75%额外AD 真实伤害，附着目标承受100%，其余目标按距离衰减至最低50%。可被风墙、格挡等防御机制挡下。'})]
 };
@@ -63,7 +63,7 @@ window.installTracer=function(m,env){
  function finishRecall(u){let s=S(u),R=s.rewind;if(!R)return;s.rewind=null;let rec=R.rec,dest=legalNear(u,rec)||legalNear(u,R.from)||R.from;
   u.x=dest.x;u.y=dest.y;core.spatial?.update?.(u);u.displacement=null;
   let healed=Math.max(0,Math.min(u.maxHp,rec.hp)-u.hp);u.hp=Math.max(1,Math.min(u.maxHp,rec.hp));if(healed>0)env.float?.(u,'+'+Math.round(healed),'#7fd6ff');
-  s.ammo=rec.ammo;s.reloadUntil=rec.reloadUntil&&rec.reloadUntil>now()?rec.reloadUntil:0;if(s.ammo<=0&&!s.reloadUntil)startReload(u);
+  s.ammo=rec.ammo;s.reloadUntil=rec.reloadUntil&&rec.reloadUntil>now()?rec.reloadUntil:0;if(s.ammo<=0&&!s.reloadUntil)startReload(u);if(s.charges<P.W.charges_max){s.charges++;if(s.charges>=P.W.charges_max)s.nextCharge=0;else if(!s.nextCharge)s.nextCharge=now()+P.W.recharge}
   // 清除记录点之后新获得的普通负面状态（压制/击飞等不可解除效果保留）
   core.remove?.(u,x=>x.startTime>rec.t&&x.sourceId!==u.id&&x.dispelCategory==='normal'&&['SLOW','STUN','ROOT','SILENCE','BLIND','TAUNT','FEAR','CHARM','SLEEP','HEAL_REDUCTION','GROUNDED','DOT','BURN','POISON','BLEED','ARMOR_SHRED','MR_SHRED'].includes(x.type),'recalled');core.sync?.(u);
   if((u.groundedUntil||0)>now())u.groundedUntil=0;
