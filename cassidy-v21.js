@@ -9,7 +9,7 @@
 (()=>{'use strict';
 const ID='cassidy',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
- BASE:{hp_base:600,hp_growth:100,mana_base:0,mana_growth:0,ad_base:63,ad_growth:3.3,armor_base:28,armor_growth:4.85,mr_base:30,mr_growth:1.8,as_base:.625,as_ratio:.625,as_growth:.025,move_speed:216,attack_range:400,is_ranged:1,hero_name:'麦克雷'},
+ BASE:{hp_base:600,hp_growth:129.4118,mana_base:0,mana_growth:0,ad_base:63,ad_growth:3.3,armor_base:28,armor_growth:4.85,mr_base:30,mr_growth:1.8,as_base:.625,as_ratio:.625,as_growth:.025,move_speed:216,attack_range:400,is_ranged:1,hero_name:'麦克雷'},
  P:{aa_ad_ratio:1.15,magazine:6,reload:1.6,idle_reload_delay:4,crit_multiplier:1.75,crit_w_refund:1,projectile_speed:2400},
  Q:{cooldown:[10,9,8,7,6],damage:[12,18,24,30,36],ad_ratio:.4,range:400,interval:.09,near:200,spread_deg:7,bullet_radius:10},
  W:{cooldown:[14,13,12,11,10],distance:350,duration:.4,damage_reduction:.35,reset_q:true},
