@@ -1,0 +1,50 @@
+{
+  "mode": "Node CPU simulation, no rendering",
+  "activeRunePages": false,
+  "node": "v24.22.1",
+  "logicHz": 60,
+  "simulatedSeconds": 20,
+  "uniqueChampions": 9,
+  "championActors": 9,
+  "minionActors": 200,
+  "ticks": 1200,
+  "meanMs": 6.357638416666673,
+  "p50Ms": 5.63589999999931,
+  "p95Ms": 11.029299999999239,
+  "p99Ms": 16.46029999999996,
+  "maxMs": 60.219600000000014,
+  "peak": {
+    "projectiles": 1005,
+    "statuses": 13,
+    "shields": 22,
+    "entities": 209
+  },
+  "memory": [
+    {
+      "tick": 600,
+      "heapBytes": 18029232,
+      "retainedEvents": 2048,
+      "freeProjectiles": 1000
+    },
+    {
+      "tick": 1200,
+      "heapBytes": 18716800,
+      "retainedEvents": 2048,
+      "freeProjectiles": 1001
+    }
+  ],
+  "heapChangeBytes": 687568,
+  "gcEnabled": true,
+  "engine": {
+    "events": 2048,
+    "queuedEvents": 0,
+    "observerErrors": 0,
+    "bufferedInputs": 0,
+    "spatialCells": 4,
+    "spatialVisited": 49361590,
+    "pooledProjectiles": 1002,
+    "projectilesCreated": 1005,
+    "projectilesReused": 17385
+  },
+  "deathRespawnCycles": 10
+}

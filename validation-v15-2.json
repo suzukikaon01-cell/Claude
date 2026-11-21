@@ -1,0 +1,58 @@
+{
+  "tests": {
+    "PASS": 850,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 868
+  },
+  "specialized": {
+    "original": 77,
+    "feel": 20,
+    "armorAndLockedSlashes": 33
+  },
+  "config": "v9.1-bc08addf025372df",
+  "stress": {
+    "mode": "Node CPU simulation; no GPU/browser FPS claim",
+    "cycles": 100,
+    "simulatedSeconds": 724.45,
+    "ticks": 43467,
+    "meanMs": 0.2599190742402257,
+    "p95Ms": 0.3900000000003274,
+    "p99Ms": 0.5819000000000187,
+    "maxMs": 19.342799999999954,
+    "peak": {
+      "pending": 0,
+      "batches": 1,
+      "visuals": 11,
+      "events": 2048,
+      "inputs": 0
+    },
+    "memory": [
+      {
+        "cycle": 50,
+        "heapBytes": 15545624,
+        "visuals": 11,
+        "events": 2048
+      },
+      {
+        "cycle": 100,
+        "heapBytes": 15794064,
+        "visuals": 11,
+        "events": 2048
+      }
+    ],
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 23,
+      "spatialVisited": 4247972,
+      "pooledProjectiles": 0,
+      "projectilesCreated": 0,
+      "projectilesReused": 0
+    },
+    "diagnostics": 0
+  },
+  "visualQA": "Browser/GPU and device120Hz not verified"
+}

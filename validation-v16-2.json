@@ -1,0 +1,103 @@
+{
+  "tests": {
+    "PASS": 1041,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 1059
+  },
+  "specialized": {
+    "existingHOV": 98,
+    "previousBalance": 43,
+    "newHOVBalance": 29,
+    "model": 3
+  },
+  "config": "v9.1-f6de36a983a01c6f",
+  "heroes": 17,
+  "HOV": {
+    "enhancedERange": 400,
+    "AAAP": 0.08,
+    "Q": [
+      40,
+      60,
+      80,
+      100,
+      120
+    ],
+    "QAP": 0.35,
+    "WTick": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "WTickAP": 0.03,
+    "RWindup": 1,
+    "normalRWaves": 6,
+    "enhancedRWaves": "8+floor(permanentFragments/100)",
+    "chargeLimit": 1,
+    "fragmentsPerCharge": 60,
+    "countWhileReady": false,
+    "clearOverflow": true,
+    "resetAt": "successful R commit after windup",
+    "oldCheckpointMigration": true
+  },
+  "workbook": {
+    "addedRows": 2,
+    "changedCells": 208,
+    "hashes": [
+      {
+        "file": "C:/Users/HLT/Documents/Codex/2026-10-25/ban/work/rift-arena/config/MOBA_Config_V9_1.xlsx",
+        "sha256": "a9d0174311d64965f5001124cd1b4096c1c68a4f35ce7567504e3c0e13e13564"
+      },
+      {
+        "file": "C:/Users/HLT/Desktop/MOBA_Config_V9_1.xlsx",
+        "sha256": "a9d0174311d64965f5001124cd1b4096c1c68a4f35ce7567504e3c0e13e13564"
+      },
+      {
+        "file": "C:\\Users\\HLT\\Documents\\Codex\\2026-10-25\\ban\\outputs\\v16-2-hov/MOBA_Config_V16_2.xlsx",
+        "sha256": "a9d0174311d64965f5001124cd1b4096c1c68a4f35ce7567504e3c0e13e13564"
+      }
+    ],
+    "preservedOtherHeroesRunesEquipment": true
+  },
+  "stress": {
+    "mode": "Node CPU simulation; no GPU or device FPS guarantee",
+    "heroes": 10,
+    "simulatedSeconds": 28,
+    "ticks": 1200,
+    "p50Ms": 0.10869999999999891,
+    "p95Ms": 0.42969999999999686,
+    "p99Ms": 0.7748000000000275,
+    "maxMs": 14.488100000000003,
+    "peak": {
+      "areas": 14,
+      "visuals": 28,
+      "projectiles": 9,
+      "events": 2048
+    },
+    "rImpacts": 523,
+    "attackStages": 84,
+    "aliveActors": 10,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 6,
+      "spatialVisited": 17110,
+      "pooledProjectiles": 9,
+      "projectilesCreated": 9,
+      "projectilesReused": 75
+    },
+    "diagnostics": 0
+  },
+  "browser": {
+    "verified": false,
+    "reason": "Previous computer-use initialization failed; no new GPU, screenshot, touch or 120Hz claim"
+  },
+  "rollback": {
+    "commit": "d8967753fd9e631a07928e8c4b800e7637bc2888",
+    "savedVersion": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_aec44d6ff7808191a9ea21d9b6d396fa"
+  }
+}

@@ -1,0 +1,686 @@
+{
+  "source": "Riot Data Dragon",
+  "manifest": [
+    {
+      "id": "C_1038",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1038.png",
+      "bytes": 4983
+    },
+    {
+      "id": "sword",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1036.png",
+      "bytes": 5334
+    },
+    {
+      "id": "C_1053",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1053.png",
+      "bytes": 5406
+    },
+    {
+      "id": "C_1037",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1037.png",
+      "bytes": 4515
+    },
+    {
+      "id": "C_1018",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1018.png",
+      "bytes": 5595
+    },
+    {
+      "id": "infinity",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3031.png",
+      "bytes": 7104
+    },
+    {
+      "id": "C_1042",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1042.png",
+      "bytes": 4228
+    },
+    {
+      "id": "C_3044",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3044.png",
+      "bytes": 7084
+    },
+    {
+      "id": "C_2022",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2022.png",
+      "bytes": 5796
+    },
+    {
+      "id": "blood",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3072.png",
+      "bytes": 6532
+    },
+    {
+      "id": "bork",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3153.png",
+      "bytes": 6909
+    },
+    {
+      "id": "C_3057",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3057.png",
+      "bytes": 6217
+    },
+    {
+      "id": "C_1043",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1043.png",
+      "bytes": 5767
+    },
+    {
+      "id": "ruby",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1028.png",
+      "bytes": 4070
+    },
+    {
+      "id": "trinity",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3078.png",
+      "bytes": 6498
+    },
+    {
+      "id": "C_3051",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3051.png",
+      "bytes": 5856
+    },
+    {
+      "id": "C_3067",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3067.png",
+      "bytes": 6255
+    },
+    {
+      "id": "cleaver",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3071.png",
+      "bytes": 6213
+    },
+    {
+      "id": "C_3123",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3123.png",
+      "bytes": 6504
+    },
+    {
+      "id": "C_3035",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3035.png",
+      "bytes": 5631
+    },
+    {
+      "id": "mortal",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3033.png",
+      "bytes": 6315
+    },
+    {
+      "id": "C_3134",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3134.png",
+      "bytes": 5232
+    },
+    {
+      "id": "youmuu",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3142.png",
+      "bytes": 6554
+    },
+    {
+      "id": "C_2019",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2019.png",
+      "bytes": 6523
+    },
+    {
+      "id": "C_1029",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1029.png",
+      "bytes": 5078
+    },
+    {
+      "id": "C_6690",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6690.png",
+      "bytes": 4761
+    },
+    {
+      "id": "C_3133",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3133.png",
+      "bytes": 6517
+    },
+    {
+      "id": "deathdance",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6333.png",
+      "bytes": 6363
+    },
+    {
+      "id": "guardian",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3026.png",
+      "bytes": 6600
+    },
+    {
+      "id": "C_1058",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1058.png",
+      "bytes": 5943
+    },
+    {
+      "id": "phantom",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3046.png",
+      "bytes": 6232
+    },
+    {
+      "id": "deathcap",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3089.png",
+      "bytes": 6981
+    },
+    {
+      "id": "C_3802",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3802.png",
+      "bytes": 6389
+    },
+    {
+      "id": "C_1027",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1027.png",
+      "bytes": 4212
+    },
+    {
+      "id": "luden",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6655.png",
+      "bytes": 6658
+    },
+    {
+      "id": "C_3147",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3147.png",
+      "bytes": 6398
+    },
+    {
+      "id": "C_2508",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2508.png",
+      "bytes": 7032
+    },
+    {
+      "id": "liandry",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6653.png",
+      "bytes": 6343
+    },
+    {
+      "id": "C_3108",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3108.png",
+      "bytes": 6650
+    },
+    {
+      "id": "C_1026",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1026.png",
+      "bytes": 4671
+    },
+    {
+      "id": "C_4630",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4630.png",
+      "bytes": 6308
+    },
+    {
+      "id": "void",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3135.png",
+      "bytes": 6465
+    },
+    {
+      "id": "C_3916",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3916.png",
+      "bytes": 6443
+    },
+    {
+      "id": "morello",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3165.png",
+      "bytes": 6919
+    },
+    {
+      "id": "C_3070",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3070.png",
+      "bytes": 4645
+    },
+    {
+      "id": "archangel",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3003.png",
+      "bytes": 5652
+    },
+    {
+      "id": "riftmaker",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4633.png",
+      "bytes": 7045
+    },
+    {
+      "id": "rylai",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3116.png",
+      "bytes": 6788
+    },
+    {
+      "id": "C_1011",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1011.png",
+      "bytes": 5874
+    },
+    {
+      "id": "lich",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3100.png",
+      "bytes": 7098
+    },
+    {
+      "id": "C_3113",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3113.png",
+      "bytes": 5432
+    },
+    {
+      "id": "C_3801",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3801.png",
+      "bytes": 6129
+    },
+    {
+      "id": "C_1006",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1006.png",
+      "bytes": 4129
+    },
+    {
+      "id": "heartsteel",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3084.png",
+      "bytes": 7709
+    },
+    {
+      "id": "C_1031",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1031.png",
+      "bytes": 6332
+    },
+    {
+      "id": "sunfire",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3068.png",
+      "bytes": 5400
+    },
+    {
+      "id": "C_3076",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3076.png",
+      "bytes": 7197
+    },
+    {
+      "id": "thornmail",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3075.png",
+      "bytes": 7458
+    },
+    {
+      "id": "C_3082",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3082.png",
+      "bytes": 6703
+    },
+    {
+      "id": "C_3145",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3145.png",
+      "bytes": 6338
+    },
+    {
+      "id": "C_3086",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3086.png",
+      "bytes": 6116
+    },
+    {
+      "id": "C_3024",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3024.png",
+      "bytes": 5845
+    },
+    {
+      "id": "frozen",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3110.png",
+      "bytes": 6333
+    },
+    {
+      "id": "tome",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1052.png",
+      "bytes": 5490
+    },
+    {
+      "id": "orb",
+      "source": "https://wiki.leagueoflegends.com/en-us/images/Infinity_Orb_WR_item.png",
+      "bytes": 6419
+    },
+    {
+      "id": "C_1057",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1057.png",
+      "bytes": 6307
+    },
+    {
+      "id": "C_1033",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1033.png",
+      "bytes": 5411
+    },
+    {
+      "id": "nature",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4401.png",
+      "bytes": 6792
+    },
+    {
+      "id": "C_3066",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3066.png",
+      "bytes": 6712
+    },
+    {
+      "id": "warmog",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3083.png",
+      "bytes": 7150
+    },
+    {
+      "id": "deadman",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3742.png",
+      "bytes": 6660
+    },
+    {
+      "id": "C_6660",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6660.png",
+      "bytes": 6052
+    },
+    {
+      "id": "C_3211",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3211.png",
+      "bytes": 6014
+    },
+    {
+      "id": "kaenic",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2504.png",
+      "bytes": 6770
+    },
+    {
+      "id": "MEJAIS_SOULSTEALER",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3041.png",
+      "bytes": 6524
+    },
+    {
+      "id": "nashor",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3115.png",
+      "bytes": 6492
+    },
+    {
+      "id": "seraph",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3040.png",
+      "bytes": 6390
+    },
+    {
+      "id": "KRAKEN_SLAYER",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6672.png",
+      "bytes": 7023
+    },
+    {
+      "id": "THE_COLLECTOR",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6676.png",
+      "bytes": 6659
+    },
+    {
+      "id": "armor",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3143.png",
+      "bytes": 6688
+    },
+    {
+      "id": "NAVORI_FLICKERBLADE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6675.png",
+      "bytes": 5814
+    },
+    {
+      "id": "GUINSOOS_RAGEBLADE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3124.png",
+      "bytes": 5806
+    },
+    {
+      "id": "C_3144",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3144.png",
+      "bytes": 6062
+    },
+    {
+      "id": "C_6670",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6670.png",
+      "bytes": 7418
+    },
+    {
+      "id": "RUNAANS_HURRICANE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3085.png",
+      "bytes": 6348
+    },
+    {
+      "id": "LORD_DOMINIKS_REGARDS",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3036.png",
+      "bytes": 6844
+    },
+    {
+      "id": "SERYLDAS_GRUDGE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6694.png",
+      "bytes": 6382
+    },
+    {
+      "id": "C_2021",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2021.png",
+      "bytes": 6213
+    },
+    {
+      "id": "ECLIPSE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6692.png",
+      "bytes": 6197
+    },
+    {
+      "id": "SPEAR_OF_SHOJIN",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3161.png",
+      "bytes": 6148
+    },
+    {
+      "id": "C_3077",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3077.png",
+      "bytes": 6401
+    },
+    {
+      "id": "SHADOWFLAME",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4645.png",
+      "bytes": 6861
+    },
+    {
+      "id": "RAVENOUS_HYDRA",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3074.png",
+      "bytes": 7361
+    },
+    {
+      "id": "STORMSURGE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4646.png",
+      "bytes": 6736
+    },
+    {
+      "id": "NASHORS_TOOTH",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3115.png",
+      "bytes": 6492
+    },
+    {
+      "id": "HORIZON_FOCUS",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4628.png",
+      "bytes": 6800
+    },
+    {
+      "id": "COSMIC_DRIVE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4629.png",
+      "bytes": 6406
+    },
+    {
+      "id": "MALIGNANCE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3118.png",
+      "bytes": 6310
+    },
+    {
+      "id": "CRYPTBLOOM",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3137.png",
+      "bytes": 6866
+    },
+    {
+      "id": "BANSHEES_VEIL",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3102.png",
+      "bytes": 6471
+    },
+    {
+      "id": "C_2420",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2420.png",
+      "bytes": 6314
+    },
+    {
+      "id": "ZHONYAS_HOURGLASS",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3157.png",
+      "bytes": 7290
+    },
+    {
+      "id": "HEXTECH_ROCKETBELT",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3152.png",
+      "bytes": 7523
+    },
+    {
+      "id": "JAKSHO_THE_PROTEAN",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6665.png",
+      "bytes": 6969
+    },
+    {
+      "id": "UNENDING_DESPAIR",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2502.png",
+      "bytes": 7344
+    },
+    {
+      "id": "HOLLOW_RADIANCE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6664.png",
+      "bytes": 6736
+    },
+    {
+      "id": "ICEBORN_GAUNTLET",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/6662.png",
+      "bytes": 7476
+    },
+    {
+      "id": "SPIRIT_VISAGE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3065.png",
+      "bytes": 7502
+    },
+    {
+      "id": "ABYSSAL_MASK",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/8020.png",
+      "bytes": 6830
+    },
+    {
+      "id": "C_3105",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3105.png",
+      "bytes": 6327
+    },
+    {
+      "id": "LOCKET_OF_THE_IRON_SOLARI",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3190.png",
+      "bytes": 7266
+    },
+    {
+      "id": "KNIGHTS_VOW",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3109.png",
+      "bytes": 6981
+    },
+    {
+      "id": "twinguard",
+      "source": "https://wiki.leagueoflegends.com/en-us/images/Amaranth%27s_Twinguard_WR_item.png",
+      "bytes": 6922
+    },
+    {
+      "id": "ZEKES_CONVERGENCE",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3050.png",
+      "bytes": 7394
+    },
+    {
+      "id": "WINTERS_APPROACH",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3119.png",
+      "bytes": 6952
+    },
+    {
+      "id": "C_3114",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3114.png",
+      "bytes": 6318
+    },
+    {
+      "id": "C_1082",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1082.png",
+      "bytes": 6573
+    },
+    {
+      "id": "boots",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1001.png",
+      "bytes": 4537
+    },
+    {
+      "id": "B_3020",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3020.png",
+      "bytes": 6091
+    },
+    {
+      "id": "B_3006",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3006.png",
+      "bytes": 6568
+    },
+    {
+      "id": "B_3047",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3047.png",
+      "bytes": 6073
+    },
+    {
+      "id": "B_3158",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3158.png",
+      "bytes": 6241
+    },
+    {
+      "id": "B_3111",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3111.png",
+      "bytes": 6769
+    },
+    {
+      "id": "B_3009",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3009.png",
+      "bytes": 6537
+    },
+    {
+      "id": "B_3008",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3008.png",
+      "bytes": 9654
+    },
+    {
+      "id": "B_3172",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3172.png",
+      "bytes": 6340
+    },
+    {
+      "id": "B_3175",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3175.png",
+      "bytes": 5763
+    },
+    {
+      "id": "B_3174",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3174.png",
+      "bytes": 6581
+    },
+    {
+      "id": "B_3173",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3173.png",
+      "bytes": 6521
+    },
+    {
+      "id": "B_3171",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3171.png",
+      "bytes": 6462
+    },
+    {
+      "id": "B_3170",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3170.png",
+      "bytes": 6416
+    },
+    {
+      "id": "B_3168",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/3168.png",
+      "bytes": 9468
+    },
+    {
+      "id": "C_4632",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/4632.png",
+      "bytes": 5907
+    },
+    {
+      "id": "C_1004",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/1004.png",
+      "bytes": 5505
+    },
+    {
+      "id": "B_2422",
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/img/item/2422.png",
+      "bytes": 4155
+    },
+    {
+      "id": "SWORD_OF_THE_OCCULT",
+      "source": "https://ddragon.leagueoflegends.com/cdn/5.21.1/img/item/3141.png",
+      "bytes": 5010
+    }
+  ],
+  "errors": []
+}

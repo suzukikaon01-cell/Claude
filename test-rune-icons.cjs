@@ -1,0 +1,9 @@
+const vm=require('vm'),fs=require('fs'),assert=require('assert');let timer=0,timers=new Map,els={};
+function node(id){return els[id]??={innerHTML:'',value:'',dataset:{},hidden:true,listeners:{},classList:{add(){els[id].hidden=true},remove(){els[id].hidden=false}},addEventListener(k,f){(this.listeners[k]??=[]).push(f)}}}
+let e={window:null,document:{getElementById:node,querySelectorAll:()=>[]},RunePages:{},setTimeout:fn=>{timers.set(++timer,fn);return timer},clearTimeout:id=>timers.delete(id),console};e.window=e;vm.createContext(e);vm.runInContext(fs.readFileSync('dist/v8-ui.js','utf8').replace('function open(){','window.testRuneHold=bindRuneHold;function open(){'),e);e.installV8UI({});
+let selected=0,b=node('button');b.dataset={runeName:'测试符文',runeDescription:'经过核实的详细说明'};b.onclick=()=>selected++;e.testRuneHold(b);const event={clientX:0,clientY:0,preventDefault(){}};let fire=()=>{for(let f of timers.values())f();timers.clear()};
+b.listeners.pointerdown[0](event);b.listeners.pointerup[0](event);b.onclick(event);assert.equal(selected,1);assert(node('runeDescription').hidden);
+b.listeners.pointerdown[0](event);fire();assert(!node('runeDescription').hidden);assert(node('runeDescription').innerHTML.includes('详细说明'));b.listeners.pointerup[0](event);b.onclick(event);assert.equal(selected,1);assert(node('runeDescription').hidden);
+b.listeners.pointerdown[0](event);b.listeners.pointermove[0]({...event,clientX:20});fire();assert(node('runeDescription').hidden);
+let source=JSON.parse(fs.readFileSync('reference-data/rune-icon-sources.json','utf8'));assert.equal(source.icons.length,62);for(let icon of source.icons)assert.equal(fs.readFileSync('dist/assets/runes/'+icon.key+'.png').readUInt32BE(0),0x89504e47);for(let icon of source.shards)assert.equal(fs.readFileSync('dist/assets/runes/'+icon.file).readUInt32BE(0),0x89504e47);
+console.log('PASS 62 Riot rune icons + 7 shards; tap selection and hold detail');

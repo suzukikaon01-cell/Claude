@@ -1,0 +1,43 @@
+{
+  "mode": "Node CPU simulation; no GPU/browser FPS claim",
+  "cycles": 100,
+  "simulatedSeconds": 724.45,
+  "ticks": 43467,
+  "meanMs": 0.28028145489681294,
+  "p95Ms": 0.4424999999996544,
+  "p99Ms": 0.6594000000004598,
+  "maxMs": 21.31009999999992,
+  "peak": {
+    "pending": 0,
+    "batches": 1,
+    "visuals": 11,
+    "events": 2048,
+    "inputs": 0
+  },
+  "memory": [
+    {
+      "cycle": 50,
+      "heapBytes": 21629608,
+      "visuals": 11,
+      "events": 2048
+    },
+    {
+      "cycle": 100,
+      "heapBytes": 105132024,
+      "visuals": 11,
+      "events": 2048
+    }
+  ],
+  "engine": {
+    "events": 2048,
+    "queuedEvents": 0,
+    "observerErrors": 0,
+    "bufferedInputs": 0,
+    "spatialCells": 23,
+    "spatialVisited": 4247972,
+    "pooledProjectiles": 0,
+    "projectilesCreated": 0,
+    "projectilesReused": 0
+  },
+  "diagnostics": 0
+}

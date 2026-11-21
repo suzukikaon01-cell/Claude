@@ -1,0 +1,3387 @@
+[
+  {
+    "id": "C_1038",
+    "riotId": "1038",
+    "name": "暴风之剑",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 1300,
+    "recipe": [],
+    "stats": {
+      "ad": 40
+    },
+    "passive": "40攻击力；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "infinity",
+      "blood",
+      "guardian"
+    ],
+    "combineCost": 1300,
+    "icon": "assets/items/C_1038.png",
+    "extra": {},
+    "excelId": "C_1038"
+  },
+  {
+    "id": "C_1037",
+    "riotId": "1037",
+    "name": "十字镐",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 875,
+    "recipe": [],
+    "stats": {
+      "ad": 25
+    },
+    "passive": "25攻击力；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "infinity",
+      "bork",
+      "blood",
+      "cleaver",
+      "deathdance",
+      "THE_COLLECTOR",
+      "GUINSOOS_RAGEBLADE",
+      "ECLIPSE",
+      "SPEAR_OF_SHOJIN"
+    ],
+    "combineCost": 875,
+    "icon": "assets/items/C_1037.png",
+    "extra": {},
+    "excelId": "C_1037"
+  },
+  {
+    "id": "C_1018",
+    "riotId": "1018",
+    "name": "灵巧披风",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 600,
+    "recipe": [],
+    "stats": {
+      "crit_chance": 0.15
+    },
+    "passive": "15%暴击几率；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "infinity",
+      "mortal",
+      "C_3086",
+      "THE_COLLECTOR",
+      "C_6670"
+    ],
+    "combineCost": 600,
+    "icon": "assets/items/C_1018.png",
+    "extra": {},
+    "excelId": "C_1018"
+  },
+  {
+    "id": "infinity",
+    "riotId": "3031",
+    "name": "无尽之刃",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1038",
+      "C_1037",
+      "C_1018"
+    ],
+    "existing": true,
+    "price": 3400,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 625,
+    "icon": "assets/items/infinity.png",
+    "extra": {},
+    "excelId": "INFINITY_EDGE"
+  },
+  {
+    "id": "C_1053",
+    "riotId": "1053",
+    "name": "吸血鬼节杖",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "sword"
+    ],
+    "stats": {
+      "ad": 15,
+      "lifesteal": 0.07
+    },
+    "passive": "15攻击力；7%生命偷取；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "bork",
+      "blood",
+      "RAVENOUS_HYDRA"
+    ],
+    "combineCost": 550,
+    "icon": "assets/items/C_1053.png",
+    "extra": {},
+    "excelId": "C_1053"
+  },
+  {
+    "id": "sword",
+    "riotId": "1036",
+    "name": "长剑",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 350,
+    "recipe": [],
+    "stats": {
+      "ad": 10
+    },
+    "passive": "10攻击力；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_1053",
+      "C_3044",
+      "C_3051",
+      "C_3123",
+      "C_3035",
+      "C_3134",
+      "C_6690",
+      "youmuu",
+      "C_2019",
+      "C_3133",
+      "SWORD_OF_THE_OCCULT",
+      "C_6670",
+      "ECLIPSE",
+      "C_2021",
+      "C_3077"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/sword.png",
+    "extra": {},
+    "excelId": "sword"
+  },
+  {
+    "id": "C_1043",
+    "riotId": "1043",
+    "name": "反曲之弓",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 700,
+    "recipe": [
+      "C_1042"
+    ],
+    "stats": {
+      "attack_speed": 0.15
+    },
+    "passive": "15%攻击速度；；叮刺；攻击附带15额外物理伤害 攻击特效。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "bork",
+      "nashor",
+      "KRAKEN_SLAYER",
+      "GUINSOOS_RAGEBLADE",
+      "NASHORS_TOOTH"
+    ],
+    "combineCost": 450,
+    "icon": "assets/items/C_1043.png",
+    "extra": {
+      "onhit_damage": 15
+    },
+    "excelId": "C_1043"
+  },
+  {
+    "id": "C_1042",
+    "riotId": "1042",
+    "name": "短剑",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 250,
+    "recipe": [],
+    "stats": {
+      "attack_speed": 0.1
+    },
+    "passive": "10%攻击速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_1043",
+      "C_3051",
+      "C_3086",
+      "phantom",
+      "NAVORI_FLICKERBLADE",
+      "C_3144",
+      "B_3006"
+    ],
+    "combineCost": 250,
+    "icon": "assets/items/C_1042.png",
+    "extra": {},
+    "excelId": "C_1042"
+  },
+  {
+    "id": "bork",
+    "riotId": "3153",
+    "name": "破败王者之刃",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1053",
+      "C_1043",
+      "C_1037"
+    ],
+    "existing": true,
+    "price": 3100,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 625,
+    "icon": "assets/items/bork.png",
+    "extra": {},
+    "excelId": "BORK"
+  },
+  {
+    "id": "blood",
+    "riotId": "3072",
+    "name": "饮血剑",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1038",
+      "C_1037",
+      "C_1053"
+    ],
+    "existing": true,
+    "price": 3200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 125,
+    "icon": "assets/items/blood.png",
+    "extra": {},
+    "excelId": "BLOODTHIRSTER"
+  },
+  {
+    "id": "C_3057",
+    "riotId": "3057",
+    "name": "耀光",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "C_2022"
+    ],
+    "stats": {
+      "ability_haste": 10
+    },
+    "passive": "10技能急速；；咒刃；施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "trinity",
+      "lich",
+      "ICEBORN_GAUNTLET"
+    ],
+    "combineCost": 650,
+    "icon": "assets/items/C_3057.png",
+    "extra": {
+      "spellblade_base_ad_ratio": 1,
+      "spellblade_cooldown": 1.5,
+      "spellblade_window": 10
+    },
+    "excelId": "C_3057"
+  },
+  {
+    "id": "C_2022",
+    "riotId": "2022",
+    "name": "荧尘",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 250,
+    "recipe": [],
+    "stats": {
+      "ability_haste": 5
+    },
+    "passive": "5技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3057",
+      "C_3067",
+      "C_3133",
+      "C_3802",
+      "C_3108",
+      "C_6660",
+      "C_3024",
+      "B_3158"
+    ],
+    "combineCost": 250,
+    "icon": "assets/items/C_2022.png",
+    "extra": {},
+    "excelId": "C_2022"
+  },
+  {
+    "id": "C_3044",
+    "riotId": "3044",
+    "name": "净蚀",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1100,
+    "recipe": [
+      "ruby",
+      "sword"
+    ],
+    "stats": {
+      "hp": 200,
+      "ad": 15
+    },
+    "passive": "15攻击力；200生命值；；狂怒；攻击会提供持续2秒的移动速度。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "trinity",
+      "cleaver"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/C_3044.png",
+    "extra": {
+      "move_bonus": 20,
+      "move_duration": 2
+    },
+    "excelId": "C_3044"
+  },
+  {
+    "id": "ruby",
+    "riotId": "1028",
+    "name": "红水晶",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 400,
+    "recipe": [],
+    "stats": {
+      "hp": 150
+    },
+    "passive": "150生命值；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3044",
+      "C_3067",
+      "C_3147",
+      "C_1011",
+      "C_3801",
+      "C_6660",
+      "sunfire",
+      "thornmail",
+      "C_3066",
+      "nature",
+      "twinguard",
+      "deadman",
+      "C_3211",
+      "C_2021",
+      "SPEAR_OF_SHOJIN",
+      "HEXTECH_ROCKETBELT",
+      "UNENDING_DESPAIR",
+      "ICEBORN_GAUNTLET"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/ruby.png",
+    "extra": {},
+    "excelId": "ruby"
+  },
+  {
+    "id": "C_3051",
+    "riotId": "3051",
+    "name": "缚炉之斧",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1200,
+    "recipe": [
+      "sword",
+      "C_1042",
+      "sword"
+    ],
+    "stats": {
+      "ad": 20,
+      "attack_speed": 0.2
+    },
+    "passive": "20攻击力；20%攻击速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "trinity",
+      "KRAKEN_SLAYER"
+    ],
+    "combineCost": 250,
+    "icon": "assets/items/C_3051.png",
+    "extra": {},
+    "excelId": "C_3051"
+  },
+  {
+    "id": "trinity",
+    "riotId": "3078",
+    "name": "三相之力",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3057",
+      "C_3044",
+      "C_3051"
+    ],
+    "existing": true,
+    "price": 3333,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 133,
+    "icon": "assets/items/trinity.png",
+    "extra": {},
+    "excelId": "TRINITY_FORCE"
+  },
+  {
+    "id": "C_3067",
+    "riotId": "3067",
+    "name": "燃烧宝石",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "ruby",
+      "C_2022"
+    ],
+    "stats": {
+      "hp": 200,
+      "ability_haste": 10
+    },
+    "passive": "200生命值；10技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "cleaver",
+      "morello",
+      "COSMIC_DRIVE",
+      "HEXTECH_ROCKETBELT",
+      "UNENDING_DESPAIR",
+      "SPIRIT_VISAGE",
+      "ABYSSAL_MASK",
+      "LOCKET_OF_THE_IRON_SOLARI",
+      "KNIGHTS_VOW",
+      "ZEKES_CONVERGENCE",
+      "WINTERS_APPROACH"
+    ],
+    "combineCost": 150,
+    "icon": "assets/items/C_3067.png",
+    "extra": {},
+    "excelId": "C_3067"
+  },
+  {
+    "id": "cleaver",
+    "riotId": "3071",
+    "name": "黑色切割者",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3044",
+      "C_3067",
+      "C_1037"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 225,
+    "icon": "assets/items/cleaver.png",
+    "extra": {},
+    "excelId": "BLACK_CLEAVER"
+  },
+  {
+    "id": "C_3123",
+    "riotId": "3123",
+    "name": "死刑宣告",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "sword"
+    ],
+    "stats": {
+      "ad": 15
+    },
+    "passive": "15攻击力；；重伤；对敌方英雄造成物理伤害时会施加持续3秒的40%重伤效果。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "mortal"
+    ],
+    "combineCost": 450,
+    "icon": "assets/items/C_3123.png",
+    "extra": {
+      "grievous": 0.4,
+      "duration": 3
+    },
+    "excelId": "C_3123"
+  },
+  {
+    "id": "C_3035",
+    "riotId": "3035",
+    "name": "最后的轻语",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1450,
+    "recipe": [
+      "sword",
+      "sword"
+    ],
+    "stats": {
+      "ad": 20,
+      "armor_pen_pct": 0.18
+    },
+    "passive": "20攻击力；18%护甲穿透；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "mortal",
+      "LORD_DOMINIKS_REGARDS",
+      "SERYLDAS_GRUDGE"
+    ],
+    "combineCost": 750,
+    "icon": "assets/items/C_3035.png",
+    "extra": {},
+    "excelId": "C_3035"
+  },
+  {
+    "id": "mortal",
+    "riotId": "3033",
+    "name": "凡性的提醒",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3123",
+      "C_3035",
+      "C_1018"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 150,
+    "icon": "assets/items/mortal.png",
+    "extra": {},
+    "excelId": "MORTAL_REMINDER"
+  },
+  {
+    "id": "C_3134",
+    "riotId": "3134",
+    "name": "锯齿短匕",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1000,
+    "recipe": [
+      "sword",
+      "sword"
+    ],
+    "stats": {
+      "ad": 20,
+      "lethality": 10
+    },
+    "passive": "20攻击力；10穿甲；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "youmuu",
+      "THE_COLLECTOR"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/C_3134.png",
+    "extra": {},
+    "excelId": "C_3134"
+  },
+  {
+    "id": "C_6690",
+    "riotId": "6690",
+    "name": "剑翎",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 775,
+    "recipe": [
+      "sword"
+    ],
+    "stats": {
+      "ad": 15,
+      "move_speed_pct": 0.04
+    },
+    "passive": "15攻击力；4%移动速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "youmuu",
+      "KRAKEN_SLAYER"
+    ],
+    "combineCost": 425,
+    "icon": "assets/items/C_6690.png",
+    "extra": {},
+    "excelId": "C_6690"
+  },
+  {
+    "id": "youmuu",
+    "riotId": "3142",
+    "name": "幽梦之灵",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3134",
+      "C_6690",
+      "sword"
+    ],
+    "existing": true,
+    "price": 2900,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 775,
+    "icon": "assets/items/youmuu.png",
+    "extra": {},
+    "excelId": "YOUMUU"
+  },
+  {
+    "id": "C_2019",
+    "riotId": "2019",
+    "name": "钢铁印章",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1100,
+    "recipe": [
+      "C_1029",
+      "sword",
+      "C_1029"
+    ],
+    "stats": {
+      "ad": 15,
+      "armor": 30
+    },
+    "passive": "15攻击力；30护甲；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "deathdance",
+      "guardian"
+    ],
+    "combineCost": 150,
+    "icon": "assets/items/C_2019.png",
+    "extra": {},
+    "excelId": "C_2019"
+  },
+  {
+    "id": "C_1029",
+    "riotId": "1029",
+    "name": "布甲",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 300,
+    "recipe": [],
+    "stats": {
+      "armor": 15
+    },
+    "passive": "15护甲；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_2019",
+      "C_1031",
+      "C_3076",
+      "C_3082",
+      "C_3024",
+      "C_3105",
+      "twinguard",
+      "C_2420",
+      "LOCKET_OF_THE_IRON_SOLARI",
+      "ZEKES_CONVERGENCE",
+      "B_3047"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/C_1029.png",
+    "extra": {},
+    "excelId": "C_1029"
+  },
+  {
+    "id": "C_3133",
+    "riotId": "3133",
+    "name": "考尔菲德的战锤",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1050,
+    "recipe": [
+      "sword",
+      "C_2022",
+      "sword"
+    ],
+    "stats": {
+      "ad": 20,
+      "ability_haste": 10
+    },
+    "passive": "20攻击力；10技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "deathdance",
+      "SERYLDAS_GRUDGE",
+      "ECLIPSE",
+      "RAVENOUS_HYDRA"
+    ],
+    "combineCost": 100,
+    "icon": "assets/items/C_3133.png",
+    "extra": {},
+    "excelId": "C_3133"
+  },
+  {
+    "id": "deathdance",
+    "riotId": "6333",
+    "name": "死亡之舞",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_2019",
+      "C_1037",
+      "C_3133"
+    ],
+    "existing": true,
+    "price": 3300,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 275,
+    "icon": "assets/items/deathdance.png",
+    "extra": {},
+    "excelId": "DEATH_DANCE"
+  },
+  {
+    "id": "guardian",
+    "riotId": "3026",
+    "name": "守护天使",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_2019",
+      "C_1038"
+    ],
+    "existing": true,
+    "price": 3200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/guardian.png",
+    "extra": {},
+    "excelId": "GUARDIAN_ANGEL"
+  },
+  {
+    "id": "C_3086",
+    "riotId": "3086",
+    "name": "狂热",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1200,
+    "recipe": [
+      "C_1018",
+      "C_1042"
+    ],
+    "stats": {
+      "attack_speed": 0.15,
+      "crit_chance": 0.15,
+      "move_speed_pct": 0.04
+    },
+    "passive": "15%攻击速度；15%暴击几率；4%移动速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "phantom",
+      "NAVORI_FLICKERBLADE",
+      "RUNAANS_HURRICANE"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/C_3086.png",
+    "extra": {},
+    "excelId": "C_3086"
+  },
+  {
+    "id": "phantom",
+    "riotId": "3046",
+    "name": "幻影之舞",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1042",
+      "C_3086",
+      "C_1042"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 950,
+    "icon": "assets/items/phantom.png",
+    "extra": {},
+    "excelId": "PHANTOM_DANCER"
+  },
+  {
+    "id": "C_1058",
+    "riotId": "1058",
+    "name": "无用大棒",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 1200,
+    "recipe": [],
+    "stats": {
+      "ap": 65
+    },
+    "passive": "65法术强度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "deathcap",
+      "SHADOWFLAME",
+      "BANSHEES_VEIL",
+      "ZHONYAS_HOURGLASS"
+    ],
+    "combineCost": 1200,
+    "icon": "assets/items/C_1058.png",
+    "extra": {},
+    "excelId": "C_1058"
+  },
+  {
+    "id": "deathcap",
+    "riotId": "3089",
+    "name": "灭世者的死亡之帽",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1058",
+      "C_1058"
+    ],
+    "existing": true,
+    "price": 3400,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1000,
+    "icon": "assets/items/deathcap.png",
+    "extra": {},
+    "excelId": "RABADON"
+  },
+  {
+    "id": "C_3802",
+    "riotId": "3802",
+    "name": "遗失的章节",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1200,
+    "recipe": [
+      "tome",
+      "C_1027",
+      "C_2022"
+    ],
+    "stats": {
+      "mana": 300,
+      "ap": 40,
+      "ability_haste": 10
+    },
+    "passive": "40法术强度；300法力；10技能急速；；启蒙；升级时会在3秒里持续回复共20%最大法力值。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "luden",
+      "archangel",
+      "MALIGNANCE"
+    ],
+    "combineCost": 250,
+    "icon": "assets/items/C_3802.png",
+    "extra": {
+      "restore_mana_pct": 0.2,
+      "restore_duration": 3
+    },
+    "excelId": "C_3802"
+  },
+  {
+    "id": "tome",
+    "riotId": "1052",
+    "name": "增幅典籍",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 400,
+    "recipe": [],
+    "stats": {
+      "ap": 20
+    },
+    "passive": "20法术强度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3802",
+      "C_3145",
+      "C_3147",
+      "C_2508",
+      "C_3108",
+      "C_4630",
+      "C_3916",
+      "rylai",
+      "C_3113",
+      "GUINSOOS_RAGEBLADE",
+      "HORIZON_FOCUS",
+      "C_4632",
+      "C_2420"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/tome.png",
+    "extra": {},
+    "excelId": "tome"
+  },
+  {
+    "id": "C_1027",
+    "riotId": "1027",
+    "name": "蓝水晶",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 300,
+    "recipe": [],
+    "stats": {
+      "mana": 300
+    },
+    "passive": "300法力；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3802",
+      "C_3024"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/C_1027.png",
+    "extra": {},
+    "excelId": "C_1027"
+  },
+  {
+    "id": "C_3145",
+    "riotId": "3145",
+    "name": "海克斯科技发电机",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1100,
+    "recipe": [
+      "tome",
+      "tome"
+    ],
+    "stats": {
+      "ap": 45
+    },
+    "passive": "45法术强度；；转速加快；对一名敌方英雄造成伤害时会造成额外魔法伤害。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "luden",
+      "orb",
+      "SHADOWFLAME",
+      "STORMSURGE",
+      "HEXTECH_ROCKETBELT"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/C_3145.png",
+    "extra": {
+      "proc_min": 50,
+      "proc_max": 125,
+      "cooldown": 40
+    },
+    "excelId": "C_3145"
+  },
+  {
+    "id": "luden",
+    "riotId": "6655",
+    "name": "卢登的回声",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3802",
+      "C_3145"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 500,
+    "icon": "assets/items/luden.png",
+    "extra": {},
+    "excelId": "LUDEN"
+  },
+  {
+    "id": "C_3147",
+    "riotId": "3147",
+    "name": "幽魂面具",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1300,
+    "recipe": [
+      "tome",
+      "ruby"
+    ],
+    "stats": {
+      "hp": 200,
+      "ap": 30
+    },
+    "passive": "30法术强度；200生命值；；癫狂；在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。 ",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "liandry",
+      "riftmaker"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_3147.png",
+    "extra": {
+      "amp_per_second": 0.02,
+      "amp_cap": 0.06
+    },
+    "excelId": "C_3147"
+  },
+  {
+    "id": "C_2508",
+    "riotId": "2508",
+    "name": "命定灰烬",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "tome"
+    ],
+    "stats": {
+      "ap": 30
+    },
+    "passive": "30法术强度；；激燃；伤害型技能在3秒里持续造成15额外魔法伤害。；对野怪造成额外的45魔法伤害。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "liandry"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_2508.png",
+    "extra": {
+      "burn_total": 15,
+      "monster_bonus": 45,
+      "burn_duration": 3
+    },
+    "excelId": "C_2508"
+  },
+  {
+    "id": "liandry",
+    "riotId": "6653",
+    "name": "兰德里的折磨",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3147",
+      "C_2508"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/liandry.png",
+    "extra": {},
+    "excelId": "LIANDRY"
+  },
+  {
+    "id": "C_3108",
+    "riotId": "3108",
+    "name": "恶魔法典",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 850,
+    "recipe": [
+      "tome",
+      "C_2022"
+    ],
+    "stats": {
+      "ap": 25,
+      "ability_haste": 10
+    },
+    "passive": "25法术强度；10技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "archangel",
+      "riftmaker",
+      "nashor",
+      "NASHORS_TOOTH",
+      "HORIZON_FOCUS",
+      "COSMIC_DRIVE",
+      "CRYPTBLOOM"
+    ],
+    "combineCost": 200,
+    "icon": "assets/items/C_3108.png",
+    "extra": {},
+    "excelId": "C_3108"
+  },
+  {
+    "id": "C_1026",
+    "riotId": "1026",
+    "name": "爆裂魔杖",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 850,
+    "recipe": [],
+    "stats": {
+      "ap": 45
+    },
+    "passive": "45法术强度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "orb",
+      "void",
+      "morello",
+      "rylai",
+      "lich",
+      "nashor",
+      "NASHORS_TOOTH",
+      "MALIGNANCE"
+    ],
+    "combineCost": 850,
+    "icon": "assets/items/C_1026.png",
+    "extra": {},
+    "excelId": "C_1026"
+  },
+  {
+    "id": "orb",
+    "riotId": "4636",
+    "name": "无限法球",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1026",
+      "C_3145"
+    ],
+    "existing": true,
+    "price": 3100,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1150,
+    "icon": "assets/items/orb.png",
+    "extra": {},
+    "excelId": "INFINITY_ORB"
+  },
+  {
+    "id": "C_4630",
+    "riotId": "4630",
+    "name": "枯萎珠宝",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1100,
+    "recipe": [
+      "tome"
+    ],
+    "stats": {
+      "ap": 25,
+      "magic_pen_pct": 0.13
+    },
+    "passive": "25法术强度；13%法术穿透；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "void",
+      "CRYPTBLOOM"
+    ],
+    "combineCost": 700,
+    "icon": "assets/items/C_4630.png",
+    "extra": {},
+    "excelId": "C_4630"
+  },
+  {
+    "id": "void",
+    "riotId": "3135",
+    "name": "虚空之杖",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_4630",
+      "C_1026"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1050,
+    "icon": "assets/items/void.png",
+    "extra": {},
+    "excelId": "VOID_STAFF"
+  },
+  {
+    "id": "C_3916",
+    "riotId": "3916",
+    "name": "湮灭宝珠",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "tome"
+    ],
+    "stats": {
+      "ap": 25
+    },
+    "passive": "25法术强度；；重伤；对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "morello"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_3916.png",
+    "extra": {
+      "grievous": 0.4,
+      "duration": 3
+    },
+    "excelId": "C_3916"
+  },
+  {
+    "id": "morello",
+    "riotId": "3165",
+    "name": "莫雷洛秘典",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3916",
+      "C_1026",
+      "C_3067"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 200,
+    "icon": "assets/items/morello.png",
+    "extra": {},
+    "excelId": "MORELLONOMICON"
+  },
+  {
+    "id": "C_3070",
+    "riotId": "3070",
+    "name": "女神之泪",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 400,
+    "recipe": [],
+    "stats": {
+      "mana": 240
+    },
+    "passive": "240法力；；法力流 (8秒，最大4层)；技能在命中时会提供3最大法力值(对英雄时翻倍)，至多至360。；；帮助之手；攻击会对小兵造成额外的5物理伤害。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "archangel",
+      "WINTERS_APPROACH"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_3070.png",
+    "extra": {
+      "charge_time": 8,
+      "max_charges": 4,
+      "mana_per_proc": 3,
+      "champion_multiplier": 2,
+      "mana_cap": 360,
+      "minion_onhit": 5
+    },
+    "excelId": "C_3070"
+  },
+  {
+    "id": "archangel",
+    "riotId": "3003",
+    "name": "大天使之杖",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3070",
+      "C_3802",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 550,
+    "icon": "assets/items/archangel.png",
+    "extra": {},
+    "excelId": "ARCHANGEL"
+  },
+  {
+    "id": "riftmaker",
+    "riotId": "4633",
+    "name": "峡谷制造者",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3147",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 3100,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 950,
+    "icon": "assets/items/riftmaker.png",
+    "extra": {},
+    "excelId": "RIFTMAKER"
+  },
+  {
+    "id": "C_1011",
+    "riotId": "1011",
+    "name": "巨人腰带",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "ruby"
+    ],
+    "stats": {
+      "hp": 350
+    },
+    "passive": "350生命值；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "rylai",
+      "heartsteel",
+      "armor",
+      "warmog",
+      "JAKSHO_THE_PROTEAN",
+      "WINTERS_APPROACH"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_1011.png",
+    "extra": {},
+    "excelId": "C_1011"
+  },
+  {
+    "id": "rylai",
+    "riotId": "3116",
+    "name": "瑞莱的冰晶节杖",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1026",
+      "C_1011",
+      "tome"
+    ],
+    "existing": true,
+    "price": 2700,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 550,
+    "icon": "assets/items/rylai.png",
+    "extra": {},
+    "excelId": "RYLAI"
+  },
+  {
+    "id": "C_3113",
+    "riotId": "3113",
+    "name": "以太精魂",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "tome"
+    ],
+    "stats": {
+      "ap": 30,
+      "move_speed_pct": 0.04
+    },
+    "passive": "30法术强度；4%移动速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "lich",
+      "STORMSURGE",
+      "COSMIC_DRIVE"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_3113.png",
+    "extra": {},
+    "excelId": "C_3113"
+  },
+  {
+    "id": "lich",
+    "riotId": "3100",
+    "name": "巫妖之祸",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3057",
+      "C_3113",
+      "C_1026"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 150,
+    "icon": "assets/items/lich.png",
+    "extra": {},
+    "excelId": "LICH_BANE"
+  },
+  {
+    "id": "C_3801",
+    "riotId": "3801",
+    "name": "晶体护腕",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "ruby",
+      "C_1006"
+    ],
+    "stats": {
+      "hp": 200,
+      "base_hp_regen_pct": 1
+    },
+    "passive": "200生命值；100%基础生命回复；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "heartsteel",
+      "warmog"
+    ],
+    "combineCost": 100,
+    "icon": "assets/items/C_3801.png",
+    "extra": {},
+    "excelId": "C_3801"
+  },
+  {
+    "id": "C_1006",
+    "riotId": "1006",
+    "name": "治疗宝珠",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 300,
+    "recipe": [],
+    "stats": {
+      "base_hp_regen_pct": 1
+    },
+    "passive": "100%基础生命回复；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3801",
+      "C_3211",
+      "KNIGHTS_VOW"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/C_1006.png",
+    "extra": {},
+    "excelId": "C_1006"
+  },
+  {
+    "id": "heartsteel",
+    "riotId": "3084",
+    "name": "心之钢",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1011",
+      "C_3801",
+      "C_1011"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 200,
+    "icon": "assets/items/heartsteel.png",
+    "extra": {},
+    "excelId": "HEARTSTEEL"
+  },
+  {
+    "id": "C_6660",
+    "riotId": "6660",
+    "name": "斑比的熔渣",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "ruby",
+      "C_2022"
+    ],
+    "stats": {
+      "hp": 150,
+      "ability_haste": 5
+    },
+    "passive": "150生命值；5技能急速；；献祭；承受或造成伤害后，对附近敌人造成魔法伤害，持续3秒。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "sunfire",
+      "HOLLOW_RADIANCE"
+    ],
+    "combineCost": 250,
+    "icon": "assets/items/C_6660.png",
+    "extra": {
+      "damage": 15,
+      "radius": 325,
+      "combat_window": 3
+    },
+    "excelId": "C_6660"
+  },
+  {
+    "id": "C_1031",
+    "riotId": "1031",
+    "name": "锁子甲",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "C_1029"
+    ],
+    "stats": {
+      "armor": 40
+    },
+    "passive": "40护甲；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "sunfire",
+      "thornmail",
+      "deadman",
+      "JAKSHO_THE_PROTEAN",
+      "UNENDING_DESPAIR",
+      "ICEBORN_GAUNTLET",
+      "KNIGHTS_VOW"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_1031.png",
+    "extra": {},
+    "excelId": "C_1031"
+  },
+  {
+    "id": "sunfire",
+    "riotId": "3068",
+    "name": "日炎圣盾",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_6660",
+      "C_1031",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 2900,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/sunfire.png",
+    "extra": {},
+    "excelId": "SUNFIRE_AEGIS"
+  },
+  {
+    "id": "C_3076",
+    "riotId": "3076",
+    "name": "棘刺背心",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "C_1029",
+      "C_1029"
+    ],
+    "stats": {
+      "armor": 30
+    },
+    "passive": "30护甲；；荆棘；在被一次攻击命中后，对攻击者造成0魔法伤害并且如果目标是英雄，还会对其施加持续3秒的40%重伤效果。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "thornmail"
+    ],
+    "combineCost": 200,
+    "icon": "assets/items/C_3076.png",
+    "extra": {
+      "reflect": 10,
+      "grievous": 0.4,
+      "duration": 3
+    },
+    "excelId": "C_3076"
+  },
+  {
+    "id": "thornmail",
+    "riotId": "3075",
+    "name": "荆棘之甲",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3076",
+      "C_1031",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 2850,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 850,
+    "icon": "assets/items/thornmail.png",
+    "extra": {},
+    "excelId": "THORNMAIL"
+  },
+  {
+    "id": "C_3082",
+    "riotId": "3082",
+    "name": "守望者铠甲",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1000,
+    "recipe": [
+      "C_1029",
+      "C_1029"
+    ],
+    "stats": {
+      "armor": 40
+    },
+    "passive": "40护甲；；坚如磐石；使所受的来自攻击的伤害降低。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "armor",
+      "frozen"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_3082.png",
+    "extra": {
+      "reduction_flat": 5,
+      "reduction_per_max_hp": 0.0035,
+      "reduction_cap": 0.2
+    },
+    "excelId": "C_3082"
+  },
+  {
+    "id": "armor",
+    "riotId": "3143",
+    "name": "兰顿之兆",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3082",
+      "C_1011"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 900,
+    "icon": "assets/items/armor.png",
+    "extra": {},
+    "excelId": "RANDUIN"
+  },
+  {
+    "id": "C_3024",
+    "riotId": "3024",
+    "name": "冰川圆盾",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 900,
+    "recipe": [
+      "C_1029",
+      "C_1027",
+      "C_2022"
+    ],
+    "stats": {
+      "mana": 300,
+      "armor": 25,
+      "ability_haste": 10
+    },
+    "passive": "25护甲；300法力；10技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "frozen"
+    ],
+    "combineCost": 50,
+    "icon": "assets/items/C_3024.png",
+    "extra": {},
+    "excelId": "C_3024"
+  },
+  {
+    "id": "frozen",
+    "riotId": "3110",
+    "name": "冰霜之心",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3082",
+      "C_3024"
+    ],
+    "existing": true,
+    "price": 2550,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 650,
+    "icon": "assets/items/frozen.png",
+    "extra": {},
+    "excelId": "FROZEN_HEART"
+  },
+  {
+    "id": "C_1057",
+    "riotId": "1057",
+    "name": "负极斗篷",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 850,
+    "recipe": [
+      "C_1033"
+    ],
+    "stats": {
+      "mr": 45
+    },
+    "passive": "45魔法抗性；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "nature",
+      "twinguard",
+      "kaenic",
+      "JAKSHO_THE_PROTEAN",
+      "ABYSSAL_MASK"
+    ],
+    "combineCost": 450,
+    "icon": "assets/items/C_1057.png",
+    "extra": {},
+    "excelId": "C_1057"
+  },
+  {
+    "id": "C_1033",
+    "riotId": "1033",
+    "name": "抗魔斗篷",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 400,
+    "recipe": [],
+    "stats": {
+      "mr": 20
+    },
+    "passive": "20魔法抗性；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_1057",
+      "C_3105",
+      "C_3211",
+      "C_4632",
+      "LOCKET_OF_THE_IRON_SOLARI",
+      "ZEKES_CONVERGENCE",
+      "B_3111"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_1033.png",
+    "extra": {},
+    "excelId": "C_1033"
+  },
+  {
+    "id": "C_3066",
+    "riotId": "3066",
+    "name": "带翼的月板甲",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 800,
+    "recipe": [
+      "ruby"
+    ],
+    "stats": {
+      "hp": 200,
+      "move_speed_pct": 0.04
+    },
+    "passive": "200生命值；4%移动速度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "nature",
+      "deadman"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_3066.png",
+    "extra": {},
+    "excelId": "C_3066"
+  },
+  {
+    "id": "nature",
+    "riotId": "4401",
+    "name": "自然之力",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1057",
+      "ruby",
+      "C_3066"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 750,
+    "icon": "assets/items/nature.png",
+    "extra": {},
+    "excelId": "FORCE_OF_NATURE"
+  },
+  {
+    "id": "warmog",
+    "riotId": "3083",
+    "name": "狂徒铠甲",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1011",
+      "C_1011",
+      "C_3801"
+    ],
+    "existing": true,
+    "price": 2850,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 250,
+    "icon": "assets/items/warmog.png",
+    "extra": {},
+    "excelId": "WARMOG"
+  },
+  {
+    "id": "C_3105",
+    "riotId": "3105",
+    "name": "军团圣盾",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1100,
+    "recipe": [
+      "C_1033",
+      "C_1029"
+    ],
+    "stats": {
+      "armor": 25,
+      "mr": 25,
+      "ability_haste": 10
+    },
+    "passive": "25护甲；25魔法抗性；10技能急速；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [],
+    "combineCost": 400,
+    "icon": "assets/items/C_3105.png",
+    "extra": {},
+    "excelId": "C_3105"
+  },
+  {
+    "id": "twinguard",
+    "riotId": "3193",
+    "name": "双生守护",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1029",
+      "C_1057",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 3200,
+    "shopHidden": false,
+    "iconVersion": "14.1.1",
+    "buildsInto": [],
+    "combineCost": 1650,
+    "icon": "assets/items/twinguard.png",
+    "extra": {},
+    "excelId": "AMARANTH_TWINGUARD"
+  },
+  {
+    "id": "deadman",
+    "riotId": "3742",
+    "name": "亡者的板甲",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3066",
+      "ruby",
+      "C_1031"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/deadman.png",
+    "extra": {},
+    "excelId": "DEAD_MANS_PLATE"
+  },
+  {
+    "id": "C_3211",
+    "riotId": "3211",
+    "name": "幽魂斗篷",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1250,
+    "recipe": [
+      "ruby",
+      "C_1033",
+      "C_1006"
+    ],
+    "stats": {
+      "hp": 200,
+      "mr": 35,
+      "base_hp_regen_pct": 1
+    },
+    "passive": "200生命值；35魔法抗性；100%基础生命回复；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "kaenic",
+      "HOLLOW_RADIANCE",
+      "SPIRIT_VISAGE"
+    ],
+    "combineCost": 150,
+    "icon": "assets/items/C_3211.png",
+    "extra": {},
+    "excelId": "C_3211"
+  },
+  {
+    "id": "kaenic",
+    "riotId": "2504",
+    "name": "败魔",
+    "category": "defense",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3211",
+      "C_1057"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 700,
+    "icon": "assets/items/kaenic.png",
+    "extra": {},
+    "excelId": "KAENIC_ROOKERN"
+  },
+  {
+    "id": "SWORD_OF_THE_OCCULT",
+    "riotId": "3141",
+    "name": "神秘之剑",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "sword",
+      "sword"
+    ],
+    "existing": true,
+    "price": 1500,
+    "shopHidden": false,
+    "iconVersion": "14.1.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/SWORD_OF_THE_OCCULT.png",
+    "extra": {},
+    "excelId": "SWORD_OF_THE_OCCULT"
+  },
+  {
+    "id": "C_1082",
+    "riotId": "1082",
+    "name": "黑暗封印",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 350,
+    "recipe": [],
+    "stats": {
+      "hp": 50,
+      "ap": 15
+    },
+    "passive": "15法术强度；50生命值；；荣耀；参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。；每层荣耀提供4法术强度。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "MEJAIS_SOULSTEALER"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/C_1082.png",
+    "extra": {
+      "ap_per_stack": 4,
+      "max_stacks": 10,
+      "kill_stacks": 2,
+      "assist_stacks": 1,
+      "death_loss": 5
+    },
+    "excelId": "C_1082"
+  },
+  {
+    "id": "MEJAIS_SOULSTEALER",
+    "riotId": "3041",
+    "name": "梅贾的窃魂卷",
+    "category": "magic",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1082"
+    ],
+    "existing": true,
+    "price": 1500,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1150,
+    "icon": "assets/items/MEJAIS_SOULSTEALER.png",
+    "extra": {},
+    "excelId": "MEJAIS_SOULSTEALER"
+  },
+  {
+    "id": "nashor",
+    "riotId": "3115",
+    "name": "纳什之牙",
+    "category": "component",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1043",
+      "C_1026",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": true,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 400,
+    "icon": "assets/items/nashor.png",
+    "extra": {},
+    "excelId": "nashor"
+  },
+  {
+    "id": "seraph",
+    "riotId": "3040",
+    "name": "炽天使之拥",
+    "category": "upgrade",
+    "tier": "SPECIAL",
+    "recipe": [],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": true,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 3000,
+    "icon": "assets/items/seraph.png",
+    "extra": {},
+    "excelId": "seraph"
+  },
+  {
+    "id": "KRAKEN_SLAYER",
+    "riotId": "6672",
+    "name": "海妖杀手",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_6690",
+      "C_3051",
+      "C_1043"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 325,
+    "icon": "assets/items/KRAKEN_SLAYER.png",
+    "extra": {},
+    "excelId": "KRAKEN_SLAYER"
+  },
+  {
+    "id": "THE_COLLECTOR",
+    "riotId": "6676",
+    "name": "收集者",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1037",
+      "C_3134",
+      "C_1018"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 525,
+    "icon": "assets/items/THE_COLLECTOR.png",
+    "extra": {},
+    "excelId": "THE_COLLECTOR"
+  },
+  {
+    "id": "NAVORI_FLICKERBLADE",
+    "riotId": "6675",
+    "name": "纳沃利迅刃",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1042",
+      "C_3086",
+      "C_1042"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 950,
+    "icon": "assets/items/NAVORI_FLICKERBLADE.png",
+    "extra": {},
+    "excelId": "NAVORI_FLICKERBLADE"
+  },
+  {
+    "id": "GUINSOOS_RAGEBLADE",
+    "riotId": "3124",
+    "name": "鬼索的狂暴之刃",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "tome",
+      "C_1043",
+      "C_1037"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1025,
+    "icon": "assets/items/GUINSOOS_RAGEBLADE.png",
+    "extra": {},
+    "excelId": "GUINSOOS_RAGEBLADE"
+  },
+  {
+    "id": "C_3144",
+    "riotId": "3144",
+    "name": "斥候弹弓",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 600,
+    "recipe": [
+      "C_1042",
+      "C_1042"
+    ],
+    "stats": {
+      "attack_speed": 0.2
+    },
+    "passive": "20%攻击速度；；靶心；对一名敌方英雄造成伤害时会造成额外魔法伤害。；攻击可使这个冷却时间缩减1秒。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "RUNAANS_HURRICANE"
+    ],
+    "combineCost": 100,
+    "icon": "assets/items/C_3144.png",
+    "extra": {
+      "proc_min": 40,
+      "proc_max": 80,
+      "cooldown": 40,
+      "attack_refund": 1
+    },
+    "excelId": "C_3144"
+  },
+  {
+    "id": "RUNAANS_HURRICANE",
+    "riotId": "3085",
+    "name": "卢安娜的飓风",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3086",
+      "C_3144"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 850,
+    "icon": "assets/items/RUNAANS_HURRICANE.png",
+    "extra": {},
+    "excelId": "RUNAANS_HURRICANE"
+  },
+  {
+    "id": "C_6670",
+    "riotId": "6670",
+    "name": "正午箭袋",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1300,
+    "recipe": [
+      "sword",
+      "C_1018"
+    ],
+    "stats": {
+      "ad": 15,
+      "crit_chance": 0.2
+    },
+    "passive": "15攻击力；20%暴击几率；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "LORD_DOMINIKS_REGARDS"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/C_6670.png",
+    "extra": {},
+    "excelId": "C_6670"
+  },
+  {
+    "id": "LORD_DOMINIKS_REGARDS",
+    "riotId": "3036",
+    "name": "多米尼克领主的致意",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3035",
+      "C_6670"
+    ],
+    "existing": true,
+    "price": 3300,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 550,
+    "icon": "assets/items/LORD_DOMINIKS_REGARDS.png",
+    "extra": {},
+    "excelId": "LORD_DOMINIKS_REGARDS"
+  },
+  {
+    "id": "SERYLDAS_GRUDGE",
+    "riotId": "6694",
+    "name": "赛瑞尔达的怨恨",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3133",
+      "C_3035"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 500,
+    "icon": "assets/items/SERYLDAS_GRUDGE.png",
+    "extra": {},
+    "excelId": "SERYLDAS_GRUDGE"
+  },
+  {
+    "id": "ECLIPSE",
+    "riotId": "6692",
+    "name": "星蚀",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3133",
+      "C_1037",
+      "sword"
+    ],
+    "existing": true,
+    "price": 2900,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 625,
+    "icon": "assets/items/ECLIPSE.png",
+    "extra": {},
+    "excelId": "ECLIPSE"
+  },
+  {
+    "id": "C_2021",
+    "riotId": "2021",
+    "name": "掘道钻头",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1150,
+    "recipe": [
+      "sword",
+      "ruby"
+    ],
+    "stats": {
+      "hp": 250,
+      "ad": 15
+    },
+    "passive": "15攻击力；250生命值；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "SPEAR_OF_SHOJIN"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_2021.png",
+    "extra": {},
+    "excelId": "C_2021"
+  },
+  {
+    "id": "SPEAR_OF_SHOJIN",
+    "riotId": "3161",
+    "name": "朔极之矛",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1037",
+      "C_2021",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 3100,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 675,
+    "icon": "assets/items/SPEAR_OF_SHOJIN.png",
+    "extra": {},
+    "excelId": "SPEAR_OF_SHOJIN"
+  },
+  {
+    "id": "C_3077",
+    "riotId": "3077",
+    "name": "提亚马特",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1200,
+    "recipe": [
+      "sword",
+      "sword"
+    ],
+    "stats": {
+      "ad": 25
+    },
+    "passive": "25攻击力；；顺劈；攻击会对附近的敌人们造成物理伤害。；新月；对你周围的敌人们造成物理伤害。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "RAVENOUS_HYDRA"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_3077.png",
+    "extra": {
+      "cleave_ratio": 0.2,
+      "cleave_radius": 350,
+      "active_type": "component_cleave",
+      "active_ratio": 1,
+      "active_radius": 450,
+      "cooldown": 10
+    },
+    "excelId": "C_3077"
+  },
+  {
+    "id": "RAVENOUS_HYDRA",
+    "riotId": "3074",
+    "name": "贪欲九头蛇",
+    "category": "physical",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3077",
+      "C_1053",
+      "C_3133"
+    ],
+    "existing": true,
+    "price": 3300,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 150,
+    "icon": "assets/items/RAVENOUS_HYDRA.png",
+    "extra": {},
+    "excelId": "RAVENOUS_HYDRA"
+  },
+  {
+    "id": "SHADOWFLAME",
+    "riotId": "4645",
+    "name": "影焰",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3145",
+      "C_1058"
+    ],
+    "existing": true,
+    "price": 3200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 900,
+    "icon": "assets/items/SHADOWFLAME.png",
+    "extra": {},
+    "excelId": "SHADOWFLAME"
+  },
+  {
+    "id": "STORMSURGE",
+    "riotId": "4646",
+    "name": "风暴狂涌",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3145",
+      "C_3113"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/STORMSURGE.png",
+    "extra": {},
+    "excelId": "STORMSURGE"
+  },
+  {
+    "id": "NASHORS_TOOTH",
+    "riotId": "3115",
+    "name": "纳什之牙",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1043",
+      "C_1026",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 2900,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 500,
+    "icon": "assets/items/NASHORS_TOOTH.png",
+    "extra": {},
+    "excelId": "NASHORS_TOOTH"
+  },
+  {
+    "id": "HORIZON_FOCUS",
+    "riotId": "4628",
+    "name": "视界专注",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3108",
+      "C_3108",
+      "tome"
+    ],
+    "existing": true,
+    "price": 2700,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 600,
+    "icon": "assets/items/HORIZON_FOCUS.png",
+    "extra": {},
+    "excelId": "HORIZON_FOCUS"
+  },
+  {
+    "id": "COSMIC_DRIVE",
+    "riotId": "4629",
+    "name": "星界驱驰",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3067",
+      "C_3113",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 450,
+    "icon": "assets/items/COSMIC_DRIVE.png",
+    "extra": {},
+    "excelId": "COSMIC_DRIVE"
+  },
+  {
+    "id": "MALIGNANCE",
+    "riotId": "3118",
+    "name": "焚天恶咒",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3802",
+      "C_1026"
+    ],
+    "existing": true,
+    "price": 2700,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 650,
+    "icon": "assets/items/MALIGNANCE.png",
+    "extra": {},
+    "excelId": "MALIGNANCE"
+  },
+  {
+    "id": "CRYPTBLOOM",
+    "riotId": "3137",
+    "name": "绽灵花",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_4630",
+      "C_3108",
+      "C_3108"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 200,
+    "icon": "assets/items/CRYPTBLOOM.png",
+    "extra": {},
+    "excelId": "CRYPTBLOOM"
+  },
+  {
+    "id": "C_4632",
+    "riotId": "4632",
+    "name": "翠绿屏障",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1600,
+    "recipe": [
+      "tome",
+      "C_1033",
+      "tome"
+    ],
+    "stats": {
+      "ap": 40,
+      "mr": 25
+    },
+    "passive": "40法术强度；25魔法抗性；；废除；提供一层法术护盾来格挡下一个敌方技能。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "BANSHEES_VEIL"
+    ],
+    "combineCost": 400,
+    "icon": "assets/items/C_4632.png",
+    "extra": {
+      "spellshield_cd": 40
+    },
+    "excelId": "C_4632"
+  },
+  {
+    "id": "BANSHEES_VEIL",
+    "riotId": "3102",
+    "name": "女妖面纱",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1058",
+      "C_4632"
+    ],
+    "existing": true,
+    "price": 3000,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 200,
+    "icon": "assets/items/BANSHEES_VEIL.png",
+    "extra": {},
+    "excelId": "BANSHEES_VEIL"
+  },
+  {
+    "id": "C_2420",
+    "riotId": "2420",
+    "name": "探索者的护臂",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 1600,
+    "recipe": [
+      "tome",
+      "C_1029",
+      "tome"
+    ],
+    "stats": {
+      "ap": 40,
+      "armor": 25
+    },
+    "passive": "40法术强度；25护甲；；时间停止(单次使用)；进入凝滞状态2.5秒。",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "ZHONYAS_HOURGLASS"
+    ],
+    "combineCost": 500,
+    "icon": "assets/items/C_2420.png",
+    "extra": {
+      "active_type": "single_stasis",
+      "duration": 2.5
+    },
+    "excelId": "C_2420"
+  },
+  {
+    "id": "ZHONYAS_HOURGLASS",
+    "riotId": "3157",
+    "name": "中娅沙漏",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1058",
+      "C_2420"
+    ],
+    "existing": true,
+    "price": 3250,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 450,
+    "icon": "assets/items/ZHONYAS_HOURGLASS.png",
+    "extra": {},
+    "excelId": "ZHONYAS_HOURGLASS"
+  },
+  {
+    "id": "HEXTECH_ROCKETBELT",
+    "riotId": "3152",
+    "name": "海克斯科技火箭腰带",
+    "category": "mage",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3145",
+      "C_3067",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 350,
+    "icon": "assets/items/HEXTECH_ROCKETBELT.png",
+    "extra": {},
+    "excelId": "HEXTECH_ROCKETBELT"
+  },
+  {
+    "id": "JAKSHO_THE_PROTEAN",
+    "riotId": "6665",
+    "name": "千变者贾修",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1011",
+      "C_1031",
+      "C_1057"
+    ],
+    "existing": true,
+    "price": 3200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 650,
+    "icon": "assets/items/JAKSHO_THE_PROTEAN.png",
+    "extra": {},
+    "excelId": "JAKSHO_THE_PROTEAN"
+  },
+  {
+    "id": "UNENDING_DESPAIR",
+    "riotId": "2502",
+    "name": "无终恨意",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_1031",
+      "C_3067",
+      "ruby"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/UNENDING_DESPAIR.png",
+    "extra": {},
+    "excelId": "UNENDING_DESPAIR"
+  },
+  {
+    "id": "HOLLOW_RADIANCE",
+    "riotId": "6664",
+    "name": "败魔盔甲",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_6660",
+      "C_3211"
+    ],
+    "existing": true,
+    "price": 2800,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 650,
+    "icon": "assets/items/HOLLOW_RADIANCE.png",
+    "extra": {},
+    "excelId": "HOLLOW_RADIANCE"
+  },
+  {
+    "id": "ICEBORN_GAUNTLET",
+    "riotId": "6662",
+    "name": "冰脉护手",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3057",
+      "ruby",
+      "C_1031"
+    ],
+    "existing": true,
+    "price": 2900,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 800,
+    "icon": "assets/items/ICEBORN_GAUNTLET.png",
+    "extra": {},
+    "excelId": "ICEBORN_GAUNTLET"
+  },
+  {
+    "id": "SPIRIT_VISAGE",
+    "riotId": "3065",
+    "name": "振奋盔甲",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3211",
+      "C_3067"
+    ],
+    "existing": true,
+    "price": 2700,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 650,
+    "icon": "assets/items/SPIRIT_VISAGE.png",
+    "extra": {},
+    "excelId": "SPIRIT_VISAGE"
+  },
+  {
+    "id": "ABYSSAL_MASK",
+    "riotId": "8020",
+    "name": "深渊面具",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3067",
+      "C_1057"
+    ],
+    "existing": true,
+    "price": 2650,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 1000,
+    "icon": "assets/items/ABYSSAL_MASK.png",
+    "extra": {},
+    "excelId": "ABYSSAL_MASK"
+  },
+  {
+    "id": "LOCKET_OF_THE_IRON_SOLARI",
+    "riotId": "3190",
+    "name": "钢铁烈阳之匣",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3067",
+      "C_1029",
+      "C_1033"
+    ],
+    "existing": true,
+    "price": 2200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 700,
+    "icon": "assets/items/LOCKET_OF_THE_IRON_SOLARI.png",
+    "extra": {},
+    "excelId": "LOCKET_OF_THE_IRON_SOLARI"
+  },
+  {
+    "id": "KNIGHTS_VOW",
+    "riotId": "3109",
+    "name": "骑士之誓",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3067",
+      "C_1031",
+      "C_1006"
+    ],
+    "existing": true,
+    "price": 2300,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 400,
+    "icon": "assets/items/KNIGHTS_VOW.png",
+    "extra": {},
+    "excelId": "KNIGHTS_VOW"
+  },
+  {
+    "id": "ZEKES_CONVERGENCE",
+    "riotId": "3050",
+    "name": "基克的聚合",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3067",
+      "C_1029",
+      "C_1033"
+    ],
+    "existing": true,
+    "price": 2200,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 700,
+    "icon": "assets/items/ZEKES_CONVERGENCE.png",
+    "extra": {},
+    "excelId": "ZEKES_CONVERGENCE"
+  },
+  {
+    "id": "WINTERS_APPROACH",
+    "riotId": "3119",
+    "name": "凛冬之临",
+    "category": "tank",
+    "tier": "LEGENDARY",
+    "recipe": [
+      "C_3070",
+      "C_1011",
+      "C_3067"
+    ],
+    "existing": true,
+    "price": 2400,
+    "shopHidden": false,
+    "iconVersion": "16.21.1",
+    "buildsInto": [],
+    "combineCost": 300,
+    "icon": "assets/items/WINTERS_APPROACH.png",
+    "extra": {},
+    "excelId": "WINTERS_APPROACH"
+  },
+  {
+    "id": "C_3114",
+    "riotId": "3114",
+    "name": "禁忌雕像",
+    "category": "component",
+    "tier": "EPIC",
+    "price": 600,
+    "recipe": [
+      "C_1004"
+    ],
+    "stats": {
+      "heal_shield_power": 0.08,
+      "base_mana_regen_pct": 0.5
+    },
+    "passive": "50%基础法力回复；8%治疗和护盾强度；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [],
+    "combineCost": 400,
+    "icon": "assets/items/C_3114.png",
+    "extra": {},
+    "excelId": "C_3114"
+  },
+  {
+    "id": "C_1004",
+    "riotId": "1004",
+    "name": "仙女护符",
+    "category": "component",
+    "tier": "BASIC",
+    "price": 200,
+    "recipe": [],
+    "stats": {
+      "base_mana_regen_pct": 0.5
+    },
+    "passive": "50%基础法力回复；；",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "shopHidden": false,
+    "buildsInto": [
+      "C_3114"
+    ],
+    "combineCost": 200,
+    "icon": "assets/items/C_1004.png",
+    "extra": {},
+    "excelId": "C_1004"
+  },
+  {
+    "id": "boots",
+    "riotId": "1001",
+    "name": "鞋子",
+    "category": "boots",
+    "tier": "BOOTS_T1",
+    "price": 300,
+    "recipe": [],
+    "stats": {
+      "move_speed_flat": 25
+    },
+    "passive": "25移动速度；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3006",
+      "B_3020",
+      "B_3047",
+      "B_3111",
+      "B_3158",
+      "B_3009",
+      "B_3008"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/boots.png",
+    "extra": {},
+    "excelId": "boots"
+  },
+  {
+    "id": "B_3006",
+    "riotId": "3006",
+    "name": "狂战士胫甲",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1100,
+    "recipe": [
+      "boots",
+      "C_1042",
+      "C_1042"
+    ],
+    "stats": {
+      "attack_speed": 0.3,
+      "move_speed_flat": 45
+    },
+    "passive": "30%攻击速度；45移动速度；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3172"
+    ],
+    "combineCost": 300,
+    "icon": "assets/items/B_3006.png",
+    "extra": {},
+    "excelId": "B_3006"
+  },
+  {
+    "id": "B_3020",
+    "riotId": "3020",
+    "name": "法师之靴",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1100,
+    "recipe": [
+      "boots"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "magic_pen_flat": 12
+    },
+    "passive": "12法术穿透；45移动速度；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3175"
+    ],
+    "combineCost": 800,
+    "icon": "assets/items/B_3020.png",
+    "extra": {},
+    "excelId": "B_3020"
+  },
+  {
+    "id": "B_3047",
+    "riotId": "3047",
+    "name": "铁板靴",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1200,
+    "recipe": [
+      "boots",
+      "C_1029"
+    ],
+    "stats": {
+      "armor": 25,
+      "move_speed_flat": 45
+    },
+    "passive": "25护甲；45移动速度；；镀板；使即将到来的攻击伤害降低10%。",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3174"
+    ],
+    "combineCost": 600,
+    "icon": "assets/items/B_3047.png",
+    "extra": {
+      "attack_reduction": 0.1
+    },
+    "excelId": "B_3047"
+  },
+  {
+    "id": "B_3111",
+    "riotId": "3111",
+    "name": "水银之靴",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1250,
+    "recipe": [
+      "boots",
+      "C_1033"
+    ],
+    "stats": {
+      "mr": 20,
+      "move_speed_flat": 45,
+      "tenacity": 0.3
+    },
+    "passive": "20魔法抗性；45移动速度；30%韧性；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3173"
+    ],
+    "combineCost": 550,
+    "icon": "assets/items/B_3111.png",
+    "extra": {},
+    "excelId": "B_3111"
+  },
+  {
+    "id": "B_3158",
+    "riotId": "3158",
+    "name": "明朗之靴",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 900,
+    "recipe": [
+      "boots",
+      "C_2022"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "ability_haste": 10
+    },
+    "passive": "10技能急速；45移动速度；；艾欧尼亚的洞悉；获得10召唤师技能急速。；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3171"
+    ],
+    "combineCost": 350,
+    "icon": "assets/items/B_3158.png",
+    "extra": {
+      "summoner_haste": 10
+    },
+    "excelId": "B_3158"
+  },
+  {
+    "id": "B_3009",
+    "riotId": "3009",
+    "name": "轻灵之靴",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1000,
+    "recipe": [
+      "boots"
+    ],
+    "stats": {
+      "move_speed_flat": 55
+    },
+    "passive": "55移动速度；；迅捷步；将减速效果的效能降低25%。",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3170"
+    ],
+    "combineCost": 700,
+    "icon": "assets/items/B_3009.png",
+    "extra": {
+      "slow_resistance": 0.25
+    },
+    "excelId": "B_3009"
+  },
+  {
+    "id": "B_3008",
+    "riotId": "3008",
+    "name": "暴食胫甲",
+    "category": "boots",
+    "tier": "BOOTS_T2",
+    "price": 1100,
+    "recipe": [
+      "boots"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "omnivamp": 0.04
+    },
+    "passive": "45移动速度；4%全能吸血；；杀戮；参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。",
+    "shopHidden": false,
+    "purchaseRestrictions": "NONE",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [
+      "B_3168"
+    ],
+    "combineCost": 800,
+    "icon": "assets/items/B_3008.png",
+    "extra": {
+      "slay_per_kill": 0.006,
+      "slay_max_stacks": 10
+    },
+    "excelId": "B_3008"
+  },
+  {
+    "id": "B_3172",
+    "riotId": "3172",
+    "name": "炮铜胫甲",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1100,
+    "recipe": [
+      "B_3006"
+    ],
+    "stats": {
+      "attack_speed": 0.45,
+      "lifesteal": 0.05,
+      "move_speed_flat": 45
+    },
+    "passive": "45%攻击速度；45移动速度；5%生命偷取；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3172.png",
+    "extra": {},
+    "excelId": "B_3172"
+  },
+  {
+    "id": "B_3175",
+    "riotId": "3175",
+    "name": "灵能使之靴",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1100,
+    "recipe": [
+      "B_3020"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "magic_pen_flat": 20,
+      "magic_pen_pct": 0.08
+    },
+    "passive": "20法术穿透；8%法术穿透；45移动速度；；",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3175.png",
+    "extra": {},
+    "excelId": "B_3175"
+  },
+  {
+    "id": "B_3174",
+    "riotId": "3174",
+    "name": "装甲战靴",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1200,
+    "recipe": [
+      "B_3047"
+    ],
+    "stats": {
+      "armor": 35,
+      "move_speed_flat": 45
+    },
+    "passive": "35护甲；45移动速度；；镀板；使即将到来的攻击伤害降低10%。；；诺克萨斯的耐久 (0秒)；在受到来自英雄的物理伤害后，获得一个持续5秒的0物理护盾。",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3174.png",
+    "extra": {
+      "attack_reduction": 0.1,
+      "shield_min": 100,
+      "shield_max": 200,
+      "shield_bonus_hp_ratio": 0.08,
+      "shield_duration": 5,
+      "shield_cooldown": 15
+    },
+    "excelId": "B_3174"
+  },
+  {
+    "id": "B_3173",
+    "riotId": "3173",
+    "name": "带链碾碎者",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1250,
+    "recipe": [
+      "B_3111"
+    ],
+    "stats": {
+      "mr": 25,
+      "move_speed_flat": 45,
+      "tenacity": 0.3
+    },
+    "passive": "25魔法抗性；45移动速度；30%韧性；；诺克萨斯的不懈(0秒)；在受到来自英雄的魔法伤害后，获得一个持续5秒的0魔法护盾。",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3173.png",
+    "extra": {
+      "shield_min": 100,
+      "shield_max": 200,
+      "shield_bonus_hp_ratio": 0.08,
+      "shield_duration": 5,
+      "shield_cooldown": 15
+    },
+    "excelId": "B_3173"
+  },
+  {
+    "id": "B_3171",
+    "riotId": "3171",
+    "name": "猩红明朗",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 900,
+    "recipe": [
+      "B_3158"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "ability_haste": 20
+    },
+    "passive": "20技能急速；45移动速度；；艾欧尼亚的洞悉；获得20召唤师技能急速。；；诺克萨斯的急速；用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续4秒的0移动速度。；；【诺克萨斯的急速】每次施放技能只能被触发1次。",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3171.png",
+    "extra": {
+      "summoner_haste": 20,
+      "move_buff_melee": 0.1,
+      "move_buff_ranged": 0.08,
+      "move_buff_duration": 4
+    },
+    "excelId": "B_3171"
+  },
+  {
+    "id": "B_3170",
+    "riotId": "3170",
+    "name": "迅速进军",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1000,
+    "recipe": [
+      "B_3009"
+    ],
+    "stats": {
+      "move_speed_flat": 65
+    },
+    "passive": "65移动速度；；迅捷步；将减速效果的效能降低25%。；；诺克萨斯的狂热；获得相当于你5%移动速度的适应之力。",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3170.png",
+    "extra": {
+      "slow_resistance": 0.25,
+      "adaptive_speed_ratio": 0.05
+    },
+    "excelId": "B_3170"
+  },
+  {
+    "id": "B_3168",
+    "riotId": "3168",
+    "name": "不朽之路",
+    "category": "boots",
+    "tier": "BOOTS_T3",
+    "price": 1100,
+    "recipe": [
+      "B_3008"
+    ],
+    "stats": {
+      "move_speed_flat": 45,
+      "omnivamp": 0.04
+    },
+    "passive": "45移动速度；4%全能吸血；；杀戮；参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。；；现在到永远；在一半生命值以上时，造成4%额外伤害。；；在一半生命值以下时，获得12%额外治疗值、护盾值和回复。",
+    "shopHidden": false,
+    "purchaseRestrictions": "MID_QUEST",
+    "upgradeRequirements": "MID_QUEST_COMPLETED",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 0,
+    "icon": "assets/items/B_3168.png",
+    "extra": {
+      "slay_per_kill": 0.006,
+      "slay_max_stacks": 10,
+      "high_hp_damage_amp": 0.04,
+      "low_hp_heal_amp": 0.12
+    },
+    "excelId": "B_3168"
+  },
+  {
+    "id": "B_2422",
+    "riotId": "2422",
+    "name": "有点神奇之鞋",
+    "category": "boots",
+    "tier": "SPECIAL",
+    "price": 300,
+    "recipe": [],
+    "stats": {
+      "move_speed_flat": 25
+    },
+    "passive": "25移动速度；；提供额外的10移动速度。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。",
+    "shopHidden": true,
+    "purchaseRestrictions": "RUNE_ONLY",
+    "upgradeRequirements": "NONE",
+    "dataVersion": "PC 26.21 / Data Dragon 16.21.1",
+    "buildsInto": [],
+    "combineCost": 300,
+    "icon": "assets/items/B_2422.png",
+    "extra": {
+      "bonus_move_speed": 10
+    },
+    "excelId": "B_2422"
+  }
+]

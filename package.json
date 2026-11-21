@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.186.1"
+  },
+  "name": "rift-arena",
+  "version": "0.4.0",
+  "private": true,
+  "scripts": {
+    "start": "node serve.cjs",
+    "build": "node build.cjs",
+    "test": "node test.cjs"
+  }
+}

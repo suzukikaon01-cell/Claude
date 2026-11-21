@@ -1,0 +1,345 @@
+{
+  "source": "Riot Games Data Dragon original rune icons",
+  "icons": [
+    {
+      "key": "AbsoluteFocus",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/AbsoluteFocus/AbsoluteFocus.png",
+      "size": 4688
+    },
+    {
+      "key": "AbsorbLife",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/AbsorbLife/AbsorbLife.png",
+      "size": 7132
+    },
+    {
+      "key": "Aftershock",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png",
+      "size": 63340
+    },
+    {
+      "key": "ApproachVelocity",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+      "size": 5054
+    },
+    {
+      "key": "ArcaneComet",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png",
+      "size": 45377
+    },
+    {
+      "key": "AxiomArcanist",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/NullifyingOrb/Axiom_Arcanist.png",
+      "size": 6109
+    },
+    {
+      "key": "BiscuitDelivery",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
+      "size": 4921
+    },
+    {
+      "key": "BonePlating",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/BonePlating/BonePlating.png",
+      "size": 14860
+    },
+    {
+      "key": "CashBack",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/CashBack/CashBack2.png",
+      "size": 7796
+    },
+    {
+      "key": "Celerity",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/Celerity/CelerityTemp.png",
+      "size": 6068
+    },
+    {
+      "key": "CheapShot",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/CheapShot/CheapShot.png",
+      "size": 5943
+    },
+    {
+      "key": "Conditioning",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Conditioning/Conditioning.png",
+      "size": 5300
+    },
+    {
+      "key": "Conqueror",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
+      "size": 51100
+    },
+    {
+      "key": "CosmicInsight",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
+      "size": 4771
+    },
+    {
+      "key": "CoupDeGrace",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
+      "size": 4762
+    },
+    {
+      "key": "CutDown",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/CutDown/CutDown.png",
+      "size": 4940
+    },
+    {
+      "key": "DarkHarvest",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png",
+      "size": 51567
+    },
+    {
+      "key": "DeathfireTouch",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png",
+      "size": 365963
+    },
+    {
+      "key": "DeepWard",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/DeepWard/DeepWard.png",
+      "size": 5288
+    },
+    {
+      "key": "Demolish",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Demolish/Demolish.png",
+      "size": 5106
+    },
+    {
+      "key": "Electrocute",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/Electrocute/Electrocute.png",
+      "size": 58055
+    },
+    {
+      "key": "FirstStrike",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/FirstStrike/FirstStrike.png",
+      "size": 51271
+    },
+    {
+      "key": "FleetFootwork",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png",
+      "size": 88296
+    },
+    {
+      "key": "FontOfLife",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/FontOfLife/FontOfLife.png",
+      "size": 4429
+    },
+    {
+      "key": "GatheringStorm",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/GatheringStorm/GatheringStorm.png",
+      "size": 4910
+    },
+    {
+      "key": "GlacialAugment",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png",
+      "size": 73350
+    },
+    {
+      "key": "GraspOfTheUndying",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png",
+      "size": 78682
+    },
+    {
+      "key": "GrislyMementos",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png",
+      "size": 5337
+    },
+    {
+      "key": "Guardian",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Guardian/Guardian.png",
+      "size": 73504
+    },
+    {
+      "key": "HailOfBlades",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png",
+      "size": 60768
+    },
+    {
+      "key": "HextechFlashtraption",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/HextechFlashtraption/HextechFlashtraption.png",
+      "size": 5183
+    },
+    {
+      "key": "JackOfAllTrades",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/JackOfAllTrades/JackofAllTrades2.png",
+      "size": 7010
+    },
+    {
+      "key": "LastStand",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/LastStand/LastStand.png",
+      "size": 4902
+    },
+    {
+      "key": "LegendAlacrity",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
+      "size": 5128
+    },
+    {
+      "key": "LegendBloodline",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LegendBloodline/LegendBloodline.png",
+      "size": 4587
+    },
+    {
+      "key": "LegendHaste",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LegendHaste/LegendHaste.png",
+      "size": 6696
+    },
+    {
+      "key": "LethalTempo",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
+      "size": 55298
+    },
+    {
+      "key": "MagicalFootwear",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+      "size": 5073
+    },
+    {
+      "key": "ManaflowBand",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+      "size": 5767
+    },
+    {
+      "key": "NimbusCloak",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/NimbusCloak/6361.png",
+      "size": 14057
+    },
+    {
+      "key": "Overgrowth",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Overgrowth/Overgrowth.png",
+      "size": 5741
+    },
+    {
+      "key": "PresenceOfMind",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
+      "size": 4806
+    },
+    {
+      "key": "PressTheAttack",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png",
+      "size": 101210
+    },
+    {
+      "key": "RelentlessHunter",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/RelentlessHunter/RelentlessHunter.png",
+      "size": 5208
+    },
+    {
+      "key": "Revitalize",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Revitalize/Revitalize.png",
+      "size": 4880
+    },
+    {
+      "key": "Scorch",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/Scorch/Scorch.png",
+      "size": 5029
+    },
+    {
+      "key": "SecondWind",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/SecondWind/SecondWind.png",
+      "size": 4077
+    },
+    {
+      "key": "ShieldBash",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/MirrorShell/MirrorShell.png",
+      "size": 5568
+    },
+    {
+      "key": "SixthSense",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/SixthSense/SixthSense.png",
+      "size": 5091
+    },
+    {
+      "key": "StormraidersSurge",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/PhaseRush/StormraidersSurgeRuneIcon2.png",
+      "size": 363282
+    },
+    {
+      "key": "SuddenImpact",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/SuddenImpact/SuddenImpact.png",
+      "size": 4800
+    },
+    {
+      "key": "SummonAery",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
+      "size": 49583
+    },
+    {
+      "key": "TasteOfBlood",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/TasteOfBlood/GreenTerror_TasteOfBlood.png",
+      "size": 5000
+    },
+    {
+      "key": "TimeWarpTonic",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic.png",
+      "size": 14341
+    },
+    {
+      "key": "Transcendence",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
+      "size": 5942
+    },
+    {
+      "key": "TreasureHunter",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/TreasureHunter/TreasureHunter.png",
+      "size": 5206
+    },
+    {
+      "key": "TripleTonic",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/PerfectTiming/AlchemistCabinet.png",
+      "size": 5953
+    },
+    {
+      "key": "Triumph",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Triumph.png",
+      "size": 4200
+    },
+    {
+      "key": "UltimateHunter",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/UltimateHunter/UltimateHunter.png",
+      "size": 14739
+    },
+    {
+      "key": "Unflinching",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/Unflinching/Unflinching.png",
+      "size": 4609
+    },
+    {
+      "key": "UnsealedSpellbook",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.png",
+      "size": 72267
+    },
+    {
+      "key": "Waterwalking",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/Waterwalking/Waterwalking.png",
+      "size": 4590
+    }
+  ],
+  "shards": [
+    {
+      "file": "StatModsAdaptiveForceIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsAdaptiveForceIcon.png"
+    },
+    {
+      "file": "StatModsAttackSpeedIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsAttackSpeedIcon.png"
+    },
+    {
+      "file": "StatModsCDRScalingIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsCDRScalingIcon.png"
+    },
+    {
+      "file": "StatModsMovementSpeedIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsMovementSpeedIcon.png"
+    },
+    {
+      "file": "StatModsHealthScalingIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsHealthScalingIcon.png"
+    },
+    {
+      "file": "StatModsHealthPlusIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsHealthPlusIcon.png"
+    },
+    {
+      "file": "StatModsTenacityIcon.png",
+      "url": "https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsTenacityIcon.png"
+    }
+  ]
+}

@@ -1,0 +1,547 @@
+{
+  "ana": {
+    "name": "安娜",
+    "title": "生化狙击手",
+    "role": "远程法师 / 辅助",
+    "color": "#8abbe4",
+    "stats": {
+      "hp_base": 580,
+      "hp_growth": 90,
+      "ad_base": 52,
+      "ad_growth": 2.7,
+      "armor_base": 26,
+      "armor_growth": 4,
+      "mr_base": 30,
+      "mr_growth": 1.3,
+      "mana_base": 500,
+      "mana_growth": 45,
+      "hp_regen_base": 5,
+      "hp_regen_growth": 0.5,
+      "mana_regen_base": 9,
+      "mana_regen_growth": 0.8,
+      "move_speed": 215,
+      "attack_range": 400,
+      "as_base": 0.7,
+      "as_ratio": 0.7,
+      "as_growth": 0,
+      "ap_base": 0
+    },
+    "P": {
+      "ammo_capacity": 14,
+      "reload_duration": 2.25,
+      "fixed_attack_speed": 0.7,
+      "enemy_physical_ad_ratio": 1,
+      "enemy_magic_tick_ap_ratio": 0.12,
+      "enemy_magic_tick_count": 3,
+      "enemy_magic_tick_interval": 0.1,
+      "ally_heal_per_level": 9,
+      "ally_heal_ap_ratio": 0.5,
+      "projectile_speed": 1500,
+      "idle_reload_delay": 3
+    },
+    "passive": "生化步枪：14发弹药，换弹2.25秒，固定攻速0.7。攻击队友治疗9×等级+50%AP；攻击敌人造成100%AD物理伤害及三段各12%AP魔法伤害。一次攻击仅触发一次普攻效果。",
+    "skills": [
+      {
+        "name": "开镜",
+        "target": "self",
+        "desc": "接下来3次合法普攻射程增加35，全部普攻伤害或友军治疗提高25%，持续8秒。",
+        "params": {
+          "cooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "mana_cost": 40,
+          "range": 0,
+          "windup": 0,
+          "backswing": 0,
+          "duration": 8,
+          "charges": 3,
+          "range_bonus": 35,
+          "empowered_damage_multiplier": 1.25,
+          "empowered_healing_multiplier": 1.25
+        }
+      },
+      {
+        "name": "睡眠针",
+        "target": "direction",
+        "damageType": "physical",
+        "desc": "发射睡眠针，命中英雄后睡眠2.25秒。敌方英雄的直接攻击会唤醒；持续伤害和环境伤害不会。",
+        "params": {
+          "cooldown": [
+            17,
+            16,
+            15,
+            14,
+            13
+          ],
+          "mana_cost": 70,
+          "range": 500,
+          "windup": 0.5,
+          "backswing": 0.1,
+          "projectile_speed": 1000,
+          "width": 40,
+          "base_damage": [
+            50,
+            100,
+            150,
+            200,
+            250
+          ],
+          "bonus_ad_ratio": 0.5,
+          "sleep_duration": 2.25
+        }
+      },
+      {
+        "name": "生化瓶",
+        "target": "area",
+        "damageType": "magic",
+        "desc": "投出可被拦截的生化瓶。爆炸使友方英雄治疗收益提高50%，敌人完全禁疗，持续3秒。",
+        "params": {
+          "cooldown": [
+            17,
+            16,
+            15,
+            14,
+            13
+          ],
+          "mana_cost": 80,
+          "range": 475,
+          "radius": 175,
+          "projectile_speed": 950,
+          "windup": 0.2,
+          "backswing": 0.1,
+          "base_damage": [
+            50,
+            75,
+            100,
+            125,
+            150
+          ],
+          "ap_ratio": 0.5,
+          "bonus_ad_ratio": 0,
+          "duration": 3,
+          "healing_amp": 0.5,
+          "healing": [
+            50,
+            75,
+            100,
+            125,
+            150
+          ],
+          "heal_ap_ratio": 0.5
+        }
+      },
+      {
+        "name": "纳米激素",
+        "target": "unit",
+        "ally": true,
+        "damageType": "magic",
+        "desc": "向友方英雄射出纳米针并治疗，持续12秒强化物理及魔法伤害并减伤。命中时锁定近战或远程倍率，真实伤害不受影响。",
+        "params": {
+          "cooldown": [
+            95,
+            80,
+            65
+          ],
+          "mana_cost": 100,
+          "range": 475,
+          "projectile_speed": 1800,
+          "windup": 0.15,
+          "backswing": 0.1,
+          "healing": [
+            100,
+            150,
+            200
+          ],
+          "heal_ap_ratio": 0.5,
+          "duration": 12,
+          "melee_multiplier": [
+            0.12,
+            0.18,
+            0.24
+          ],
+          "ranged_multiplier": [
+            0.08,
+            0.12,
+            0.16
+          ]
+        }
+      }
+    ]
+  },
+  "dva": {
+    "name": "D.Va",
+    "title": "机甲驾驶员",
+    "role": "远程坦克",
+    "color": "#ef9dcc",
+    "stats": {
+      "hp_base": 700,
+      "hp_growth": 132,
+      "ad_base": 58,
+      "ad_growth": 3.5,
+      "armor_base": 42,
+      "armor_growth": 4.5,
+      "mr_base": 32,
+      "mr_growth": 1.7,
+      "mana_base": 0,
+      "mana_growth": 0,
+      "hp_regen_base": 7,
+      "hp_regen_growth": 0.6,
+      "mana_regen_base": 0,
+      "mana_regen_growth": 0,
+      "move_speed": 212,
+      "attack_range": 325,
+      "as_base": 0.72,
+      "as_ratio": 0.72,
+      "as_growth": 0.02,
+      "ap_base": 0
+    },
+    "P": {
+      "pellet_count": 10,
+      "pellet_ad_ratio": 0.12,
+      "pellet_angle": 0,
+      "pellet_speed": 1600,
+      "eject_duration": 0.5,
+      "mech_radius": 35,
+      "pilot_radius": 20,
+      "pilot_hp": 260,
+      "pilot_hp_growth": 35,
+      "pilot_item_hp_ratio": 0.25,
+      "pilot_range": 400,
+      "pilot_attack_speed": 0.85,
+      "pilot_ad_ratio": 0.85,
+      "pilot_ammo": 12,
+      "pilot_reload": 1.5,
+      "charge_max": 100,
+      "charge_hero": 12,
+      "charge_minion": 3,
+      "charge_takedown": 25,
+      "charge_delay": 4,
+      "charge_regen": 2,
+      "call_duration": 1.25,
+      "call_hp_ratio": 0.8,
+      "self_destruct_charge": 20,
+      "pilot_projectile_speed": 1600,
+      "pilot_r_auto_unlocked": 1,
+      "wave_interval": 0.2,
+      "wave_total_ad_ratio": 1.2,
+      "muzzle_offset": 18,
+      "pellet_radius": 2
+    },
+    "passive": "机甲双机枪每0.2秒锁定单个目标发射10发追踪子弹，每发12%总AD，一波合计120%总AD，射程325；子弹飞行时持续追踪，其他单位与普通地形不能阻挡，风墙或格挡仍可拦截。机甲无限弹药，驾驶员保留弹药与呼叫机甲机制。",
+    "skills": [
+      {
+        "name": "微型飞弹",
+        "target": "direction",
+        "damageType": "physical",
+        "desc": "0.8秒内从两侧发射16枚导弹。每枚直击造成12/16/22/28/34+12%总AD+0.5%额外生命物理伤害；半径125的爆炸造成8/12/16/20/24+8%总AD+0.25%额外生命物理伤害。直击目标可以同时承受直击与爆炸伤害。",
+        "params": {
+          "cooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "mana_cost": 0,
+          "range": 490,
+          "radius": 125,
+          "projectile_speed": 1250,
+          "windup": 0,
+          "backswing": 0,
+          "base_damage": [
+            12,
+            16,
+            22,
+            28,
+            34
+          ],
+          "bonus_ad_ratio": 0,
+          "missiles": 16,
+          "duration": 0.8,
+          "total_ad_ratio": 0.12,
+          "bonus_hp_ratio": 0.005,
+          "explosion_damage": [
+            8,
+            12,
+            16,
+            20,
+            24
+          ],
+          "explosion_total_ad_ratio": 0.08,
+          "explosion_bonus_hp_ratio": 0.0025,
+          "muzzle_offset": 18
+        }
+      },
+      {
+        "name": "防御矩阵",
+        "target": "direction",
+        "desc": "矩阵吸收合法弹道，将其伤害的25%+每100额外生命增加1个百分点转换为护盾。每份护盾保留5秒，再在10秒内衰减完毕。",
+        "params": {
+          "cooldown": 0,
+          "mana_cost": 0,
+          "range": 300,
+          "windup": 0,
+          "backswing": 0,
+          "angle": 160,
+          "energy_max": 100,
+          "energy_drain": 60,
+          "energy_regen": [
+            18,
+            20,
+            22,
+            24,
+            26
+          ],
+          "regen_delay": 1,
+          "open_minimum": 30,
+          "turn_speed": 180,
+          "absorb_shield_ratio": 0.25,
+          "shield_ratio_per_100_bonus_hp": 0.01,
+          "shield_hold_duration": 5,
+          "shield_decay_duration": 10
+        }
+      },
+      {
+        "name": "推进器",
+        "target": "area",
+        "damageType": "physical",
+        "desc": "以375速度持续推进3秒，方向可调整，不受点击位置距离限制。最少推进0.5秒后可再次按E结束，结束才开始冷却。沿途每目标一次60/90/120/150/180+12%额外生命物理伤害并击退50。",
+        "params": {
+          "cooldown": [
+            14,
+            12.5,
+            11,
+            9.5,
+            8
+          ],
+          "mana_cost": 0,
+          "range": 1125,
+          "dash_speed": 375,
+          "windup": 0,
+          "backswing": 0,
+          "base_damage": [
+            60,
+            90,
+            120,
+            150,
+            180
+          ],
+          "bonus_ad_ratio": 0,
+          "knockback": 50,
+          "duration": 3,
+          "minimum_duration": 0.5,
+          "bonus_hp_ratio": 0.12
+        }
+      },
+      {
+        "name": "自毁 / 呼叫机甲",
+        "target": "self",
+        "damageType": "magic",
+        "desc": "弹射后机甲2.5秒爆炸，半径1000。伤害600/800/1000+100%额外生命魔法伤害；从中心开始随距离线性衰减，1000码边缘保留30%；范围为内深外浅渐变，只有拥有自毁机甲视野时显示。击退随距中心距离从275降至50。地形、风墙和格挡阻挡余波；友军不受伤害。驾驶员满充能可呼叫机甲。 自毁实际爆炸后，召唤机甲能量立即补满100%，不要求命中敌人。 呼叫机甲可被硬控或沉默打断；投出的机甲是独立可攻击、可控制实体，击退改变爆炸位置，生命降为0仍继续倒计时。",
+        "params": {
+          "cooldown": [
+            95,
+            80,
+            65
+          ],
+          "mana_cost": 0,
+          "range": 1000,
+          "radius": 1000,
+          "windup": 0,
+          "backswing": 0,
+          "base_damage": [
+            600,
+            800,
+            1000
+          ],
+          "bonus_ad_ratio": 0,
+          "delay": 2.5,
+          "edge_multiplier": 0.3,
+          "full_damage_radius": 0,
+          "bonus_hp_ratio": 1,
+          "knockback_max": 275,
+          "knockback_min": 50,
+          "knockback_duration": 0.25,
+          "charge_on_explosion_pct": 100,
+          "bomb_targetable": 1,
+          "bomb_persists_after_zero_hp": 1
+        }
+      }
+    ]
+  },
+  "zarya": {
+    "name": "查莉娅",
+    "title": "粒子屏障",
+    "role": "远程坦克",
+    "color": "#ed84d5",
+    "stats": {
+      "hp_base": 700,
+      "hp_growth": 128,
+      "ad_base": 61,
+      "ad_growth": 3,
+      "armor_base": 40,
+      "armor_growth": 4,
+      "mr_base": 34,
+      "mr_growth": 1.5,
+      "mana_base": 0,
+      "mana_growth": 0,
+      "hp_regen_base": 7,
+      "hp_regen_growth": 0.6,
+      "mana_regen_base": 0,
+      "mana_regen_growth": 0,
+      "move_speed": 212,
+      "attack_range": 325,
+      "as_base": 0.67,
+      "as_ratio": 0.67,
+      "as_growth": 0.02,
+      "ap_base": 0
+    },
+    "P": {
+      "beam_interval": 0.25,
+      "beam_ad_ratio": 0.95,
+      "beam_ap_ratio": 0.25,
+      "ammo_capacity": 100,
+      "ammo_per_second": 16,
+      "reload_duration": 1.8,
+      "damage_per_energy": 0.008,
+      "absorb_per_energy": 10,
+      "energy_per_shield_cap": 35,
+      "energy_max": 100,
+      "decay_delay": 4,
+      "decay_per_second": 5,
+      "idle_reload_delay": 3
+    },
+    "passive": "W与E独立护盾每实际吸收10伤害提供1能量，每盾最多35。4秒未吸收后每秒衰减5，能量强化粒子射线及Q。射线弹药100，每秒消耗16，换弹1.8秒。",
+    "skills": [
+      {
+        "name": "粒子榴弹",
+        "target": "area",
+        "damageType": "magic",
+        "desc": "发射可被拦截的榴弹，享受当前能量增伤，消耗25弹药。",
+        "params": {
+          "cooldown": [
+            6,
+            5.5,
+            5,
+            4.5,
+            4
+          ],
+          "mana_cost": 0,
+          "range": 525,
+          "radius": 120,
+          "projectile_speed": 1050,
+          "windup": 0.15,
+          "backswing": 0.1,
+          "base_damage": [
+            75,
+            105,
+            135,
+            165,
+            195
+          ],
+          "ap_ratio": 0.35,
+          "bonus_ad_ratio": 0.35,
+          "ammo_cost": 25
+        }
+      },
+      {
+        "name": "粒子屏障",
+        "target": "self",
+        "desc": "获得2秒护盾并解除减速。实际吸收伤害转为能量，不解除硬控制。与E独立冷却。",
+        "params": {
+          "cooldown": [
+            18,
+            17,
+            16,
+            15,
+            14
+          ],
+          "mana_cost": 0,
+          "range": 0,
+          "windup": 0,
+          "backswing": 0,
+          "shield": [
+            70,
+            90,
+            110,
+            130,
+            150
+          ],
+          "ap_ratio": 0.12,
+          "bonus_hp_ratio": 0.06,
+          "shield_duration": 2,
+          "max_charges": 3
+        }
+      },
+      {
+        "name": "投射屏障",
+        "target": "unit",
+        "ally": true,
+        "desc": "保护另一名友方英雄，解除目标减速。护盾2秒，吸收伤害为查莉娅提供能量，与W独立冷却。",
+        "params": {
+          "cooldown": [
+            19,
+            18,
+            17,
+            16,
+            15
+          ],
+          "mana_cost": 0,
+          "range": 475,
+          "windup": 0,
+          "backswing": 0,
+          "shield": [
+            70,
+            90,
+            110,
+            130,
+            150
+          ],
+          "ap_ratio": 0.12,
+          "bonus_hp_ratio": 0.06,
+          "shield_duration": 2,
+          "max_charges": 3
+        }
+      },
+      {
+        "name": "重力喷涌",
+        "target": "area",
+        "damageType": "magic",
+        "desc": "发射重力弹，形成2.25秒引力场，禁锢并持续牵引敌人；不是击飞。最多4次持续伤害，牵引服从地形。",
+        "params": {
+          "cooldown": [
+            100,
+            85,
+            70
+          ],
+          "mana_cost": 0,
+          "range": 525,
+          "radius": 270,
+          "projectile_speed": 1000,
+          "windup": 0.25,
+          "backswing": 0.1,
+          "base_damage": [
+            100,
+            170,
+            240
+          ],
+          "ap_ratio": 0.5,
+          "tick_damage": [
+            20,
+            30,
+            40
+          ],
+          "tick_ap_ratio": 0.05,
+          "tick_interval": 0.5,
+          "tick_count": 4,
+          "duration": 2.25,
+          "pull_speed": 200
+        }
+      }
+    ]
+  }
+}

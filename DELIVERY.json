@@ -1,0 +1,20 @@
+{
+  "commit_sha": "e8facd1005a096053a437cd89bb5cb5fa436a864",
+  "version_id": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_a0e91d88afb88191983ca71259eece1e",
+  "url": "https://rift-arena-hlt-1025.fizzyscarf.chatgpt.site",
+  "status": "succeeded",
+  "release": "V17.5",
+  "configuration": "v9.1-affa7b617e347770",
+  "files": 595,
+  "excludes": [
+    ".git",
+    "node_modules",
+    ".venv",
+    ".env*",
+    ".openai",
+    "dist/client",
+    "*.log",
+    "credentials"
+  ],
+  "entry": "SOURCE-GUIDE-ZH.md"
+}
