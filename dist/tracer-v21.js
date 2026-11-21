@@ -9,7 +9,7 @@
 (()=>{'use strict';
 const ID='tracer',C=window.GAME_CONFIG;if(!C||!C.heroes)return;
 const P={
- BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:275,is_ranged:1,hero_name:'闪光'},
+ BASE:{hp_base:560,hp_growth:92,mana_base:0,mana_growth:0,ad_base:54,ad_growth:2.8,armor_base:26,armor_growth:4.9,mr_base:30,mr_growth:1.8,as_base:.7,as_ratio:.7,as_growth:.03,move_speed:226,attack_range:325,is_ranged:1,hero_name:'闪光'},
  P:{magazine:40,empty_time:1.25,bullet_ad_ratio:.05,as_scaling:1,on_hit_scale:.05,idle_reload_delay:1.5,reload:.75,energy_max:100,energy_aa:.25,energy_q:8,energy_skill:6,energy_ooc_regen:3,ooc_delay:5,bonus_blink_max:1,projectile_speed:2600},
  Q:{cooldown:[12,11,10,9,8],duration:2.5,bonus_as:.35,aa_damage_ratio:.9},
  W:{distance:300,charges_initial:2,charges_max:3,recharge:8},
@@ -21,7 +21,7 @@ const skill=o=>({maxRank:5,windup:0,recovery:0,damageType:'physical',heroOnly:fa
 C.heroes[ID]={name:'闪光',title:'时空特工',role:'AD 刺客 / 机动射手',color:'#ff9a2e',
  stats:{hp:P.BASE.hp_base,mana:0,attack:P.BASE.ad_base,ap:0,armor:P.BASE.armor_base,mr:P.BASE.mr_base,baseAS:P.BASE.as_base,asRatio:P.BASE.as_ratio,speed:P.BASE.move_speed,range:P.BASE.attack_range,hpRegen:3.5,manaRegen:0,
   growth:{hp:P.BASE.hp_growth,mana:0,attack:P.BASE.ad_growth,armor:P.BASE.armor_growth,mr:P.BASE.mr_growth,as:P.BASE.as_growth,hpRegen:.55,manaRegen:0}},
- passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程275）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成5%AD物理伤害，所有普攻特效（含纳沃利迅刃等非伤害效果）按5%效果触发，心之钢除外；打空或1.5秒未开火自动装填0.75秒。',params:P.P},
+ passive:{name:'时间加速',desc:'对敌方英雄造成伤害获得时间能量：普攻每发命中+0.25，每次双枪速射期间首次命中+8，技能命中+6（每次施放一次）；上限100，脱战5秒后每秒+3。能量满100时自动转化为1层额外闪现充能（最多储存1层）。普攻为双冲锋枪连射（射程325）：弹匣40发，1.25秒打完（随攻速加快），每发单独结算，造成5%AD物理伤害，所有普攻特效（含纳沃利迅刃等非伤害效果）按5%效果触发，心之钢除外；打空或1.5秒未开火自动装填0.75秒。',params:P.P},
  skills:[
   skill({key:'Q',name:'双枪速射',icon:'速',target:'self',range:0,cd:P.Q.cooldown,damage:0,
    desc:'2.5秒内攻击速度提高35%，期间普攻造成90%伤害（可暴击，仍消耗弹药，不能跳过装填）。射程不变。'}),
