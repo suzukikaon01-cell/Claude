@@ -1,0 +1,29 @@
+# Codemagic：在 macOS 上签名记账快捷指令，并自动上传到 ledger.lesson-desk.workers.dev
+# 需要在 Codemagic → Environment variables 新建分组 ledger，添加 LEDGER_TOKEN（记账访问密钥，勾选 Secret）
+workflows:
+  sign-shortcuts:
+    name: 签名记账快捷指令
+    instance_type: mac_mini_m2
+    max_build_duration: 15
+    environment:
+      groups:
+        - ledger
+    scripts:
+      - name: 生成快捷指令
+        script: python3 shortcuts/build.py build
+      - name: 签名
+        script: |
+          sw_vers
+          for n in wallet screenshot; do
+            shortcuts sign --mode anyone --input build/$n.shortcut --output build/$n-signed.shortcut
+            ls -l build/$n-signed.shortcut
+          done
+      - name: 上传到记账网站
+        script: |
+          for n in wallet screenshot; do
+            curl -fsS -X PUT -H "x-token: $LEDGER_TOKEN" --data-binary @build/$n-signed.shortcut \
+              https://ledger.lesson-desk.workers.dev/api/shortcuts/$n
+            echo
+          done
+    artifacts:
+      - build/*-signed.shortcut

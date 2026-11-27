@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>手机记账设置</title>
+<meta name="theme-color" content="#0f766e">
+<link rel="stylesheet" href="style.css">
+<style>
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.step li{display:list-item;border:0;padding:3px 0}.step li b,.step li code{display:inline}a.btn{text-decoration:none;color:#fff}a.btn.ghost{color:var(--accent)}
+.step h3{margin:0 0 8px;font-size:15px}.step ol{margin:6px 0 0;padding-left:20px;font-size:14px;line-height:1.7}
+.big{display:block;width:100%;margin:8px 0;padding:14px;font-size:15px}
+.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px;word-break:break-all}
+.ok{color:var(--pos)}.bad{color:var(--neg)}.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;background:var(--accent);color:#fff;margin-left:6px}
+</style>
+</head>
+<body>
+<header><h1>手机自动记账设置</h1><a href="./" class="hdr">← 返回账本</a></header>
+<main>
+  <p id="warn" class="bad"></p>
+
+  <div class="step" id="oneTap" hidden>
+    <h3>一键安装<span class="tag">推荐</span></h3>
+    <p style="font-size:13px;color:var(--muted);margin:0">点按钮会先复制地址，再打开安装。安装时 iPhone 会问“粘贴记账地址”，长按粘贴即可。</p>
+    <button class="big" data-install="wallet">安装「Apple Pay 自动记账」</button>
+    <button class="big" data-install="screenshot">安装「截图记账」</button>
+    <ol>
+      <li>安装后：快捷指令 →「自动化」→「＋」→「電子ウォレット」→ 全选卡片 →「すぐに実行」→ 下一步 → 在「マイショートカット」里选「<b>ApplePay自动记账</b>」</li>
+      <li>截图记账：设置 → 辅助功能 → 触控 → 轻点背面 → 轻点两下 → 选「<b>截图记账</b>」</li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <h3>① Apple Pay（Suica・信用卡）全自动<span class="tag">约 1 分钟</span></h3>
+    <button class="big" data-copy="wallet">复制「自动记账地址」</button>
+    <button class="big ghost" data-copy="tpl">复制文字模板</button>
+    <a class="btn big ghost" href="shortcuts://" style="text-align:center">打开快捷指令 App</a>
+    <ol>
+      <li>下方「自动化」→ 右上「＋」→「<b>电子钱包</b>」→ 勾选 Suica 和所有卡 → 选「<b>立即运行</b>」→ 下一步 →「新建空白自动化」</li>
+      <li>添加动作「<b>文本</b>」，粘贴文字模板，然后把 <code>商家</code>、<code>金额</code>、<code>卡片</code> 三个词各点一下，换成同名的蓝色变量（快捷指令输入 → 商家／金额／卡片或票卡）</li>
+      <li>添加动作「<b>获取 URL 内容</b>」→ 粘贴地址 → 展开：方法 <b>POST</b>，请求体 <b>文件</b>，文件选上面的「文本」→ 完成</li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <h3>② PayPay・实体卡：截图记账<span class="tag">约 1 分钟</span></h3>
+    <button class="big" data-copy="shot">复制「截图记账地址」</button>
+    <ol>
+      <li>「快捷指令」标签 → 右上「＋」→ 依次添加：「<b>截屏</b>」→「<b>从图像中提取文本</b>」→「<b>获取 URL 内容</b>」（粘贴地址，方法 POST，请求体 文件 = 提取的文本）</li>
+      <li>命名为「截图记账」</li>
+      <li>设置 → 辅助功能 → 触控 → <b>轻点背面</b> → 轻点两下 → 选「截图记账」</li>
+    </ol>
+    <p style="font-size:13px;color:var(--muted)">之后在支付完成页／收据／明细列表敲两下手机背面即可。</p>
+  </div>
+
+  <div class="step">
+    <h3>③ 测试</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0">不会写入账本，只检查识别结果。</p>
+    <button class="big ghost" id="test">测试连接与识别</button>
+    <div id="testOut" style="font-size:14px"></div>
+  </div>
+
+  <div class="step">
+    <h3>Android</h3>
+    <ol>
+      <li>安装 MacroDroid → 触发器「通知」→ 选 PayPay、モバイルSuica、各卡 App</li>
+      <li>动作「HTTP 请求」→ POST → 粘贴「自动记账地址」→ 内容类型 text/plain → 内容 <code>[notification_title] [notification]</code></li>
+    </ol>
+  </div>
+</main>
+<p id="msg" style="text-align:center"></p>
+<script>
+const qs = new URLSearchParams(location.search);
+let token = qs.get('token') || '';
+try { token = token || localStorage.getItem('token') || ''; if (token) localStorage.setItem('token', token); } catch {}
+const base = location.origin;
+const vals = {
+  wallet: `${base}/api/ingest?token=${token}`,
+  shot: `${base}/api/screenshot?token=${token}`,
+  tpl: '商家で金额を支払いました（卡片）',
+};
+if (!token) document.getElementById('warn').textContent = '未找到访问密钥：请先用带 ?token= 的链接打开账本。';
+async function copy(text, btn) {
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t = document.createElement('textarea'); t.value = text; document.body.append(t); t.select(); document.execCommand('copy'); t.remove(); }
+  const old = btn.textContent; btn.textContent = '✓ 已复制'; setTimeout(() => (btn.textContent = old), 1500);
+}
+fetch('/api/shortcuts/status').then((r) => r.json()).then((st) => {
+  if (st.wallet || st.screenshot) document.getElementById('oneTap').hidden = false;
+  document.querySelectorAll('[data-install]').forEach((b) => {
+    const n = b.dataset.install;
+    if (!st[n]) { b.disabled = true; b.textContent += '（尚未签名）'; return; }
+    b.addEventListener('click', async () => { await copy(vals[n === 'wallet' ? 'wallet' : 'shot'], b); location.href = `/shortcuts/${n}.shortcut`; });
+  });
+}).catch(() => {});
+document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(vals[b.dataset.copy], b)));
+document.getElementById('test').addEventListener('click', async () => {
+  const out = document.getElementById('testOut');
+  const yen = (n) => '¥' + n.toLocaleString('ja-JP');
+  try {
+    const a = await fetch(`${vals.wallet}&dry=1`, { method: 'POST', body: 'ローソン新宿店で¥580を支払いました（楽天カード）' }).then((r) => r.json());
+    const b = await fetch(`${vals.shot}&dry=1`, { method: 'POST', body: '11/02 新宿 → 渋谷 -¥170 残高 ¥2,830\n11/03 セブン-イレブン -¥320 残高 ¥2,510' }).then((r) => r.json());
+    if (a.error || b.error) throw new Error(a.error || b.error);
+    out.innerHTML = `<p class="ok">✓ 连接正常</p><p>自动记账：${a.tx.merchant} ${yen(a.tx.amount)}（${a.tx.sourceName}・${a.tx.category}）</p><p>截图记账：识别 ${b.items.length + b.skipped} 笔</p>`;
+  } catch (e) { out.innerHTML = `<p class="bad">✗ ${e.message}</p>`; }
+});
+</script>
+</body>
+</html>
