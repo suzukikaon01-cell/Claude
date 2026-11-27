@@ -1,0 +1,117 @@
+{
+  "fullRegression": {
+    "pass": 797,
+    "ok": 18,
+    "fail": 0,
+    "total": 815
+  },
+  "specialized": {
+    "longsword": 77,
+    "contact": 42,
+    "dioBalance": 28,
+    "controlAndBomb": 26
+  },
+  "config": "v9.1-81dc545bbdeda3d7",
+  "longswordStress": {
+    "mode": "Node CPU simulation; no GPU/browser FPS claim",
+    "cycles": 100,
+    "simulatedSeconds": 645,
+    "ticks": 38700,
+    "meanMs": 0.20717111111110736,
+    "p95Ms": 0.3199000000004162,
+    "p99Ms": 0.482499999999618,
+    "maxMs": 23.433600000000013,
+    "peak": {
+      "pending": 0,
+      "batches": 2,
+      "visuals": 6,
+      "events": 2048,
+      "inputs": 0
+    },
+    "memory": [
+      {
+        "cycle": 50,
+        "heapBytes": 15459776,
+        "visuals": 6,
+        "events": 2048
+      },
+      {
+        "cycle": 100,
+        "heapBytes": 15723440,
+        "visuals": 6,
+        "events": 2048
+      }
+    ],
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 22,
+      "spatialVisited": 3693000,
+      "pooledProjectiles": 0,
+      "projectilesCreated": 0,
+      "projectilesReused": 0
+    },
+    "diagnostics": 0
+  },
+  "engineStress": {
+    "mode": "Node CPU simulation, no rendering",
+    "activeRunePages": false,
+    "node": "v24.22.1",
+    "logicHz": 60,
+    "simulatedSeconds": 20,
+    "uniqueChampions": 9,
+    "championActors": 9,
+    "minionActors": 200,
+    "ticks": 1200,
+    "meanMs": 6.357638416666673,
+    "p50Ms": 5.63589999999931,
+    "p95Ms": 11.029299999999239,
+    "p99Ms": 16.46029999999996,
+    "maxMs": 60.219600000000014,
+    "peak": {
+      "projectiles": 1005,
+      "statuses": 13,
+      "shields": 22,
+      "entities": 209
+    },
+    "memory": [
+      {
+        "tick": 600,
+        "heapBytes": 18029232,
+        "retainedEvents": 2048,
+        "freeProjectiles": 1000
+      },
+      {
+        "tick": 1200,
+        "heapBytes": 18716800,
+        "retainedEvents": 2048,
+        "freeProjectiles": 1001
+      }
+    ],
+    "heapChangeBytes": 687568,
+    "gcEnabled": true,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 4,
+      "spatialVisited": 49361590,
+      "pooledProjectiles": 1002,
+      "projectilesCreated": 1005,
+      "projectilesReused": 17385
+    },
+    "deathRespawnCycles": 10
+  },
+  "browserVisualQA": "unavailable: CUA initialization failed; no GPU/touch/120Hz claim",
+  "bombCycles": {
+    "cycles": 50,
+    "peakEntities": 3,
+    "finalEntities": 2,
+    "observerErrors": 0,
+    "diagnostics": 0,
+    "simulationSeconds": 195
+  }
+}

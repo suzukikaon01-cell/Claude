@@ -1,0 +1,9 @@
+ const frozen=GAME_CONFIG.gameModeId==='ARAM';let snow=null,rubbleRevision=-1,rubbleMeshes=[];
+ if(frozen){let a=GAME_CONFIG.aram,left=a.bridge_min_x,right=a.bridge_max_x,center=a.bridge_center_y;
+  texture.repeat.set((right-left)/world,a.bridge_width/world);texture.offset.set(left/world,1-(center+a.bridge_width/2)/world);ground.geometry.dispose();ground.geometry=new THREE.PlaneGeometry(right-left,a.bridge_width);ground.position.set((left+right)/2,-2,center);
+  let abyss=new THREE.Mesh(new THREE.PlaneGeometry(world,world),mat('#0b172b'));abyss.rotation.x=-Math.PI/2;abyss.position.set(world/2,-700,world/2);scene.add(abyss);
+  let group=new THREE.Group();scene.add(group);for(let x=left+200;x<right;x+=700)for(let sign of [-1,1]){let z=center+sign*(a.bridge_width/2+65);box(group,105,420,150,'#45647e',x,-190,z);box(group,125,24,170,'#bdd8e5',x,35,z);crystal(group,'#9acfee',x,80,z,18)}
+  for(let x of [3100,6200,8800,11900])for(let sign of [-1,1]){let z=center+sign*(a.bridge_width/2+180);cylinder(group,60,85,80,'#56748b',x,38,z);box(group,70,130,65,'#b2cad6',x,140,z);mesh(group,new THREE.IcosahedronGeometry(34,0),'#c6dce6',x,230,z);box(group,110,30,30,'#8caabf',x,185,z);box(group,12,175,20,'#a6daf0',x+65,165,z);}
+  let geo=new THREE.BufferGeometry(),positions=new Float32Array(450*3);for(let i=0;i<450;i++){positions[i*3]=(rand()-.5)*3400;positions[i*3+1]=rand()*900;positions[i*3+2]=(rand()-.5)*2600}geo.setAttribute('position',new THREE.BufferAttribute(positions,3));snow=new THREE.Points(geo,new THREE.PointsMaterial({color:'#dcefff',size:3,transparent:true,opacity:.7,depthWrite:false}));scene.add(snow);
+ }
+

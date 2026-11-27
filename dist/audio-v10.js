@@ -1,0 +1,8 @@
+// Original synthesized cues. The event cooldown prevents simultaneous hits from stacking sound.
+window.createCombatAudio=function({enabled,listener,units,time}){
+ let context=null,last=new Map;
+ const cues={LSSpiritLevelChanged:[880,.16],LSPerfectCounter:[1100,.1],LSForesightEvaded:[760,.08],MeleeContact:[280,.055],ReloadStarted:[180,.14],ReloadCompleted:[600,.08],MechEjected:[330,.2],MechCalled:[120,.3],ProjectileAbsorbed:[700,.04],AttackStarted:[210,.045],AbilityCastStarted:[410,.09],DamageApplied:[260,.055],StatusApplied:[520,.10],UnitKilled:[150,.22],UnitRespawned:[650,.20],BleedApplied:[300,.045]};
+ function play(e){if(!enabled())return;let cue=cues[e.type];if(!cue||e.type==='BleedApplied'&&e.stacks!==5)return;let stamp=time(),previous=last.get(e.type)??-Infinity;if(stamp-previous<.08)return;last.set(e.type,stamp);let source=units().find(u=>u.id===(e.targetId??e.sourceId)),hear=listener(),distance=source&&hear?Math.hypot(source.x-hear.x,source.y-hear.y):0,volume=.025*Math.max(0,1-distance/2500);if(volume<=0)return;try{context??=new(window.AudioContext||window.webkitAudioContext)();let o=context.createOscillator(),g=context.createGain(),at=context.currentTime;o.type=e.type==='UnitKilled'?'sawtooth':'sine';o.frequency.setValueAtTime(cue[0],at);o.frequency.exponentialRampToValueAtTime(Math.max(60,cue[0]*.7),at+cue[1]);g.gain.setValueAtTime(volume,at);g.gain.exponentialRampToValueAtTime(.0001,at+cue[1]);o.connect(g);g.connect(context.destination);o.start(at);o.stop(at+cue[1])}catch{}}
+ function attach(core){for(const type of Object.keys(cues))core.on(type,play)}
+ return{attach};
+};

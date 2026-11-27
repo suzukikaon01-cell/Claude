@@ -1,0 +1,35 @@
+# Codemagic build for the RiftArena iOS shell (manual start). Produces an UNSIGNED IPA;
+# sign it yourself (Sideloadly / AltStore). No Apple certificates needed here.
+workflows:
+  rift-ios-unsigned-ipa:
+    name: RiftArena unsigned IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    triggering:
+      events: []
+    environment:
+      xcode: latest
+    scripts:
+      - name: Bundle game files
+        working_directory: ios
+        script: |
+          rm -rf Web && mkdir Web
+          rsync -a --exclude 'config/versions' --exclude 'assets/heroes/xuefeng-reference.jpg' --exclude '*.md' ../dist/ Web/
+      - name: Generate project
+        working_directory: ios
+        script: brew install xcodegen && xcodegen generate
+      - name: Build unsigned archive
+        working_directory: ios
+        script: |
+          xcodebuild -project RiftArena.xcodeproj -scheme RiftArena -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath build/RiftArena.xcarchive \
+            CODE_SIGNING_ALLOWED=NO archive
+      - name: Package unsigned IPA
+        working_directory: ios
+        script: |
+          mkdir -p build/pkg/Payload
+          ditto build/RiftArena.xcarchive/Products/Applications/RiftArena.app build/pkg/Payload/RiftArena.app
+          (cd build/pkg && zip -qry ../RiftArena-unsigned.ipa Payload)
+          ls -lh build/RiftArena-unsigned.ipa
+    artifacts:
+      - ios/build/RiftArena-unsigned.ipa

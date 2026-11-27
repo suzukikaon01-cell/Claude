@@ -1,0 +1,5 @@
+const make=require('./test-harness.cjs'),assert=require('assert');
+for(let r=1;r<=5;r++)for(let i of [0,1]){const h=make();let d=h.reset('dio'),m=h.a.m;d.level=1;d.skillRanks=[r,r,1,1];m.recalc(d);d.energy=200;let t=h.a.enemy('garen',d.x+150,d.y);t.hp=t.maxHp=1e6;t.stun=99;let n=0;m.core.on('DamageApplied',e=>{if(e.targetId===t.id&&e.abilityId===i&&!e.itemEffect)n++});h.ready(d,i,r);h.release(d,i,{x:t.x,y:t.y,target:t});h.step(3);assert.equal(n,11+r,(i?'W':'Q')+r)}
+for(let ts of [false,true]){const h=make();let k=h.reset('dio'),m=h.a.m;k.skillRanks=[1,1,1,3];let t=h.a.enemy('lux',k.x+150,k.y);t.items=['deathdance'];m.recalc(t);t.hp=t.maxHp=1000;t.armor=0;t.stun=99;t.hpRegen=0;let killer=null;m.core.on('UnitKilled',e=>{if(e.targetId===t.id)killer=e.sourceId});
+ let stop=ts?m.temporal.begin(k,t,m.event(k,3)):null;m.deal(t,ts?800:1080,k,'physical',{event:m.event(k,0)});if(stop)m.temporal.end(stop.id);assert(t.hp>0,'survives the hit itself');h.step(8);assert.equal(killer,k.id,'Death\'s Dance bleed kill credited to the attacker')}
+console.log('PASS DIO Q/W counts 12-16 by rank; Death\'s Dance bleed kills credit the attacker');

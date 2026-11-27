@@ -1,0 +1,65 @@
+{
+  "tests": {
+    "PASS": 853,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 871
+  },
+  "config": "v9.1-787c76567923af32",
+  "releaseWindowSeconds": 0.5,
+  "releaseSource": "HELM_LANDING only",
+  "specialized": {
+    "original": 77,
+    "feel": 23,
+    "armorAndLockedSlashes": 33
+  },
+  "stress": {
+    "mode": "Node CPU simulation; no GPU/browser FPS claim",
+    "cycles": 100,
+    "simulatedSeconds": 724.45,
+    "ticks": 43467,
+    "meanMs": 0.28028145489681294,
+    "p95Ms": 0.4424999999996544,
+    "p99Ms": 0.6594000000004598,
+    "maxMs": 21.31009999999992,
+    "peak": {
+      "pending": 0,
+      "batches": 1,
+      "visuals": 11,
+      "events": 2048,
+      "inputs": 0
+    },
+    "memory": [
+      {
+        "cycle": 50,
+        "heapBytes": 21629608,
+        "visuals": 11,
+        "events": 2048
+      },
+      {
+        "cycle": 100,
+        "heapBytes": 105132024,
+        "visuals": 11,
+        "events": 2048
+      }
+    ],
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 23,
+      "spatialVisited": 4247972,
+      "pooledProjectiles": 0,
+      "projectilesCreated": 0,
+      "projectilesReused": 0
+    },
+    "diagnostics": 0
+  },
+  "workbookHash": "ca1800af4ea2aa14544b7538952fcf507d6fd3242d8f9f1423a4c15f71fe054b",
+  "browserValidation": "Not performed; local combat simulation and shared code checks only",
+  "rollback": {
+    "commit": "cd6fbcbe9bdc5c36cf9757075d6950536a706a33",
+    "version": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_91a4afb666d881918f2b02656703f320"
+  }
+}

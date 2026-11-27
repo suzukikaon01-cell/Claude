@@ -1,0 +1,36 @@
+name: iOS IPA
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bundle game files
+        run: |
+          rm -rf Web && mkdir Web
+          rsync -a --exclude 'config/versions' --exclude 'assets/heroes/xuefeng-reference.jpg' --exclude '*.md' ../dist/ Web/
+      - name: Generate project
+        run: brew install xcodegen && xcodegen generate
+      - name: Build unsigned archive
+        run: |
+          xcodebuild -project RiftArena.xcodeproj -scheme RiftArena -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath build/RiftArena.xcarchive \
+            CODE_SIGNING_ALLOWED=NO archive
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p build/pkg/Payload
+          ditto build/RiftArena.xcarchive/Products/Applications/RiftArena.app build/pkg/Payload/RiftArena.app
+          (cd build/pkg && zip -qry ../RiftArena-unsigned.ipa Payload)
+          ls -lh build/RiftArena-unsigned.ipa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RiftArena-unsigned-ipa
+          path: ios/build/RiftArena-unsigned.ipa
+          retention-days: 30

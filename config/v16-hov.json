@@ -1,0 +1,226 @@
+{
+  "id": "HERRSCHER_OF_THE_VOID",
+  "key": "herrscher_of_the_void",
+  "name": "空之律者",
+  "title": "亚空审判",
+  "role": "远程法师 / 射手",
+  "primaryRole": "MAGE",
+  "secondaryRole": "MARKSMAN",
+  "attackType": "RANGED",
+  "color": "#ddb656",
+  "BASE": {
+    "hp_base": 575,
+    "hp_growth": 90,
+    "ad_base": 56,
+    "ad_growth": 3,
+    "armor_base": 25,
+    "armor_growth": 4,
+    "mr_base": 30,
+    "mr_growth": 1.3,
+    "mana_base": 0,
+    "mana_growth": 0,
+    "ap_base": 0,
+    "move_speed": 215,
+    "as_base": 0.68,
+    "as_ratio": 0.68,
+    "as_growth": 2,
+    "attack_range": 325,
+    "hp_regen_base": 5,
+    "hp_regen_growth": 0.5,
+    "mana_regen_base": 0,
+    "mana_regen_growth": 0,
+    "resource_type": "HERRSCHER_ENERGY",
+    "max_energy": 200,
+    "energy_regen_out_of_mode": 12,
+    "energy_regen_in_mode": 0
+  },
+  "AA": {
+    "combo_count": 5,
+    "combo_reset_time": 3,
+    "total_ad_ratio_pct": 100,
+    "projectile_speed": 1500,
+    "windup": 0.2,
+    "backswing": 0.15,
+    "stage5_blackhole_radius": 75,
+    "stage5_blackhole_duration": 0.75,
+    "stage5_pull_speed": 35,
+    "stage5_fragment_gain": 1,
+    "stationary_attack_multiplier": 1,
+    "ap_onhit_ratio_pct": 8
+  },
+  "P": {
+    "fragment_initial": 0,
+    "fragment_persistent": 1,
+    "milestone1": 60,
+    "milestone2": 120,
+    "milestone3": 180,
+    "milestone4": 240,
+    "milestone5": 300,
+    "attack_range_bonus_60": 50,
+    "q_radius_bonus_120": 50,
+    "q_slow_pct_120": 30,
+    "q_slow_duration": 1.5,
+    "w_duration_bonus_180": 1.25,
+    "w_slow_pct_180": 60,
+    "e_range_multiplier_240": 2,
+    "attack_range_bonus_300": 50,
+    "q_cast_range_bonus_300": 50,
+    "w_cast_range_bonus_300": 50,
+    "execute_base_pct": 5,
+    "execute_bonus_pct_per_100_fragments": 1,
+    "execute_fragments_step": 100,
+    "execute_unlock_fragments": 300,
+    "execute_target_types": [
+      "ENEMY_CHAMPION",
+      "ENEMY_MINION",
+      "NON_EPIC_MONSTER"
+    ],
+    "visual_cap": 48,
+    "announcement_duration": 3,
+    "champion_kill_fragments": 5,
+    "champion_assist_fragments": 3,
+    "attack_speed_fragments_step": 10,
+    "attack_speed_per_step_pct": 1,
+    "e_range_after_240": 400
+  },
+  "Q": {
+    "cast_range": 400,
+    "explosion_radius": 75,
+    "explosion_damage": [
+      40,
+      60,
+      80,
+      100,
+      120
+    ],
+    "explosion_ap_ratio_pct": 35,
+    "energy_activation_cost": 0,
+    "energy_drain_per_second": 20,
+    "attack_speed_bonus_pct": 25,
+    "damage_bonus_pct": 25,
+    "attack_range_bonus": 25,
+    "manual_toggle_off": 1,
+    "auto_exit_on_zero_energy": 1,
+    "cooldown": [
+      10,
+      9,
+      8,
+      7,
+      6
+    ],
+    "windup": 0.2,
+    "backswing": 0.1,
+    "mana_cost": 0,
+    "damage_bonus_types": [
+      "magic"
+    ]
+  },
+  "W": {
+    "cast_range": 475,
+    "base_radius": 150,
+    "radius_growth_coefficient": 11,
+    "duration": 3.5,
+    "base_slow_pct": 25,
+    "pull_speed": 35,
+    "damage_tick_interval": 0.25,
+    "damage_per_tick": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "damage_tick_ap_ratio_pct": 3,
+    "fragments_per_unit_kill": 3,
+    "fragments_per_champion_kill": 0,
+    "fragments_per_champion_second": 1,
+    "round_fractional_residence": 1,
+    "grant_fragments_at_end": 1,
+    "cooldown": [
+      16,
+      15,
+      14,
+      13,
+      12
+    ],
+    "windup": 0.25,
+    "backswing": 0.1,
+    "mana_cost": 0
+  },
+  "E": {
+    "windup": 0.25,
+    "base_teleport_range": 275,
+    "cast_range": 275,
+    "cooldown": [
+      18,
+      16.5,
+      15,
+      13.5,
+      12
+    ],
+    "backswing": 0.1,
+    "mana_cost": 0
+  },
+  "R": {
+    "range": 650,
+    "shape": "TRAPEZOID",
+    "near_width": 375,
+    "far_width": 1300,
+    "windup": 1,
+    "duration": 1.5,
+    "normal_hit_count": 6,
+    "enhanced_hit_count": 8,
+    "damage_per_hit": [
+      45,
+      65,
+      85
+    ],
+    "damage_per_hit_ap_ratio_pct": 20,
+    "enhancement_fragments_interval": 60,
+    "enhancement_charge_persistent": 1,
+    "enhancement_charge_cost_per_cast": 1,
+    "enhancement_global_announcement": 1,
+    "ally_announcement_color": "#75c4ff",
+    "enemy_announcement_color": "#ff727e",
+    "cooldown": [
+      95,
+      80,
+      65
+    ],
+    "backswing": 0.15,
+    "mana_cost": 0,
+    "flight_height": 110,
+    "portal_count": 6,
+    "enhanced_portal_count": 10,
+    "enhanced_hit_fragments_step": 100,
+    "enhanced_hits_per_step": 1,
+    "enhancement_charge_limit": 1
+  },
+  "passive": "登神长阶：每次普攻额外附带8%AP魔法伤害，五段普攻第五段命中获得1空间碎片，衔接窗口3秒。英雄击杀+5、助攻+3，不要求W击杀；不额外叠加W英雄击杀奖励。W的非英雄击杀与英雄停留奖励仍在W结束结算。碎片永久保留，每10碎片额外获得1%攻速，按每个碎片0.1%连续累计；60/120/180/240/300碎片累计进化。强化审判最多保留1次；未持有时每获得60碎片充满，持有期间新增碎片只增加永久碎片、不累计下一次进度；使用强化R后从0重新计数，不消耗永久碎片。",
+  "skills": [
+    {
+      "name": "律者模式",
+      "icon": "律",
+      "target": "unit",
+      "desc": "Q1指向性锁定射程内敌方英雄、小兵或野怪；前摇0.2秒后在锁定目标当前位置响指，造成40/60/80/100/120+35%AP范围魔法伤害，随后进入律者模式。开启不消耗能量，能量上限200；持续每秒消耗20，暂停自然回复，攻速×1.25、魔法伤害×1.25、普攻距离+25，物理和真实伤害不增幅。Q2仅关闭，退出时开始冷却；耗尽自动退出。120碎片后爆炸半径125并减速30%持续1.5秒。"
+    },
+    {
+      "name": "空间牢笼",
+      "icon": "笼",
+      "target": "area",
+      "desc": "放置持续3.5秒的牢笼，每0.25秒造成6/8/10/12/14+3%AP魔法伤害、25%减速与可走出的弱吸引。半径√(150²+11²×空间碎片)。180碎片持续4.75秒、减速60%。W结束统一发放非英雄击杀3碎片及每位英雄累计停留秒数四舍五入的奖励；英雄击杀统一立即+5，助攻+3，W不重复发奖。"
+    },
+    {
+      "name": "空间跳跃",
+      "icon": "跃",
+      "target": "area",
+      "desc": "前摇0.25秒后瞬移，初始275码；240碎片后400码。不造成沿途伤害，不能落在墙体、建筑、地图外或ARAM桥外。"
+    },
+    {
+      "name": "审判",
+      "icon": "审",
+      "target": "direction",
+      "desc": "前摇1秒升空并展开空间门；双方从前摇开始看到长度650、近宽375、远宽1300的梯形轰炸区。随后1.5秒内普通6波，每波45/65/85+20%AP魔法伤害；有强化次数时消耗1次，改为8+floor(空间碎片/100)波，波数在释放时快照。最多保留1次强化R，持有期间不累计下一轮；使用后从0累计新获得的60碎片，不消耗永久碎片。"
+    }
+  ]
+}

@@ -1,0 +1,1194 @@
+{
+  "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+  "items": [
+    {
+      "id": "KRAKEN_SLAYER",
+      "name": "海妖杀手",
+      "category": "physical",
+      "riot": 6672,
+      "stats": {
+        "ad": 45,
+        "attack_speed": 0.4,
+        "move_speed_pct": 0.04
+      },
+      "params": {
+        "proc_hits": 3,
+        "damage_min": 120,
+        "damage_max": 160,
+        "missing_hp_amp": 0.5,
+        "ranged_multiplier": 0.8
+      },
+      "passive": "第三次普攻附加随等级成长的物理伤害，按目标已损失生命提高伤害。",
+      "active": "",
+      "groups": [],
+      "verified": [],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3000,
+      "officialDescription": "45 Attack Damage 40% Attack Speed 4% Move Speed Bring It Down Every third Attack deals bonus physical damage On-Hit , increased based on their missing Health."
+    },
+    {
+      "id": "THE_COLLECTOR",
+      "name": "收集者",
+      "category": "physical",
+      "riot": 6676,
+      "stats": {
+        "ad": 50,
+        "crit_chance": 0.25,
+        "lethality": 10
+      },
+      "params": {
+        "execute_threshold": 0.05,
+        "kill_gold": 25
+      },
+      "passive": "直接伤害使敌方英雄生命低于5%时处决，合法击杀额外25金币。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "execute_threshold",
+        "kill_gold"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3000,
+      "officialDescription": "50 Attack Damage 10 Lethality 25% Critical Strike Chance Death Your damage executes champions that are below 5% Health. Taxes Champion kills grant 25 bonus gold ."
+    },
+    {
+      "id": "NAVORI_FLICKERBLADE",
+      "name": "纳沃利迅刃",
+      "category": "physical",
+      "riot": 6675,
+      "stats": {
+        "attack_speed": 0.4,
+        "crit_chance": 0.25,
+        "move_speed_pct": 0.04
+      },
+      "params": {
+        "refund_pct": 0.15
+      },
+      "passive": "普攻命中减少基础技能15%剩余冷却，不影响R。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "refund_pct"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 2650,
+      "officialDescription": "40% Attack Speed 25% Critical Strike Chance 4% Move Speed Transcendence Attacks reduce Basic Ability cooldowns by 15% of their remaining cooldown."
+    },
+    {
+      "id": "GUINSOOS_RAGEBLADE",
+      "name": "鬼索的狂暴之刃",
+      "category": "physical",
+      "riot": 3124,
+      "stats": {
+        "ad": 30,
+        "ap": 30,
+        "attack_speed": 0.25
+      },
+      "params": {
+        "onhit": 30,
+        "as_per_stack": 0.08,
+        "max_stacks": 4,
+        "stack_duration": 4,
+        "phantom_every": 3
+      },
+      "passive": "每次命中附加30魔法伤害，叠加攻速；满4层后每第三次攻击额外应用一次合法命中特效。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "onhit",
+        "as_per_stack",
+        "max_stacks",
+        "stack_duration",
+        "phantom_every"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3000,
+      "officialDescription": "30 Attack Damage 30 Ability Power 25% Attack Speed Wrath Attacks deal 30 bonus magic damage On-Hit . Seething Strike Attacks grant 8% Attack Speed for 4 seconds. (stacks 4 times). While fully stacked, every third Attack applies On-Hit effects twice."
+    },
+    {
+      "id": "RUNAANS_HURRICANE",
+      "name": "卢安娜的飓风",
+      "category": "physical",
+      "riot": 3085,
+      "stats": {
+        "attack_speed": 0.4,
+        "crit_chance": 0.25,
+        "move_speed_pct": 0.05
+      },
+      "params": {
+        "bolts": 2,
+        "ad_ratio": 0.55,
+        "range": 450,
+        "projectile_speed": 1300
+      },
+      "passive": "远程攻击向主目标附近最多2个敌人发射附带命中特效的额外弹道。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "bolts"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 2650,
+      "officialDescription": "40% Attack Speed 25% Critical Strike Chance 5% Move Speed Wind's Fury Attacks fire bolts at 2 additional enemies near the target. Each bolt deals physical damage and applies On-Hit effects."
+    },
+    {
+      "id": "LORD_DOMINIKS_REGARDS",
+      "name": "多米尼克领主的致意",
+      "category": "physical",
+      "riot": 3036,
+      "stats": {
+        "ad": 35,
+        "crit_chance": 0.25,
+        "armor_pen_pct": 0.35
+      },
+      "params": {
+        "max_damage_amp": 0.15,
+        "bonus_hp_cap": 1500
+      },
+      "passive": "根据敌方英雄额外生命，最多提高15%伤害。",
+      "active": "",
+      "groups": [
+        "lastwhisper"
+      ],
+      "verified": [
+        "max_damage_amp",
+        "bonus_hp_cap"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3300,
+      "officialDescription": "35 Attack Damage 35% Armor Penetration 25% Critical Strike Chance Giant Slayer Deal up to 15% bonus damage against champions based on their bonus Health. Maximum damage bonus reached at 1500 bonus Health."
+    },
+    {
+      "id": "SERYLDAS_GRUDGE",
+      "name": "赛瑞尔达的怨恨",
+      "category": "physical",
+      "riot": 6694,
+      "stats": {
+        "ad": 45,
+        "armor_pen_pct": 0.35,
+        "ability_haste": 15
+      },
+      "params": {
+        "health_threshold": 0.5,
+        "slow": 0.3,
+        "duration": 1
+      },
+      "passive": "技能伤害使低于50%生命的目标减速30%，持续1秒。",
+      "active": "",
+      "groups": [
+        "lastwhisper"
+      ],
+      "verified": [
+        "health_threshold",
+        "slow",
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3000,
+      "officialDescription": "45 Attack Damage 35% Armor Penetration 15 Ability Haste Bitter Cold Damaging Abilities Slow enemies below 50% Health by 30% for 1 second."
+    },
+    {
+      "id": "ECLIPSE",
+      "name": "星蚀",
+      "category": "physical",
+      "riot": 6692,
+      "stats": {
+        "ad": 60,
+        "ability_haste": 15
+      },
+      "params": {
+        "hits": 2,
+        "window": 2,
+        "cooldown": 6,
+        "shield": 160,
+        "bonus_ad_ratio": 0.4,
+        "ranged_multiplier": 0.6,
+        "duration": 2
+      },
+      "passive": "2秒内独立两次攻击或技能命中英雄，获得护盾；远程收益降低。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "hits",
+        "window",
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 2900,
+      "officialDescription": "60 Attack Damage 15 Ability Haste Ever Rising Moon Hitting a champion with 2 separate Attacks or Abilities within 2 seconds grants you a Shield for 2 seconds."
+    },
+    {
+      "id": "SPEAR_OF_SHOJIN",
+      "name": "朔极之矛",
+      "category": "physical",
+      "riot": 3161,
+      "stats": {
+        "ad": 45,
+        "hp": 450
+      },
+      "params": {
+        "basic_haste": 25,
+        "amp_per_stack": 0.03,
+        "max_stacks": 4,
+        "duration": 6
+      },
+      "passive": "获得25基础技能急速。技能命中叠加技能与被动伤害增幅，最多4层，不增强真伤。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "basic_haste",
+        "amp_per_stack",
+        "max_stacks",
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3100,
+      "officialDescription": "45 Attack Damage 450 Health Dragonforce Gain 25 Basic Ability Haste. Focused Will Dealing damage with Abilities increases your Champion's Ability and Passive damage by 3% for 6 seconds. (stacks 4 times)."
+    },
+    {
+      "id": "RAVENOUS_HYDRA",
+      "name": "贪欲九头蛇",
+      "category": "physical",
+      "riot": 3074,
+      "stats": {
+        "ad": 65,
+        "ability_haste": 15,
+        "lifesteal": 0.12
+      },
+      "params": {
+        "radius": 350,
+        "cleave_ratio": 0.4,
+        "active_ratio": 1,
+        "active_cooldown": 10
+      },
+      "passive": "普攻顺劈周围次目标；主动对周围造成物理伤害，享受生命偷取。",
+      "active": "hydra",
+      "groups": [
+        "hydra"
+      ],
+      "verified": [],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "sword",
+        "sword"
+      ],
+      "price": 3300,
+      "officialDescription": "65 Attack Damage 15 Ability Haste 12% Life Steal Cleave Attacks deal physical damage to nearby enemies. Ravenous Crescent Deal physical damage to enemies around you. Your Life Steal applies to this damage."
+    },
+    {
+      "id": "SHADOWFLAME",
+      "name": "影焰",
+      "category": "mage",
+      "riot": 4645,
+      "stats": {
+        "ap": 110,
+        "magic_pen_flat": 15
+      },
+      "params": {
+        "health_threshold": 0.4,
+        "damage_multiplier": 1.2
+      },
+      "passive": "对低于40%生命的敌人，魔法与真实伤害造成120%伤害。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "health_threshold",
+        "damage_multiplier"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 3200,
+      "officialDescription": "110 Ability Power 15 Magic Penetration Cinderbloom Magic and true damage Critically Strike enemies below 40% Health, dealing 20% increased damage."
+    },
+    {
+      "id": "STORMSURGE",
+      "name": "风暴狂涌",
+      "category": "mage",
+      "riot": 4646,
+      "stats": {
+        "ap": 90,
+        "magic_pen_flat": 15,
+        "move_speed_pct": 0.06
+      },
+      "params": {
+        "window": 2.5,
+        "health_threshold": 0.25,
+        "delay": 2,
+        "cooldown": 30,
+        "damage": 125,
+        "ap_ratio": 0.1,
+        "radius": 600
+      },
+      "passive": "2.5秒内造成英雄25%最大生命伤害后标记，2秒后雷击；提前死亡则在尸体处范围爆发。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "window",
+        "health_threshold",
+        "delay"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 2800,
+      "officialDescription": "90 Ability Power 15 Magic Penetration 6% Move Speed Stormraider Dealing 25% of a champion's maximum Health within 2.5s applies Squall to them. Squall After 2 seconds, deal magic damage . If the target dies before Squall triggers, it damages nearby enemies."
+    },
+    {
+      "id": "NASHORS_TOOTH",
+      "name": "纳什之牙",
+      "category": "mage",
+      "riot": 3115,
+      "stats": {
+        "ap": 80,
+        "attack_speed": 0.5,
+        "ability_haste": 15
+      },
+      "params": {
+        "damage": 15,
+        "ap_ratio": 0.15
+      },
+      "passive": "合法普攻命中附加魔法伤害。持续射线每次攻击指令只结算一次命中特效。",
+      "active": "",
+      "groups": [],
+      "verified": [],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 2900,
+      "officialDescription": "80 Ability Power 50% Attack Speed 15 Ability Haste Icathian Bite Attacks deal bonus magic damage On-Hit ."
+    },
+    {
+      "id": "HORIZON_FOCUS",
+      "name": "视界专注",
+      "category": "mage",
+      "riot": 4628,
+      "stats": {
+        "ap": 75,
+        "ability_haste": 25
+      },
+      "params": {
+        "trigger_range": 600,
+        "reveal_duration": 6,
+        "nearby_reveal_range": 1400,
+        "nearby_reveal_duration": 3,
+        "damage_amp": 0
+      },
+      "passive": "600码外技能命中英雄使其显形6秒，并显形附近敌方英雄3秒；当前参考版本无旧版增伤。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "trigger_range",
+        "reveal_duration",
+        "nearby_reveal_range",
+        "nearby_reveal_duration",
+        "damage_amp"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 2700,
+      "officialDescription": "75 Ability Power 25 Ability Haste Hypershot Dealing Ability damage to champions at 600 range or greater Reveals them for 6 seconds. Focus When Hypershot is triggered, Reveal all other enemy champions within 1400 range of them for 3 seconds."
+    },
+    {
+      "id": "COSMIC_DRIVE",
+      "name": "星界驱驰",
+      "category": "mage",
+      "riot": 4629,
+      "stats": {
+        "ap": 70,
+        "hp": 350,
+        "ability_haste": 25,
+        "move_speed_pct": 0.04
+      },
+      "params": {
+        "move_speed": 20,
+        "duration": 4
+      },
+      "passive": "对英雄造成魔法或真实伤害后获得短暂移速，不改变固定冲刺速度。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 3000,
+      "officialDescription": "70 Ability Power 350 Health 25 Ability Haste 4% Move Speed Spelldance Dealing magic or true damage to champions grants Move Speed for 4 seconds."
+    },
+    {
+      "id": "MALIGNANCE",
+      "name": "焚天恶咒",
+      "category": "mage",
+      "riot": 3118,
+      "stats": {
+        "ap": 90,
+        "mana": 600,
+        "ability_haste": 15
+      },
+      "params": {
+        "ultimate_haste": 20,
+        "duration": 3,
+        "period": 0.5,
+        "radius": 250,
+        "damage_per_second": 60,
+        "ap_ratio_per_second": 0.05,
+        "mr_reduction": 10,
+        "target_cooldown": 3
+      },
+      "passive": "大招伤害在目标脚下生成3秒灼烧区域并削减魔抗；装备伤害不能再次生成区域。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "ultimate_haste",
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 2700,
+      "officialDescription": "90 Ability Power 600 Mana 15 Ability Haste Scorn Gain 20 Ultimate Ability Haste. Hatefog Damaging a champion with your Ultimate burns the ground beneath them for 3s, dealing magic damage per second and reducing their Magic Resist ."
+    },
+    {
+      "id": "CRYPTBLOOM",
+      "name": "绽灵花",
+      "category": "mage",
+      "riot": 3137,
+      "stats": {
+        "ap": 75,
+        "magic_pen_pct": 0.3,
+        "ability_haste": 20
+      },
+      "params": {
+        "recent_window": 3,
+        "cooldown": 60,
+        "radius": 600,
+        "heal": 100,
+        "ap_ratio": 0.25
+      },
+      "passive": "参与近期英雄击杀后在目标处产生治疗新星，受禁疗与治疗增幅影响。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "recent_window"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 3000,
+      "officialDescription": "75 Ability Power 30% Magic Penetration 20 Ability Haste Life from Death When a champion that you damaged within 3 seconds dies, a nova spreads from their corpse that heals ."
+    },
+    {
+      "id": "BANSHEES_VEIL",
+      "name": "女妖面纱",
+      "category": "mage",
+      "riot": 3102,
+      "stats": {
+        "ap": 105,
+        "mr": 40
+      },
+      "params": {
+        "cooldown": 40
+      },
+      "passive": "阻挡下一次敌方技能及同次施法的后续效果；英雄战斗中重新开始恢复计时。",
+      "active": "",
+      "groups": [
+        "spellshield"
+      ],
+      "verified": [],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 3000,
+      "officialDescription": "105 Ability Power 40 Magic Resist Annul Grants a Spell Shield that blocks the next enemy Ability."
+    },
+    {
+      "id": "ZHONYAS_HOURGLASS",
+      "name": "中娅沙漏",
+      "category": "mage",
+      "riot": 3157,
+      "stats": {
+        "ap": 105,
+        "armor": 50
+      },
+      "params": {
+        "duration": 2.5,
+        "active_cooldown": 120
+      },
+      "passive": "主动凝滞2.5秒：不能移动、攻击或施法，不可选中且免疫伤害。",
+      "active": "stasis",
+      "groups": [],
+      "verified": [
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 3250,
+      "officialDescription": "105 Ability Power 50 Armor Time Stop Enter Stasis for 2.5 seconds."
+    },
+    {
+      "id": "HEXTECH_ROCKETBELT",
+      "name": "海克斯科技火箭腰带",
+      "category": "mage",
+      "riot": 3152,
+      "stats": {
+        "ap": 60,
+        "hp": 350,
+        "ability_haste": 10
+      },
+      "params": {
+        "dash_range": 275,
+        "dash_duration": 0.2,
+        "projectiles": 7,
+        "spread": 45,
+        "projectile_speed": 1400,
+        "projectile_range": 600,
+        "width": 25,
+        "damage": 100,
+        "ap_ratio": 0.1,
+        "active_cooldown": 40
+      },
+      "passive": "向选定方向短突进，并发射扇形魔法弹体；同次主动对每个目标只造成一次伤害。",
+      "active": "rocketbelt",
+      "groups": [],
+      "verified": [],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "tome",
+        "tome"
+      ],
+      "price": 2650,
+      "officialDescription": "60 Ability Power 350 Health 10 Ability Haste Supersonic Dash in target direction, unleashing missiles that deal magic damage ."
+    },
+    {
+      "id": "JAKSHO_THE_PROTEAN",
+      "name": "千变者贾修",
+      "category": "tank",
+      "riot": 6665,
+      "stats": {
+        "hp": 350,
+        "armor": 45,
+        "mr": 45
+      },
+      "params": {
+        "combat_duration": 5,
+        "bonus_resist_amp": 0.3,
+        "combat_timeout": 5
+      },
+      "passive": "持续英雄战斗5秒后额外双抗提高30%，脱战清除。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "combat_duration",
+        "bonus_resist_amp"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 3200,
+      "officialDescription": "350 Health 45 Armor 45 Magic Resist Voidborn Resilience After 5 seconds of champion combat, increase your bonus Armor and Magic Resist by 30% until end of combat."
+    },
+    {
+      "id": "UNENDING_DESPAIR",
+      "name": "无终恨意",
+      "category": "tank",
+      "riot": 2502,
+      "stats": {
+        "hp": 400,
+        "armor": 50,
+        "ability_haste": 15
+      },
+      "params": {
+        "period": 4,
+        "radius": 650,
+        "damage": 30,
+        "bonus_hp_ratio": 0.03,
+        "heal_ratio": 2.5
+      },
+      "passive": "英雄战斗中每4秒吸取附近敌方英雄，按实际伤害的250%治疗自己。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "period",
+        "heal_ratio"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2800,
+      "officialDescription": "400 Health 50 Armor 15 Ability Haste Anguish Every 4 seconds while in combat with champions, deal magic damage to nearby enemy champions and heal for 250% of the damage dealt."
+    },
+    {
+      "id": "HOLLOW_RADIANCE",
+      "name": "败魔盔甲",
+      "category": "tank",
+      "riot": 6664,
+      "stats": {
+        "hp": 400,
+        "mr": 40,
+        "ability_haste": 10,
+        "base_hp_regen_pct": 1
+      },
+      "params": {
+        "duration": 3,
+        "period": 1,
+        "radius": 325,
+        "damage": 15,
+        "bonus_hp_ratio": 0.0175,
+        "explosion": 20,
+        "explosion_max_hp_ratio": 0.035
+      },
+      "passive": "受伤或造成伤害后灼烧附近敌人；击杀单位在其位置爆炸，不能递归爆炸。",
+      "active": "",
+      "groups": [
+        "immolate"
+      ],
+      "verified": [
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2800,
+      "officialDescription": "400 Health 40 Magic Resist 10 Ability Haste 100% Base Health Regen Immolate After taking or dealing damage, deal magic damage per second to nearby enemies for 3 seconds. Desolate Killing an enemy deals magic damage around them."
+    },
+    {
+      "id": "ICEBORN_GAUNTLET",
+      "name": "冰脉护手",
+      "category": "tank",
+      "riot": 6662,
+      "stats": {
+        "hp": 300,
+        "armor": 50,
+        "ability_haste": 15
+      },
+      "params": {
+        "spellblade_ratio": 1.5,
+        "window": 10,
+        "cooldown": 1.5,
+        "radius": 300,
+        "slow": 0.3,
+        "slow_duration": 2
+      },
+      "passive": "施法后下次普攻附加基础AD物理伤害并生成减速场，遵守唯一咒刃选择。",
+      "active": "",
+      "groups": [
+        "spellblade"
+      ],
+      "verified": [
+        "slow_duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2900,
+      "officialDescription": "300 Health 50 Armor 15 Ability Haste Spellblade After using an Ability, your next Attack deals bonus physical damage On-Hit and creates a frost field for 2s that Slows ."
+    },
+    {
+      "id": "SPIRIT_VISAGE",
+      "name": "振奋盔甲",
+      "category": "tank",
+      "riot": 3065,
+      "stats": {
+        "hp": 400,
+        "mr": 50,
+        "ability_haste": 10,
+        "base_hp_regen_pct": 1
+      },
+      "params": {
+        "heal_amp": 0.25,
+        "shield_amp": 0.25
+      },
+      "passive": "自身获得的治疗与护盾提高25%，完全禁疗仍然阻止治疗。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "heal_amp",
+        "shield_amp"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2700,
+      "officialDescription": "400 Health 50 Magic Resist 10 Ability Haste 100% Base Health Regen Boundless Vitality Heals and Shields on you are increased by 25%."
+    },
+    {
+      "id": "ABYSSAL_MASK",
+      "name": "深渊面具",
+      "category": "tank",
+      "riot": 8020,
+      "stats": {
+        "hp": 350,
+        "mr": 45,
+        "ability_haste": 15
+      },
+      "params": {
+        "radius": 700,
+        "magic_damage_amp": 0.12
+      },
+      "passive": "附近敌方英雄承受魔法伤害提高12%；离开范围或持有者死亡立即解除。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "magic_damage_amp"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2650,
+      "officialDescription": "350 Health 45 Magic Resist 15 Ability Haste Unmake Nearby enemy champions take 12% more magic damage ."
+    },
+    {
+      "id": "LOCKET_OF_THE_IRON_SOLARI",
+      "name": "钢铁烈阳之匣",
+      "category": "tank",
+      "riot": 3190,
+      "stats": {
+        "hp": 200,
+        "armor": 30,
+        "mr": 30,
+        "ability_haste": 10
+      },
+      "params": {
+        "radius": 600,
+        "shield_min": 290,
+        "shield_max": 360,
+        "duration": 2.5,
+        "active_cooldown": 90
+      },
+      "passive": "主动为附近友方英雄提供随等级成长的临时衰减护盾。",
+      "active": "locket",
+      "groups": [],
+      "verified": [
+        "shield_min",
+        "shield_max",
+        "duration"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2200,
+      "officialDescription": "200 Health 30 Armor 30 Magic Resist 10 Ability Haste Devotion Grant nearby allies a 290 - 360 Shield that decays over 2.5 seconds."
+    },
+    {
+      "id": "KNIGHTS_VOW",
+      "name": "骑士之誓",
+      "category": "tank",
+      "riot": 3109,
+      "stats": {
+        "hp": 200,
+        "armor": 40,
+        "ability_haste": 10,
+        "base_hp_regen_pct": 1
+      },
+      "params": {
+        "range": 1000,
+        "transfer_pct": 0.14,
+        "heal_pct": 0.12,
+        "active_cooldown": 0
+      },
+      "passive": "主动绑定友方英雄。附近时分担其实际受伤的14%，按其对英雄伤害的12%治疗自己。",
+      "active": "vow",
+      "groups": [],
+      "verified": [
+        "transfer_pct",
+        "heal_pct",
+        "active_cooldown"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2300,
+      "officialDescription": "200 Health 40 Armor 10 Ability Haste 100% Base Health Regen Sacrifice While near your Worthy ally, take 14% of the damage they receive and heal for 12% of the damage they deal to champions. Pledge (0s) Designate an ally as Worthy ."
+    },
+    {
+      "id": "ZEKES_CONVERGENCE",
+      "name": "基克的聚合",
+      "category": "tank",
+      "riot": 3050,
+      "stats": {
+        "hp": 300,
+        "armor": 25,
+        "mr": 25,
+        "ability_haste": 10
+      },
+      "params": {
+        "duration": 5,
+        "radius": 350,
+        "damage_per_second": 30,
+        "slow": 0.3,
+        "period": 0.5,
+        "cooldown": 45
+      },
+      "passive": "施放大招后产生5秒冰霜风暴，对附近英雄持续魔法伤害并减速30%。",
+      "active": "",
+      "groups": [],
+      "verified": [
+        "duration",
+        "damage_per_second",
+        "slow"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2200,
+      "officialDescription": "300 Health 25 Armor 25 Magic Resist 10 Ability Haste Frostfire Tempest Casting your Ultimate summons a storm around you for 5 seconds. The storm deals 30 magic damage per second to enemy champions and Slows them by 30%."
+    },
+    {
+      "id": "WINTERS_APPROACH",
+      "name": "凛冬之临",
+      "category": "tank",
+      "riot": 3119,
+      "stats": {
+        "hp": 550,
+        "mana": 500,
+        "ability_haste": 15
+      },
+      "params": {
+        "hp_mana_ratio": 0.08,
+        "mana_per_proc": 3,
+        "champion_multiplier": 2,
+        "mana_cap": 360,
+        "charge_time": 8,
+        "max_charges": 4,
+        "shield": 100,
+        "shield_mana_ratio": 0.045,
+        "shield_duration": 3,
+        "shield_cooldown": 8
+      },
+      "passive": "合法攻击和技能命中消耗充能增加法力；360层进化末日寒冬，控制英雄触发法力护盾。",
+      "active": "",
+      "groups": [
+        "tear"
+      ],
+      "verified": [
+        "mana_per_proc",
+        "champion_multiplier",
+        "mana_cap",
+        "charge_time",
+        "max_charges"
+      ],
+      "source": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/en_US/item.json",
+      "version": "PC 26.21 (16.21.1)",
+      "recipe": [
+        "ruby",
+        "ruby"
+      ],
+      "price": 2400,
+      "officialDescription": "550 Health 500 Mana 15 Ability Haste Awe Gain Health . Manaflow (8s, max 4 charges) Landing Attacks and Abilities grant 3 max Mana (doubled vs. champions). Transforms into Fimbulwinter at 360 max Mana ."
+    }
+  ],
+  "aram": {
+    "start_level": 3,
+    "start_gold": 1400,
+    "team_size": 5,
+    "lane_count": 1,
+    "recall_enabled": 0,
+    "fountain_regen_enabled": 0,
+    "shop_requires_respawn_after_exit": 1,
+    "champion_card_count": 2,
+    "blessed_card_max": 3,
+    "blessed_card_chance": 0.071,
+    "max_champion_level": 18,
+    "passive_gold_start": 60,
+    "passive_gold_per_second": 6,
+    "auto_xp_per_second": 8,
+    "kill_xp_multiplier": 1.5,
+    "gold_multiplier": 1,
+    "healing_multiplier": 1,
+    "shop_radius": 450,
+    "bridge_min_x": 550,
+    "bridge_max_x": 14450,
+    "bridge_center_y": 7500,
+    "bridge_width": 1800,
+    "first_wave": 50,
+    "wave_interval": 25,
+    "late_wave_interval": 15,
+    "late_wave_time": 900,
+    "minion_count": 6,
+    "minion_hp_growth": 20,
+    "minion_speed_growth": 0.025,
+    "relic_respawn": 90,
+    "relic_first_spawn": 60,
+    "relic_heal_flat": 50,
+    "relic_heal_missing_pct": 0.08,
+    "relic_mana_missing_pct": 0.08,
+    "relic_aoe_delay": 2.5,
+    "relic_aoe_radius": 400,
+    "portal_duration": 1.2,
+    "portal_cooldown": 5,
+    "portal_interact_range": 200,
+    "portal_reach_radius": 200,
+    "tower_rubble_enabled": 1,
+    "rubble_width": 350,
+    "rubble_height": 400,
+    "inhibitor_respawn": 300,
+    "summoner_haste": 70,
+    "snowball_range": 1600,
+    "snowball_base_cooldown": 80,
+    "snowball_speed": 1200,
+    "snowball_width": 50,
+    "snowball_damage_min": 15,
+    "snowball_damage_max": 100,
+    "snowball_mark_duration": 3,
+    "snowball_dash_speed": 1800,
+    "snowball_refund": 0.25,
+    "clarity_cooldown": 240,
+    "clarity_self_mana_pct": 0.5,
+    "clarity_ally_mana_pct": 0.25,
+    "clarity_range": 600,
+    "fountain_damage": 1000,
+    "fountain_defense_radius": 400,
+    "bases": [
+      {
+        "x": 900,
+        "y": 7500
+      },
+      {
+        "x": 14100,
+        "y": 7500
+      }
+    ],
+    "nexus_positions": [
+      {
+        "x": 1600,
+        "y": 7500
+      },
+      {
+        "x": 13400,
+        "y": 7500
+      }
+    ],
+    "tower_positions": [
+      [
+        {
+          "x": 5400,
+          "y": 7500
+        },
+        {
+          "x": 3800,
+          "y": 7500
+        },
+        {
+          "x": 2350,
+          "y": 7150
+        },
+        {
+          "x": 2350,
+          "y": 7850
+        }
+      ],
+      [
+        {
+          "x": 9600,
+          "y": 7500
+        },
+        {
+          "x": 11200,
+          "y": 7500
+        },
+        {
+          "x": 12650,
+          "y": 7150
+        },
+        {
+          "x": 12650,
+          "y": 7850
+        }
+      ]
+    ],
+    "inhibitor_positions": [
+      {
+        "x": 3000,
+        "y": 7500
+      },
+      {
+        "x": 12000,
+        "y": 7500
+      }
+    ],
+    "relic_positions": [
+      {
+        "x": 4400,
+        "y": 8050
+      },
+      {
+        "x": 6100,
+        "y": 6950
+      },
+      {
+        "x": 8900,
+        "y": 8050
+      },
+      {
+        "x": 10600,
+        "y": 6950
+      }
+    ],
+    "portal_positions": [
+      {
+        "x": 1200,
+        "y": 7800
+      },
+      {
+        "x": 13800,
+        "y": 7200
+      }
+    ],
+    "respawn_curve": [
+      {
+        "time": 0,
+        "seconds": 12
+      },
+      {
+        "time": 300,
+        "seconds": 18
+      },
+      {
+        "time": 600,
+        "seconds": 25
+      },
+      {
+        "time": 900,
+        "seconds": 32
+      },
+      {
+        "time": 1500,
+        "seconds": 45
+      }
+    ],
+    "bushes": [
+      {
+        "id": 0,
+        "x": 6500,
+        "y": 8150,
+        "w": 650,
+        "h": 230
+      },
+      {
+        "id": 1,
+        "x": 8500,
+        "y": 6850,
+        "w": 650,
+        "h": 230
+      },
+      {
+        "id": 2,
+        "x": 4500,
+        "y": 6850,
+        "w": 550,
+        "h": 230
+      },
+      {
+        "id": 3,
+        "x": 10500,
+        "y": 8150,
+        "w": 550,
+        "h": 230
+      }
+    ]
+  }
+}

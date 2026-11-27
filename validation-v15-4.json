@@ -1,0 +1,1211 @@
+{
+  "tests": {
+    "PASS": 868,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 886
+  },
+  "config": "v9.1-66bf3595b712548b",
+  "longsword": {
+    "bonusAD": {
+      "helmPerTick": 0.25,
+      "releasePerTick": 0.3,
+      "iaiFull": 2
+    },
+    "counterBefore": 0.2,
+    "counterAfter": 0.2,
+    "stun": 0.5,
+    "releaseWindow": 0.5
+  },
+  "dva": {
+    "bulletsPerWave": 10,
+    "bulletAD": 0.12,
+    "interval": 0.2,
+    "singleTarget": true,
+    "QBonusHP": 0.005,
+    "QExplosionBonusHP": 0.0025,
+    "RBonusHP": 0.35
+  },
+  "specialized": {
+    "original": 77,
+    "feel": 32,
+    "armor": 33,
+    "dva": 27
+  },
+  "stress": {
+    "mode": "Node CPU simulation, no rendering",
+    "actors": 10,
+    "waves": 500,
+    "pellets": 5000,
+    "simulatedSeconds": 10,
+    "peakProjectiles": 100,
+    "p50Ms": 0.4753999999999792,
+    "p95Ms": 3.425399999999968,
+    "maxMs": 25.113399999999956,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 12,
+      "spatialVisited": 0,
+      "pooledProjectiles": 100,
+      "projectilesCreated": 100,
+      "projectilesReused": 4900
+    }
+  },
+  "workbookHash": "8f036b516c5cb5075f537759c7376d56cc61214509938ecfe0add6245f201e8f",
+  "changedCells": [
+    {
+      "sheet": "英雄",
+      "row": 1272,
+      "col": 8,
+      "key": "DVA.P.pellet_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1273,
+      "col": 8,
+      "key": "DVA.P.pellet_ad_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1274,
+      "col": 8,
+      "key": "DVA.P.pellet_angle"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1308,
+      "col": 8,
+      "key": "DVA.Q.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1308,
+      "col": 16,
+      "key": "DVA.Q.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1342,
+      "col": 8,
+      "key": "DVA.R.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1342,
+      "col": 16,
+      "key": "DVA.R.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1343,
+      "col": 8,
+      "key": "DVA.P.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1343,
+      "col": 16,
+      "key": "DVA.P.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1761,
+      "col": 8,
+      "key": "DVA.P.wave_total_ad_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1765,
+      "col": 8,
+      "key": "DVA.Q.bonus_hp_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1768,
+      "col": 8,
+      "key": "DVA.Q.explosion_bonus_hp_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1778,
+      "col": 8,
+      "key": "DVA.R.bonus_hp_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1793,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.hp_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1794,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.hp_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1795,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.ad_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1796,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.ad_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1797,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.armor_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1798,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.armor_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1799,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mr_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1800,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mr_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1801,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mana_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1802,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mana_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1803,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.ap_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1804,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.move_speed"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1805,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.as_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1806,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.as_ratio"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1807,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.as_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1808,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.attack_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1809,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.hp_regen_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1810,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.hp_regen_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1811,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mana_regen_base"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1812,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.mana_regen_growth"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1813,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.BASE.resource_type"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1814,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_max"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1815,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_on_champion_hit"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1816,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_on_large_monster_hit"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1817,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_on_minion_hit"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1818,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_on_structure_hit"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1819,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.spirit_level_max"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1820,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.white_damage_multiplier"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1821,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.yellow_damage_multiplier"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1822,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.red_damage_multiplier"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1823,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.red_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1824,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.out_of_combat_delay"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1825,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.gauge_decay_per_second"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1826,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.clear_resources_on_death"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1827,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.input_buffer_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1828,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.pending_event_cap"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1829,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.large_monster_types"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1830,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1831,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.mana_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1832,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1833,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.backswing"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1834,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1835,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1836,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.combo_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1837,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_gauge_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1838,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage1_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1839,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage2_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1840,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage3_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1841,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage4_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1842,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage5_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1843,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1844,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1845,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_recovery"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1846,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1847,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1848,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_angle"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1849,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_step"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1850,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage5_spirit_level_gain"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1851,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.special_followup_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1852,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1853,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.mana_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1854,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1855,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.backswing"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1856,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1857,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.dash_distance"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1858,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1859,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1860,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1861,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1862,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_hit_time"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1863,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.thrust_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1864,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.slow_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1865,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.slow_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1866,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.ascent_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1867,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.slow_fall_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1868,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.jump_height"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1869,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_spirit_level_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1870,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_descent_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1871,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_radius"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1872,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_delay_after_landing"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1873,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_tick_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1874,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_tick_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1875,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_tick_base_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1876,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.W.helm_tick_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1876,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.helm_tick_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1877,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.fallback_tick_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1878,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.fallback_total_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1879,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.fallback_tick_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1880,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1881,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.mana_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1882,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1883,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.backswing"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1884,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1885,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.clear_gauge_on_cast"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1886,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.backstep_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1887,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.backstep_distance"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1888,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.invulnerable_during_backstep"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1889,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.control_immune_during_backstep"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1890,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_dash_distance"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1891,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1892,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_hit_time"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1893,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1894,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1895,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1896,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.return_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1897,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.success_return_gauge"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1898,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.q5_followup_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1899,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1900,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.mana_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1901,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1902,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.backswing"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1903,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1904,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.sheathe_windup"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1905,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.max_sheathe_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1906,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.sheathe_damage_reduction_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1907,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_dash"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1908,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_hit_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1909,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_total_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1910,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_on_hit_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1911,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_gauge_regen_per_second"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1912,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_gauge_regen_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1913,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1914,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1915,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1916,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.small_iai_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1917,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.R.perfect_counter_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1917,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.perfect_counter_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1918,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_dash"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1919,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_dash_speed"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1920,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1921,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1922,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_base_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1923,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1923,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1924,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.failed_counter_damage_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1925,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.success_spirit_level_gain"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1926,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.success_gauge_gain"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1927,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.success_q5_followup_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1928,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_recovery"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1929,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_stun_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1929,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_stun_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1930,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.timeout_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1931,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_iai_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1932,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.required_spirit_level"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1933,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.spirit_level_cost"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1934,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.input_window"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1935,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.slash_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1936,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.slash_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1937,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.slash_range"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1938,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.slash_width"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1939,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.backstep_distance"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1940,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.damage_delay"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1941,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.damage_tick_count"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1942,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.damage_tick_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1943,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.tick_base_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1944,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.RELEASE.tick_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1944,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.tick_bonus_ad_ratio_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1945,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.target_type"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1946,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.unique_target_damage"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1947,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1948,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1949,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.W.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1949,
+      "col": 16,
+      "key": "LONGSWORD_HUNTER.W.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1949,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.W.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1950,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1951,
+      "col": 8,
+      "key": "LONGSWORD_HUNTER.R.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1951,
+      "col": 16,
+      "key": "LONGSWORD_HUNTER.R.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1951,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.__description"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1952,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.counter_damage_sources"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1953,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.success_refresh_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1961,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.P.success_flash_duration"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1962,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.Q.stage_internal_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1963,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.success_cooldown"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1964,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.vfx_color"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1965,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.E.control_immune_during_return"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1966,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.control_immune_during_spirit_dash"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1967,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.R.spirit_dash_damage_reduction_pct"
+    },
+    {
+      "sheet": "英雄",
+      "row": 1968,
+      "col": 18,
+      "key": "LONGSWORD_HUNTER.RELEASE.damage_during_slashes"
+    }
+  ],
+  "browserValidation": "No browser/touchscreen run; shared local combat simulation only",
+  "rollback": {
+    "commit": "dc4d28e94ec07f87b3482223141054bdf55051a5",
+    "version": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_deed7defdfe88191b5d9e25315b84dc6"
+  }
+}

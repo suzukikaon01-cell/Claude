@@ -1,0 +1,123 @@
+{
+  "tests": {
+    "PASS": 1012,
+    "ok": 18,
+    "FAIL": 0,
+    "total": 1030
+  },
+  "specialized": {
+    "existingHOV": 98,
+    "balanceAndFixes": 43,
+    "threeGeometryAndAnimation": 3
+  },
+  "config": "v9.1-d2422c90f8df7423",
+  "heroes": 17,
+  "hovParameterRows": 133,
+  "energy": 200,
+  "aaAPRatio": 0.25,
+  "modeMagicMultiplier": 1.25,
+  "fragmentAttackSpeed": "fragments/10*0.01",
+  "globalFragments": {
+    "kill": 5,
+    "assist": 3
+  },
+  "R": {
+    "range": 650,
+    "shape": "TRAPEZOID",
+    "near_width": 375,
+    "far_width": 1300,
+    "windup": 0.75,
+    "duration": 1.5,
+    "normal_hit_count": 10,
+    "enhanced_hit_count": 16,
+    "damage_per_hit": [
+      45,
+      65,
+      85
+    ],
+    "damage_per_hit_ap_ratio_pct": 0.2,
+    "enhancement_fragments_interval": 60,
+    "enhancement_charge_persistent": 1,
+    "enhancement_charge_cost_per_cast": 1,
+    "enhancement_global_announcement": 1,
+    "ally_announcement_color": "#75c4ff",
+    "enemy_announcement_color": "#ff727e",
+    "cooldown": [
+      95,
+      80,
+      65
+    ],
+    "backswing": 0.15,
+    "mana_cost": 0,
+    "flight_height": 110,
+    "portal_count": 6,
+    "enhanced_portal_count": 10,
+    "__description": "前摇0.75秒升空并展开空间门；双方从前摇开始看到长度650、近宽375、远宽1300的梯形轰炸区。随后1.5秒内普通10波，每波45/65/85+20%AP魔法伤害；有强化次数时消耗1次，改为16+floor(空间碎片/100)波，波数在释放时快照。每60永久碎片获得1次强化审判资格，不消耗碎片。",
+    "enhanced_hit_fragments_step": 100,
+    "enhanced_hits_per_step": 1
+  },
+  "illaoi": {
+    "Q": 700,
+    "WCommand": 950,
+    "legacyQRangeIgnored": 450
+  },
+  "clickToMove": false,
+  "workbook": {
+    "addedRows": 9,
+    "changedCells": 185,
+    "hashes": [
+      {
+        "file": "C:/Users/HLT/Documents/Codex/2026-10-25/ban/work/rift-arena/config/MOBA_Config_V9_1.xlsx",
+        "sha256": "e59d2ce38b1f85bbd8cc2833e533b9dd8d2159460512cddbde73ad89e9f33ae3"
+      },
+      {
+        "file": "C:/Users/HLT/Desktop/MOBA_Config_V9_1.xlsx",
+        "sha256": "e59d2ce38b1f85bbd8cc2833e533b9dd8d2159460512cddbde73ad89e9f33ae3"
+      },
+      {
+        "file": "C:\\Users\\HLT\\Documents\\Codex\\2026-10-25\\ban\\outputs\\v16-1-balance/MOBA_Config_V16_1.xlsx",
+        "sha256": "e59d2ce38b1f85bbd8cc2833e533b9dd8d2159460512cddbde73ad89e9f33ae3"
+      }
+    ],
+    "preservedOtherHeroesRunesEquipment": true
+  },
+  "stress": {
+    "mode": "Node CPU simulation; no GPU or device FPS guarantee",
+    "heroes": 10,
+    "simulatedSeconds": 28,
+    "ticks": 1200,
+    "p50Ms": 0.8692000000000917,
+    "p95Ms": 1.957400000000007,
+    "p99Ms": 3.783600000000206,
+    "maxMs": 13.831500000000005,
+    "peak": {
+      "areas": 39,
+      "visuals": 50,
+      "projectiles": 12,
+      "events": 2048
+    },
+    "rImpacts": 1722,
+    "attackStages": 105,
+    "aliveActors": 10,
+    "engine": {
+      "events": 2048,
+      "queuedEvents": 0,
+      "observerErrors": 0,
+      "bufferedInputs": 0,
+      "spatialCells": 1,
+      "spatialVisited": 234986,
+      "pooledProjectiles": 12,
+      "projectilesCreated": 12,
+      "projectilesReused": 93
+    },
+    "diagnostics": 0
+  },
+  "browser": {
+    "verified": false,
+    "reason": "Computer-use preview tool initialization failed: system cannot find specified path; no GPU/touch/120FPS claim"
+  },
+  "rollback": {
+    "commit": "91ab44744a5e40a50fc021adb5c658ff112503ef",
+    "savedVersion": "appgprj_6addc29d9fa4819181aeb117d48d2453~appgver_bb16ef51a1448191ad263139f5103140"
+  }
+}
